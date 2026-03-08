@@ -22,10 +22,10 @@ export default function Header() {
               <div key={link.href} className="relative group">
                 <Link
                   href={link.href}
-                  className={`px-4 py-2 rounded-md transition-colors ${
+                  className={`px-6 py-3 transition-all duration-300 ${
                     link.cta
-                      ? 'bg-primary text-white hover:bg-primary-dark'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-blue-600 text-white hover:bg-blue-500 rounded-xl font-bold shadow-lg hover:shadow-xl hover:shadow-blue-500/25 transform hover:scale-105'
+                      : 'text-gray-700 hover:bg-gray-100 rounded-md'
                   }`}
                 >
                   {link.label}
@@ -79,9 +79,9 @@ export default function Header() {
               <div key={link.href}>
                 <Link
                   href={link.href}
-                  className={`block px-4 py-2 ${
+                  className={`block px-4 py-3 ${
                     link.cta
-                      ? 'bg-primary text-white m-2 rounded-md'
+                      ? 'bg-blue-600 text-white m-2 rounded-xl font-bold shadow-lg'
                       : 'text-gray-700 hover:bg-gray-100'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}

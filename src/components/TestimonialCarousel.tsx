@@ -46,30 +46,40 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
   const testimony = testimonials[current];
 
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="container-md">
-        <h2 className="text-4xl font-bold text-center mb-12">What Our Clients Say</h2>
+    <section className="py-24 bg-slate-50">
+      <div className="container mx-auto px-6">
+        <h2 className="text-4xl font-bold text-center mb-16 text-slate-900">Real Results, Real Growth</h2>
 
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           {/* Testimonial Card */}
-          <div className="bg-white p-8 rounded-lg shadow-lg border-l-4 border-primary mb-8">
-            <div className="flex justify-between items-start mb-4">
-              <div>
-                <h3 className="text-xl font-bold text-gray-900">{testimony.name}</h3>
-                {testimony.company && (
-                  <p className="text-primary font-semibold">{testimony.company}</p>
-                )}
-                {testimony.title && <p className="text-gray-600">{testimony.title}</p>}
-              </div>
-              <div className="flex gap-1">
-                {Array.from({ length: testimony.rating }).map((_, i) => (
-                  <span key={i} className="text-xl">
-                    ⭐
-                  </span>
-                ))}
+          <div className="bg-white p-12 rounded-2xl shadow-xl border border-slate-200 mb-12 relative">
+            {/* Large decorative quote mark */}
+            <div className="absolute -top-4 left-8 w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
+              <span className="text-3xl text-white font-bold">"</span>
+            </div>
+            
+            <div className="pt-8">
+              <p className="text-2xl text-slate-700 leading-relaxed mb-8 font-medium">
+                "{testimony.quote}"
+              </p>
+              
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-1">{testimony.name}</h3>
+                  {testimony.company && (
+                    <p className="text-blue-600 font-semibold text-lg">{testimony.company}</p>
+                  )}
+                  {testimony.title && <p className="text-slate-600">{testimony.title}</p>}
+                </div>
+                <div className="flex gap-1">
+                  {Array.from({ length: testimony.rating }).map((_, i) => (
+                    <span key={i} className="text-2xl">
+                      ⭐
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-            <p className="text-lg text-gray-700 italic">"{testimony.quote}"</p>
           </div>
 
           {/* Navigation */}

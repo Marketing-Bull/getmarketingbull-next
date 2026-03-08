@@ -73,21 +73,21 @@ export const SERVICE_CATEGORIES = [
     icon: '⚖️',
     title: 'For Law Firms',
     description:
-      'Reach more clients, optimize your intake, and grow your practice with targeted legal marketing.',
+      'Your intake department is turning away paying clients every day. We fix the broken processes that cost you cases and implement personal injury marketing systems that convert. Stop losing revenue to competitors who answer faster.',
     href: '/services/law-firms',
   },
   {
     icon: '🏥',
     title: 'For Medical',
     description:
-      'Acquire more patients and streamline your operations with healthcare-focused strategies.',
+      'Empty appointment slots mean lost revenue while patients call your competitors. Our medical practice marketing fills your schedule with qualified patients who show up and pay. Turn your phone into a patient acquisition machine.',
     href: '/services/medical',
   },
   {
     icon: '🔨',
     title: 'For Home Services',
     description:
-      'Deliver your services to more local customers with expertly targeted marketing.',
+      'Local customers need your services but they\'re finding your competitors first. We dominate local search and lead generation to put your business in front of homeowners ready to buy. More leads, more jobs, more profit.',
     href: '/services/home-services',
   },
 ];

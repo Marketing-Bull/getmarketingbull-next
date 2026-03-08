@@ -28,11 +28,11 @@ export default function Hero({
         <p className="text-xl md:text-2xl mb-6 text-blue-100">{subtitle}</p>
         {description && <p className="text-lg mb-8 text-blue-100 max-w-2xl mx-auto">{description}</p>}
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+        <div className="flex flex-col sm:flex-row gap-6 justify-center mt-10">
           {primaryCTA && (
             <Link
               href={primaryCTA.href}
-              className="bg-white text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+              className="bg-white text-slate-900 px-12 py-5 rounded-xl font-bold text-lg hover:bg-gray-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105"
             >
               {primaryCTA.text}
             </Link>
@@ -40,7 +40,7 @@ export default function Hero({
           {secondaryCTA && (
             <Link
               href={secondaryCTA.href}
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors"
+              className="border-2 border-white text-white px-12 py-5 rounded-xl font-bold text-lg hover:bg-white hover:text-slate-900 transition-all duration-300 backdrop-blur-sm"
             >
               {secondaryCTA.text}
             </Link>
