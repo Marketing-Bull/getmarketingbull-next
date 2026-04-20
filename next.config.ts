@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   turbopack: {
-    root: '.',
+    root: '/Users/ababen/Documents/GitHub/getmarketingbull-next',
   },
 };
 

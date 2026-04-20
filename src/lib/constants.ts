@@ -14,42 +14,12 @@ export const COMPANY = {
 };
 
 export const TESTIMONIALS = [
-  {
-    name: 'Laura Cole, Esq.',
-    title: 'Attorney',
-    quote: 'Marketing Bull is excellent!!',
-    rating: 5,
-  },
-  {
-    name: 'Angela McMullin',
-    company: '3D Dental',
-    quote: 'Alexander is the best!',
-    rating: 5,
-  },
-  {
-    name: 'Dr. Manoj Sadhnani',
-    company: 'Queens Hyperbaric',
-    quote: '30 new faces every month',
-    rating: 5,
-  },
-  {
-    name: 'Isak Yuhan',
-    company: '1-800-HURT-511',
-    quote: 'They delivered results beyond expectations',
-    rating: 5,
-  },
-  {
-    name: 'Todd D. Muhlstock, Esq.',
-    company: 'WeSueThem.com',
-    quote: 'I could trust the results',
-    rating: 5,
-  },
-  {
-    name: 'Vinay Gaonkar',
-    company: 'GreenBills',
-    quote: 'Excellent results on leads and client conversions',
-    rating: 5,
-  },
+  { name: 'Laura Cole, Esq.', title: 'Attorney', quote: 'Marketing Bull is excellent!!', rating: 5 },
+  { name: 'Angela McMullin', company: '3D Dental', quote: 'Alexander is the best!', rating: 5 },
+  { name: 'Dr. Manoj Sadhnani', company: 'Queens Hyperbaric', quote: '30 new faces every month', rating: 5 },
+  { name: 'Isak Yuhan', company: '1-800-HURT-511', quote: 'They delivered results beyond expectations', rating: 5 },
+  { name: 'Todd D. Muhlstock, Esq.', company: 'WeSueThem.com', quote: 'I could trust the results', rating: 5 },
+  { name: 'Vinay Gaonkar', company: 'GreenBills', quote: 'Excellent results on leads and client conversions', rating: 5 },
 ];
 
 export const NAV_LINKS = [
@@ -60,6 +30,7 @@ export const NAV_LINKS = [
     href: '/services',
     submenu: [
       { label: 'Overview', href: '/services' },
+      { label: 'Intake Optimization', href: '/services/intake-optimization' },
       { label: 'For Law Firms', href: '/services/law-firms' },
       { label: 'For Medical', href: '/services/medical' },
     ],
@@ -72,22 +43,19 @@ export const SERVICE_CATEGORIES = [
   {
     icon: '⚖️',
     title: 'For Law Firms',
-    description:
-      'Your intake department is turning away paying clients every day. We fix the broken processes that cost you cases and implement personal injury marketing systems that convert. Stop losing revenue to competitors who answer faster.',
+    description: 'Your intake department is turning away paying clients every day. We fix the broken processes that cost you cases and implement personal injury marketing systems that convert.',
     href: '/services/law-firms',
   },
   {
     icon: '🏥',
     title: 'For Medical',
-    description:
-      'Empty appointment slots mean lost revenue while patients call your competitors. Our medical practice marketing fills your schedule with qualified patients who show up and pay. Turn your phone into a patient acquisition machine.',
+    description: 'Empty appointment slots mean lost revenue while patients call your competitors. Our medical practice marketing fills your schedule with qualified patients who show up and pay.',
     href: '/services/medical',
   },
   {
     icon: '🔨',
     title: 'For Home Services',
-    description:
-      'Local customers need your services but they\'re finding your competitors first. We dominate local search and lead generation to put your business in front of homeowners ready to buy. More leads, more jobs, more profit.',
+    description: "Local customers need your services but they're finding your competitors first. We dominate local search and lead generation to put your business in front of homeowners ready to buy.",
     href: '/services/home-services',
   },
 ];
