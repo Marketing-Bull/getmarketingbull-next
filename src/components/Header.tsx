@@ -16,13 +16,13 @@ export default function Header() {
           </Link>
           <nav className="hidden md:flex items-center gap-8">
             {NAV_LINKS.filter((l) => !l.cta).map((link) => (
-              <div key={link.href} className="relative group">
+              <div key={link.label} className="relative group">
                 <Link href={link.href} className="text-sm text-slate-300 hover:text-white transition font-medium">{link.label}</Link>
                 {link.submenu && (
                   <div className="absolute left-0 pt-2 w-52 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                     <div className="bg-slate-800 border border-slate-700 rounded-xl shadow-xl overflow-hidden">
                       {link.submenu.map((sub) => (
-                        <Link key={sub.href} href={sub.href} className="block px-4 py-3 text-sm text-slate-300 hover:text-white hover:bg-slate-700 transition">{sub.label}</Link>
+                        <Link key={sub.label} href={sub.href} className="block px-4 py-3 text-sm text-slate-300 hover:text-white hover:bg-slate-700 transition">{sub.label}</Link>
                       ))}
                     </div>
                   </div>
@@ -39,7 +39,7 @@ export default function Header() {
         {mobileOpen && (
           <nav className="md:hidden pb-4 border-t border-slate-800 pt-4 space-y-1">
             {NAV_LINKS.map((link) => (
-              <div key={link.href}>
+              <div key={link.label}>
                 <Link href={link.href} className={`block px-4 py-2 rounded-lg text-sm transition ${link.cta ? 'bg-blue-600 text-white font-semibold text-center mt-2' : 'text-slate-300 hover:text-white hover:bg-slate-800'}`} onClick={() => setMobileOpen(false)}>{link.label}</Link>
                 {link.submenu && (
                   <div className="pl-4 mt-1">

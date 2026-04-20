@@ -1,70 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import CTASection from '@/components/CTASection';
+import { POSTS, CATEGORY_COLORS } from '@/lib/blog';
 
 export const metadata: Metadata = {
   title: 'Blog | Marketing Bull',
   description: 'Insights on intake optimization, AI automation, and performance marketing for law firms, medical practices, and home service businesses.',
   alternates: { canonical: 'https://getmarketingbull.com/blog' },
-};
-
-const POSTS = [
-  {
-    slug: '#',
-    category: 'Intake Optimization',
-    title: 'Why 78% of PI Clients Hire the First Firm That Answers — And What To Do About It',
-    excerpt: 'Speed-to-lead is the single most important factor in converting a PI prospect into a signed client. Here\'s the data, and here\'s how to fix your intake.',
-    date: 'April 2026',
-    readTime: '6 min read',
-  },
-  {
-    slug: '#',
-    category: 'AI Automation',
-    title: 'How GHL Voice Agents Are Replacing $60K/Year Intake Staff at Law Firms',
-    excerpt: 'A breakdown of how we deploy AI receptionist systems that answer, qualify, and book 24/7 — without adding headcount.',
-    date: 'March 2026',
-    readTime: '8 min read',
-  },
-  {
-    slug: '#',
-    category: 'Medical Marketing',
-    title: 'The Patient Recall System That Reactivated 60% of Lapsed Patients for a Florida Dental Practice',
-    excerpt: 'Your existing patient database is worth more than any ad campaign. Here\'s the exact automation sequence we used.',
-    date: 'March 2026',
-    readTime: '5 min read',
-  },
-  {
-    slug: '#',
-    category: 'Performance Marketing',
-    title: 'Google Local Services Ads vs. Google Search: Which Is Right for Your Home Services Business?',
-    excerpt: 'We manage both for dozens of contractors. Here\'s the honest breakdown of when to use each, and why most businesses need both.',
-    date: 'February 2026',
-    readTime: '7 min read',
-  },
-  {
-    slug: '#',
-    category: 'Intake Optimization',
-    title: 'The 5-Minute Rule: How Response Time Affects Your Case Acquisition Rate',
-    excerpt: 'After analyzing intake data across 30+ PI firms, the pattern is clear: firms that respond in under 5 minutes close at 3x the rate of those that don\'t.',
-    date: 'February 2026',
-    readTime: '5 min read',
-  },
-  {
-    slug: '#',
-    category: 'Case Study',
-    title: 'From 30% to 85% Intake Conversion: How One South Florida PI Firm Fixed Its Funnel',
-    excerpt: 'A full walkthrough of the intake audit, the systems we built, and the results six months later.',
-    date: 'January 2026',
-    readTime: '10 min read',
-  },
-];
-
-const CATEGORY_COLORS: Record<string, string> = {
-  'Intake Optimization': 'bg-blue-50 text-blue-700',
-  'AI Automation': 'bg-purple-50 text-purple-700',
-  'Medical Marketing': 'bg-green-50 text-green-700',
-  'Performance Marketing': 'bg-orange-50 text-orange-700',
-  'Case Study': 'bg-red-50 text-red-700',
 };
 
 export default function BlogPage() {
@@ -90,9 +32,9 @@ export default function BlogPage() {
         <div className="container-md max-w-5xl">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {POSTS.map((post) => (
-              <Link key={post.title} href={post.slug} className="group block bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+              <Link key={post.title} href={`/blog/${post.slug}`} className="group block bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                 <div className="bg-slate-50 h-44 flex items-center justify-center border-b border-slate-100">
-                  <span className="text-slate-300 text-sm">Coming Soon</span>
+                  <span className={`text-xs font-semibold px-3 py-1 rounded-full ${CATEGORY_COLORS[post.category] ?? 'bg-slate-100 text-slate-600'}`}>{post.category}</span>
                 </div>
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-3">
