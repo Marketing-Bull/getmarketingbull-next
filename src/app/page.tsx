@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { Scale, Bot, TrendingUp } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 function Counter({ target, suffix = '' }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -8,15 +10,20 @@ function Counter({ target, suffix = '' }: { target: number; suffix?: string }) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    let id: ReturnType<typeof setInterval>;
     const obs = new IntersectionObserver(([e]) => {
       if (!e.isIntersecting) return;
       obs.disconnect();
       let cur = 0;
       const step = target / 40;
-      const id = setInterval(() => { cur += step; if (cur >= target) { setCount(target); clearInterval(id); } else setCount(Math.floor(cur)); }, 30);
+      id = setInterval(() => {
+        cur += step;
+        if (cur >= target) { setCount(target); clearInterval(id); }
+        else setCount(Math.floor(cur));
+      }, 30);
     }, { threshold: 0.3 });
     obs.observe(el);
-    return () => obs.disconnect();
+    return () => { obs.disconnect(); clearInterval(id); };
   }, [target]);
   return <span ref={ref}>{count}{suffix}</span>;
 }
@@ -34,10 +41,10 @@ function Reveal({ children, className = '' }: { children: React.ReactNode; class
   return <div ref={ref} className={`transition-all duration-700 ${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'} ${className}`}>{children}</div>;
 }
 
-const SERVICES = [
-  { icon: '⚖️', title: 'Intake OS', desc: 'Broken intake is the silent killer of PI law firms. We implement end-to-end intake systems that capture every lead, nurture, and book consultations instantly.' },
-  { icon: '🤖', title: 'AI Automation', desc: 'From custom GHL voice agents to automated lead scoring and CRM workflows, we build the digital workforce that lets you scale without hiring 10 more staff.' },
-  { icon: '📈', title: 'Performance Marketing', desc: "Data-driven PPC campaigns that don't just generate vanity clicks — we focus on qualified conversions, lead quality, and verified case acquisition." },
+const SERVICES: { icon: LucideIcon; title: string; desc: string }[] = [
+  { icon: Scale, title: 'Intake OS', desc: 'Broken intake is the silent killer of PI law firms. We implement end-to-end intake systems that capture every lead, nurture, and book consultations instantly.' },
+  { icon: Bot, title: 'AI Automation', desc: 'From custom GHL voice agents to automated lead scoring and CRM workflows, we build the digital workforce that lets you scale without hiring 10 more staff.' },
+  { icon: TrendingUp, title: 'Performance Marketing', desc: "Data-driven PPC campaigns that don't just generate vanity clicks — we focus on qualified conversions, lead quality, and verified case acquisition." },
 ];
 
 const TESTIMONIALS = [
@@ -61,35 +68,62 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900">
+
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-20 left-1/4 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[120px]" />
-          <div className="absolute bottom-20 right-1/4 w-[400px] h-[400px] bg-red-500/10 rounded-full blur-[120px]" />
-        </div>
+      <section className="relative min-h-screen flex items-center bg-slate-950 text-white overflow-hidden">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: 'radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px)',
+            backgroundSize: '28px 28px',
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-red-950/15 via-transparent to-blue-950/20 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-slate-950 to-transparent pointer-events-none" />
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-20 text-center">
-          <Reveal><p className="text-blue-300 font-medium mb-6 text-sm uppercase tracking-widest">Intake OS & Growth Systems</p></Reveal>
-          <Reveal><h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 max-w-5xl mx-auto">Scalable Operating Systems for Law Firms & Medical Practices</h1></Reveal>
-          <Reveal><p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed">We don&apos;t just run ads. We build the operating systems that fix slow intake, missed calls, and broken tracking.</p></Reveal>
           <Reveal>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="#contact" className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-xl font-semibold text-lg transition transform hover:scale-105 shadow-lg shadow-blue-600/25">Schedule Free Consultation</a>
-              <a href="tel:+18334382855" className="border-2 border-white/30 text-white hover:bg-white hover:text-slate-900 px-8 py-4 rounded-xl font-semibold text-lg transition">Call 1-833-GET-BULL</a>
+            <p className="inline-flex items-center gap-2 text-red-400 font-semibold text-xs uppercase tracking-[0.2em] mb-8 border border-red-500/20 bg-red-500/5 px-4 py-1.5 rounded-full">
+              Intake OS &amp; Growth Systems
+            </p>
+          </Reveal>
+          <Reveal>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-6 max-w-5xl mx-auto">
+              Scalable Operating Systems for Law Firms &amp; Medical Practices
+            </h1>
+          </Reveal>
+          <Reveal>
+            <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+              We don&apos;t just run ads. We build the operating systems that fix slow intake, missed calls, and broken tracking.
+            </p>
+          </Reveal>
+          <Reveal>
+            <div className="flex flex-row flex-wrap gap-3 justify-center">
+              <a href="#contact" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-8 py-4 rounded-full font-semibold text-base transition-all duration-200 hover:-translate-y-0.5 shadow-lg shadow-red-600/20">
+                Schedule Free Consultation
+              </a>
+              <a href="tel:+18334382855" className="inline-flex items-center gap-2 border border-white/25 text-white hover:border-white/60 hover:bg-white/5 px-8 py-4 rounded-full font-semibold text-base transition-all duration-200 hover:-translate-y-0.5">
+                Call 1-833-GET-BULL
+              </a>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* STATS */}
-      <section className="py-16 bg-slate-900 text-white border-t border-slate-800">
-        <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center mb-10">The Numbers Don&apos;t Lie</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {[{ n: 25, s: '%', l: 'Intake Conversion', d: 'Average increase in speed to lead' }, { n: 500, s: '+', l: 'Workflows Deployed', d: 'Automated business processes' }, { n: 30, s: '+', l: 'Active Growth Partners', d: 'Trusting us with their pipeline' }].map((st) => (
-              <div key={st.l} className="text-center p-8 bg-slate-800/50 rounded-2xl border border-slate-700/50 hover:bg-slate-800/80 transition">
-                <div className="text-5xl font-bold text-blue-400 mb-2"><Counter target={st.n} suffix={st.s} /></div>
-                <div className="text-lg font-semibold mb-1">{st.l}</div>
-                <div className="text-slate-400 text-sm">{st.d}</div>
+      {/* STATS — horizontal bar */}
+      <section className="bg-slate-950 border-t border-slate-800">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="grid grid-cols-3 divide-x divide-slate-800">
+            {[
+              { n: 25, s: '%', l: 'Intake Lift', d: 'Average speed-to-lead improvement' },
+              { n: 500, s: '+', l: 'Automations', d: 'Workflows deployed across clients' },
+              { n: 30, s: '+', l: 'Growth Partners', d: 'Active client engagements' },
+            ].map((st) => (
+              <div key={st.l} className="text-center px-6 py-10">
+                <div className="text-4xl font-black text-blue-400 mb-1 tracking-tight">
+                  <Counter target={st.n} suffix={st.s} />
+                </div>
+                <div className="text-sm font-bold text-white mb-1">{st.l}</div>
+                <div className="text-xs text-slate-500">{st.d}</div>
               </div>
             ))}
           </div>
@@ -101,18 +135,22 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Scalable Operating Systems</h2>
-              <p className="text-lg text-slate-600 max-w-2xl mx-auto">We build the systems that intake every lead, track every dollar, and scale your firm.</p>
+              <p className="text-red-500 font-semibold text-xs uppercase tracking-[0.18em] mb-3">What We Build</p>
+              <h2 className="text-4xl font-black tracking-tight mb-4">Scalable Operating Systems</h2>
+              <p className="text-lg text-slate-500 max-w-2xl mx-auto">We build the systems that intake every lead, track every dollar, and scale your firm.</p>
             </div>
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {SERVICES.map((s) => (
               <Reveal key={s.title}>
-                <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 h-full">
-                  <div className="text-4xl mb-5">{s.icon}</div>
+                <div className="group p-8 rounded-2xl border border-slate-200 hover:border-red-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 h-full relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-0.5 bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <s.icon className="w-7 h-7 text-red-500 mb-5" strokeWidth={1.5} />
                   <h3 className="text-xl font-bold mb-3 text-slate-900">{s.title}</h3>
-                  <p className="text-slate-600 leading-relaxed">{s.desc}</p>
-                  <div className="mt-6"><span className="text-blue-600 font-medium text-sm hover:text-blue-500 cursor-pointer">Learn More →</span></div>
+                  <p className="text-slate-500 leading-relaxed text-sm">{s.desc}</p>
+                  <div className="mt-6">
+                    <span className="text-red-500 font-semibold text-sm group-hover:gap-2 transition-all">Learn More →</span>
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -125,18 +163,19 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Real Results, Real Growth</h2>
-              <p className="text-lg text-slate-600">Don&apos;t take our word for it — hear from our clients</p>
+              <p className="text-red-500 font-semibold text-xs uppercase tracking-[0.18em] mb-3">Client Results</p>
+              <h2 className="text-4xl font-black tracking-tight mb-4">Real Results, Real Growth</h2>
+              <p className="text-lg text-slate-500">Don&apos;t take our word for it — hear from our clients</p>
             </div>
           </Reveal>
-          <div className="bg-white p-10 sm:p-12 rounded-2xl shadow-lg border border-slate-100 text-center min-h-[260px] flex flex-col justify-center">
-            <div className="flex justify-center gap-1 mb-6">{[...Array(5)].map((_, i) => <span key={i} className="text-yellow-400 text-2xl">★</span>)}</div>
-            <blockquote className="text-lg sm:text-xl text-slate-700 italic leading-relaxed mb-6 max-w-2xl mx-auto">&ldquo;{TESTIMONIALS[currentTest].quote}&rdquo;</blockquote>
+          <div className="bg-white p-10 sm:p-12 rounded-2xl shadow-sm border border-slate-100 text-center min-h-[240px] flex flex-col justify-center">
+            <div className="flex justify-center gap-1 mb-6">{[...Array(5)].map((_, i) => <span key={i} className="text-yellow-400 text-xl">★</span>)}</div>
+            <blockquote className="text-lg sm:text-xl text-slate-700 leading-relaxed mb-6 max-w-2xl mx-auto">&ldquo;{TESTIMONIALS[currentTest].quote}&rdquo;</blockquote>
             <p className="font-bold text-slate-900">{TESTIMONIALS[currentTest].name}</p>
-            <p className="text-slate-500 text-sm">{TESTIMONIALS[currentTest].co}</p>
+            <p className="text-slate-400 text-sm">{TESTIMONIALS[currentTest].co}</p>
           </div>
           <div className="flex justify-center gap-2 mt-6">
-            {TESTIMONIALS.map((_, i) => <button key={i} onClick={() => setCurrentTest(i)} className={`w-2.5 h-2.5 rounded-full transition-all ${i === currentTest ? 'bg-blue-600 scale-125' : 'bg-slate-300 hover:bg-slate-400'}`} />)}
+            {TESTIMONIALS.map((_, i) => <button key={i} onClick={() => setCurrentTest(i)} className={`w-2 h-2 rounded-full transition-all duration-300 ${i === currentTest ? 'bg-red-500 scale-125' : 'bg-slate-300 hover:bg-slate-400'}`} />)}
           </div>
         </div>
       </section>
@@ -146,17 +185,18 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Meet the Team Behind the Results</h2>
-              <p className="text-lg text-slate-600 max-w-2xl mx-auto">A dedicated team of marketing strategists, technologists, and creatives working together to grow your business.</p>
+              <p className="text-red-500 font-semibold text-xs uppercase tracking-[0.18em] mb-3">The Team</p>
+              <h2 className="text-4xl font-black tracking-tight mb-4">The People Behind the Results</h2>
+              <p className="text-lg text-slate-500 max-w-2xl mx-auto">Strategists, technologists, and operators who've done this before.</p>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 max-w-3xl mx-auto">
             {TEAM.map((t) => (
               <Reveal key={t.name}>
                 <div className="text-center">
-                  <img src={t.photo} alt={t.name} width={120} height={120} className="w-28 h-28 mx-auto mb-4 rounded-full object-cover border-4 border-blue-100 shadow-lg" />
-                  <p className="font-bold text-lg text-slate-900">{t.name}</p>
-                  <p className="text-sm text-slate-500 mt-1">{t.role}</p>
+                  <img src={t.photo} alt={t.name} width={120} height={120} className="w-24 h-24 mx-auto mb-4 rounded-full object-cover border-2 border-slate-100 shadow-md" />
+                  <p className="font-bold text-slate-900">{t.name}</p>
+                  <p className="text-xs text-slate-400 mt-1 uppercase tracking-wider">{t.role}</p>
                 </div>
               </Reveal>
             ))}
@@ -165,14 +205,27 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section id="contact" className="py-24 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section id="contact" className="relative py-24 bg-slate-950 text-white overflow-hidden">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: 'radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)',
+            backgroundSize: '28px 28px',
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-red-950/20 via-transparent to-blue-950/20 pointer-events-none" />
+        <div className="relative max-w-4xl mx-auto px-6 text-center">
           <Reveal>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to Grow Your Business?</h2>
-            <p className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto">Every day without optimized intake is money left on the table. Let&apos;s fix that.</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="tel:+18334382855" className="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 rounded-xl font-semibold text-lg transition transform hover:scale-105 shadow-lg shadow-blue-600/25">Call 1-833-GET-BULL</a>
-              <a href="mailto:hello@getmarketingbull.com" className="border-2 border-white/30 text-white hover:bg-white hover:text-slate-900 px-10 py-4 rounded-xl font-semibold text-lg transition">Email Us</a>
+            <p className="text-red-400 font-semibold text-xs uppercase tracking-[0.18em] mb-4">Get Started</p>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">Ready to Grow Your Business?</h2>
+            <p className="text-lg text-slate-400 mb-12 max-w-2xl mx-auto">Every day without optimized intake is money left on the table. Let&apos;s fix that.</p>
+            <div className="flex flex-row flex-wrap gap-3 justify-center">
+              <a href="tel:+18334382855" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-8 py-4 rounded-full font-semibold text-base transition-all duration-200 hover:-translate-y-0.5 shadow-lg shadow-red-600/20">
+                Call 1-833-GET-BULL
+              </a>
+              <a href="mailto:hello@getmarketingbull.com" className="inline-flex items-center gap-2 border border-white/25 text-white hover:border-white/60 hover:bg-white/5 px-8 py-4 rounded-full font-semibold text-base transition-all duration-200 hover:-translate-y-0.5">
+                Email Us
+              </a>
             </div>
           </Reveal>
         </div>

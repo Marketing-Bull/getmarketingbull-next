@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import ContactForm from '@/components/ContactForm';
 
 export const metadata: Metadata = {
@@ -51,9 +52,9 @@ export default function ContactPage() {
               <div className="bg-blue-50 rounded-2xl border border-blue-100 p-8">
                 <h3 className="text-lg font-bold text-slate-900 mb-3">Want a free growth audit instead?</h3>
                 <p className="text-slate-600 text-sm leading-relaxed mb-4">Book a 30-minute call where we audit your intake, marketing stack, and attribution — no pitch, no pressure.</p>
-                <a href="/free-consultation" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold text-sm transition">
+                <Link href="/free-consultation" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-6 py-3 rounded-full font-semibold text-sm transition hover:-translate-y-0.5">
                   Get Free Audit →
-                </a>
+                </Link>
               </div>
             </div>
 
