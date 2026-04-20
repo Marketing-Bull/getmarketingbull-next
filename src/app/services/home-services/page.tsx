@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { MapPin, Trophy, Megaphone, Phone, Star, BarChart2 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import Hero from '@/components/Hero';
 import CTASection from '@/components/CTASection';
 import FAQAccordion from '@/components/FAQAccordion';
@@ -25,13 +27,13 @@ const FAQS = [
   { question: 'How do you handle missed calls and after-hours leads?', answer: 'We build automated missed-call text-back systems, after-hours SMS response, and voicemail-to-text workflows so no lead goes cold overnight. Response speed is the #1 driver of booked jobs in home services.' },
 ];
 
-const STACK = [
-  { icon: '📍', title: 'Local SEO & GMB Domination', desc: 'Rank #1 in Google Maps and organic for your service + city. We optimize your Google Business Profile, build citations, and create service-area content that drives calls.' },
-  { icon: '🏆', title: 'Google Local Services Ads', desc: 'Get the Google Guaranteed badge and show up above paid ads. We handle setup, verification, and bid management to maximize your cost per booked job.' },
-  { icon: '📢', title: 'Paid Local Lead Generation', desc: 'Google Search and Meta campaigns targeting homeowners actively searching for your services. Every ad tracked to a call, form fill, or booked appointment.' },
-  { icon: '📞', title: 'Missed-Call Text-Back & After-Hours', desc: 'Automated SMS response within 60 seconds of a missed call. After-hours AI response captures and qualifies leads so your team wakes up to booked jobs.' },
-  { icon: '⭐', title: 'Reputation & Review Engine', desc: 'Automated post-job review requests that build your 4.8+ star profile. More stars mean higher conversion — we make it systematic.' },
-  { icon: '📊', title: 'Lead & Revenue Dashboard', desc: 'Real-time visibility into cost per lead, cost per booked job, and revenue per campaign. You always know where every dollar is going.' },
+const STACK: { Icon: LucideIcon; title: string; desc: string }[] = [
+  { Icon: MapPin, title: 'Local SEO & GMB Domination', desc: 'Rank #1 in Google Maps and organic for your service + city. We optimize your Google Business Profile, build citations, and create service-area content that drives calls.' },
+  { Icon: Trophy, title: 'Google Local Services Ads', desc: 'Get the Google Guaranteed badge and show up above paid ads. We handle setup, verification, and bid management to maximize your cost per booked job.' },
+  { Icon: Megaphone, title: 'Paid Local Lead Generation', desc: 'Google Search and Meta campaigns targeting homeowners actively searching for your services. Every ad tracked to a call, form fill, or booked appointment.' },
+  { Icon: Phone, title: 'Missed-Call Text-Back & After-Hours', desc: 'Automated SMS response within 60 seconds of a missed call. After-hours AI response captures and qualifies leads so your team wakes up to booked jobs.' },
+  { Icon: Star, title: 'Reputation & Review Engine', desc: 'Automated post-job review requests that build your 4.8+ star profile. More stars mean higher conversion — we make it systematic.' },
+  { Icon: BarChart2, title: 'Lead & Revenue Dashboard', desc: 'Real-time visibility into cost per lead, cost per booked job, and revenue per campaign. You always know where every dollar is going.' },
 ];
 
 export default function HomeServicesPage() {
@@ -82,10 +84,11 @@ export default function HomeServicesPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {STACK.map((item) => (
-              <div key={item.title} className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                <div className="text-3xl mb-4">{item.icon}</div>
+              <div key={item.title} className="group bg-white p-8 rounded-2xl border border-slate-200 hover:border-red-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-0.5 bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <item.Icon className="w-7 h-7 text-red-500 mb-5" strokeWidth={1.5} />
                 <h3 className="text-lg font-bold text-slate-900 mb-3">{item.title}</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+                <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>

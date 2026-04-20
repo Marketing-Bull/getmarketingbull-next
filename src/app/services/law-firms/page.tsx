@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { Scale, Bot, TrendingUp, Search, BarChart2, Target } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import Hero from '@/components/Hero';
 import CTASection from '@/components/CTASection';
 import FAQAccordion from '@/components/FAQAccordion';
@@ -25,13 +27,13 @@ const FAQS = [
   { question: 'Do you work with referral-based firms that don\'t run ads?', answer: "Absolutely. Intake OS is just as valuable for referral-based practices — referrals still need to be captured, qualified, and onboarded efficiently." },
 ];
 
-const STACK = [
-  { icon: '⚖️', title: 'Intake OS', desc: 'End-to-end intake rebuild: AI receptionist, multi-channel capture, CRM pipelines, and speed-to-lead automation. No lead falls through.' },
-  { icon: '🤖', title: 'AI Automation', desc: 'Custom GHL voice agents, automated lead scoring, follow-up sequences, and CRM workflows. Scale capacity without scaling headcount.' },
-  { icon: '📈', title: 'Performance Marketing', desc: 'PI-specific PPC on Google and Meta, conversion-optimized landing pages, and retargeting. Every dollar tracked to case, not just click.' },
-  { icon: '🔍', title: 'Local & Organic SEO', desc: 'Dominate local search for high-intent PI keywords. Content strategies that compound over time and reduce dependency on paid traffic.' },
-  { icon: '📊', title: 'Reporting & Attribution', desc: 'Real-time dashboards connecting ad spend to signed retainers. Know exactly which campaigns are producing cases.' },
-  { icon: '🎯', title: 'Landing Page Optimization', desc: 'PI-specific landing pages with urgency triggers, social proof, and A/B tested CTAs. Built to convert at 3–5x the industry average.' },
+const STACK: { Icon: LucideIcon; title: string; desc: string }[] = [
+  { Icon: Scale, title: 'Intake OS', desc: 'End-to-end intake rebuild: AI receptionist, multi-channel capture, CRM pipelines, and speed-to-lead automation. No lead falls through.' },
+  { Icon: Bot, title: 'AI Automation', desc: 'Custom GHL voice agents, automated lead scoring, follow-up sequences, and CRM workflows. Scale capacity without scaling headcount.' },
+  { Icon: TrendingUp, title: 'Performance Marketing', desc: 'PI-specific PPC on Google and Meta, conversion-optimized landing pages, and retargeting. Every dollar tracked to case, not just click.' },
+  { Icon: Search, title: 'Local & Organic SEO', desc: 'Dominate local search for high-intent PI keywords. Content strategies that compound over time and reduce dependency on paid traffic.' },
+  { Icon: BarChart2, title: 'Reporting & Attribution', desc: 'Real-time dashboards connecting ad spend to signed retainers. Know exactly which campaigns are producing cases.' },
+  { Icon: Target, title: 'Landing Page Optimization', desc: 'PI-specific landing pages with urgency triggers, social proof, and A/B tested CTAs. Built to convert at 3–5x the industry average.' },
 ];
 
 export default function LawFirmsPage() {
@@ -80,10 +82,11 @@ export default function LawFirmsPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {STACK.map((item) => (
-              <div key={item.title} className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                <div className="text-4xl mb-5">{item.icon}</div>
+              <div key={item.title} className="group bg-white p-8 rounded-2xl border border-slate-200 hover:border-red-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-0.5 bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <item.Icon className="w-7 h-7 text-red-500 mb-5" strokeWidth={1.5} />
                 <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                <p className="text-slate-600 leading-relaxed text-sm">{item.desc}</p>
+                <p className="text-slate-500 leading-relaxed text-sm">{item.desc}</p>
               </div>
             ))}
           </div>

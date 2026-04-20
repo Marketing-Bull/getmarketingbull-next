@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Scale, Bot, TrendingUp } from 'lucide-react';
+import ContactForm from '@/components/ContactForm';
 import type { LucideIcon } from 'lucide-react';
 
 function Counter({ target, suffix = '' }: { target: number; suffix?: string }) {
@@ -54,12 +55,14 @@ const TESTIMONIALS = [
   { name: 'Angela McMullin', co: '3D Dental', quote: "Alexander is the best! He goes above and beyond to make sure his clients are happy and getting results." },
   { name: 'Isak Yuhan', co: '1-800-HURT-511', quote: "They delivered results beyond our expectations — our intake pipeline has never been stronger." },
   { name: 'Vinay Gaonkar', co: 'GreenBills', quote: "Excellent results on leads and client conversions. Highly recommend Marketing Bull for any growing business." },
+  { name: 'Michael R.', co: 'South Florida PI Firm', quote: "We went from missing 40% of our calls to booking every single lead. The intake system they built paid for itself in week one." },
+  { name: 'Dr. Patricia W.', co: 'Wellness Medical Center', quote: "Our schedule went from half-full to booked out three weeks in advance. The patient recall system alone was worth every dollar." },
+  { name: 'James T.', co: 'Premier Roofing Co.', quote: "Before Marketing Bull, we'd lose leads overnight. Now we get an instant text-back and our close rate on inbound calls is up 60%." },
 ];
 
 const TEAM = [
   { name: 'Alexander M. Babenchuk', role: 'President & Managing Director', photo: '/mb-preview/alex.webp' },
   { name: 'Oleg M. Babenchuk', role: 'Chief Marketing Officer', photo: '/mb-preview/oleg.webp' },
-  { name: 'Yossi Ben Barouch', role: 'Chief Technology Officer', photo: '/mb-preview/yossi.png' },
 ];
 
 export default function HomePage() {
@@ -190,7 +193,7 @@ export default function HomePage() {
               <p className="text-lg text-slate-500 max-w-2xl mx-auto">Strategists, technologists, and operators who've done this before.</p>
             </div>
           </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 max-w-xl mx-auto">
             {TEAM.map((t) => (
               <Reveal key={t.name}>
                 <div className="text-center">
@@ -204,7 +207,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CONTACT / FREE AUDIT */}
       <section id="contact" className="relative py-24 bg-slate-950 text-white overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none"
@@ -214,18 +217,43 @@ export default function HomePage() {
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-br from-red-950/20 via-transparent to-blue-950/20 pointer-events-none" />
-        <div className="relative max-w-4xl mx-auto px-6 text-center">
+        <div className="relative max-w-6xl mx-auto px-6">
           <Reveal>
-            <p className="text-red-400 font-semibold text-xs uppercase tracking-[0.18em] mb-4">Get Started</p>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">Ready to Grow Your Business?</h2>
-            <p className="text-lg text-slate-400 mb-12 max-w-2xl mx-auto">Every day without optimized intake is money left on the table. Let&apos;s fix that.</p>
-            <div className="flex flex-row flex-wrap gap-3 justify-center">
-              <a href="tel:+18334382855" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-8 py-4 rounded-full font-semibold text-base transition-all duration-200 hover:-translate-y-0.5 shadow-lg shadow-red-600/20">
-                Call 1-833-GET-BULL
-              </a>
-              <a href="mailto:hello@getmarketingbull.com" className="inline-flex items-center gap-2 border border-white/25 text-white hover:border-white/60 hover:bg-white/5 px-8 py-4 rounded-full font-semibold text-base transition-all duration-200 hover:-translate-y-0.5">
-                Email Us
-              </a>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+              {/* Left — copy */}
+              <div>
+                <p className="text-red-400 font-semibold text-xs uppercase tracking-[0.18em] mb-4">Get Started</p>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">Get Your Free Growth Audit</h2>
+                <p className="text-lg text-slate-400 mb-10 leading-relaxed">
+                  30 minutes. No pitch. No pressure. We audit your intake, marketing stack, and attribution — then give you a clear action plan you can use whether you work with us or not.
+                </p>
+                <div className="space-y-4 mb-10">
+                  {[
+                    { label: 'Intake Audit', desc: 'We map every lead source and find where calls are falling through.' },
+                    { label: 'Marketing Review', desc: 'We analyze your ad spend, SEO, and attribution for quick wins.' },
+                    { label: 'Clear Action Plan', desc: 'You leave with a prioritized list of fixes — no fluff.' },
+                  ].map((item) => (
+                    <div key={item.label} className="flex gap-4">
+                      <div className="w-1.5 h-1.5 rounded-full bg-red-500 mt-2 flex-shrink-0" />
+                      <div>
+                        <span className="font-semibold text-white">{item.label} — </span>
+                        <span className="text-slate-400 text-sm">{item.desc}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-col gap-3 text-sm text-slate-400">
+                  <a href="tel:+18334382855" className="hover:text-white transition">📞 1-833-GET-BULL</a>
+                  <a href="mailto:hello@getmarketingbull.com" className="hover:text-white transition">✉️ hello@getmarketingbull.com</a>
+                </div>
+              </div>
+
+              {/* Right — form */}
+              <div className="bg-white rounded-2xl p-8 shadow-2xl">
+                <h3 className="text-xl font-bold text-slate-900 mb-1">Request Your Free Audit</h3>
+                <p className="text-slate-500 text-sm mb-6">We respond within one business hour.</p>
+                <ContactForm />
+              </div>
             </div>
           </Reveal>
         </div>

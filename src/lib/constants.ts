@@ -11,6 +11,13 @@ export const COMPANY = {
   zip: '33401',
   country: 'USA',
   website: 'https://getmarketingbull.com',
+  social: {
+    linkedin: 'https://www.linkedin.com/company/marketing-bull',
+    instagram: 'https://www.instagram.com/getmarketingbull',
+    facebook: 'https://www.facebook.com/getmarketingbull',
+    twitter: 'https://x.com/getmarketingbull',
+  },
+  goleadsUrl: 'https://app.goleadsconnect.com',
 };
 
 export const TESTIMONIALS = [
@@ -23,19 +30,34 @@ export const TESTIMONIALS = [
 ];
 
 export const NAV_LINKS = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/about-us' },
   {
-    label: 'Services',
+    label: 'How We Help',
     href: '/services',
     submenu: [
-      { label: 'Overview', href: '/services' },
       { label: 'Intake Optimization', href: '/services/intake-optimization' },
-      { label: 'For Law Firms', href: '/services/law-firms' },
-      { label: 'For Medical', href: '/services/medical' },
+      { label: 'AI Automation', href: '/services' },
+      { label: 'Performance Marketing', href: '/services' },
     ],
   },
-  { label: 'Contact', href: '/contact-us' },
+  {
+    label: 'Who We Help',
+    href: '/services',
+    submenu: [
+      { label: 'Law Firms', href: '/services/law-firms' },
+      { label: 'Medical Practices', href: '/services/medical' },
+      { label: 'Home Services', href: '/services/home-services' },
+    ],
+  },
+  {
+    label: 'About Us',
+    href: '/about-us',
+    submenu: [
+      { label: 'Our Team', href: '/about-us' },
+      { label: 'Case Studies', href: '/case-studies' },
+      { label: 'Careers', href: '/careers' },
+    ],
+  },
+  { label: 'Contact Us', href: '/contact-us' },
   { label: 'Free Consultation', href: '/free-consultation', cta: true },
 ];
 

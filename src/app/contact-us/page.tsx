@@ -66,6 +66,18 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      <section className="bg-slate-100">
+        <iframe
+          src="https://maps.google.com/maps?q=319+Clematis+Street+Suite+300+West+Palm+Beach+FL+33401&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          width="100%"
+          height="400"
+          style={{ border: 0, display: 'block' }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Marketing Bull office location"
+        />
+      </section>
     </>
   );
 }

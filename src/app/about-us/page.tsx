@@ -23,12 +23,6 @@ const TEAM = [
     photo: '/mb-preview/oleg.webp',
     bio: 'Oleg leads performance marketing and intake strategy. He has personally built intake and PPC systems for 30+ PI firms, driving measurable case volume improvements across every engagement.',
   },
-  {
-    name: 'Yossi Ben Barouch',
-    role: 'Chief Technology Officer',
-    photo: '/mb-preview/yossi.png',
-    bio: "Yossi architects the automation infrastructure behind Marketing Bull's client systems — from GHL voice agents to CRM integrations, reporting dashboards, and AI-powered lead scoring.",
-  },
 ];
 
 const VALUES: { Icon: LucideIcon; title: string; desc: string }[] = [
@@ -98,7 +92,7 @@ export default function AboutPage() {
             <p className="text-red-500 font-semibold text-xs uppercase tracking-[0.18em] mb-3">The Team</p>
             <h2 className="text-4xl font-black tracking-tight text-slate-900">The People Behind the Results</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             {TEAM.map((member) => (
               <div key={member.name} className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div className="bg-slate-950 p-8 flex justify-center">

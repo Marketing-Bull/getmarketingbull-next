@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { MapPin, Stethoscope, Star, CalendarCheck, RefreshCw, BarChart2 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import Hero from '@/components/Hero';
 import CTASection from '@/components/CTASection';
 import FAQAccordion from '@/components/FAQAccordion';
@@ -25,13 +27,13 @@ const FAQS = [
   { question: 'Do you help with online reviews and reputation management?', answer: 'Yes — automated review generation is a core part of every medical engagement. We trigger review requests at the right moment post-visit, route negative feedback privately, and help you build a 4.8+ star profile that drives organic trust and rankings.' },
 ];
 
-const STACK = [
-  { icon: '📍', title: 'Local SEO Domination', desc: 'Rank #1 in Google Maps and organic for your specialty + city. We optimize your GMB, build citations, and create content that converts searchers to callers.' },
-  { icon: '💊', title: 'Paid Patient Acquisition', desc: 'Google Search and Meta campaigns targeting patients actively looking for your services. Every dollar tracked to a booked appointment.' },
-  { icon: '⭐', title: 'Reputation Management', desc: 'Automated post-visit review requests that build your 4.8+ star profile. Negative feedback routed privately before it goes public.' },
-  { icon: '📅', title: 'Booking & Intake Automation', desc: 'Online booking integration, automated SMS/email confirmation, and reminder sequences that cut no-shows by 40–60%.' },
-  { icon: '🔄', title: 'Patient Recall System', desc: 'Automated reactivation campaigns for lapsed patients. Your existing database is an untapped revenue source.' },
-  { icon: '📊', title: 'Practice Growth Dashboard', desc: 'Real-time reporting on new patient volume, cost per acquisition, and revenue per campaign. Know exactly what&apos;s working.' },
+const STACK: { Icon: LucideIcon; title: string; desc: string }[] = [
+  { Icon: MapPin, title: 'Local SEO Domination', desc: 'Rank #1 in Google Maps and organic for your specialty + city. We optimize your GMB, build citations, and create content that converts searchers to callers.' },
+  { Icon: Stethoscope, title: 'Paid Patient Acquisition', desc: 'Google Search and Meta campaigns targeting patients actively looking for your services. Every dollar tracked to a booked appointment.' },
+  { Icon: Star, title: 'Reputation Management', desc: 'Automated post-visit review requests that build your 4.8+ star profile. Negative feedback routed privately before it goes public.' },
+  { Icon: CalendarCheck, title: 'Booking & Intake Automation', desc: 'Online booking integration, automated SMS/email confirmation, and reminder sequences that cut no-shows by 40–60%.' },
+  { Icon: RefreshCw, title: 'Patient Recall System', desc: 'Automated reactivation campaigns for lapsed patients. Your existing database is an untapped revenue source.' },
+  { Icon: BarChart2, title: 'Practice Growth Dashboard', desc: 'Real-time reporting on new patient volume, cost per acquisition, and revenue per campaign. Know exactly what\'s working.' },
 ];
 
 export default function MedicalPage() {
@@ -78,12 +80,13 @@ export default function MedicalPage() {
             <h2 className="text-4xl font-bold text-slate-900 mb-4">A Complete Patient Acquisition System</h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">We don&apos;t run one campaign and call it marketing. Every engagement includes the full infrastructure to find, convert, and retain patients.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {STACK.map((item) => (
-              <div key={item.title} className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                <div className="text-4xl mb-5">{item.icon}</div>
+              <div key={item.title} className="group bg-white p-8 rounded-2xl border border-slate-200 hover:border-red-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-0.5 bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <item.Icon className="w-7 h-7 text-red-500 mb-5" strokeWidth={1.5} />
                 <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                <p className="text-slate-600 leading-relaxed text-sm">{item.desc}</p>
+                <p className="text-slate-500 leading-relaxed text-sm">{item.desc}</p>
               </div>
             ))}
           </div>

@@ -16,18 +16,18 @@ interface ButtonProps {
 }
 
 const variantClasses: Record<Variant, string> = {
-  primary: 'bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-600/25 hover:shadow-blue-500/30',
-  secondary: 'border-2 border-white/30 text-white hover:bg-white hover:text-slate-900',
-  ghost: 'bg-white text-primary hover:bg-gray-100 shadow-md',
+  primary: 'bg-red-600 text-white hover:bg-red-500 shadow-lg shadow-red-600/20 hover:-translate-y-0.5',
+  secondary: 'border border-white/25 text-white hover:border-white/60 hover:bg-white/5 hover:-translate-y-0.5',
+  ghost: 'bg-white text-slate-900 hover:bg-slate-50 shadow-md hover:-translate-y-0.5',
 };
 
 const sizeClasses: Record<Size, string> = {
   sm: 'px-5 py-2.5 text-sm',
-  md: 'px-8 py-4 text-base',
-  lg: 'px-10 py-5 text-lg',
+  md: 'px-7 py-3.5 text-base',
+  lg: 'px-8 py-4 text-base font-semibold',
 };
 
-const base = 'inline-flex items-center justify-center rounded-btn font-semibold transition-all duration-300 transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:opacity-50 disabled:pointer-events-none';
+const base = 'inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:opacity-50 disabled:pointer-events-none';
 
 export default function Button({ variant = 'primary', size = 'md', href, external, disabled, type = 'button', className = '', children, onClick }: ButtonProps) {
   const classes = `${base} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
