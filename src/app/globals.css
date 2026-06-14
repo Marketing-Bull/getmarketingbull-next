@@ -1,14 +1,103 @@
 @import "tailwindcss";
 @source "../";
 
-html { scroll-behavior: smooth; }
-body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-
-@keyframes drift1 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(40px, -30px); }
+/* ───────────────────────── Design tokens ─────────────────────────
+   Industrial Editorial: charcoal ink · crimson bull-red · bone paper */
+:root {
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --ink: #0c0c0e;
+  --ink-soft: #16161a;
+  --ink-line: #2a2a30;
+  --paper: #f4f1ea;
+  --paper-2: #e7e1d4;
+  --paper-line: #d8d1c1;
+  --red: #e11d2a;
+  --red-deep: #9b0f18;
+  --red-bright: #ff2a36;
+  --muted: #8a8578;
 }
-@keyframes drift2 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-30px, 40px); }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+/* Editorial display headline: tight, heavy */
+.headline {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+
+.kicker {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+/* Oversized editorial index numerals (01 / 02 / 03) */
+.index-num {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+/* ───────────────────────── Faceted edges ─────────────────────────
+   Angular clip-paths that echo the low-poly bull silhouette */
+.facet-card { clip-path: polygon(0 0, 100% 0, 100% 100%, 26px 100%, 0 calc(100% - 26px)); }
+.facet-tab  { clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%); }
+
+/* Grain overlay — subtle film texture for depth */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Hairline ticks used as section rhythm markers */
+.rule-red { background: linear-gradient(90deg, var(--red), transparent); height: 2px; }
+
+/* ───────────────────────── Motion ───────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee 30s linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(-1.2deg); }
+}
+.floaty { animation: floaty 10s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track, .floaty { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* Keyboard focus visibility */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--red-bright);
+  outline-offset: 3px;
 }
