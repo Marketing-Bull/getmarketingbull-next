@@ -10,9 +10,9 @@ function Counter({ target, suffix = '' }: { target: number; suffix?: string }) {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([e]) => {
+      ([e], observer) => {
         if (!e.isIntersecting) return;
-        obs.disconnect();
+        observer.disconnect();
         let cur = 0;
         const step = target / 40;
         const id = setInterval(() => {
@@ -36,7 +36,7 @@ function Reveal({ children, className = '', delay = 0 }: { children: React.React
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setShow(true); obs.disconnect(); } }, { threshold: 0.12 });
+    const obs = new IntersectionObserver(([e], observer) => { if (e.isIntersecting) { setShow(true); observer.disconnect(); } }, { threshold: 0.12 });
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
@@ -141,7 +141,7 @@ export default function HomePage() {
               ))}
             </div>
             <div className="flex items-center gap-4">
-              <a href="tel:+18334288855" className="hidden sm:block kicker text-[11px] text-[var(--paper)]/70 hover:text-[var(--paper)] transition-colors">
+              <a href="tel:+18334382855" className="hidden sm:block kicker text-[11px] text-[var(--paper)]/70 hover:text-[var(--paper)] transition-colors">
                 1-833-GET-BULL
               </a>
               <a href="#contact" className="facet-tab bg-[var(--red)] hover:bg-[var(--red-bright)] text-white pl-5 pr-6 py-2.5 text-[12px] font-bold tracking-wide uppercase transition-colors">
@@ -185,7 +185,7 @@ export default function HomePage() {
                 <a href="#contact" className="facet-card bg-[var(--red)] hover:bg-[var(--red-bright)] text-white px-8 py-4 font-bold uppercase tracking-wide text-sm transition-colors text-center">
                   Schedule Free Consultation
                 </a>
-                <a href="tel:+18334288855" className="px-8 py-4 font-bold uppercase tracking-wide text-sm border border-[var(--paper)]/25 hover:border-[var(--red)] hover:text-[var(--red-bright)] transition-colors text-center">
+                <a href="tel:+18334382855" className="px-8 py-4 font-bold uppercase tracking-wide text-sm border border-[var(--paper)]/25 hover:border-[var(--red)] hover:text-[var(--red-bright)] transition-colors text-center">
                   Call 1-833-GET-BULL
                 </a>
               </div>
@@ -389,7 +389,7 @@ export default function HomePage() {
               Every day without optimized intake is revenue walking out the door. Book a free consultation and we&apos;ll show you exactly where yours is leaking.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="tel:+18334288855" className="facet-card bg-[var(--ink)] hover:bg-black text-white px-9 py-4 font-bold uppercase tracking-wide text-sm transition-colors text-center">
+              <a href="tel:+18334382855" className="facet-card bg-[var(--ink)] hover:bg-black text-white px-9 py-4 font-bold uppercase tracking-wide text-sm transition-colors text-center">
                 Call 1-833-GET-BULL
               </a>
               <a href="mailto:hello@getmarketingbull.com" className="px-9 py-4 font-bold uppercase tracking-wide text-sm border border-white/40 hover:bg-white hover:text-[var(--red)] transition-colors text-center">
@@ -418,7 +418,7 @@ export default function HomePage() {
               <address className="not-italic text-sm space-y-1.5">
                 <p>319 Clematis Street, Suite 300</p>
                 <p>West Palm Beach, FL 33401</p>
-                <p><a href="tel:+18334288855" className="text-[var(--red-bright)] hover:text-white transition-colors">1-833-GET-BULL</a></p>
+                <p><a href="tel:+18334382855" className="text-[var(--red-bright)] hover:text-white transition-colors">1-833-GET-BULL</a></p>
                 <p><a href="mailto:hello@getmarketingbull.com" className="text-[var(--red-bright)] hover:text-white transition-colors">hello@getmarketingbull.com</a></p>
               </address>
             </div>
