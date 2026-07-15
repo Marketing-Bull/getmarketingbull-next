@@ -36,6 +36,6 @@ next-env.d.ts
 # Claude context (iCloud)
 .context/
 
-# Claude local config
-.claude/
+# local Claude Code settings (personal, not shared)
+.claude/settings.local.json
 node_modules.nosync/
