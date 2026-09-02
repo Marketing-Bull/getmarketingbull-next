@@ -6,7 +6,7 @@ import CTASection from '@/components/CTASection';
 
 export const metadata: Metadata = {
   title: 'About Us | Marketing Bull',
-  description: 'Marketing Bull is a South Florida growth agency specializing in intake optimization, AI automation, and performance marketing for law firms, medical practices, and home service businesses.',
+  description: 'Marketing Bull is a South Florida growth agency specializing in intake optimization, AI automation, and performance marketing for law firms and medical practices.',
   alternates: { canonical: 'https://getmarketingbull.com/about-us' },
 };
 

@@ -13,7 +13,7 @@ const SECTIONS = [
   },
   {
     title: '2. Services',
-    body: `Marketing Bull provides marketing, intake optimization, AI automation, and performance advertising services to law firms, medical practices, and home service businesses. The specific scope of services for each engagement is defined in a separate Statement of Work or Service Agreement signed between Marketing Bull and the client.`,
+    body: `Marketing Bull provides marketing, intake optimization, AI automation, and performance advertising services to law firms and medical practices. The specific scope of services for each engagement is defined in a separate Statement of Work or Service Agreement signed between Marketing Bull and the client.`,
   },
   {
     title: '3. No Guarantees',

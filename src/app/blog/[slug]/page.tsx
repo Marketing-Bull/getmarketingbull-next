@@ -136,7 +136,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <div className="mt-16 pt-8 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <p className="text-sm font-semibold text-slate-900">Marketing Bull</p>
-              <p className="text-xs text-slate-500">Growth systems for law firms, medical practices, and home service businesses.</p>
+              <p className="text-xs text-slate-500">Growth systems for law firms and medical practices.</p>
             </div>
             <Link
               href="/free-consultation"

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { COMPANY } from '@/lib/constants';
+import { COMPANY, OFFERS } from '@/lib/constants';
 
 const LinkedInIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
@@ -22,7 +22,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src="/mb-preview/logo.png" alt="Marketing Bull" width={28} height={28} className="rounded" />
+              <img src="/logo.png" alt="Marketing Bull" width={28} height={28} className="rounded" />
               <span className="text-white font-bold">Marketing <span className="text-red-500">Bull</span></span>
             </div>
             <p className="text-sm leading-relaxed mb-5">{COMPANY.tagline}</p>
@@ -34,12 +34,14 @@ export default function Footer() {
             </div>
           </div>
           <div>
-            <h4 className="text-white font-semibold mb-4 text-sm">Services</h4>
+            <h4 className="text-white font-semibold mb-4 text-sm">Products</h4>
             <ul className="text-sm space-y-2">
-              <li><Link href="/services/intake-optimization" className="hover:text-white transition">Intake Optimization</Link></li>
+              {OFFERS.map((o) => (
+                <li key={o.slug}><Link href={`/products/${o.slug}`} className="hover:text-white transition">{o.name}</Link></li>
+              ))}
+              <li><Link href="/pricing" className="hover:text-white transition">Pricing</Link></li>
               <li><Link href="/services/law-firms" className="hover:text-white transition">For Law Firms</Link></li>
               <li><Link href="/services/medical" className="hover:text-white transition">For Medical</Link></li>
-              <li><Link href="/services/home-services" className="hover:text-white transition">For Home Services</Link></li>
             </ul>
           </div>
           <div>
@@ -67,7 +69,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm gap-4">
-          <p>&copy; {currentYear} {COMPANY.name}, LLC. All rights reserved.</p>
+          <p>&copy; {currentYear} {COMPANY.legalName}. All rights reserved.</p>
           <div className="flex flex-wrap gap-6 justify-center">
             <Link href="/privacy-policy" className="hover:text-white transition">Privacy Policy</Link>
             <Link href="/terms-of-service" className="hover:text-white transition">Terms of Service</Link>

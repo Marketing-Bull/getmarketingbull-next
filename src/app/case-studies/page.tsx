@@ -3,7 +3,7 @@ import CTASection from '@/components/CTASection';
 
 export const metadata: Metadata = {
   title: 'Case Studies | Marketing Bull',
-  description: 'Real results from Marketing Bull clients — law firms, medical practices, and home service businesses that grew with our systems.',
+  description: 'Real results from Marketing Bull clients — law firms and medical practices that grew with our systems.',
   alternates: { canonical: 'https://getmarketingbull.com/case-studies' },
 };
 
@@ -32,19 +32,6 @@ const CASES = [
       { metric: '4.8★', label: 'Google review rating (from 4.1)' },
       { metric: '60%', label: 'reduction in no-shows' },
       { metric: '#1', label: 'local Google Maps ranking for target terms' },
-    ],
-  },
-  {
-    client: 'South Florida Roofing Company',
-    industry: 'Home Services',
-    tag: 'Home Services',
-    challenge: 'A roofing contractor was losing significant inbound leads to slow response times, especially after hours. No review generation system and a 3.9-star Google profile was costing them click-throughs.',
-    solution: 'We implemented missed-call text-back, after-hours AI response, Google Local Services Ads setup and management, and an automated review generation system triggered after each completed job.',
-    results: [
-      { metric: '60%', label: 'increase in booked jobs from inbound' },
-      { metric: '<60s', label: 'average missed-call response time' },
-      { metric: '4.7★', label: 'Google rating (from 3.9)' },
-      { metric: '2x', label: 'LSA impressions within 60 days' },
     ],
   },
 ];

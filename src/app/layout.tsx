@@ -1,22 +1,30 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { COMPANY } from '@/lib/constants';
+import { organizationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://piintakegrowth.com'),
-  title: 'PI Intake Growth | Stop Losing PI Cases to Slow Intake',
-  description: 'PI Intake Growth is a done-for-you intake operating system built exclusively for personal injury law firms. Fix speed-to-lead, cover after-hours, and track every case back to its source.',
+  metadataBase: new URL(COMPANY.website),
+  title: {
+    default: 'Marketing Bull | Fixed-Price Marketing for Law Firms & Medical Practices',
+    template: '%s | Marketing Bull',
+  },
+  description:
+    'Three fixed-price growth products for personal injury firms and medical practices: a website in 14 days, an intake gap audit, and an AI content & search engine. Published pricing. You own everything.',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://piintakegrowth.com',
-    siteName: 'PI Intake Growth',
-    title: 'PI Intake Growth | Stop Losing PI Cases to Slow Intake',
-    description: 'A done-for-you intake OS built exclusively for personal injury law firms.',
+    url: COMPANY.website,
+    siteName: COMPANY.name,
+    title: 'Marketing Bull | Fixed-Price Marketing for Law Firms & Medical Practices',
+    description: 'Get found. Get called. Get signed. Three products, published prices, 14-day delivery.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PI Intake Growth | Stop Losing PI Cases to Slow Intake',
-    description: 'Fix your intake. Stop losing PI cases to faster firms.',
+    title: 'Marketing Bull | Fixed-Price Marketing for Law Firms & Medical Practices',
+    description: 'Get found. Get called. Get signed. Three products, published prices, 14-day delivery.',
   },
   robots: { index: true, follow: true },
 };
@@ -31,23 +39,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'Product',
-              name: 'PI Intake Growth',
-              description: 'A done-for-you intake operating system built exclusively for personal injury law firms.',
-              brand: {
-                '@type': 'Organization',
-                name: 'Marketing Bull, LLC',
-                url: 'https://getmarketingbull.com',
-              },
-              url: 'https://piintakegrowth.com',
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body className="font-[Inter,sans-serif] antialiased">{children}</body>
+      <body className="font-[Inter,sans-serif] antialiased bg-white text-slate-900">
+        <Header />
+        <main className="pt-16">{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }

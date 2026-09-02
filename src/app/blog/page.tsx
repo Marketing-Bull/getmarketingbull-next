@@ -5,7 +5,7 @@ import { POSTS, CATEGORY_COLORS } from '@/lib/blog';
 
 export const metadata: Metadata = {
   title: 'Blog | Marketing Bull',
-  description: 'Insights on intake optimization, AI automation, and performance marketing for law firms, medical practices, and home service businesses.',
+  description: 'Insights on intake optimization, AI automation, and performance marketing for law firms and medical practices.',
   alternates: { canonical: 'https://getmarketingbull.com/blog' },
 };
 

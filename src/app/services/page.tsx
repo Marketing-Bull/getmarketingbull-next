@@ -5,7 +5,7 @@ import TestimonialCarousel from '@/components/TestimonialCarousel';
 
 export const metadata: Metadata = {
   title: 'Services | Marketing Bull',
-  description: 'Marketing Bull builds growth systems for law firms, medical practices, and home service businesses — intake optimization, AI automation, and performance marketing.',
+  description: 'Marketing Bull builds growth systems for law firms and medical practices — intake optimization, AI automation, and performance marketing.',
   alternates: { canonical: 'https://getmarketingbull.com/services' },
 };
 
@@ -41,19 +41,6 @@ const SERVICES = [
       { n: '4.8★', l: 'average review rating post-system' },
     ],
     cta: 'Medical Growth System →',
-  },
-  {
-    icon: '🔨',
-    label: 'For Home Services',
-    title: 'Local Lead Generation',
-    desc: 'Homeowners search, click, and call whoever shows up first. We put your business at the top of local search and turn inbound calls into booked jobs.',
-    href: '/services/home-services',
-    stats: [
-      { n: '#1', l: 'local map pack placement' },
-      { n: '3x', l: 'average lead volume increase' },
-      { n: '$0', l: 'wasted ad spend on bad leads' },
-    ],
-    cta: 'Home Services Growth →',
   },
 ];
 
@@ -141,7 +128,7 @@ export default function ServicesPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { title: 'Full-Funnel Ownership', desc: 'We own the outcome from the first ad impression to the signed client. That means we fix intake, build automation, and optimize every step — not just the top of the funnel.' },
-              { title: 'Industry-Specific Systems', desc: 'PI law, medical, and home services have completely different economics. We build for your specific CAC, LTV, and intake dynamics — not generic funnels.' },
+              { title: 'Industry-Specific Systems', desc: 'PI law and medical practices have completely different economics. We build for your specific CAC, LTV, and intake dynamics — not generic funnels.' },
               { title: 'Transparent Attribution', desc: 'You see every number, every test, every result. Full attribution from ad dollar to closed deal. No black-box reporting, no vanity metrics.' },
             ].map((item) => (
               <div key={item.title} className="bg-white/5 border border-white/10 rounded-2xl p-8">
