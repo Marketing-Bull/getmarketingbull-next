@@ -39,3 +39,6 @@ next-env.d.ts
 # local Claude Code settings (personal, not shared)
 .claude/settings.local.json
 node_modules.nosync/
+
+# redesign handoff bundle (local only)
+/_redesign/
