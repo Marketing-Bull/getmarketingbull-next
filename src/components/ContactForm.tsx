@@ -102,7 +102,7 @@ export default function ContactForm({ product, source = 'website', submitLabel =
       <Button type="submit" variant="primary" size="md" className="w-full" disabled={status === 'sending'}>
         {status === 'sending' ? 'Sending…' : submitLabel}
       </Button>
-      <p className="text-xs text-slate-400 text-center">No newsletters. No drip sequences. A human replies.</p>
+      <p className="text-xs text-slate-400 text-center">No newsletters, no automated sequences. A person replies.</p>
     </form>
   );
 }

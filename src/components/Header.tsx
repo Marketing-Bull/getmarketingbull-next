@@ -40,7 +40,7 @@ export default function Header() {
               {COMPANY.phone}
             </a>
             <Link href="/free-consultation" className="bg-red-600 hover:bg-red-500 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition">
-              Book a Call
+              Start a Conversation
             </Link>
           </nav>
 

@@ -4,16 +4,16 @@ import ContactForm from '@/components/ContactForm';
 import { COMPANY, OFFERS, getOffer } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'Book a 20-Minute Call',
+  title: 'Start a Conversation',
   description:
-    'A 20-minute call with Marketing Bull. We tell you which of our three products fits — or that none of them do. No pitch deck, no discovery-call theater.',
+    'Twenty minutes with Marketing Bull about your firm or practice. We tell you where we would look first, and whether we are the right fit.',
   alternates: { canonical: `${COMPANY.website}/free-consultation` },
 };
 
 const WHAT_TO_EXPECT = [
   { step: '01', title: 'Where the leak is', desc: 'Five minutes on where you\'re losing cases or patients today: search, the site, or the phone.' },
-  { step: '02', title: 'Which product, if any', desc: 'We match it to one of three fixed-price products. If none fits, we say so and point you somewhere useful.' },
-  { step: '03', title: 'A price you already know', desc: 'Nothing gets quoted on the call — the prices are published. You leave knowing exactly what it costs and when it\'s done.' },
+  { step: '02', title: 'Which engagement, if any', desc: 'We match it to one of three fixed-scope engagements. If none fits, we say so and point you somewhere useful.' },
+  { step: '03', title: 'No surprises afterward', desc: 'Scope, deliverable, and price are defined before anything begins. You leave knowing exactly what happens next and what it costs.' },
 ];
 
 export default async function FreeConsultationPage({ searchParams }: { searchParams: Promise<{ product?: string }> }) {
@@ -26,15 +26,15 @@ export default async function FreeConsultationPage({ searchParams }: { searchPar
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
         <div className="container-md relative py-20 md:py-24 max-w-4xl text-center">
           <p className="inline-flex items-center gap-2 text-red-400 font-semibold text-xs uppercase tracking-[0.2em] mb-6 border border-red-500/20 bg-red-500/5 px-4 py-1.5 rounded-full">
-            No pitch deck
+            A conversation, not a pitch
           </p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-5">
-            {offer ? `Ask about ${offer.name}` : 'Twenty minutes. One answer.'}
+            {offer ? `Ask about ${offer.name}` : 'Twenty minutes about your firm.'}
           </h1>
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
             {offer
               ? `${offer.priceLabel}${offer.billing === 'monthly' ? '/month' : ', one-time'} · ${offer.timeline}. Tell us about your firm and we'll confirm it's the right fit before you buy.`
-              : 'We tell you which of our three products fits your firm — or that none of them do. Either way you leave with a straight answer.'}
+              : 'Where you are, what has been tried, and where we would look first. We will say plainly whether we are the right fit — and if not, where to go instead.'}
           </p>
         </div>
       </section>
@@ -82,7 +82,7 @@ export default async function FreeConsultationPage({ searchParams }: { searchPar
               <div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-8 lg:sticky lg:top-24">
                 <h2 className="text-2xl font-black tracking-tight text-slate-900 mb-1">Request the call</h2>
                 <p className="text-slate-500 mb-7 text-sm">We reply within one business day with two times to pick from.</p>
-                <ContactForm product={offer?.name} source={offer ? `consult:${offer.slug}` : 'consult'} submitLabel="Request my call" />
+                <ContactForm product={offer?.name} source={offer ? `consult:${offer.slug}` : 'consult'} submitLabel="Request a conversation" />
               </div>
             </div>
           </div>

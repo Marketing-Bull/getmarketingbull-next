@@ -1,7 +1,7 @@
 export const COMPANY = {
   name: 'Marketing Bull',
   legalName: 'Marketing Bull, LLC',
-  tagline: 'Fixed-price growth systems for law firms and medical practices.',
+  tagline: 'Growth consultancy for law firms and medical practices.',
   phone: '1-833-GET-BULL',
   phoneFormatted: '1-833-438-2855',
   email: 'hello@getmarketingbull.com',
@@ -60,7 +60,7 @@ export const OFFERS: Offer[] = [
     slug: 'website-in-14-days',
     step: 'Get found',
     name: 'Website in 14 Days',
-    headline: 'A law firm or medical website that converts — live in 14 days, at a price you can see.',
+    headline: 'A law firm or medical website built to convert — live in 14 days, with the scope and price fixed before we start.',
     short:
       'A conversion-built site on a modern stack. Fixed scope, fixed price, fixed deadline. You own the code, the domain, and the data.',
     price: 4950,
@@ -68,12 +68,12 @@ export const OFFERS: Offer[] = [
     billing: 'one-time',
     terms: '50% to start, 50% at launch. Includes 12 months of hosting.',
     timeline: '14 business days from kickoff',
-    bestFor: 'Firms and practices whose current site is slow, dated, or built by an agency that holds it hostage.',
+    bestFor: 'Firms and practices whose current site is slow, dated, or controlled by a vendor rather than the firm.',
     problem:
       'Prospects Google you before they call you. If the site loads slowly, looks like 2016, or buries the phone number, they call the next firm in the results. Most agency sites also lock you in — you don\'t own the code, and leaving means starting over.',
     includes: [
       'Up to 10 pages: home, practice areas or services, about, team, results, contact, plus legal pages',
-      'Built on Next.js — sub-second load times, no WordPress plugins to get hacked',
+      'Built on Next.js — sub-second load times and no plugin attack surface',
       'Conversion layout: sticky call button, click-to-call on mobile, short intake form on every page',
       'Local SEO foundation: schema markup, Google Business Profile alignment, Google / Apple / Bing Maps listings',
       'Copy written for your practice area from a structured intake questionnaire — you review, we revise',
@@ -174,7 +174,7 @@ export const OFFERS: Offer[] = [
     notIncluded: [
       'Website build or redesign (see Website in 14 Days)',
       'Paid ads',
-      'Link-buying or private blog networks — we don\'t do it, and neither should you',
+      'Link-buying or private blog networks — practices that put your domain at risk',
       'Social media management beyond Google Business Profile',
     ],
     process: [
@@ -196,12 +196,12 @@ export const OFFERS: Offer[] = [
 
 export const NAV_LINKS = [
   {
-    label: 'Products',
+    label: 'How We Help',
     href: '/pricing',
     submenu: OFFERS.map((o) => ({ label: o.name, href: `/products/${o.slug}` })),
   },
   {
-    label: 'Who We Help',
+    label: 'Who We Serve',
     href: '/services',
     submenu: [
       { label: 'Law Firms', href: '/services/law-firms' },
@@ -219,7 +219,7 @@ export const NAV_LINKS = [
     ],
   },
   { label: 'Pricing', href: '/pricing' },
-  { label: 'Book a Call', href: '/free-consultation', cta: true },
+  { label: 'Start a Conversation', href: '/free-consultation', cta: true },
 ];
 
 export const TESTIMONIALS = [

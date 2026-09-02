@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Button from '@/components/Button';
-import OfferCard from '@/components/OfferCard';
 import Reveal from '@/components/Reveal';
 import TestimonialCarousel from '@/components/TestimonialCarousel';
 import CTASection from '@/components/CTASection';
@@ -11,109 +10,134 @@ export const metadata: Metadata = {
   alternates: { canonical: COMPANY.website },
 };
 
-const AGENCY_PROBLEMS = [
+const CLIENTS = ['WeSueThem.com', '1-800-HURT-511', 'Linder Diaz Law', 'Queens Hyperbaric', '3D Dental', 'GreenBills'];
+
+const PRINCIPLES = [
   {
-    title: 'The price is a secret',
-    body: 'You book a "discovery call." They ask your budget. The proposal arrives at exactly that number. Nobody knows what anything actually costs.',
-    fix: 'Every product here has the price on the box. Same number for everyone.',
+    n: '01',
+    title: 'Diagnose before prescribing',
+    body: 'Most firms don\'t have a marketing problem. They have a specific leak — in search, on the site, or at the phone — and the wrong fix is expensive. We find the leak first, with data, and tell you plainly if it isn\'t something we should be hired to fix.',
   },
   {
-    title: 'You don\'t own anything',
-    body: 'The website is on their platform. The ad account is under their login. Leave, and you start from zero. That\'s not a service model — it\'s a hostage model.',
-    fix: 'Code in your GitHub. Hosting in your name. Ad accounts you control. Leave whenever you want and take everything.',
+    n: '02',
+    title: 'Build what we recommend',
+    body: 'A strategy that lives in a slide deck is a strategy that dies there. Every engagement ends in something running: a site that\'s live, content that\'s published, an intake process that answers. We stay accountable for the number it was meant to move.',
   },
   {
-    title: 'The deliverable is a report',
-    body: 'Thirty pages of impressions and "engagement." Zero pages on how many cases signed or how many patients showed up.',
-    fix: 'Fixed scope means a fixed deliverable: a live site, a scored audit, published content. Things you can point at.',
+    n: '03',
+    title: 'You own everything',
+    body: 'Your code, your domain, your accounts, your data. We build inside infrastructure you control, so the relationship continues because it\'s working — never because leaving would mean starting over.',
+  },
+];
+
+const LENSES = [
+  {
+    label: 'Found',
+    question: 'When someone searches, are you there — and credible?',
+    body: 'Site speed, structure, and first impression decide whether a prospect calls you or the next result. We engineer the site as the front door it is.',
+    offer: OFFERS[0],
+  },
+  {
+    label: 'Called',
+    question: 'When they ask Google or an AI who\'s good, is your name in the answer?',
+    body: 'Search has split: rankings still matter, and so does being cited by ChatGPT, Perplexity, and Google\'s AI answers. We build the authority that earns both.',
+    offer: OFFERS[2],
+  },
+  {
+    label: 'Signed',
+    question: 'When they call, what actually happens?',
+    body: 'Speed-to-lead, after-hours coverage, qualification, follow-up. This is where most firms lose the cases they already paid to generate — and where the fix has the fastest return.',
+    offer: OFFERS[1],
   },
 ];
 
 const WHO = [
   {
-    icon: '⚖️',
     title: 'Personal injury & plaintiff firms',
-    desc: 'The prospect calls three firms in ten minutes and signs with whoever picks up. We build for that reality: fast sites, intake that answers, content that shows up when they search.',
+    desc: 'A prospect calls three firms in ten minutes and signs with the one that answers. We build for that reality — fast sites, visible authority, and intake that responds — inside Florida Bar advertising rules.',
     href: '/services/law-firms',
-    cta: 'How we work with law firms',
+    cta: 'Law firms',
   },
   {
-    icon: '🏥',
     title: 'Medical practices & specialty clinics',
-    desc: 'Chiropractic, imaging, hyperbaric, dental, wellness — practices where an empty slot is lost revenue and a patient who can\'t book online books elsewhere.',
+    desc: 'Chiropractic, imaging, hyperbaric, dental, wellness. Practices where an empty slot is lost revenue, a patient who can\'t book online books elsewhere, and reviews decide the call.',
     href: '/services/medical',
-    cta: 'How we work with practices',
+    cta: 'Medical practices',
   },
 ];
 
-const STATS = [
-  { n: '78 min', l: 'average firm response time to a new lead' },
-  { n: '42%', l: 'of PI leads arrive after 5pm' },
-  { n: '14 days', l: 'from kickoff to a live website' },
-  { n: '3', l: 'products. That\'s the whole menu.' },
+const OUTCOMES = [
+  { n: '30+', l: 'new patients per month for a specialty clinic, from local search and paid', src: 'Queens Hyperbaric' },
+  { n: '30%', l: 'reduction in wasted ad spend after full click-to-signed-case attribution', src: '1-800-HURT-511' },
+  { n: '85%', l: 'intake conversion, up from 30%, for a South Florida PI firm', src: 'Case study' },
+];
+
+const ENGAGEMENT = [
+  { step: 'Conversation', desc: 'Twenty minutes. Where you are, what\'s been tried, what a good year looks like. We\'ll say whether we\'re the right fit.' },
+  { step: 'Diagnosis', desc: 'A scored audit of where cases or patients are being lost, with a dollar figure on it. You get the findings whether or not you continue.' },
+  { step: 'Build', desc: 'A fixed-scope engagement with a defined deliverable and delivery date. No open-ended retainers, no scope drift.' },
+  { step: 'Compound', desc: 'Ongoing work — content, visibility, optimization — reported monthly against the numbers that matter: calls, consults, signed cases, booked patients.' },
 ];
 
 export default function HomePage() {
   return (
     <>
       {/* ── HERO ── */}
-      <section className="relative min-h-[88vh] flex items-center bg-slate-950 text-white overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
-        <div className="absolute inset-0 bg-gradient-to-br from-red-950/30 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-950 to-transparent pointer-events-none" />
-        <div className="container-md relative py-24 md:py-32">
-          <div className="max-w-4xl">
-            <p className="inline-flex items-center gap-2 text-red-400 font-semibold text-xs uppercase tracking-[0.2em] mb-7 border border-red-500/20 bg-red-500/5 px-4 py-1.5 rounded-full">
-              For law firms &amp; medical practices
+      <section className="relative bg-slate-950 text-white overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+        <div className="absolute -top-40 -right-40 h-[520px] w-[520px] rounded-full bg-red-600/10 blur-3xl pointer-events-none" />
+        <div className="container-md relative py-28 md:py-40">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-8">
+              Growth consultancy · Law firms &amp; medical practices
             </p>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.95] mb-7">
-              Get found.<br />
-              Get called.<br />
-              <span className="text-red-500">Get signed.</span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-black tracking-tight leading-[1.02] mb-8">
+              Growth, engineered for the firms that can&apos;t afford to guess.
             </h1>
-            <p className="text-lg md:text-2xl text-slate-300 max-w-2xl leading-relaxed mb-4">
-              Three fixed-price growth products. Published pricing. Fixed delivery dates. You own everything we build.
-            </p>
-            <p className="text-base text-slate-500 max-w-xl mb-10">
-              No discovery-call theater. No retainer you can&apos;t explain to your partner. Pick a product, see the price, buy it.
+            <p className="text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed mb-10">
+              Marketing Bull is a senior consultancy in West Palm Beach. We find where a firm is losing cases or patients, build the system that fixes it, and stay accountable for the number it was meant to move.
             </p>
             <div className="flex flex-row flex-wrap gap-3">
-              <Button variant="primary" size="lg" href="/pricing">See the three products</Button>
-              <Button variant="secondary" size="lg" href="/free-consultation">Book a 20-minute call</Button>
+              <Button variant="primary" size="lg" href="/free-consultation">Start a conversation</Button>
+              <Button variant="secondary" size="lg" href="#approach">How we work</Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── STATS ── */}
-      <section className="bg-slate-950 border-t border-slate-800/60 text-white">
-        <div className="container-md py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
-          {STATS.map((s) => (
-            <div key={s.l}>
-              <p className="text-3xl md:text-4xl font-black tracking-tight">{s.n}</p>
-              <p className="mt-1 text-sm text-slate-400 leading-snug">{s.l}</p>
-            </div>
-          ))}
+      {/* ── CLIENT STRIP ── */}
+      <section className="bg-white border-b border-slate-100">
+        <div className="container-md py-8 flex flex-col md:flex-row items-center gap-4 md:gap-10">
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 shrink-0">Trusted by</p>
+          <ul className="flex flex-wrap items-center gap-x-8 gap-y-2 text-sm font-semibold text-slate-500">
+            {CLIENTS.map((c) => <li key={c}>{c}</li>)}
+          </ul>
         </div>
       </section>
 
-      {/* ── PRODUCTS ── */}
-      <section className="py-20 md:py-28 bg-slate-50" id="products">
+      {/* ── PRINCIPLES ── */}
+      <section id="approach" className="py-20 md:py-28 bg-white">
         <div className="container-md">
           <Reveal>
-            <div className="max-w-2xl mb-12">
-              <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">The menu</p>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-4">Three products. That&apos;s it.</h2>
-              <p className="text-lg text-slate-600 leading-relaxed">
-                One gets you found. One gets you called. One makes sure the call turns into a signed case or a booked patient. Buy one, or stack all three.
-              </p>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-14">
+              <div className="lg:col-span-5">
+                <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">How we work</p>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900">Consulting that ends in something running.</h2>
+              </div>
+              <div className="lg:col-span-6 lg:col-start-7 flex items-end">
+                <p className="text-lg text-slate-600 leading-relaxed">
+                  We&apos;ve spent a decade inside legal and medical marketing — the bar rules, the HIPAA lines, what a slip-and-fall prospect does at nine on a Saturday night. Three principles govern every engagement.
+                </p>
+              </div>
             </div>
           </Reveal>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch pt-4">
-            {OFFERS.map((o, i) => (
-              <Reveal key={o.slug} delay={i * 100} className="flex">
-                <div className="flex-1 flex">
-                  <div className="flex-1"><OfferCard offer={o} featured={o.slug === 'ai-content-engine'} /></div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-slate-200 border border-slate-200">
+            {PRINCIPLES.map((p, i) => (
+              <Reveal key={p.n} delay={i * 100}>
+                <div className="h-full bg-white p-8 md:p-10">
+                  <span className="text-xs font-black text-red-600">{p.n}</span>
+                  <h3 className="mt-3 text-xl font-black tracking-tight text-slate-900">{p.title}</h3>
+                  <p className="mt-4 text-slate-600 leading-relaxed">{p.body}</p>
                 </div>
               </Reveal>
             ))}
@@ -121,59 +145,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── HOW THEY STACK ── */}
-      <section className="py-20 md:py-28 bg-white">
-        <div className="container-md">
-          <Reveal>
-            <div className="text-center max-w-2xl mx-auto mb-14">
-              <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">How they fit</p>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900">A case has three places to die.</h2>
-            </div>
-          </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0 relative">
-            {[
-              { step: '01', label: 'Found', product: OFFERS[0], line: 'They search. Your site loads fast, looks credible, and shows the phone number above the fold — or they call the next result.' },
-              { step: '02', label: 'Called', product: OFFERS[2], line: 'They ask Google or ChatGPT who\'s good. Your name is in the answer, with content that proves it — or someone else\'s is.' },
-              { step: '03', label: 'Signed', product: OFFERS[1], line: 'They call. Someone answers in seconds, qualifies the case, and books the consult — or it goes to voicemail and they move on.' },
-            ].map((s, i) => (
-              <Reveal key={s.step} delay={i * 120}>
-                <div className={`relative h-full p-8 ${i < 2 ? 'md:border-r md:border-slate-200' : ''}`}>
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="h-10 w-10 rounded-full bg-slate-900 text-white font-black text-sm flex items-center justify-center">{s.step}</span>
-                    <span className="text-2xl font-black tracking-tight text-slate-900">Get {s.label.toLowerCase()}</span>
-                  </div>
-                  <p className="text-slate-600 leading-relaxed mb-5">{s.line}</p>
-                  <Link href={`/products/${s.product.slug}`} className="text-sm font-semibold text-red-600 hover:underline">
-                    {s.product.name} → {s.product.priceLabel}{s.product.billing === 'monthly' ? '/mo' : ''}
-                  </Link>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── WHY NOT AN AGENCY ── */}
+      {/* ── LENSES ── */}
       <section className="py-20 md:py-28 bg-slate-950 text-white">
         <div className="container-md">
           <Reveal>
             <div className="max-w-2xl mb-14">
-              <p className="text-xs font-bold uppercase tracking-widest text-red-400 mb-3">Why this isn&apos;t an agency</p>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">You&apos;ve been pitched by agencies. You&apos;re numb to it.</h2>
-              <p className="text-lg text-slate-400 leading-relaxed">Fair. Here&apos;s what&apos;s actually different, and it&apos;s structural, not a slogan.</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-red-400 mb-3">Where we look</p>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">A case is lost in one of three places.</h2>
+              <p className="text-lg text-slate-400 leading-relaxed">Every diagnosis starts with the same three questions. The answers tell us what to build — and, just as often, what not to.</p>
             </div>
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {AGENCY_PROBLEMS.map((p, i) => (
-              <Reveal key={p.title} delay={i * 100}>
-                <div className="h-full rounded-3xl border border-slate-800 bg-slate-900/50 p-8">
-                  <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">The agency way</p>
-                  <h3 className="text-xl font-black tracking-tight mb-3">{p.title}</h3>
-                  <p className="text-slate-400 leading-relaxed mb-6">{p.body}</p>
-                  <div className="border-t border-slate-800 pt-5">
-                    <p className="text-xs font-bold uppercase tracking-widest text-red-400 mb-2">The Marketing Bull way</p>
-                    <p className="text-slate-200 leading-relaxed">{p.fix}</p>
-                  </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {LENSES.map((l, i) => (
+              <Reveal key={l.label} delay={i * 100}>
+                <div className="h-full flex flex-col rounded-2xl border border-slate-800 bg-slate-900/40 p-8">
+                  <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Get {l.label.toLowerCase()}</span>
+                  <h3 className="mt-3 text-xl font-black tracking-tight leading-snug">{l.question}</h3>
+                  <p className="mt-4 text-slate-400 leading-relaxed flex-1">{l.body}</p>
+                  <Link href={`/products/${l.offer.slug}`} className="mt-6 text-sm font-semibold text-white hover:text-red-400 transition">
+                    {l.offer.name} →
+                  </Link>
                 </div>
               </Reveal>
             ))}
@@ -186,19 +177,18 @@ export default function HomePage() {
         <div className="container-md">
           <Reveal>
             <div className="max-w-2xl mb-12">
-              <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">Who this is for</p>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900">Two kinds of clients. On purpose.</h2>
-              <p className="mt-4 text-lg text-slate-600 leading-relaxed">We&apos;ve spent a decade in legal and medical marketing. We know the bar rules, the HIPAA lines, and what a slip-and-fall prospect does at 9pm on a Saturday. We don&apos;t do restaurants.</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">Who we serve</p>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900">Two kinds of clients, by design.</h2>
+              <p className="mt-4 text-lg text-slate-600 leading-relaxed">Depth over breadth. We work only where we know the economics, the regulations, and the patient or client behavior cold.</p>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {WHO.map((w, i) => (
               <Reveal key={w.title} delay={i * 100}>
-                <Link href={w.href} className="group block h-full rounded-3xl border border-slate-200 p-8 hover:border-slate-900 hover:shadow-xl transition-all">
-                  <span className="text-3xl">{w.icon}</span>
-                  <h3 className="mt-4 text-2xl font-black tracking-tight text-slate-900">{w.title}</h3>
-                  <p className="mt-3 text-slate-600 leading-relaxed">{w.desc}</p>
-                  <span className="mt-5 inline-block text-sm font-semibold text-red-600 group-hover:underline">{w.cta} →</span>
+                <Link href={w.href} className="group block h-full rounded-2xl border border-slate-200 p-8 md:p-10 hover:border-slate-900 transition-colors">
+                  <h3 className="text-2xl font-black tracking-tight text-slate-900">{w.title}</h3>
+                  <p className="mt-4 text-slate-600 leading-relaxed">{w.desc}</p>
+                  <span className="mt-6 inline-block text-sm font-semibold text-slate-900 group-hover:text-red-600 transition">{w.cta} →</span>
                 </Link>
               </Reveal>
             ))}
@@ -206,32 +196,86 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── OUTCOMES ── */}
+      <section className="py-20 md:py-28 bg-slate-50 border-y border-slate-100">
+        <div className="container-md">
+          <Reveal>
+            <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">Selected outcomes</p>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-12">Measured in cases and patients, not impressions.</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {OUTCOMES.map((o, i) => (
+              <Reveal key={o.l} delay={i * 100}>
+                <div className="h-full rounded-2xl bg-white border border-slate-200 p-8">
+                  <p className="text-5xl font-black tracking-tight text-slate-900">{o.n}</p>
+                  <p className="mt-3 text-slate-700 leading-relaxed">{o.l}</p>
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-slate-400">{o.src}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <p className="mt-6 text-sm text-slate-500">
+            <Link href="/case-studies" className="font-semibold text-slate-900 hover:text-red-600 transition">Read the case studies →</Link>
+          </p>
+        </div>
+      </section>
+
       <TestimonialCarousel testimonials={TESTIMONIALS} />
 
+      {/* ── ENGAGEMENT ── */}
+      <section className="py-20 md:py-28 bg-white">
+        <div className="container-md">
+          <Reveal>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-14">
+              <div className="lg:col-span-5">
+                <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">An engagement</p>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900">How it begins.</h2>
+              </div>
+              <div className="lg:col-span-6 lg:col-start-7 flex items-end">
+                <p className="text-lg text-slate-600 leading-relaxed">
+                  Every engagement is fixed in scope, with a defined deliverable and date. We publish what our work costs — <Link href="/pricing" className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-red-600">it&apos;s here</Link> — so the first conversation can be about your firm, not about budget.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+          <ol className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {ENGAGEMENT.map((e, i) => (
+              <Reveal key={e.step} delay={i * 100}>
+                <li className="h-full border-t-2 border-slate-900 pt-6">
+                  <span className="text-xs font-black text-red-600">0{i + 1}</span>
+                  <h3 className="mt-2 text-lg font-black tracking-tight text-slate-900">{e.step}</h3>
+                  <p className="mt-3 text-sm text-slate-600 leading-relaxed">{e.desc}</p>
+                </li>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+      </section>
+
       {/* ── TEAM STRIP ── */}
-      <section className="py-16 bg-white border-t border-slate-100">
-        <div className="container-md flex flex-col md:flex-row items-center gap-8 md:gap-14">
+      <section className="py-14 bg-slate-50 border-t border-slate-100">
+        <div className="container-md flex flex-col md:flex-row items-center gap-8 md:gap-12">
           <div className="flex -space-x-4">
             {[
               { src: '/alex.webp', alt: 'Alexander Babenchuk' },
               { src: '/oleg.webp', alt: 'Oleg' },
               { src: '/yossi.png', alt: 'Yossi' },
             ].map((p) => (
-              <img key={p.src} src={p.src} alt={p.alt} width={72} height={72} className="h-[72px] w-[72px] rounded-full border-4 border-white object-cover shadow-md" />
+              <img key={p.src} src={p.src} alt={p.alt} width={72} height={72} className="h-[72px] w-[72px] rounded-full border-4 border-slate-50 object-cover shadow-md" />
             ))}
           </div>
           <div className="flex-1 text-center md:text-left">
             <p className="text-xl font-black tracking-tight text-slate-900">A small senior team in West Palm Beach.</p>
-            <p className="mt-1 text-slate-600">No account-manager layer. The people you meet are the people who do the work. <Link href="/about-us" className="font-semibold text-red-600 hover:underline">Meet the team →</Link></p>
+            <p className="mt-1 text-slate-600">No account-manager layer. The people you meet are the people who do the work. <Link href="/about-us" className="font-semibold text-slate-900 hover:text-red-600 transition">Meet the team →</Link></p>
           </div>
         </div>
       </section>
 
       <CTASection
-        title="Pick a product. See the price. Decide."
-        description="Or book 20 minutes and we'll tell you which one you actually need — including if the answer is none of them."
-        primaryCTA={{ text: 'See pricing', href: '/pricing' }}
-        secondaryCTA={{ text: 'Book a call', href: '/free-consultation' }}
+        title="Start with a conversation."
+        description="Twenty minutes about your firm. We'll tell you where we'd look first — and whether we're the right people to look."
+        primaryCTA={{ text: 'Book a conversation', href: '/free-consultation' }}
+        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:18334382855' }}
       />
     </>
   );

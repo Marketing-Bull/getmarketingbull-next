@@ -13,11 +13,11 @@ export const metadata: Metadata = {
 };
 
 const FAQS = [
-  { q: 'Why publish prices? Every other agency makes me book a call first.', a: 'Because the call is where the price goes up. Fixed scope means we can name the number before we know your budget. If you need something outside the scope, we\'ll quote it in writing before we start — the price never moves mid-project.' },
+  { q: 'Why publish prices when most agencies don\'t?', a: 'Because fixed scope makes it possible, and because it changes the first conversation. When the number is already known, we can spend the call on your firm instead of on discovery. If you need something outside the defined scope, we quote it in writing before we begin — the price never moves mid-engagement.' },
   { q: 'Can I buy more than one?', a: 'Yes, and they\'re built to stack: the website gets you found, the content engine gets you called, the audit makes sure those calls get signed. Buy the audit first if you\'re not sure where the leak is — it\'s credited toward anything else within 60 days.' },
   { q: 'Do you require a long contract?', a: 'The website and audit are one-time purchases. The content engine has a 3-month minimum because anything shorter can\'t show you a real trend, then it\'s month-to-month with 30 days notice.' },
   { q: 'What if I\'m outside Florida?', a: 'Everything is delivered remotely and we work with firms nationwide. Florida firms get the benefit of our Florida Bar advertising-rule familiarity; elsewhere, you\'ll want your own compliance review on marketing copy.' },
-  { q: 'Who actually does the work?', a: 'A small senior team — no account-manager layer, no offshore handoff you didn\'t agree to. You\'ll know the names of the people building your project on day one.' },
+  { q: 'Who actually does the work?', a: 'A small senior team. There is no account-manager layer; the people you meet on the first call are the people who build your engagement, and you will know their names on day one.' },
 ];
 
 export default function PricingPage() {
@@ -32,10 +32,10 @@ export default function PricingPage() {
             Pricing
           </p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-5 max-w-3xl mx-auto">
-            The price is on the box.
+            Fixed scope. Published pricing.
           </h1>
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            Three products. Fixed scope. Fixed price. Fixed delivery date. No discovery-call theater to find out what it costs.
+            Three engagements, each with a defined deliverable, a delivery date, and a price we publish — so the first conversation can be about your firm rather than your budget.
           </p>
         </div>
       </section>
@@ -48,7 +48,7 @@ export default function PricingPage() {
             ))}
           </div>
           <p className="mt-8 text-center text-sm text-slate-500">
-            Not sure which one? <Link href="/free-consultation" className="font-semibold text-red-600 hover:underline">Book a 20-minute call</Link> — we&apos;ll tell you which one you don&apos;t need.
+            Not sure where to start? <Link href="/free-consultation" className="font-semibold text-red-600 hover:underline">Start with a conversation</Link> — we&apos;ll tell you which engagement fits, and which you don&apos;t need.
           </p>
         </div>
       </section>
@@ -71,9 +71,9 @@ export default function PricingPage() {
       </section>
 
       <CTASection
-        title="Still have a question?"
-        description="Call 1-833-GET-BULL or book a 20-minute call. We'll answer it and tell you which product fits — or that none of them do."
-        primaryCTA={{ text: 'Book a call', href: '/free-consultation' }}
+        title="Questions before you decide?"
+        description="Call 1-833-GET-BULL or book twenty minutes. We'll answer them directly and tell you which engagement fits — or that none of them do."
+        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:18334382855' }}
       />
     </>
