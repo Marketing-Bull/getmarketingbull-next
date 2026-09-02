@@ -5,42 +5,30 @@ import { useState } from 'react';
 import { NAV_LINKS, COMPANY } from '@/lib/constants';
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const [mobileOpen, setMobileOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-md">
+    <header className="fixed top-0 w-full bg-slate-950/95 backdrop-blur-md text-white z-50 border-b border-slate-800">
       <div className="container-md">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 text-2xl font-bold text-primary">
-            <span>{COMPANY.logo}</span>
+        <div className="flex items-center justify-between h-16">
+          <Link href="/" className="flex items-center gap-2.5" onClick={() => setMobileOpen(false)}>
+            <img src="/logo.png" alt="" width={32} height={32} className="rounded" />
+            <span className="text-lg font-black tracking-tight">
+              Marketing <span className="text-red-500">Bull</span>
+            </span>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-1">
-            {NAV_LINKS.map((link) => (
-              <div key={link.href} className="relative group">
-                <Link
-                  href={link.href}
-                  className={`px-6 py-3 transition-all duration-300 ${
-                    link.cta
-                      ? 'bg-blue-600 text-white hover:bg-blue-500 rounded-xl font-bold shadow-lg hover:shadow-xl hover:shadow-blue-500/25 transform hover:scale-105'
-                      : 'text-gray-700 hover:bg-gray-100 rounded-md'
-                  }`}
-                >
+          <nav className="hidden md:flex items-center gap-7" aria-label="Primary">
+            {NAV_LINKS.filter((l) => !l.cta).map((link) => (
+              <div key={link.label} className="relative group">
+                <Link href={link.href} className="text-sm text-slate-300 hover:text-white transition font-medium py-2 inline-block">
                   {link.label}
                 </Link>
-                {/* Submenu */}
                 {link.submenu && (
-                  <div className="absolute left-0 pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                    <div className="bg-white border border-gray-200 rounded-md shadow-lg">
-                      {link.submenu.map((sublink) => (
-                        <Link
-                          key={sublink.href}
-                          href={sublink.href}
-                          className="block px-4 py-3 text-gray-700 hover:bg-gray-100 first:rounded-t-md last:rounded-b-md"
-                        >
-                          {sublink.label}
+                  <div className="absolute left-0 top-full pt-1 w-60 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150">
+                    <div className="bg-slate-900 border border-slate-800 rounded-xl shadow-2xl overflow-hidden">
+                      {link.submenu.map((sub) => (
+                        <Link key={sub.href + sub.label} href={sub.href} className="block px-4 py-3 text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition">
+                          {sub.label}
                         </Link>
                       ))}
                     </div>
@@ -48,62 +36,49 @@ export default function Header() {
                 )}
               </div>
             ))}
+            <a href={`tel:${COMPANY.phoneFormatted}`} className="text-sm text-slate-300 hover:text-white transition font-medium">
+              {COMPANY.phone}
+            </a>
+            <Link href="/free-consultation" className="bg-red-600 hover:bg-red-500 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition">
+              Book a Call
+            </Link>
           </nav>
 
-          {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden text-slate-200 text-sm font-medium px-2 py-1"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-expanded={mobileOpen}
             aria-label="Toggle menu"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
+            {mobileOpen ? '✕ Close' : '☰ Menu'}
           </button>
         </div>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <nav className="md:hidden pb-4 border-t border-gray-200">
+        {mobileOpen && (
+          <nav className="md:hidden pb-5 border-t border-slate-800 pt-3 space-y-1" aria-label="Mobile">
             {NAV_LINKS.map((link) => (
-              <div key={link.href}>
+              <div key={link.label}>
                 <Link
                   href={link.href}
-                  className={`block px-4 py-3 ${
-                    link.cta
-                      ? 'bg-blue-600 text-white m-2 rounded-xl font-bold shadow-lg'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block px-4 py-2.5 rounded-lg text-sm transition ${link.cta ? 'bg-red-600 text-white font-semibold text-center mt-3' : 'text-slate-200 hover:bg-slate-800 font-medium'}`}
+                  onClick={() => setMobileOpen(false)}
                 >
                   {link.label}
                 </Link>
                 {link.submenu && (
                   <div className="pl-4">
-                    {link.submenu.map((sublink) => (
-                      <Link
-                        key={sublink.href}
-                        href={sublink.href}
-                        className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {sublink.label}
+                    {link.submenu.map((sub) => (
+                      <Link key={sub.href + sub.label} href={sub.href} className="block px-4 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800 rounded transition" onClick={() => setMobileOpen(false)}>
+                        {sub.label}
                       </Link>
                     ))}
                   </div>
                 )}
               </div>
             ))}
+            <a href={`tel:${COMPANY.phoneFormatted}`} className="block px-4 py-2.5 text-sm text-slate-300 font-medium">
+              Call {COMPANY.phone}
+            </a>
           </nav>
         )}
       </div>

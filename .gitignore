@@ -32,3 +32,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude context (iCloud)
+.context/
+
+# local Claude Code settings (personal, not shared)
+.claude/settings.local.json
+node_modules.nosync/
+
+# redesign handoff bundle (local only)
+/_redesign/

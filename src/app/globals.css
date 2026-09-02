@@ -1,14 +1,20 @@
 @import "tailwindcss";
-@source "../";
 
 html { scroll-behavior: smooth; }
 body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
-@keyframes drift1 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(40px, -30px); }
+.container-md {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
-@keyframes drift2 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-30px, 40px); }
+
+@media (min-width: 1024px) {
+  .container-md {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
