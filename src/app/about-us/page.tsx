@@ -1,113 +1,76 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
-import { BarChart2, Eye, Zap, Users } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
+import Link from 'next/link';
 import CTASection from '@/components/CTASection';
+import { COMPANY } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'About Us | Marketing Bull',
-  description: 'Marketing Bull is a South Florida growth agency specializing in intake optimization, AI automation, and performance marketing for law firms and medical practices.',
-  alternates: { canonical: 'https://getmarketingbull.com/about-us' },
+  title: 'About',
+  description: 'Marketing Bull is a small senior growth consultancy in West Palm Beach that works only with law firms and medical practices. Meet the two people who do the work.',
+  alternates: { canonical: `${COMPANY.website}/about-us` },
 };
 
 const TEAM = [
   {
     name: 'Alexander M. Babenchuk',
-    role: 'President & Managing Director',
+    role: 'Founder · Strategy, client relationships, copy',
     photo: '/alex.webp',
-    bio: 'Alexander oversees client strategy, business development, and agency operations. He brings a decade of experience building growth systems for law firms and medical practices across the US.',
+    bio: 'Alex has spent more than a decade building growth systems for personal injury firms and medical practices — from a referral brand launched into the New York market with billboards, radio, and a call center, to single-location clinics that needed a front door. He runs every engagement personally.',
   },
   {
     name: 'Oleg M. Babenchuk',
-    role: 'Chief Marketing Officer',
+    role: 'Technical delivery · Web, paid media, integrations',
     photo: '/oleg.webp',
-    bio: 'Oleg leads performance marketing and intake strategy. He has personally built intake and PPC systems for 30+ PI firms, driving measurable case volume improvements across every engagement.',
+    bio: 'Oleg builds what the engagement calls for: the site, the tracking, the ad accounts, the CRM wiring. He has built websites and intake infrastructure for dozens of PI firms and medical practices, and he is the reason the fourteen-day website is fourteen days.',
   },
 ];
 
-const VALUES: { Icon: LucideIcon; title: string; desc: string }[] = [
-  { Icon: BarChart2, title: 'Outcomes Over Optics', desc: "We measure success in signed retainers, booked patients, and completed jobs — not impressions, clicks, or vanity metrics. If it doesn't move revenue, it doesn't count." },
-  { Icon: Eye, title: 'Radical Transparency', desc: 'You own all your accounts, all your data, all your assets. Full attribution reporting, clear pricing, and no black-box results. We show our work.' },
-  { Icon: Zap, title: 'Speed Over Perfection', desc: 'We launch, test, and optimize in real time. A live campaign getting iterated on delivers more value than a "perfect" strategy sitting in a deck.' },
-  { Icon: Users, title: 'Partnership, Not Vendor', desc: "We turn down clients we can't help. We refer out what we're not the best at. We treat your budget like it's our own." },
+const BELIEFS = [
+  { title: 'Diagnose before prescribing', body: 'The wrong fix is expensive. We measure where a firm is losing cases or patients before we recommend anything, and we say so when the answer is "not us."' },
+  { title: 'Build what we recommend', body: 'A strategy in a slide deck is a strategy that dies there. Every engagement ends in something running, and we stay accountable for the number it was meant to move.' },
+  { title: 'The client owns everything', body: 'Code, domain, hosting, ad accounts, data. We build inside infrastructure you control so the relationship continues because it is working, never because leaving would mean starting over.' },
+  { title: 'Fixed scope, published price', body: 'We define the deliverable, the date, and the fee before anything begins, and we publish the fee. The first conversation is about your firm, not your budget.' },
 ];
 
 export default function AboutPage() {
   return (
     <>
-      <section className="relative py-28 bg-slate-950 text-white overflow-hidden">
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage: 'radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px)',
-            backgroundSize: '28px 28px',
-          }}
-        />
-        <div className="container-md max-w-4xl text-center relative">
-          <p className="inline-flex items-center gap-2 text-red-400 font-semibold text-xs uppercase tracking-[0.2em] mb-6 border border-red-500/20 bg-red-500/5 px-4 py-1.5 rounded-full">
-            Who We Are
-          </p>
-          <h1 className="text-5xl md:text-6xl font-black tracking-tight mb-6 leading-[1.05]">Built for Businesses Where Every Lead Matters</h1>
-          <p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
-            Marketing Bull is a South Florida growth agency. We specialize in the industries where a missed call costs thousands — and we build the systems that make sure that doesn&apos;t happen.
+      <section className="relative bg-slate-950 text-white overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+        <div className="container-md relative py-24 md:py-32 max-w-4xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-6">About</p>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">Small on purpose. Narrow on purpose.</h1>
+          <p className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl">
+            Marketing Bull is a two-person growth consultancy in West Palm Beach. We work only with law firms and medical practices, and the people you meet on the first call are the people who do the work.
           </p>
         </div>
       </section>
 
-      {/* Story */}
-      <section className="py-24 bg-white">
-        <div className="container-md max-w-5xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <p className="text-red-500 font-semibold text-xs uppercase tracking-[0.18em] mb-3">Our Story</p>
-              <h2 className="text-4xl font-black tracking-tight text-slate-900 mb-6">We Started by Fixing What Everyone Else Ignored</h2>
-              <div className="space-y-4 text-slate-500 leading-relaxed">
-                <p>Most marketing agencies stop at the ad click. They deliver a lead and write it off as a conversion. But we kept asking: what happens after the click? Where do those leads actually go?</p>
-                <p>What we found was that the most expensive problem in law firm and medical marketing isn&apos;t bad ads — it&apos;s broken intake. Firms were spending thousands a month on leads that never got called back, never got booked, never got signed.</p>
-                <p>So we built the infrastructure to fix that. We started with intake systems, layered in automation, and added performance marketing on top. The result was a complete growth stack that actually connects ad spend to signed clients.</p>
-                <p>Today we work with 30+ law firms, medical practices, and service businesses — and we measure every engagement by one metric: revenue generated per dollar invested.</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { n: '30+', l: 'Active Client Partners' },
-                { n: '500+', l: 'Automations Deployed' },
-                { n: '+25%', l: 'Avg Intake Lift' },
-                { n: '$0', l: 'Vanity Metrics Reported' },
-              ].map((st) => (
-                <div key={st.l} className="text-center p-8 bg-slate-50 rounded-2xl border border-slate-100">
-                  <div className="text-4xl font-black text-blue-600 mb-2 tracking-tight">{st.n}</div>
-                  <div className="text-slate-600 font-semibold text-sm">{st.l}</div>
-                </div>
-              ))}
-            </div>
+      <section className="py-20 md:py-24 bg-white">
+        <div className="container-md grid grid-cols-1 lg:grid-cols-12 gap-10">
+          <div className="lg:col-span-4">
+            <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">How we got here</p>
+            <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900">We kept asking what happened after the click.</h2>
+          </div>
+          <div className="lg:col-span-8 space-y-5 text-lg text-slate-700 leading-relaxed">
+            <p>Marketing Bull started as a conventional agency — websites, search, paid media — for whoever asked. The clients who got the best results had two things in common: they were law firms or medical practices, and the work that moved their numbers was rarely the ad. It was the site that finally loaded, the phone that finally got answered, the content that finally showed up when a prospect searched.</p>
+            <p>So we narrowed. Two verticals, where we know the regulations and the patient or client behavior cold. Three fixed-scope engagements, each built around one of the three places a case or patient is lost. And a consulting posture: diagnose first, build what the diagnosis calls for, and stay accountable for the outcome.</p>
+            <p>The work we are proudest of is in the <Link href="/case-studies" className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-red-600">case studies</Link> — with only the numbers the client reported.</p>
           </div>
         </div>
       </section>
 
-      {/* Team */}
-      <section className="py-24 bg-slate-50">
-        <div className="container-md max-w-5xl">
-          <div className="text-center mb-16">
-            <p className="text-red-500 font-semibold text-xs uppercase tracking-[0.18em] mb-3">The Team</p>
-            <h2 className="text-4xl font-black tracking-tight text-slate-900">The People Behind the Results</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            {TEAM.map((member) => (
-              <div key={member.name} className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                <div className="bg-slate-950 p-8 flex justify-center">
-                  <Image
-                    src={member.photo}
-                    alt={member.name}
-                    width={96}
-                    height={96}
-                    className="w-24 h-24 rounded-full object-cover border-2 border-white/10 shadow-xl"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-slate-900">{member.name}</h3>
-                  <p className="text-red-500 text-xs font-semibold uppercase tracking-wider mb-3">{member.role}</p>
-                  <p className="text-slate-500 text-sm leading-relaxed">{member.bio}</p>
+      <section className="py-20 md:py-24 bg-slate-50 border-y border-slate-100">
+        <div className="container-md">
+          <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">The team</p>
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-10">Two people. No account-manager layer.</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+            {TEAM.map((m) => (
+              <div key={m.name} className="rounded-2xl border border-slate-200 bg-white p-8 flex gap-6">
+                <img src={m.photo} alt={m.name} width={80} height={80} className="h-20 w-20 rounded-full object-cover shrink-0" />
+                <div>
+                  <h3 className="text-xl font-black tracking-tight text-slate-900">{m.name}</h3>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-red-600 mt-1 mb-3">{m.role}</p>
+                  <p className="text-slate-600 leading-relaxed text-sm">{m.bio}</p>
                 </div>
               </div>
             ))}
@@ -115,31 +78,33 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Values */}
-      <section className="py-24 bg-white">
-        <div className="container-md max-w-5xl">
-          <div className="text-center mb-16">
-            <p className="text-red-500 font-semibold text-xs uppercase tracking-[0.18em] mb-3">How We Work</p>
-            <h2 className="text-4xl font-black tracking-tight text-slate-900">What We Believe</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {VALUES.map((v) => (
-              <div key={v.title} className="group p-8 bg-slate-50 rounded-2xl border border-slate-100 hover:border-red-100 hover:shadow-sm transition-all duration-300 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-0.5 bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <v.Icon className="w-6 h-6 text-red-500 mb-4" strokeWidth={1.5} />
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{v.title}</h3>
-                <p className="text-slate-500 leading-relaxed text-sm">{v.desc}</p>
+      <section className="py-20 md:py-24 bg-white">
+        <div className="container-md">
+          <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">What we believe</p>
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-10">Four commitments, in writing.</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-slate-200 border border-slate-200">
+            {BELIEFS.map((b, i) => (
+              <div key={b.title} className="bg-white p-8 md:p-10">
+                <span className="text-xs font-black text-red-600">0{i + 1}</span>
+                <h3 className="mt-3 text-xl font-black tracking-tight text-slate-900">{b.title}</h3>
+                <p className="mt-3 text-slate-600 leading-relaxed">{b.body}</p>
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="py-14 bg-slate-50 border-t border-slate-100">
+        <div className="container-md max-w-3xl text-sm text-slate-500">
+          <p>{COMPANY.legalName} · {COMPANY.address} · <a href={`tel:${COMPANY.phoneFormatted}`} className="font-semibold text-slate-700">{COMPANY.phone}</a> · <a href={`mailto:${COMPANY.email}`} className="font-semibold text-slate-700">{COMPANY.email}</a></p>
         </div>
       </section>
 
       <CTASection
-        title="Want to Work Together?"
-        description="Book a free 30-minute growth audit and see exactly how we'd approach your specific market, practice area, and goals."
-        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
-        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:+18334382855' }}
+        title="Start with a conversation."
+        description="Twenty minutes about your firm or practice. We'll tell you where we'd look first — and whether we're the right people to look."
+        primaryCTA={{ text: 'Book a conversation', href: '/free-consultation' }}
+        secondaryCTA={{ text: 'See the engagements', href: '/pricing' }}
       />
     </>
   );

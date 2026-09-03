@@ -24,7 +24,7 @@ const LEGACY_REDIRECTS: { source: string; destination: string }[] = [
   // Blog posts lived at the root on WordPress
   { source: '/ultimate-guide-to-personal-injury-intake', destination: '/blog/ultimate-guide-to-personal-injury-intake' },
   { source: '/speed-is-key-when-converting-legal-leads-to-clients', destination: '/blog/speed-is-key-when-converting-legal-leads-to-clients' },
-  { source: '/the-ultimate-guide-to-dermatology-marketing-10-creative-ideas-to-boost-your-practice', destination: '/blog/dermatology-marketing-guide' },
+  { source: '/the-ultimate-guide-to-dermatology-marketing-10-creative-ideas-to-boost-your-practice', destination: '/services/medical' },
 
   // Case studies with real published content get their own page; everything else → index
   { source: '/case_studies/1-800-hurt-511', destination: '/case-studies/1-800-hurt-511' },

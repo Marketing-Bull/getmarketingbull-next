@@ -120,10 +120,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   <div key={i} className="my-10 p-6 bg-red-50 border border-red-100 rounded-2xl">
                     <p className="text-slate-700 leading-relaxed">{section.text}</p>
                     <Link
-                      href="/free-consultation"
+                      href="/products/intake-gap-audit"
                       className="inline-flex items-center gap-2 mt-4 bg-red-600 hover:bg-red-500 text-white px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5"
                     >
-                      Get Your Free Audit →
+                      About the Intake Gap Audit →
                     </Link>
                   </div>
                 );
@@ -136,13 +136,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <div className="mt-16 pt-8 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <p className="text-sm font-semibold text-slate-900">Marketing Bull</p>
-              <p className="text-xs text-slate-500">Growth systems for law firms and medical practices.</p>
+              <p className="text-xs text-slate-500">Growth consultancy for law firms and medical practices.</p>
             </div>
             <Link
               href="/free-consultation"
               className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5 whitespace-nowrap"
             >
-              Get a Free Audit →
+              Start a conversation →
             </Link>
           </div>
         </div>
@@ -172,7 +172,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       <CTASection
         title="Ready to Put These Ideas to Work?"
-        description="Book a free audit and we'll apply these strategies directly to your business."
+        description="Twenty minutes about your firm or practice. We'll tell you where we'd look first."
         primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:+18334382855' }}
       />
