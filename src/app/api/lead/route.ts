@@ -4,9 +4,11 @@ import { NextResponse } from 'next/server';
  * Lead intake endpoint.
  *
  * Delivery, in order of preference — set whichever env vars you have on Vercel:
- *   LEAD_WEBHOOK_URL   → POSTs the JSON payload (GoHighLevel inbound webhook, Zapier, Make, n8n…)
+ *   LEAD_GHL_API_KEY    → POSTs the lead to GoHighLevel as a Contact in the MB sub-account
+ *                          (TpaL2rALzbFCdbM1sxmH) with tag `mb-site-lead` and 4 custom fields.
+ *   LEAD_WEBHOOK_URL   → POSTs the JSON payload (legacy: Zapier, Make, n8n…)
  *   RESEND_API_KEY     → emails the lead to LEAD_NOTIFY_EMAIL (default hello@getmarketingbull.com)
- * With neither set, the lead is logged to the Vercel function log so nothing is silently lost.
+ * With none set, the lead is logged to the Vercel function log so nothing is silently lost.
  */
 
 interface LeadPayload {
@@ -54,12 +56,53 @@ export async function POST(req: Request) {
     page: req.headers.get('referer') ?? '',
   };
 
+  const [firstName, ...rest] = name.split(/\s+/);
+  const lastName = rest.join(' ').trim();
+
+  const ghlKey = process.env.LEAD_GHL_API_KEY;
+  const ghlLocationId = process.env.LEAD_GHL_LOCATION_ID ?? 'TpaL2rALzbFCdbM1sxmH';
   const webhook = process.env.LEAD_WEBHOOK_URL;
   const resendKey = process.env.RESEND_API_KEY;
   const notifyEmail = process.env.LEAD_NOTIFY_EMAIL ?? 'hello@getmarketingbull.com';
   const fromEmail = process.env.LEAD_FROM_EMAIL ?? 'leads@getmarketingbull.com';
 
   const results: string[] = [];
+
+  if (ghlKey) {
+    try {
+      const r = await fetch('https://services.leadconnectorhq.com/contacts/', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${ghlKey}`,
+          'Content-Type': 'application/json',
+          Version: '2021-07-28',
+        },
+        body: JSON.stringify({
+          locationId: ghlLocationId,
+          firstName,
+          lastName,
+          name,
+          email,
+          phone,
+          website: lead.website || undefined,
+          source: 'Marketing Bull Site',
+          tags: ['mb-site-lead'],
+          customFields: [
+            { id: 'n3Ur3Tm4gLb7BfhPFJt5', value: lead.source },
+            { id: 'ssDT5kiOUvt30YA6vX15', value: lead.message },
+            { id: 'nOLB2wsnl4T71In4ybss', value: lead.website },
+            { id: 'PqYofPTdo3wZf6li9v9I', value: lead.smsConsent ? 'yes' : 'no' },
+          ],
+        }),
+      });
+      const respText = await r.text();
+      results.push(`ghl:${r.status}`);
+      if (!r.ok) console.error('[lead] GHL non-2xx', r.status, respText);
+    } catch (e) {
+      console.error('[lead] GHL failed', e);
+      results.push('ghl:error');
+    }
+  }
 
   if (webhook) {
     try {
@@ -109,6 +152,8 @@ export async function POST(req: Request) {
 
   if (results.length === 0) {
     console.log('[lead] no delivery configured — logging only', JSON.stringify(lead));
+  } else {
+    console.log('[lead] delivery results:', results.join(' '));
   }
 
   return NextResponse.json({ ok: true });
