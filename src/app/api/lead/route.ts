@@ -98,10 +98,14 @@ export async function POST(req: Request) {
       const respText = await r.text();
       results.push(`ghl:${r.status}`);
       if (!r.ok) console.error('[lead] GHL non-2xx', r.status, respText);
+      // TEMP DIAGNOSTIC — surface GHL result in response for audit
+      results.push(`ghl-body:${respText.slice(0, 200)}`);
     } catch (e) {
       console.error('[lead] GHL failed', e);
       results.push('ghl:error');
     }
+  } else {
+    results.push('ghl:no-key');
   }
 
   if (webhook) {
@@ -156,7 +160,7 @@ export async function POST(req: Request) {
     console.log('[lead] delivery results:', results.join(' '));
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, _diag: results });
 }
 
 function esc(s: string) {
