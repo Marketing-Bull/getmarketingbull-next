@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { COMPANY } from '@/lib/constants';
 import { organizationSchema } from '@/lib/schema';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   metadataBase: new URL(COMPANY.website),
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main className="pt-16">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
