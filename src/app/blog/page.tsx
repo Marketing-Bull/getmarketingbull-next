@@ -57,7 +57,7 @@ export default function BlogPage() {
       <CTASection
         title="Ready to Put These Ideas to Work?"
         description="Book a free audit and we'll apply these strategies directly to your business."
-        primaryCTA={{ text: 'Get Your Free Growth Audit', href: '/free-consultation' }}
+        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:+18334382855' }}
       />
     </>

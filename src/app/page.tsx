@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: COMPANY.website },
 };
 
-const CLIENTS = ['WeSueThem.com', '1-800-HURT-511', 'Linder Diaz Law', 'Queens Hyperbaric', '3D Dental', 'GreenBills'];
+const CLIENTS = ['1-800-HURT-511', 'WeSueThem.com', 'Queens Hyperbaric', 'Metropolitan Orthopedics', 'Linder Diaz Law', '3D Dental', 'GreenBills'];
 
 const PRINCIPLES = [
   {
@@ -67,9 +67,9 @@ const WHO = [
 ];
 
 const OUTCOMES = [
-  { n: '30+', l: 'new patients per month for a specialty clinic, from local search and paid', src: 'Queens Hyperbaric' },
-  { n: '30%', l: 'reduction in wasted ad spend after full click-to-signed-case attribution', src: '1-800-HURT-511' },
-  { n: '85%', l: 'intake conversion, up from 30%, for a South Florida PI firm', src: 'Case study' },
+  { n: '0 → 20', l: 'personal injury cases per month in twelve months, from a standing start', src: '1-800-HURT-511' },
+  { n: '30 days', l: 'to bring missed intake calls to zero after the call center and CRM went live', src: '1-800-HURT-511' },
+  { n: '30+', l: 'new patients per month for a specialty clinic that had an empty schedule', src: 'Queens Hyperbaric' },
 ];
 
 const ENGAGEMENT = [
@@ -258,8 +258,7 @@ export default function HomePage() {
           <div className="flex -space-x-4">
             {[
               { src: '/alex.webp', alt: 'Alexander Babenchuk' },
-              { src: '/oleg.webp', alt: 'Oleg' },
-              { src: '/yossi.png', alt: 'Yossi' },
+              { src: '/oleg.webp', alt: 'Oleg Babenchuk' },
             ].map((p) => (
               <img key={p.src} src={p.src} alt={p.alt} width={72} height={72} className="h-[72px] w-[72px] rounded-full border-4 border-slate-50 object-cover shadow-md" />
             ))}

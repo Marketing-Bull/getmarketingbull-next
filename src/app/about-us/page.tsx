@@ -14,13 +14,13 @@ const TEAM = [
   {
     name: 'Alexander M. Babenchuk',
     role: 'President & Managing Director',
-    photo: '/mb-preview/alex.webp',
+    photo: '/alex.webp',
     bio: 'Alexander oversees client strategy, business development, and agency operations. He brings a decade of experience building growth systems for law firms and medical practices across the US.',
   },
   {
     name: 'Oleg M. Babenchuk',
     role: 'Chief Marketing Officer',
-    photo: '/mb-preview/oleg.webp',
+    photo: '/oleg.webp',
     bio: 'Oleg leads performance marketing and intake strategy. He has personally built intake and PPC systems for 30+ PI firms, driving measurable case volume improvements across every engagement.',
   },
 ];
@@ -138,7 +138,7 @@ export default function AboutPage() {
       <CTASection
         title="Want to Work Together?"
         description="Book a free 30-minute growth audit and see exactly how we'd approach your specific market, practice area, and goals."
-        primaryCTA={{ text: 'Get Your Free Growth Audit', href: '/free-consultation' }}
+        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:+18334382855' }}
       />
     </>

@@ -26,21 +26,10 @@ const LEGACY_REDIRECTS: { source: string; destination: string }[] = [
   { source: '/speed-is-key-when-converting-legal-leads-to-clients', destination: '/blog/speed-is-key-when-converting-legal-leads-to-clients' },
   { source: '/the-ultimate-guide-to-dermatology-marketing-10-creative-ideas-to-boost-your-practice', destination: '/blog/dermatology-marketing-guide' },
 
-  // Case studies — law & medical migrate to /case-studies/<slug>
+  // Case studies with real published content get their own page; everything else → index
   { source: '/case_studies/1-800-hurt-511', destination: '/case-studies/1-800-hurt-511' },
-  { source: '/case_studies/wesuethem-com', destination: '/case-studies/wesuethem-com' },
   { source: '/case_studies/queens-hyperbaric', destination: '/case-studies/queens-hyperbaric' },
-  { source: '/case_studies/barshay-rizzo-lopez', destination: '/case-studies/barshay-rizzo-lopez' },
-  { source: '/case_studies/james-brown-law', destination: '/case-studies/james-brown-law' },
-  { source: '/case_studies/sanders-law-group', destination: '/case-studies/sanders-law-group' },
-  { source: '/case_studies/the-sanders-law-firm', destination: '/case-studies/the-sanders-law-firm' },
-  { source: '/case_studies/claimsmatch-class-action-lawsuits', destination: '/case-studies/claimsmatch' },
   { source: '/case_studies/metropolitan-orthopedics', destination: '/case-studies/metropolitan-orthopedics' },
-  { source: '/case_studies/wound-care-nyc', destination: '/case-studies/wound-care-nyc' },
-  { source: '/case_studies/blue-star-urgent-care-urgent-care', destination: '/case-studies/blue-star-urgent-care' },
-  { source: '/case_studies/trakcharts-medical-referral-management-software', destination: '/case-studies/trakcharts' },
-  { source: '/case_studies/greenbills-business-process-outsourcing', destination: '/case-studies/greenbills' },
-  // Off-vertical case studies (cleaning, real estate, skincare, title, lending) → index
   { source: '/case_studies/:slug', destination: '/case-studies' },
 ];
 

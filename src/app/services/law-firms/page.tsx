@@ -43,7 +43,7 @@ export default function LawFirmsPage() {
         eyebrow="For Personal Injury Law Firms"
         title="You Don't Have a Marketing Problem. You Have an Intake Problem."
         subtitle="Every ad you run leaks cases before your staff can answer the phone. We build the operating system that captures, qualifies, and converts — so every marketing dollar you spend actually turns into a signed retainer."
-        primaryCTA={{ text: 'Get a Free Growth Audit', href: '/free-consultation' }}
+        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:+18334382855', tel: true }}
       />
 
@@ -136,8 +136,8 @@ export default function LawFirmsPage() {
       <FAQAccordion items={FAQS} />
       <CTASection
         title="Let's Build Your Intake Machine"
-        description="Free 30-minute audit of your current intake process. No pitch, no pressure — just a clear picture of what's leaking and how to fix it."
-        primaryCTA={{ text: 'Get Your Free Growth Audit', href: '/free-consultation' }}
+        description="Twenty minutes about your firm or practice. We'll tell you where we'd look first — and whether we're the right people to look."
+        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:+18334382855' }}
       />
     </>

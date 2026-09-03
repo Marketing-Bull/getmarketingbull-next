@@ -8,23 +8,23 @@ import { organizationSchema } from '@/lib/schema';
 export const metadata: Metadata = {
   metadataBase: new URL(COMPANY.website),
   title: {
-    default: 'Marketing Bull | Fixed-Price Marketing for Law Firms & Medical Practices',
+    default: 'Marketing Bull | Growth Consultancy for Law Firms & Medical Practices',
     template: '%s | Marketing Bull',
   },
   description:
-    'Three fixed-price growth products for personal injury firms and medical practices: a website in 14 days, an intake gap audit, and an AI content & search engine. Published pricing. You own everything.',
+    'A senior growth consultancy in West Palm Beach for personal injury firms and medical practices. We find where a firm is losing cases or patients, build the system that fixes it, and stay accountable for the number.',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: COMPANY.website,
     siteName: COMPANY.name,
-    title: 'Marketing Bull | Fixed-Price Marketing for Law Firms & Medical Practices',
-    description: 'Get found. Get called. Get signed. Three products, published prices, 14-day delivery.',
+    title: 'Marketing Bull | Growth Consultancy for Law Firms & Medical Practices',
+    description: 'Growth, engineered for the firms that can\'t afford to guess.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Marketing Bull | Fixed-Price Marketing for Law Firms & Medical Practices',
-    description: 'Get found. Get called. Get signed. Three products, published prices, 14-day delivery.',
+    title: 'Marketing Bull | Growth Consultancy for Law Firms & Medical Practices',
+    description: 'Growth, engineered for the firms that can\'t afford to guess.',
   },
   robots: { index: true, follow: true },
 };

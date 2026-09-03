@@ -141,7 +141,7 @@ export default function MedicalPage() {
       <FAQAccordion items={FAQS} />
       <CTASection
         title="Let's Fill Your Schedule"
-        description="Free 30-minute audit of your current patient acquisition setup. We'll show you exactly where new patients are going instead of you."
+        description="Twenty minutes about your firm or practice. We'll tell you where we'd look first — and whether we're the right people to look."
         primaryCTA={{ text: 'Get Your Free Practice Audit', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:+18334382855' }}
       />

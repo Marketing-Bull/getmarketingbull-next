@@ -60,7 +60,7 @@ export default function ServicesPage() {
         eyebrow="What We Build"
         title="Growth Systems, Not Marketing Campaigns"
         subtitle="We don't run ads and send reports. We build the operating systems that capture every lead, convert at the highest rate, and tell you exactly where every dollar went."
-        primaryCTA={{ text: 'Get a Free Growth Audit', href: '/free-consultation' }}
+        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:+18334382855', tel: true }}
       />
 
@@ -143,8 +143,8 @@ export default function ServicesPage() {
       <TestimonialCarousel testimonials={TESTIMONIALS} />
       <CTASection
         title="Not Sure Where to Start?"
-        description="Book a free 30-minute growth audit. We'll review your current intake, marketing stack, and attribution — and show you exactly where the leaks are."
-        primaryCTA={{ text: 'Get Your Free Growth Audit', href: '/free-consultation' }}
+        description="Twenty minutes about your firm or practice. We'll tell you where we'd look first — and whether we're the right people to look."
+        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:+18334382855' }}
       />
     </>
