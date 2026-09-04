@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
+import { GoogleTagManager } from '@next/third-parties/google';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
+import CallTracking from '@/components/CallTracking';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { COMPANY } from '@/lib/constants';
@@ -26,6 +29,10 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+// Unset until the container is created in GTM; the tag simply does not render,
+// and every track() call stays a no-op. Vercel Analytics needs no id.
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
@@ -43,7 +50,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main className="pt-16">{children}</main>
         <Footer />
+        <CallTracking />
+        <Analytics />
       </body>
+      {GTM_ID ? <GoogleTagManager gtmId={GTM_ID} /> : null}
     </html>
   );
 }
