@@ -14,9 +14,9 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const o = getOffer(slug);
   if (!o) return renderOg({ title: 'Marketing Bull' });
   return renderOg({
-    eyebrow: `${o.step} · Fixed scope · ${o.timeline}`,
+    eyebrow: `${o.step} · Fixed scope`,
     title: o.name,
     subtitle: o.short,
-    stat: { value: o.priceLabel, label: o.billing === 'monthly' ? 'per month' : 'one-time' },
+    stat: { value: o.timeline, label: 'delivery' },
   });
 }

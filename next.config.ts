@@ -7,6 +7,7 @@ import type { NextConfig } from "next";
  */
 const LEGACY_REDIRECTS: { source: string; destination: string }[] = [
   // Core pages
+  { source: '/pricing', destination: '/engagements' },
   { source: '/get-started', destination: '/free-consultation' },
   { source: '/get-more-customers', destination: '/free-consultation' },
   { source: '/tos', destination: '/terms-of-service' },

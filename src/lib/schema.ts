@@ -31,15 +31,9 @@ export function offerSchema(offer: Offer) {
     description: offer.short,
     provider: { '@id': `${COMPANY.website}/#organization` },
     url: `${COMPANY.website}/products/${offer.slug}`,
-    offers: {
-      '@type': 'Offer',
-      price: offer.price,
-      priceCurrency: 'USD',
-      url: `${COMPANY.website}/products/${offer.slug}`,
-      ...(offer.billing === 'monthly'
-        ? { priceSpecification: { '@type': 'UnitPriceSpecification', price: offer.price, priceCurrency: 'USD', billingDuration: 1, billingIncrement: 1, unitCode: 'MON' } }
-        : {}),
-    },
+    areaServed: ['Florida', 'United States'],
+    // No Offer/price node: pricing is quoted per engagement and not published,
+    // so emitting a price here would contradict the page.
   };
 }
 

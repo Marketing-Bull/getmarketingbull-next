@@ -21,17 +21,6 @@ export const COMPANY = {
   bookingUrl: '/free-consultation',
 };
 
-/**
- * Checkout links. Paste Stripe Payment Link URLs here (Stripe Dashboard → Payment Links).
- * While a link is empty the button falls back to the consultation form, so nothing breaks
- * before Stripe is configured.
- */
-export const CHECKOUT_LINKS: Record<OfferSlug, string> = {
-  'website-in-14-days': '',
-  'intake-gap-audit': '',
-  'ai-content-engine': '',
-};
-
 export type OfferSlug = 'website-in-14-days' | 'intake-gap-audit' | 'ai-content-engine';
 
 export interface Offer {
@@ -40,9 +29,7 @@ export interface Offer {
   name: string;
   headline: string;
   short: string;
-  price: number;
-  priceLabel: string;
-  billing: 'one-time' | 'monthly';
+  /** Commercial shape of the engagement — commitment and what's bundled. No figures; we quote per firm. */
   terms: string;
   timeline: string;
   bestFor: string;
@@ -63,10 +50,7 @@ export const OFFERS: Offer[] = [
     headline: 'A law firm or medical website built to convert — live in 14 days, with the scope and price fixed before we start.',
     short:
       'A conversion-built site on a modern stack. Fixed scope, fixed price, fixed deadline. You own the code, the domain, and the data.',
-    price: 4950,
-    priceLabel: '$4,950',
-    billing: 'one-time',
-    terms: '50% to start, 50% at launch. Includes 12 months of hosting.',
+    terms: 'Half at kickoff, half at launch. Includes 12 months of hosting.',
     timeline: '14 business days from kickoff',
     bestFor: 'Firms and practices whose current site is slow, dated, or controlled by a vendor rather than the firm.',
     problem:
@@ -95,10 +79,10 @@ export const OFFERS: Offer[] = [
       { title: 'Days 13–14 — Launch', desc: 'DNS cutover, redirects from your old URLs, Search Console submission, handoff call.' },
     ],
     faqs: [
-      { q: 'What if I need more than 10 pages?', a: 'Additional pages are $350 each, quoted before we start so the price never moves mid-project.' },
+      { q: 'What if I need more than 10 pages?', a: 'Additional pages are quoted per page before we start, so the scope and the fee are settled before anything begins and neither moves mid-project.' },
       { q: 'Do I really own the site?', a: 'Yes. The code lives in a GitHub repository under your account and hosting is in your name. If you ever leave, you take everything.' },
-      { q: 'What happens after the 12 months of hosting?', a: 'Hosting renews at $25/month, or you move it anywhere you like — it\'s a standard Next.js project.' },
-      { q: 'Can you migrate my existing blog posts?', a: 'Up to 10 existing posts are migrated free. Beyond that it\'s $25 per post.' },
+      { q: 'What happens after the 12 months of hosting?', a: 'Hosting renews at a modest monthly rate, or you move it anywhere you like — it\'s a standard Next.js project and the account is in your name.' },
+      { q: 'Can you migrate my existing blog posts?', a: 'Up to 10 existing posts come across as part of the build. Beyond that we quote per post before we start.' },
     ],
     ctaLabel: 'Start my website',
     accent: 'red',
@@ -110,10 +94,7 @@ export const OFFERS: Offer[] = [
     headline: 'Find out exactly how many cases your intake is losing — and what each one is costing you.',
     short:
       'Two mystery-shop calls, a full audit against our PI & medical intake checklist, and an ROI report that puts a dollar figure on the leak.',
-    price: 1495,
-    priceLabel: '$1,495',
-    billing: 'one-time',
-    terms: 'Paid upfront. Credited in full toward any Marketing Bull product purchased within 60 days.',
+    terms: 'Paid upfront, and credited in full toward any engagement you start within 60 days.',
     timeline: '7–10 business days',
     bestFor: 'Firms spending on lead generation who suspect the problem isn\'t the leads.',
     problem:
@@ -140,7 +121,7 @@ export const OFFERS: Offer[] = [
     ],
     faqs: [
       { q: 'Will my staff know they\'re being tested?', a: 'Not unless you tell them. Our tester calls exactly like a prospect would and scores the interaction on a timestamped scorecard. We don\'t record calls by default — Florida is an all-party consent state. If you want recordings, you authorize it as the business owner at kickoff and we handle the disclosure.' },
-      { q: 'Is $1,495 refundable?', a: 'No, but it\'s fully credited toward any Marketing Bull product within 60 days — so if you act on the findings, the audit is free.' },
+      { q: 'Is the audit fee refundable?', a: 'No, but it\'s credited in full toward any Marketing Bull engagement you start within 60 days — so if you act on the findings, the audit pays for itself.' },
       { q: 'We don\'t have a CRM. Can you still audit us?', a: 'Yes. The mystery shops and ROI report don\'t depend on a CRM. We\'ll note it as a gap.' },
     ],
     ctaLabel: 'Book my audit',
@@ -153,10 +134,7 @@ export const OFFERS: Offer[] = [
     headline: 'Show up in Google and in AI answers — every week, without writing a word.',
     short:
       'A managed content system that publishes search- and AI-optimized content to your site every week, tracks where you appear in ChatGPT, Perplexity, and Google AI Overviews, and reports it monthly.',
-    price: 2500,
-    priceLabel: '$2,500',
-    billing: 'monthly',
-    terms: '3-month minimum, then month-to-month. Cancel with 30 days notice.',
+    terms: 'Monthly. 3-month minimum, then month-to-month, cancel with 30 days notice.',
     timeline: 'First content live within 10 business days',
     bestFor: 'Firms and practices that want to compound organic visibility without hiring a writer or an SEO agency.',
     problem:
@@ -197,7 +175,7 @@ export const OFFERS: Offer[] = [
 export const NAV_LINKS = [
   {
     label: 'How We Help',
-    href: '/pricing',
+    href: '/engagements',
     submenu: OFFERS.map((o) => ({ label: o.name, href: `/products/${o.slug}` })),
   },
   {
@@ -218,7 +196,6 @@ export const NAV_LINKS = [
       { label: 'Blog', href: '/blog' },
     ],
   },
-  { label: 'Pricing', href: '/pricing' },
   { label: 'Start a Conversation', href: '/free-consultation', cta: true },
 ];
 

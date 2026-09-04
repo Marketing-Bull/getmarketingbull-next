@@ -35,7 +35,7 @@ export default function VerticalPage(p: VerticalPageProps) {
           <p className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl mb-10">{p.subtitle}</p>
           <div className="flex flex-row flex-wrap gap-3">
             <Button variant="primary" size="lg" href="/free-consultation">Start a conversation</Button>
-            <Button variant="secondary" size="lg" href="/pricing">See the engagements</Button>
+            <Button variant="secondary" size="lg" href="/engagements">See the engagements</Button>
           </div>
         </div>
       </section>

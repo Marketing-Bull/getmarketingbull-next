@@ -28,7 +28,7 @@ const BELIEFS = [
   { title: 'Diagnose before prescribing', body: 'The wrong fix is expensive. We measure where a firm is losing cases or patients before we recommend anything, and we say so when the answer is "not us."' },
   { title: 'Build what we recommend', body: 'A strategy in a slide deck is a strategy that dies there. Every engagement ends in something running, and we stay accountable for the number it was meant to move.' },
   { title: 'The client owns everything', body: 'Code, domain, hosting, ad accounts, data. We build inside infrastructure you control so the relationship continues because it is working, never because leaving would mean starting over.' },
-  { title: 'Fixed scope, published price', body: 'We define the deliverable, the date, and the fee before anything begins, and we publish the fee. The first conversation is about your firm, not your budget.' },
+  { title: 'Fixed scope, fixed price', body: 'We define the deliverable, the date, and the fee before anything begins, and we put all three in writing. Nothing moves mid-engagement, and there is no meter running.' },
 ];
 
 export default function AboutPage() {
@@ -104,7 +104,7 @@ export default function AboutPage() {
         title="Start with a conversation."
         description="Twenty minutes about your firm or practice. We'll tell you where we'd look first — and whether we're the right people to look."
         primaryCTA={{ text: 'Book a conversation', href: '/free-consultation' }}
-        secondaryCTA={{ text: 'See the engagements', href: '/pricing' }}
+        secondaryCTA={{ text: 'See the engagements', href: '/engagements' }}
       />
     </>
   );

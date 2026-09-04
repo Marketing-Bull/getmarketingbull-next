@@ -24,22 +24,23 @@ src/
   app/
     layout.tsx           root layout: metadata, Inter, Organization JSON-LD, <Header/> + <Footer/>
     page.tsx             homepage (server component)
-    pricing/             all three products
+    engagements/         all three engagements (was /pricing; 301 kept in next.config.ts)
     products/[slug]/     product pages, generateStaticParams over OFFERS
     free-consultation/   consult form; reads ?product= (dynamic)
     api/lead/route.ts    lead endpoint: validate → webhook and/or Resend email
     services/ about-us/ case-studies/ blog/ careers/ contact-us/ legal pages
   components/            Header, Footer, Hero, Button, CTASection, ContactForm,
-                         OfferCard, CheckoutButton, Reveal, FAQAccordion, TestimonialCarousel
+                         OfferCard, OfferCTA, Reveal, FAQAccordion, TestimonialCarousel
   lib/
-    constants.ts         COMPANY, OFFERS, CHECKOUT_LINKS, NAV_LINKS, TESTIMONIALS — single source of truth
+    constants.ts         COMPANY, OFFERS, NAV_LINKS, TESTIMONIALS — single source of truth
     schema.ts            organizationSchema, offerSchema(), faqSchema()
     blog.ts              POSTS (hardcoded)
 ```
 
 ## Rules
 
-- **Offers, prices, nav, and testimonials are data in `src/lib/constants.ts`.** Don't hardcode them in pages.
+- **Offers, nav, and testimonials are data in `src/lib/constants.ts`.** Don't hardcode them in pages.
+- **Pricing is not published.** Fees are quoted per firm, so no page, OG image, metadata title, or JSON-LD may carry a dollar figure for an engagement. `Offer` has no `price`/`priceLabel`/`billing` field and `offerSchema()` deliberately emits no `Offer`/`price` node — adding one back would make the markup contradict the page. "Fixed scope, fixed price" (agreed before we start) is the claim; "published price" is not.
 - Header and Footer render from `layout.tsx`. Don't inline nav/footer markup in pages.
 - Keep `'use client'` off pages; put interactivity in components.
 - Dynamic params are Promise-typed (`await params`, `await searchParams`).
