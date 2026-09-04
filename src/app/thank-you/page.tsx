@@ -26,7 +26,7 @@ export default function ThankYouPage() {
           <Button variant="secondary" size="md" href="/">Back to home</Button>
         </div>
         <p className="mt-10 text-sm text-slate-500">
-          <Link href="/pricing" className="hover:text-slate-300">See how engagements are scoped and priced →</Link>
+          <Link href="/engagements" className="hover:text-slate-300">See how engagements are scoped →</Link>
         </p>
       </div>
     </section>

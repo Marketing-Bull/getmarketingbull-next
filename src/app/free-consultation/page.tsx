@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const WHAT_TO_EXPECT = [
   { step: '01', title: 'Where the leak is', desc: 'Five minutes on where you\'re losing cases or patients today: search, the site, or the phone.' },
   { step: '02', title: 'Which engagement, if any', desc: 'We match it to one of three fixed-scope engagements. If none fits, we say so and point you somewhere useful.' },
-  { step: '03', title: 'No surprises afterward', desc: 'Scope, deliverable, and price are defined before anything begins. You leave knowing exactly what happens next and what it costs.' },
+  { step: '03', title: 'No surprises afterward', desc: 'You leave the call with the scope, the deliverable, and the fee — in writing, before anything begins. Nothing moves after that.' },
 ];
 
 export default async function FreeConsultationPage({ searchParams }: { searchParams: Promise<{ product?: string }> }) {
@@ -33,7 +33,7 @@ export default async function FreeConsultationPage({ searchParams }: { searchPar
           </h1>
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
             {offer
-              ? `${offer.priceLabel}${offer.billing === 'monthly' ? '/month' : ', one-time'} · ${offer.timeline}. Tell us about your firm and we'll confirm it's the right fit before you buy.`
+              ? `${offer.timeline}. Tell us about your firm and we'll scope it, price it, and confirm it's the right fit before anything begins.`
               : 'Where you are, what has been tried, and where we would look first. We will say plainly whether we are the right fit — and if not, where to go instead.'}
           </p>
         </div>
@@ -70,7 +70,7 @@ export default async function FreeConsultationPage({ searchParams }: { searchPar
                     <li key={o.slug}>
                       <Link href={`/products/${o.slug}`} className="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm hover:border-slate-900 transition">
                         <span className="font-semibold text-slate-900">{o.name}</span>
-                        <span className="text-slate-500">{o.priceLabel}{o.billing === 'monthly' ? '/mo' : ''} →</span>
+                        <span className="text-slate-500">{o.timeline} →</span>
                       </Link>
                     </li>
                   ))}

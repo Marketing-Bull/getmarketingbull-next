@@ -106,7 +106,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         title="Start with a conversation."
         description="Twenty minutes about your firm or practice. We'll tell you where we'd look first."
         primaryCTA={{ text: 'Book a conversation', href: '/free-consultation' }}
-        secondaryCTA={{ text: 'See how engagements are scoped', href: '/pricing' }}
+        secondaryCTA={{ text: 'See how engagements are scoped', href: '/engagements' }}
       />
     </>
   );

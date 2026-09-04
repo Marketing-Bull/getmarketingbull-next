@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import CheckoutButton from '@/components/CheckoutButton';
+import OfferCTA from '@/components/OfferCTA';
 import ContactForm from '@/components/ContactForm';
 import { OFFERS, COMPANY, getOffer } from '@/lib/constants';
 import { offerSchema, faqSchema } from '@/lib/schema';
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const offer = getOffer(slug);
   if (!offer) return {};
   return {
-    title: `${offer.name} — ${offer.priceLabel}${offer.billing === 'monthly' ? '/mo' : ''}`,
+    title: `${offer.name} — ${offer.step}`,
     description: offer.short,
     alternates: { canonical: `${COMPANY.website}/products/${offer.slug}` },
   };
@@ -47,7 +47,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <div className="lg:col-span-8">
               <nav className="text-xs text-slate-500 mb-6" aria-label="Breadcrumb">
                 <Link href="/" className="hover:text-slate-300">Home</Link> <span className="mx-1.5">/</span>
-                <Link href="/pricing" className="hover:text-slate-300">Products</Link> <span className="mx-1.5">/</span>
+                <Link href="/engagements" className="hover:text-slate-300">Engagements</Link> <span className="mx-1.5">/</span>
                 <span className="text-slate-300">{offer.name}</span>
               </nav>
               <p className="inline-flex items-center gap-2 text-red-400 font-semibold text-xs uppercase tracking-[0.2em] mb-5 border border-red-500/20 bg-red-500/5 px-4 py-1.5 rounded-full">
@@ -58,13 +58,19 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </div>
             <div className="lg:col-span-4">
               <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-7 backdrop-blur">
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-5xl font-black tracking-tight">{offer.priceLabel}</span>
-                  <span className="text-slate-400 font-medium">{offer.billing === 'monthly' ? '/month' : 'one-time'}</span>
-                </div>
-                <p className="mt-2 text-sm text-slate-400">{offer.terms}</p>
-                <p className="mt-1 text-sm text-slate-400">Delivery: <span className="text-slate-200">{offer.timeline}</span></p>
-                <CheckoutButton offer={offer} size="md" className="mt-6 w-full" />
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Delivery</p>
+                <p className="mt-1.5 text-3xl font-black tracking-tight leading-tight">{offer.timeline}</p>
+                <dl className="mt-5 space-y-3 border-t border-slate-800 pt-5 text-sm">
+                  <div>
+                    <dt className="text-slate-500">Engagement</dt>
+                    <dd className="mt-0.5 text-slate-300">{offer.terms}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-slate-500">Fee</dt>
+                    <dd className="mt-0.5 text-slate-300">Fixed and quoted in writing before anything begins.</dd>
+                  </div>
+                </dl>
+                <OfferCTA offer={offer} size="md" className="mt-6 w-full" />
                 <a href="#ask" className="mt-3 block text-center text-sm text-slate-400 hover:text-white">or ask a question first</a>
               </div>
             </div>
@@ -122,7 +128,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <section className="py-16 md:py-20 bg-white">
         <div className="container-md">
           <p className={`text-xs font-bold uppercase tracking-widest ${a.text} mb-3`}>How it works</p>
-          <h2 className="text-3xl font-black tracking-tight text-slate-900 mb-10">What happens after you buy</h2>
+          <h2 className="text-3xl font-black tracking-tight text-slate-900 mb-10">What happens once we start</h2>
           <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {offer.process.map((step, i) => (
               <li key={step.title} className={`rounded-2xl border ${a.border} ${a.soft} p-6`}>
@@ -159,9 +165,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <div>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">Ready?</h2>
             <p className="text-lg text-slate-400 leading-relaxed mb-8">
-              {offer.priceLabel}{offer.billing === 'monthly' ? ' per month' : ', one time'}. {offer.timeline}. You know exactly what you get.
+              {offer.timeline}. Fixed scope, fixed deliverable, and a fee agreed in writing before day one — so you know exactly what you get.
             </p>
-            <CheckoutButton offer={offer} size="lg" />
+            <OfferCTA offer={offer} size="lg" />
             <div className="mt-12 border-t border-slate-800 pt-8">
               <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Pairs with</p>
               <ul className="space-y-3">
@@ -172,7 +178,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                         <span className="block text-xs text-slate-500 uppercase tracking-widest">{o.step}</span>
                         <span className="font-semibold group-hover:text-white">{o.name}</span>
                       </span>
-                      <span className="text-slate-400 text-sm">{o.priceLabel}{o.billing === 'monthly' ? '/mo' : ''} →</span>
+                      <span className="text-slate-400 text-sm">{o.timeline} →</span>
                     </Link>
                   </li>
                 ))}

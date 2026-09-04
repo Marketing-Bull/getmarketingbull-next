@@ -30,7 +30,7 @@ export default function IntakeOptimizationPage() {
             Most firms do not have a lead problem. They have a leak at the front desk, and nobody inside the firm can see it. We measure it, put a dollar figure on it, and fix what the numbers say to fix.
           </p>
           <div className="flex flex-row flex-wrap gap-3">
-            <Button variant="primary" size="lg" href={`/products/${audit.slug}`}>The Intake Gap Audit — {audit.priceLabel}</Button>
+            <Button variant="primary" size="lg" href={`/products/${audit.slug}`}>The Intake Gap Audit</Button>
             <Button variant="secondary" size="lg" href="/free-consultation">Start a conversation</Button>
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function IntakeOptimizationPage() {
       <CTASection
         title="Find out what the leak is costing you."
         description="Two mystery-shop calls, a full audit, and an ROI report in 7–10 business days."
-        primaryCTA={{ text: `Book the audit — ${audit.priceLabel}`, href: `/products/${audit.slug}` }}
+        primaryCTA={{ text: 'Book the audit', href: `/products/${audit.slug}` }}
         secondaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
       />
     </>

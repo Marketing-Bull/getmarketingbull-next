@@ -38,7 +38,7 @@ interface OgProps {
   eyebrow?: string;
   title: string;
   subtitle?: string;
-  /** Right-side accent stat, e.g. "$4,950" or "0 → 20" */
+  /** Right-side accent stat, e.g. "14 business days" or "0 → 20" */
   stat?: { value: string; label: string };
 }
 

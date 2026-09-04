@@ -29,7 +29,7 @@ export default function ServicesPage() {
           </p>
           <div className="flex flex-row flex-wrap gap-3">
             <Button variant="primary" size="lg" href="/free-consultation">Start a conversation</Button>
-            <Button variant="secondary" size="lg" href="/pricing">Pricing</Button>
+            <Button variant="secondary" size="lg" href="/engagements">See the engagements</Button>
           </div>
         </div>
       </section>

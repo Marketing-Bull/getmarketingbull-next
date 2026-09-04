@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import CheckoutButton from './CheckoutButton';
+import OfferCTA from './OfferCTA';
 import type { Offer } from '@/lib/constants';
 
 const ACCENT: Record<string, { ring: string; text: string; badge: string }> = {
@@ -23,33 +23,31 @@ export default function OfferCard({ offer, featured = false, compact = false }: 
       <h3 className="mt-4 text-2xl font-black tracking-tight text-slate-900">{offer.name}</h3>
       <p className="mt-2 text-sm leading-relaxed text-slate-600">{offer.short}</p>
 
-      <div className="mt-6 flex items-baseline gap-1">
-        <span className="text-4xl font-black tracking-tight text-slate-900">{offer.priceLabel}</span>
-        <span className="text-sm font-medium text-slate-500">{offer.billing === 'monthly' ? '/month' : 'one-time'}</span>
+      <div className="mt-6 border-t border-slate-100 pt-5">
+        <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Delivery</p>
+        <p className="mt-1 text-lg font-bold tracking-tight text-slate-900">{offer.timeline}</p>
       </div>
-      <p className="mt-1 text-xs text-slate-500">{offer.terms}</p>
 
       {!compact && (
         <ul className="mt-6 space-y-2.5 text-sm text-slate-700">
-          {offer.includes.slice(0, 5).map((item) => (
+          {offer.includes.slice(0, 3).map((item) => (
             <li key={item} className="flex gap-2.5">
               <span className={`mt-0.5 shrink-0 font-bold ${a.text}`}>✓</span>
               <span>{item}</span>
             </li>
           ))}
-          {offer.includes.length > 5 && (
-            <li className="pl-6 text-slate-500">+ {offer.includes.length - 5} more</li>
+          {offer.includes.length > 3 && (
+            <li className="pl-6 text-slate-500">+ {offer.includes.length - 3} more</li>
           )}
         </ul>
       )}
 
       <div className="mt-8 flex flex-col gap-3">
-        <CheckoutButton offer={offer} size="md" className="w-full" variant={featured ? 'primary' : 'ghost'} />
+        <OfferCTA offer={offer} size="md" className="w-full" variant={featured ? 'primary' : 'ghost'} />
         <Link href={`/products/${offer.slug}`} className={`text-center text-sm font-semibold ${a.text} hover:underline`}>
           Everything that&apos;s included →
         </Link>
       </div>
-      <p className="mt-4 text-xs text-slate-400">Delivery: {offer.timeline}</p>
     </div>
   );
 }

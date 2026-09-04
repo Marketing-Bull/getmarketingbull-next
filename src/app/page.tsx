@@ -233,7 +233,7 @@ export default function HomePage() {
               </div>
               <div className="lg:col-span-6 lg:col-start-7 flex items-end">
                 <p className="text-lg text-slate-600 leading-relaxed">
-                  Every engagement is fixed in scope, with a defined deliverable and date. We publish what our work costs — <Link href="/pricing" className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-red-600">it&apos;s here</Link> — so the first conversation can be about your firm, not about budget.
+                  Every engagement is fixed in scope, with a defined deliverable and date. We scope it to your firm and put the fee in writing before anything begins — <Link href="/engagements" className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-red-600">here is how each one works</Link> — so nothing moves once we start.
                 </p>
               </div>
             </div>

@@ -39,7 +39,7 @@ export default function Footer() {
               {OFFERS.map((o) => (
                 <li key={o.slug}><Link href={`/products/${o.slug}`} className="hover:text-white transition">{o.name}</Link></li>
               ))}
-              <li><Link href="/pricing" className="hover:text-white transition">Pricing</Link></li>
+              <li><Link href="/engagements" className="hover:text-white transition">All Engagements</Link></li>
               <li><Link href="/services/law-firms" className="hover:text-white transition">For Law Firms</Link></li>
               <li><Link href="/services/medical" className="hover:text-white transition">For Medical</Link></li>
             </ul>

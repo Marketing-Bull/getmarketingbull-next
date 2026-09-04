@@ -294,7 +294,7 @@ export const POSTS: BlogPost[] = [
         'Email marketing to current and prior clients. Ask for referrals; you will be surprised.',
         'Social media.',
       ]},
-      { type: 'callout', text: 'Don\'t have time to mystery-shop your own firm? That is exactly what the Intake Gap Audit is: two scored mystery-shop calls, a full checklist audit, and an ROI report that puts a dollar figure on the leak — $1,495, credited toward any engagement within 60 days.' },
+      { type: 'callout', text: 'Don\'t have time to mystery-shop your own firm? That is exactly what the Intake Gap Audit is: two scored mystery-shop calls, a full checklist audit, and an ROI report that puts a dollar figure on the leak — credited in full toward any engagement you start within 60 days.' },
     ],
   },
   {
