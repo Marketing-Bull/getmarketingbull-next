@@ -13,8 +13,7 @@ export const metadata: Metadata = {
 };
 
 const FAQS = [
-  { q: 'What does an engagement cost?', a: 'It depends on the size of the firm and the shape of the work, so we quote it rather than publish a list. What does not vary is how the number behaves: we define the deliverable and the date, put the fee in writing before anything begins, and it does not move mid-engagement. If something falls outside the agreed scope, we quote that in writing too, before we do it.' },
-  { q: 'When do I find out the number?', a: 'On the first call, or immediately after it. We are not going to run you through three discovery sessions before naming a figure — if what you need is clear, you will have the fee and the scope in writing within a business day.' },
+  { q: 'What does an engagement cost?', a: 'It depends on the size of the firm and the shape of the work, so we quote it rather than publish a list. You get the scope and the fee in writing within a business day of the first call — no three-session discovery process before anyone names a figure — and neither moves once we start.' },
   { q: 'Can I buy more than one?', a: 'Yes, and they\'re built to stack: the website gets you found, the content engine gets you called, the audit makes sure those calls get signed. Start with the audit if you\'re not sure where the leak is — it\'s credited toward anything else within 60 days.' },
   { q: 'Do you require a long contract?', a: 'The website and audit are one-time engagements. The content engine has a 3-month minimum because anything shorter can\'t show you a real trend, then it\'s month-to-month with 30 days notice.' },
   { q: 'What if I\'m outside Florida?', a: 'Everything is delivered remotely and we work with firms nationwide. Florida firms get the benefit of our Florida Bar advertising-rule familiarity; elsewhere, you\'ll want your own compliance review on marketing copy.' },

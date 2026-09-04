@@ -26,19 +26,18 @@ export default function OfferCard({ offer, featured = false, compact = false }: 
       <div className="mt-6 border-t border-slate-100 pt-5">
         <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Delivery</p>
         <p className="mt-1 text-lg font-bold tracking-tight text-slate-900">{offer.timeline}</p>
-        <p className="mt-2 text-xs leading-relaxed text-slate-500">{offer.terms}</p>
       </div>
 
       {!compact && (
         <ul className="mt-6 space-y-2.5 text-sm text-slate-700">
-          {offer.includes.slice(0, 5).map((item) => (
+          {offer.includes.slice(0, 3).map((item) => (
             <li key={item} className="flex gap-2.5">
               <span className={`mt-0.5 shrink-0 font-bold ${a.text}`}>✓</span>
               <span>{item}</span>
             </li>
           ))}
-          {offer.includes.length > 5 && (
-            <li className="pl-6 text-slate-500">+ {offer.includes.length - 5} more</li>
+          {offer.includes.length > 3 && (
+            <li className="pl-6 text-slate-500">+ {offer.includes.length - 3} more</li>
           )}
         </ul>
       )}
