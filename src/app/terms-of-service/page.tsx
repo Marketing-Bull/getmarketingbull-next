@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { COMPANY } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Marketing Bull',
+  title: 'Terms of Service',
   description: 'Marketing Bull terms of service — the terms governing use of our website and services.',
-  alternates: { canonical: 'https://getmarketingbull.com/terms-of-service' },
+  alternates: { canonical: `${COMPANY.website}/terms-of-service` },
 };
 
 const SECTIONS = [

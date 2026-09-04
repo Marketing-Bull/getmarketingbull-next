@@ -10,7 +10,7 @@ export const COMPANY = {
   state: 'FL',
   zip: '33401',
   country: 'USA',
-  website: 'https://getmarketingbull.com',
+  website: 'https://www.getmarketingbull.com',
   social: {
     linkedin: 'https://www.linkedin.com/company/marketing-bull',
     instagram: 'https://www.instagram.com/getmarketingbull',

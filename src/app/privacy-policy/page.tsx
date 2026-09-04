@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { COMPANY } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Marketing Bull',
+  title: 'Privacy Policy',
   description: 'Marketing Bull privacy policy — how we collect, use, and protect your information.',
-  alternates: { canonical: 'https://getmarketingbull.com/privacy-policy' },
+  alternates: { canonical: `${COMPANY.website}/privacy-policy` },
 };
 
 const SECTIONS = [
