@@ -22,7 +22,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src="/logo.png" alt="Marketing Bull" width={28} height={28} className="rounded" />
+              <img src="/logo-mark.webp" alt="Marketing Bull" width={28} height={28} className="rounded" />
               <span className="text-white font-bold">Marketing <span className="text-red-500">Bull</span></span>
             </div>
             <p className="text-sm leading-relaxed mb-5">{COMPANY.tagline}</p>

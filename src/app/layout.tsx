@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
@@ -7,6 +8,15 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { COMPANY, GA_MEASUREMENT_ID } from '@/lib/constants';
 import { organizationSchema } from '@/lib/schema';
+
+// Self-hosted by Next at build time: no render-blocking request to Google and no
+// swap-in flash. og.tsx still fetches Inter from Google, but that runs server-side
+// while rendering an OG image and never touches a visitor's critical path.
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(COMPANY.website),
@@ -39,16 +49,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body className="font-[Inter,sans-serif] antialiased bg-white text-slate-900">
+      <body className={`${inter.className} antialiased bg-white text-slate-900`}>
         <Header />
         <main className="pt-16">{children}</main>
         <Footer />

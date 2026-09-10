@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import CTASection from '@/components/CTASection';
 import { COMPANY } from '@/lib/constants';
+import { personSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -34,6 +35,13 @@ const BELIEFS = [
 export default function AboutPage() {
   return (
     <>
+      {TEAM.map((m) => (
+        <script
+          key={`schema-${m.name}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema(m)) }}
+        />
+      ))}
       <section className="relative bg-slate-950 text-white overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
         <div className="container-md relative py-24 md:py-32 max-w-4xl">

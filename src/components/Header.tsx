@@ -11,7 +11,7 @@ export default function Header() {
       <div className="container-md">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2.5" onClick={() => setMobileOpen(false)}>
-            <img src="/logo.png" alt="" width={32} height={32} className="rounded" />
+            <img src="/logo-mark.webp" alt="" width={32} height={32} className="rounded" />
             <span className="text-lg font-black tracking-tight">
               Marketing <span className="text-red-500">Bull</span>
             </span>
