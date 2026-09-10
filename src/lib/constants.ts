@@ -1,3 +1,14 @@
+/**
+ * GA4 measurement id. Not a secret — it ships in client JS on every page and is
+ * visible in any browser's network tab. Hardcoded so measurement works on deploy
+ * with no configuration; override per-environment with NEXT_PUBLIC_GA_ID.
+ *
+ * If a GTM container is ever wired up (NEXT_PUBLIC_GTM_ID), do not also put a GA4
+ * tag for this property inside it — the page would then load GA4 twice and every
+ * pageview and event would be counted twice. Pick one path.
+ */
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID ?? 'G-D5G7PCS5K0';
+
 export const COMPANY = {
   name: 'Marketing Bull',
   legalName: 'Marketing Bull, LLC',
@@ -10,7 +21,7 @@ export const COMPANY = {
   state: 'FL',
   zip: '33401',
   country: 'USA',
-  website: 'https://getmarketingbull.com',
+  website: 'https://www.getmarketingbull.com',
   social: {
     linkedin: 'https://www.linkedin.com/company/marketing-bull',
     instagram: 'https://www.instagram.com/getmarketingbull',

@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { COMPANY } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'Accessibility Statement | Marketing Bull',
+  title: 'Accessibility Statement',
   description: 'Marketing Bull is committed to making our website accessible to all users.',
-  alternates: { canonical: 'https://getmarketingbull.com/accessibility' },
+  alternates: { canonical: `${COMPANY.website}/accessibility` },
 };
 
 export default function AccessibilityPage() {

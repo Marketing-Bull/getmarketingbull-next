@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
+import { COMPANY } from '@/lib/constants';
 import Link from 'next/link';
 import ContactForm from '@/components/ContactForm';
 
 export const metadata: Metadata = {
-  title: 'Contact Us | Marketing Bull',
+  title: 'Contact Us',
   description: 'Get in touch with Marketing Bull. Call 1-833-GET-BULL, email us, or fill out the form and we\'ll respond within one business hour.',
-  alternates: { canonical: 'https://getmarketingbull.com/contact-us' },
+  alternates: { canonical: `${COMPANY.website}/contact-us` },
 };
 
 export default function ContactPage() {

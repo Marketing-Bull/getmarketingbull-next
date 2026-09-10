@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
+import { COMPANY } from '@/lib/constants';
 import Link from 'next/link';
 import CTASection from '@/components/CTASection';
 import { POSTS, CATEGORY_COLORS } from '@/lib/blog';
 
 export const metadata: Metadata = {
-  title: 'Blog | Marketing Bull',
+  title: 'Blog',
   description: 'Insights on intake optimization, AI automation, and performance marketing for law firms and medical practices.',
-  alternates: { canonical: 'https://getmarketingbull.com/blog' },
+  alternates: { canonical: `${COMPANY.website}/blog` },
 };
 
 export default function BlogPage() {

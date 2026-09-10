@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { track } from '@/lib/analytics';
 import Button from './Button';
 
 interface ContactFormProps {
@@ -34,6 +35,8 @@ export default function ContactForm({ product, source = 'website', submitLabel =
       });
       const data = (await r.json()) as { ok: boolean; error?: string };
       if (!r.ok || !data.ok) throw new Error(data.error || 'Something went wrong.');
+      // The form never navigates, so this event is the only conversion signal.
+      track('lead_submit', { product: product ?? '', source: source ?? '' });
       setStatus('sent');
     } catch (err) {
       setStatus('error');

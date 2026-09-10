@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { COMPANY } from '@/lib/constants';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import CTASection from '@/components/CTASection';
@@ -13,9 +14,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = POSTS.find((p) => p.slug === slug);
   if (!post) return {};
   return {
-    title: `${post.title} | Marketing Bull`,
+    title: post.title,
     description: post.excerpt,
-    alternates: { canonical: `https://getmarketingbull.com/blog/${post.slug}` },
+    alternates: { canonical: `${COMPANY.website}/blog/${post.slug}` },
   };
 }
 
@@ -34,9 +35,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     publisher: {
       '@type': 'Organization',
       name: 'Marketing Bull',
-      logo: { '@type': 'ImageObject', url: 'https://getmarketingbull.com/logo.png' },
+      logo: { '@type': 'ImageObject', url: `${COMPANY.website}/logo.png` },
     },
-    url: `https://getmarketingbull.com/blog/${post.slug}`,
+    url: `${COMPANY.website}/blog/${post.slug}`,
   };
 
   return (

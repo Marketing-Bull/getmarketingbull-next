@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
+import CallTracking from '@/components/CallTracking';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { COMPANY } from '@/lib/constants';
+import { COMPANY, GA_MEASUREMENT_ID } from '@/lib/constants';
 import { organizationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
@@ -13,21 +16,24 @@ export const metadata: Metadata = {
   },
   description:
     'A senior growth consultancy in West Palm Beach for personal injury firms and medical practices. We find where a firm is losing cases or patients, build the system that fixes it, and stay accountable for the number.',
+  // Only sitewide-invariant fields here. Title, description and url are left to
+  // each page so shares carry that page's own copy rather than the homepage's.
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: COMPANY.website,
     siteName: COMPANY.name,
-    title: 'Marketing Bull | Growth Consultancy for Law Firms & Medical Practices',
-    description: 'Growth, engineered for the firms that can\'t afford to guess.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Marketing Bull | Growth Consultancy for Law Firms & Medical Practices',
-    description: 'Growth, engineered for the firms that can\'t afford to guess.',
   },
   robots: { index: true, follow: true },
 };
+
+// GA4 loads directly: there is no confirmed GTM container for this site, and the
+// one from the old WordPress build cannot be assumed to exist or to be clean.
+// GTM stays supported but unset — if a container is ever adopted, move the GA4 tag
+// into it and unset NEXT_PUBLIC_GA_ID rather than running both.
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -46,7 +52,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main className="pt-16">{children}</main>
         <Footer />
+        <CallTracking />
+        <Analytics />
       </body>
+      <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
+      {GTM_ID ? <GoogleTagManager gtmId={GTM_ID} /> : null}
     </html>
   );
 }

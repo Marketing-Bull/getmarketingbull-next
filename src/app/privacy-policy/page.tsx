@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { COMPANY } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Marketing Bull',
+  title: 'Privacy Policy',
   description: 'Marketing Bull privacy policy — how we collect, use, and protect your information.',
-  alternates: { canonical: 'https://getmarketingbull.com/privacy-policy' },
+  alternates: { canonical: `${COMPANY.website}/privacy-policy` },
 };
 
 const SECTIONS = [
@@ -21,11 +22,11 @@ const SECTIONS = [
   },
   {
     title: '4. Cookies and Tracking',
-    body: `Our website uses cookies and similar tracking technologies to enhance your experience, analyze site traffic, and support our marketing efforts. You can control cookie settings through your browser. By continuing to use our site, you consent to our use of cookies in accordance with this policy.`,
+    body: `Our website uses cookies and similar tracking technologies to analyze site traffic and support our marketing efforts. Our aggregate traffic measurement is cookieless; the analytics and advertising tags described in Section 5 may set cookies. We also record when a visitor submits a form or taps a phone number on the site, so we can tell which pages lead to enquiries. You can control cookie settings through your browser. By continuing to use our site, you consent to our use of cookies in accordance with this policy.`,
   },
   {
     title: '5. Third-Party Services',
-    body: `We use third-party services including Google Analytics, GoHighLevel (CRM), and advertising platforms (Google Ads, Meta) that may collect data about your interactions with our site. These services have their own privacy policies, and we encourage you to review them. We are not responsible for the privacy practices of third parties.`,
+    body: `We use Vercel Analytics, which measures site traffic in aggregate and does not use cookies or track visitors across sites. We also use Google Tag Manager to load measurement tags, currently Google Analytics, and GoHighLevel as our CRM, which receives the details you submit through our forms. If we run advertising campaigns we may add conversion tags from platforms such as Google Ads or Meta through the same tag manager. Each of these services has its own privacy policy, and we encourage you to review them. We are not responsible for the privacy practices of third parties.`,
   },
   {
     title: '6. Data Retention',
