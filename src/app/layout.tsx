@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
+import { GoogleTagManager } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 import CallTracking from '@/components/CallTracking';
@@ -49,6 +49,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
+        {/*
+          Google's canonical gtag snippet, server-rendered.
+
+          This was previously <GoogleAnalytics> from @next/third-parties, which uses
+          next/script afterInteractive: the tag is injected by React after hydration,
+          so the served HTML carried only a preload link and nothing ran until
+          hydration finished. These two tags are in the HTML itself, so GA starts on
+          page load and does not depend on hydration succeeding.
+        */}
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}');`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -61,7 +79,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CallTracking />
         <Analytics />
       </body>
-      <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
       {GTM_ID ? <GoogleTagManager gtmId={GTM_ID} /> : null}
     </html>
   );

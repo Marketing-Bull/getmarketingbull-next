@@ -54,9 +54,10 @@ src/
 
 ## Analytics
 
-GA4 loads directly via `@next/third-parties` using `GA_MEASUREMENT_ID` in `constants.ts` (a measurement id is public, not a secret). Vercel Analytics runs alongside it for cookieless traffic. GTM is supported but unset.
+GA4 loads from Google's canonical gtag snippet, server-rendered into `<head>` in `layout.tsx`, using `GA_MEASUREMENT_ID` in `constants.ts` (a measurement id is public, not a secret). Vercel Analytics runs alongside it for cookieless traffic. GTM is supported but unset.
 
-- **Never run GA4 both directly and inside a GTM container** — that double-counts every pageview and event. If a container is adopted, move GA4 into it and unset `NEXT_PUBLIC_GA_ID`.
+- **Keep the gtag snippet server-rendered. Do not replace it with `<GoogleAnalytics>` from `@next/third-parties`.** That component uses `next/script` with `afterInteractive`, so the served HTML carries only a `<link rel="preload">` and the tag is injected after hydration — GA silently collected nothing until this was found. The two `<script>` tags in `<head>` are deliberate, not an oversight to tidy up.
+- **Never run GA4 twice.** The snippet plus `<GoogleAnalytics>`, or the snippet plus a GA4 tag inside a GTM container, doubles every pageview and event. If a container is adopted, move GA4 into it and remove the snippet.
 - `track()` in `src/lib/analytics.ts` sends both a `dataLayer` push (for GTM) and a `gtag('event')` call (for GA4 direct). A bare `dataLayer` push is **not** a GA4 event — dropping the gtag call silently breaks conversion tracking.
 - Conversions: `lead_submit` on form success, `phone_click` from the delegated listener in `CallTracking`.
 

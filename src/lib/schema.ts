@@ -100,10 +100,15 @@ export function caseStudySchema(cs: {
  * pitch is that the people on the first call do the work, so the names on the page
  * should be legible as entities rather than plain text.
  */
+export function personId(name: string): string {
+  return `${COMPANY.website}/about-us#${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`;
+}
+
 export function personSchema(person: { name: string; role: string; bio: string; photo: string }) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': personId(person.name),
     name: person.name,
     jobTitle: person.role,
     description: person.bio,
