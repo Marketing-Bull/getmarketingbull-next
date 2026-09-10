@@ -1,16 +1,22 @@
 /**
- * Thin wrapper over the GTM dataLayer.
+ * Reports a conversion to whichever measurement path is live.
  *
- * Every call is a no-op until NEXT_PUBLIC_GTM_ID is set and the container
- * loads, so tracking calls are safe to leave in place before GTM is
- * configured — same pattern as the optional integrations in /api/lead.
+ * Two different dialects, because the two paths do not understand each other:
+ *   - dataLayer.push({ event }) is what a GTM container triggers on.
+ *   - gtag('event', …) is what GA4 records when gtag.js is loaded directly.
+ * A bare dataLayer push does NOT become a GA4 event, so both are sent. Whichever
+ * path is not configured simply is not listening, and the call costs nothing.
  *
- * The dataLayer global is declared by @next/third-parties, so this reaches it
- * through a local cast rather than re-declaring it and clashing with that type.
+ * Both globals are declared by @next/third-parties, so this reaches them through
+ * a local cast rather than re-declaring them and clashing with those types.
  */
 export function track(event: string, params: Record<string, unknown> = {}): void {
   if (typeof window === 'undefined') return;
-  const w = window as unknown as { dataLayer?: unknown[] };
+  const w = window as unknown as {
+    dataLayer?: unknown[];
+    gtag?: (command: string, action: string, params?: Record<string, unknown>) => void;
+  };
   w.dataLayer = w.dataLayer ?? [];
   w.dataLayer.push({ event, ...params });
+  w.gtag?.('event', event, params);
 }

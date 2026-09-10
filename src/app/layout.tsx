@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import { GoogleTagManager } from '@next/third-parties/google';
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 import CallTracking from '@/components/CallTracking';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { COMPANY } from '@/lib/constants';
+import { COMPANY, GA_MEASUREMENT_ID } from '@/lib/constants';
 import { organizationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
@@ -29,8 +29,10 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-// Unset until the container is created in GTM; the tag simply does not render,
-// and every track() call stays a no-op. Vercel Analytics needs no id.
+// GA4 loads directly: there is no confirmed GTM container for this site, and the
+// one from the old WordPress build cannot be assumed to exist or to be clean.
+// GTM stays supported but unset — if a container is ever adopted, move the GA4 tag
+// into it and unset NEXT_PUBLIC_GA_ID rather than running both.
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -53,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CallTracking />
         <Analytics />
       </body>
+      <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
       {GTM_ID ? <GoogleTagManager gtmId={GTM_ID} /> : null}
     </html>
   );

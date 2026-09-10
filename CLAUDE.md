@@ -49,6 +49,14 @@ src/
 - Mystery-shop language in the Intake Gap Audit must not promise recordings (Florida all-party consent). Keep "scored", not "recorded".
 - `.context/` is gitignored reference material. `.claude/settings.local.json` is personal.
 
+## Analytics
+
+GA4 loads directly via `@next/third-parties` using `GA_MEASUREMENT_ID` in `constants.ts` (a measurement id is public, not a secret). Vercel Analytics runs alongside it for cookieless traffic. GTM is supported but unset.
+
+- **Never run GA4 both directly and inside a GTM container** — that double-counts every pageview and event. If a container is adopted, move GA4 into it and unset `NEXT_PUBLIC_GA_ID`.
+- `track()` in `src/lib/analytics.ts` sends both a `dataLayer` push (for GTM) and a `gtag('event')` call (for GA4 direct). A bare `dataLayer` push is **not** a GA4 event — dropping the gtag call silently breaks conversion tracking.
+- Conversions: `lead_submit` on form success, `phone_click` from the delegated listener in `CallTracking`.
+
 ## Env
 
-See `.env.example`. `LEAD_WEBHOOK_URL`, `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`, `LEAD_FROM_EMAIL`.
+See `.env.example`. `LEAD_WEBHOOK_URL`, `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`, `LEAD_FROM_EMAIL`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_GTM_ID`.
