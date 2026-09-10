@@ -48,3 +48,67 @@ export function faqSchema(faqs: { q: string; a: string }[]) {
     })),
   };
 }
+
+/**
+ * BreadcrumbList for the three sections that have a real hierarchy. The product and
+ * case-study pages already render a visual breadcrumb; this is the markup behind it,
+ * so keep the two in step — a trail that disagrees with the page is worse than none.
+ */
+export function breadcrumbSchema(trail: { name: string; url: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: trail.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      item: `${COMPANY.website}${item.url}`,
+    })),
+  };
+}
+
+/**
+ * A case study is an Article about the engagement, not a Review or a Product: the
+ * subject is the client's outcome, and the claims are ours. `about` names the client
+ * as the organization the piece concerns without asserting they endorse anything.
+ */
+export function caseStudySchema(cs: {
+  slug: string;
+  client: string;
+  industry: string;
+  location: string;
+  summary: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: `${cs.client} — Case Study`,
+    description: cs.summary,
+    url: `${COMPANY.website}/case-studies/${cs.slug}`,
+    author: { '@id': `${COMPANY.website}/#organization` },
+    publisher: { '@id': `${COMPANY.website}/#organization` },
+    about: {
+      '@type': 'Organization',
+      name: cs.client,
+      description: `${cs.industry} — ${cs.location}`,
+    },
+  };
+}
+
+/**
+ * Person nodes for the team. This is the E-E-A-T signal for a consultancy whose
+ * pitch is that the people on the first call do the work, so the names on the page
+ * should be legible as entities rather than plain text.
+ */
+export function personSchema(person: { name: string; role: string; bio: string; photo: string }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: person.name,
+    jobTitle: person.role,
+    description: person.bio,
+    image: `${COMPANY.website}${person.photo}`,
+    worksFor: { '@id': `${COMPANY.website}/#organization` },
+    url: `${COMPANY.website}/about-us`,
+  };
+}

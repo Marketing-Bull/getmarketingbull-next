@@ -36,6 +36,9 @@ const LEGACY_REDIRECTS: { source: string; destination: string }[] = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Inert today: nothing imports next/image, so this flag changes no output. Left in
+  // place deliberately — removing it would silently switch on Vercel image
+  // optimization (and its billing) the first time someone adds a next/image.
   images: {
     unoptimized: true,
   },

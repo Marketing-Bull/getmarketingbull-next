@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import OfferCTA from '@/components/OfferCTA';
 import ContactForm from '@/components/ContactForm';
 import { OFFERS, COMPANY, getOffer } from '@/lib/constants';
-import { offerSchema, faqSchema } from '@/lib/schema';
+import { offerSchema, faqSchema, breadcrumbSchema } from '@/lib/schema';
 
 export function generateStaticParams() {
   return OFFERS.map((o) => ({ slug: o.slug }));
@@ -37,6 +37,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(offerSchema(offer)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema([
+        { name: 'Home', url: '/' },
+        { name: 'Engagements', url: '/engagements' },
+        { name: offer.name, url: `/products/${offer.slug}` },
+      ])) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(offer.faqs)) }} />
 
       {/* Hero */}

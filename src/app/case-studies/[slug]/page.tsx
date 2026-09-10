@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import CTASection from '@/components/CTASection';
 import { CASE_STUDIES, getCaseStudy } from '@/lib/caseStudies';
 import { COMPANY } from '@/lib/constants';
+import { caseStudySchema, breadcrumbSchema } from '@/lib/schema';
 
 export function generateStaticParams() {
   return CASE_STUDIES.map((c) => ({ slug: c.slug }));
@@ -28,6 +29,13 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudySchema(cs)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema([
+        { name: 'Home', url: '/' },
+        { name: 'Case Studies', url: '/case-studies' },
+        { name: cs.client, url: `/case-studies/${cs.slug}` },
+      ])) }} />
+
       <section className="relative bg-slate-950 text-white overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
         <div className="container-md relative py-20 md:py-28 max-w-4xl">

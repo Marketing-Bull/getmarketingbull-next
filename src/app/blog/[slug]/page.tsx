@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { COMPANY } from '@/lib/constants';
+import { breadcrumbSchema } from '@/lib/schema';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import CTASection from '@/components/CTASection';
@@ -32,17 +33,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     description: post.excerpt,
     datePublished: post.dateISO,
     author: { '@type': 'Organization', name: 'Marketing Bull' },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Marketing Bull',
-      logo: { '@type': 'ImageObject', url: `${COMPANY.website}/logo.png` },
-    },
+    publisher: { '@id': `${COMPANY.website}/#organization` },
     url: `${COMPANY.website}/blog/${post.slug}`,
   };
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema([
+        { name: 'Home', url: '/' },
+        { name: 'Blog', url: '/blog' },
+        { name: post.title, url: `/blog/${post.slug}` },
+      ])) }} />
 
       {/* Hero */}
       <section className="relative py-24 bg-slate-950 text-white overflow-hidden">

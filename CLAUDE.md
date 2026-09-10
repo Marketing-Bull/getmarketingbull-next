@@ -33,7 +33,8 @@ src/
                          OfferCard, OfferCTA, Reveal, FAQAccordion, TestimonialCarousel
   lib/
     constants.ts         COMPANY, OFFERS, NAV_LINKS, TESTIMONIALS — single source of truth
-    schema.ts            organizationSchema, offerSchema(), faqSchema()
+    schema.ts            organizationSchema, offerSchema(), faqSchema(),
+                         breadcrumbSchema(), caseStudySchema(), personSchema()
     blog.ts              POSTS (hardcoded)
 ```
 
@@ -45,6 +46,8 @@ src/
 - Keep `'use client'` off pages; put interactivity in components.
 - Dynamic params are Promise-typed (`await params`, `await searchParams`).
 - Strict TS with `noUnusedLocals` — unused imports break the build.
+- **A `breadcrumbSchema()` trail must match the visual breadcrumb on the same page.** Markup that disagrees with the page is worse than none.
+- `logo.png` (96KB, 783x506) is for OG images and `organizationSchema` only. The DOM uses `logo-mark.webp` (3.7KB) — don't point an `<img>` back at the PNG to render a 32px mark.
 - Verticals are Law Firms and Medical Practices only. Home Services was deliberately removed; don't reintroduce it.
 - Mystery-shop language in the Intake Gap Audit must not promise recordings (Florida all-party consent). Keep "scored", not "recorded".
 - `.context/` is gitignored reference material. `.claude/settings.local.json` is personal.
