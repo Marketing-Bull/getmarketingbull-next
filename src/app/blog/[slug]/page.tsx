@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { COMPANY } from '@/lib/constants';
-import { breadcrumbSchema } from '@/lib/schema';
+import { breadcrumbSchema, personId } from '@/lib/schema';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import CTASection from '@/components/CTASection';
@@ -21,6 +21,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
+/** Byline for every post. Matches the /about-us Person exactly so the @ids line up. */
+const BLOG_AUTHOR = 'Alexander M. Babenchuk';
+
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = POSTS.find((p) => p.slug === slug);
@@ -32,7 +35,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     headline: post.title,
     description: post.excerpt,
     datePublished: post.dateISO,
-    author: { '@type': 'Organization', name: 'Marketing Bull' },
+    // Same @id as the Person node on /about-us, so the author and the team member
+    // resolve to one entity rather than two people who share a name.
+    author: {
+      '@type': 'Person',
+      '@id': personId(BLOG_AUTHOR),
+      name: BLOG_AUTHOR,
+      url: `${COMPANY.website}/about-us`,
+    },
     publisher: { '@id': `${COMPANY.website}/#organization` },
     url: `${COMPANY.website}/blog/${post.slug}`,
   };
