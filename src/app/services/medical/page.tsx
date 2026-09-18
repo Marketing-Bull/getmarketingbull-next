@@ -4,7 +4,7 @@ import { COMPANY } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'For Medical Practices',
-  description: 'Growth consulting for medical practices and specialty clinics: a website that books, search and AI visibility that fills the schedule, and a front desk that converts the call.',
+  description: 'Growth consulting for medical practices and specialty clinics: a website that books, paid campaigns that fill the gaps, search and AI visibility, and a front desk that converts the call.',
   alternates: { canonical: `${COMPANY.website}/services/medical` },
 };
 
@@ -13,15 +13,16 @@ export default function MedicalPage() {
     <VerticalPage
       eyebrow="Medical practices · Specialty clinics"
       title="An empty slot is lost revenue. A patient who can't book online books elsewhere."
-      subtitle="We work with chiropractic, imaging, hyperbaric, dental, orthopedic, and wellness practices on the three places a patient is won or lost: being found, being chosen, and being booked."
+      subtitle="We work with chiropractic, imaging, hyperbaric, dental, orthopedic, and wellness practices on the four places a patient is won or lost: being found, being seen, being chosen, and being booked."
       problemTitle="Patients choose the practice that made it easy."
       problem={[
         'Most practices we meet have strong clinical outcomes and a marketing engine that does not reflect it. The website is dated or slow, there is no online booking, the Google Business Profile has a handful of old reviews, and nobody is writing the content that would make an unfamiliar treatment feel credible to someone searching at 10 pm.',
         'Meanwhile the patient is comparing you to whoever appeared first in Maps, whoever ChatGPT named, and whoever let them book without calling. Clinical quality never enters the decision if the front door is closed.',
-        'We find which of the three is costing you patients, build the fix inside infrastructure the practice owns, and stay accountable for the schedule — not the impressions. Everything we build respects HIPAA boundaries; we never touch PHI, and we say so in writing.',
+        'We find which of the four is costing you patients, build the fix inside infrastructure the practice owns, and stay accountable for the schedule — not the impressions. Everything we build respects HIPAA boundaries; we never touch PHI, and we say so in writing.',
       ]}
       lenses={[
         { label: 'Found', question: 'When someone searches your specialty near them, does your site earn the booking?', body: 'A conversion-built site with online scheduling, service pages, reviews surfaced, and local schema — live in fourteen days, owned by the practice.', offer: 'website-in-14-days' },
+        { label: 'In front', question: 'When someone searches your specialty today, whose ad do they see first?', body: 'Paid search puts you in front of people already looking, and paid social reaches the ones who would never think to search for the procedure. Campaigns land on pages built to book rather than a homepage, and no tracking pixel goes anywhere behind a patient login.', offer: 'lead-generation' },
         { label: 'Called', question: 'When they ask Google or an AI who is good, is your practice in the answer?', body: 'Weekly, physician-reviewed content built to rank in search and be cited by AI engines, plus Google Business Profile posts, with monthly reporting.', offer: 'ai-content-engine' },
         { label: 'Booked', question: 'When they call, does the front desk convert?', body: 'Two scored mystery-shop calls, a full front-desk and booking audit, and an ROI report on the patients lost between the call and the calendar.', offer: 'intake-gap-audit' },
       ]}
