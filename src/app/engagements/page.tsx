@@ -8,14 +8,14 @@ import { faqSchema } from '@/lib/schema';
 export const metadata: Metadata = {
   title: 'Engagements',
   description:
-    'Three fixed-scope engagements for law firms and medical practices: Website in 14 Days, the Intake Gap Audit, and the AI Content & Search Engine. Defined deliverable, defined date, fee agreed before anything begins.',
+    'Four fixed-scope engagements for law firms and medical practices: Website in 14 Days, Lead Generation, the AI Content & Search Engine, and the Intake Gap Audit. Defined deliverable, defined date, fee agreed before anything begins.',
   alternates: { canonical: `${COMPANY.website}/engagements` },
 };
 
 const FAQS = [
   { q: 'What does an engagement cost?', a: 'It depends on the size of the firm and the shape of the work, so we quote it rather than publish a list. You get the scope and the fee in writing within a business day of the first call — no three-session discovery process before anyone names a figure — and neither moves once we start.' },
-  { q: 'Can I buy more than one?', a: 'Yes, and they\'re built to stack: the website gets you found, the content engine gets you called, the audit makes sure those calls get signed. Start with the audit if you\'re not sure where the leak is — it\'s credited toward anything else within 60 days.' },
-  { q: 'Do you require a long contract?', a: 'The website and audit are one-time engagements. The content engine has a 3-month minimum because anything shorter can\'t show you a real trend, then it\'s month-to-month with 30 days notice.' },
+  { q: 'Can I buy more than one?', a: 'Yes, and they\'re built to stack: the website gets you found, ads and content get you called, the audit makes sure those calls get signed. Start with the audit if you\'re not sure where the leak is — it\'s credited toward anything else within 60 days.' },
+  { q: 'Do you require a long contract?', a: 'The website and audit are one-time engagements. Lead generation and the content engine each have a 3-month minimum because anything shorter can\'t show you a real trend, then they\'re month-to-month with 30 days notice.' },
   { q: 'What if I\'m outside Florida?', a: 'Everything is delivered remotely and we work with firms nationwide. Florida firms get the benefit of our Florida Bar advertising-rule familiarity; elsewhere, you\'ll want your own compliance review on marketing copy.' },
   { q: 'Who actually does the work?', a: 'A small senior team. There is no account-manager layer; the people you meet on the first call are the people who build your engagement, and you will know their names on day one.' },
 ];
@@ -35,14 +35,14 @@ export default function EngagementsPage() {
             Fixed scope. Fixed date. No open-ended retainers.
           </h1>
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            Three ways we work, each with a defined deliverable and a delivery date. The fee is scoped to your firm and agreed in writing before anything begins — and it does not move once it has.
+            Four ways we work, each with a defined deliverable and a delivery date. The fee is scoped to your firm and agreed in writing before anything begins — and it does not move once it has.
           </p>
         </div>
       </section>
 
       <section className="py-16 md:py-20 bg-slate-50">
         <div className="container-md">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch pt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch pt-4">
             {OFFERS.map((o) => (
               <OfferCard key={o.slug} offer={o} featured={o.slug === 'ai-content-engine'} />
             ))}

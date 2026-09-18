@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const WHAT_TO_EXPECT = [
   { step: '01', title: 'Where the leak is', desc: 'Five minutes on where you\'re losing cases or patients today: search, the site, or the phone.' },
-  { step: '02', title: 'Which engagement, if any', desc: 'We match it to one of three fixed-scope engagements. If none fits, we say so and point you somewhere useful.' },
+  { step: '02', title: 'Which engagement, if any', desc: 'We match it to one of four fixed-scope engagements. If none fits, we say so and point you somewhere useful.' },
   { step: '03', title: 'No surprises afterward', desc: 'You leave the call with the scope, the deliverable, and the fee — in writing, before anything begins. Nothing moves after that.' },
 ];
 

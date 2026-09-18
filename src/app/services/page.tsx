@@ -25,7 +25,7 @@ export default function ServicesPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-6">How we help</p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">Diagnose first. Then build one thing, well.</h1>
           <p className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl mb-10">
-            Every engagement starts with the same question — where, specifically, is this firm losing cases or patients? — and ends in one of three fixed-scope builds. No open-ended retainers.
+            Every engagement starts with the same question — where, specifically, is this firm losing cases or patients? — and ends in one of four fixed-scope builds. No open-ended retainers.
           </p>
           <div className="flex flex-row flex-wrap gap-3">
             <Button variant="primary" size="lg" href="/free-consultation">Start a conversation</Button>
@@ -37,8 +37,8 @@ export default function ServicesPage() {
       <section className="py-20 md:py-24 bg-slate-50">
         <div className="container-md">
           <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">The engagements</p>
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-10">Three, by design.</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch pt-4">
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-10">Four, by design.</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch pt-4">
             {OFFERS.map((o) => <OfferCard key={o.slug} offer={o} compact />)}
           </div>
         </div>
