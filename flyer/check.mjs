@@ -20,14 +20,14 @@ const START = '/* @PAGE_SIZE_START */';
 const END = '/* @PAGE_SIZE_END */';
 
 const html = await readFile(join(DIR, 'flyer.html'), 'utf8');
-const block = `${START}\n@page { size: 5.5in 8.5in; margin: 0; }\n:root { --bleed: 0in; }\n${END}`;
+const block = `${START}\n@page { size: 8.5in 5.5in; margin: 0; }\n:root { --bleed: 0in; }\n${END}`;
 const derived =
   html.slice(0, html.indexOf(START)) + block + html.slice(html.indexOf(END) + END.length);
 const path = join(DIR, '.check.html');
 await writeFile(path, derived, 'utf8');
 
 const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: 528, height: 816 } });
+const page = await browser.newPage({ viewport: { width: 816, height: 528 } });
 await page.goto('file://' + path, { waitUntil: 'load' });
 await page.evaluate(() => document.fonts.ready);
 
@@ -50,7 +50,7 @@ const report = await page.evaluate(() => {
       if (r.width === 0 || r.height === 0) return;
       const cs = getComputedStyle(el);
       // Decorations that bleed past the safe area on purpose.
-      if (el.matches('.bull, .statband, .bullzone .hair, .bullzone .shard')) return;
+      if (el.matches('.bull, .band')) return;
       const d = {
         l: Math.round(sr.left - r.left),
         r: Math.round(r.right - sr.right),

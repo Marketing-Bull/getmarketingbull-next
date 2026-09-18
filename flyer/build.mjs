@@ -4,8 +4,8 @@
  *   node flyer/build.mjs
  *
  * Outputs (all into flyer/):
- *   marketing-bull-flyer-print.pdf     5.75in x 8.75in — 5.5x8.5 trim + 0.125in bleed
- *   marketing-bull-flyer-digital.pdf   5.5in  x 8.5in  — exact trim, no bleed
+ *   marketing-bull-flyer-print.pdf     8.75in x 5.75in — 8.5x5.5 trim + 0.125in bleed
+ *   marketing-bull-flyer-digital.pdf   8.5in  x 5.5in  — exact trim, no bleed
  *   preview-front.png / preview-back.png   300 DPI, trim size, no bleed
  *
  * The page size lives in flyer.html between the @PAGE_SIZE_START / _END markers so
@@ -21,7 +21,7 @@ import { dirname, join } from 'node:path';
 const DIR = dirname(fileURLToPath(import.meta.url));
 const SRC = join(DIR, 'flyer.html');
 
-const TRIM = { w: 5.5, h: 8.5 };     // inches
+const TRIM = { w: 8.5, h: 5.5 };     // inches, landscape
 const BLEED = 0.125;                  // inches, per side
 const DPI = 300;
 
