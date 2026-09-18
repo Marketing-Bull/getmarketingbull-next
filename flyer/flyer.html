@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Marketing Bull — Half-Letter Flyer</title>
+<title>Marketing Bull — Landscape Flyer</title>
 <style>
 /* ── PAGE SIZE ─────────────────────────────────────────────────────────────
    build.mjs swaps the block between the markers below to emit the no-bleed
-   (digital) variant. Default is the print variant: 5.5x8.5 trim + 0.125in
-   bleed on all four sides. */
+   (digital) variant. Default is the print variant: 8.5x5.5 landscape trim +
+   0.125in bleed on all four sides. */
 /* @PAGE_SIZE_START */
-@page { size: 5.75in 8.75in; margin: 0; }
+@page { size: 8.75in 5.75in; margin: 0; }
 :root { --bleed: 0.125in; }
 /* @PAGE_SIZE_END */
 
@@ -30,25 +30,20 @@
 /* ── TOKENS ──────────────────────────────────────────────────────────────── */
 :root {
   --ink:      #0c0c0e;
-  --ink-2:    #17171a;
   --bull:     #e11d2a;
   --bright:   #ff2a36;
-  --deep:     #9b0f18;
   --paper:    #f4f1ea;
-  --paper-2:  #e7e1d4;
   --line:     #d8d1c1;
   --muted:    #8a8578;
   --bone-dim: #cdc8bd;   /* body copy on ink — print-safe contrast */
-  --ink-dim:  #4a4740;   /* body copy on paper */
+  --ink-dim:  #3b3830;   /* body copy on paper */
 
-  --trim-w: 5.5in;
-  --trim-h: 8.5in;
+  --trim-w: 8.5in;       /* landscape */
+  --trim-h: 5.5in;
   --safe:   0.25in;      /* safe margin, measured from TRIM */
   --inset:  calc(var(--bleed) + var(--safe));
 
-  --facet:    polygon(0 0, 100% 0, 100% 100%, 26px 100%, 0 calc(100% - 26px));
-  --facet-sm: polygon(0 0, 100% 0, 100% 100%, 16px 100%, 0 calc(100% - 16px));
-  --facet-br: polygon(0 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%);
+  --facet: polygon(0 0, 100% 0, 100% 100%, 26px 100%, 0 calc(100% - 26px));
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -87,421 +82,237 @@ html, body {
 
 /* ── TYPE PRIMITIVES ────────────────────────────────────────────────────── */
 .kicker {
-  font-size: 7.4pt; font-weight: 600;
-  letter-spacing: .28em; text-transform: uppercase;
+  font-size: 7.6pt; font-weight: 600;
+  letter-spacing: .3em; text-transform: uppercase;
   line-height: 1;
 }
 .display {
   font-family: 'Archivo'; font-weight: 900;
-  text-transform: uppercase; line-height: .9; letter-spacing: -.03em;
+  text-transform: uppercase; line-height: .88; letter-spacing: -.035em;
 }
-.rule-red { height: 2.5px; background: var(--bull); }
+.grow { flex: 1 1 auto; min-height: 0; }
 
-.wordmark { display: flex; align-items: center; gap: 7px; }
-.wordmark img { width: 29px; display: block; }
+.wordmark { display: flex; align-items: center; gap: 8px; }
+.wordmark img { width: 32px; display: block; }
 .wordmark .wm {
-  font-family: 'Archivo'; font-weight: 800; font-size: 13pt;
+  font-family: 'Archivo'; font-weight: 800; font-size: 14pt;
   letter-spacing: -.035em; text-transform: uppercase; line-height: 1;
 }
 .wordmark .wm em { font-style: normal; color: var(--bull); }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   PAGE 1 — FRONT (ink field, red bull, bone CTA)
+   PAGE 1 — FRONT
+   Horizontal split: headline holds the left, the bull runs off the right
+   edge at full scale. Four elements, and a lot of deliberate emptiness.
    ══════════════════════════════════════════════════════════════════════════ */
 .front { background: var(--ink); color: var(--paper); }
 
-.masthead { display: flex; align-items: center; justify-content: space-between; flex: none; }
-.front .masthead .loc { color: var(--muted); }
-
-/* the low-poly bull, large, bleeding off the right edge */
-.bullzone { position: relative; flex: none; height: 172px; }
-.bullzone .bull {
-  position: absolute; top: -18px; right: calc(-1 * var(--inset) - 0.05in);
-  width: 3.15in; z-index: 3;
+/* The bull sits on the flat ink field and bleeds off the right edge — bright
+   red on near-black is the highest contrast this mark can get, and nothing
+   behind it can muddy at press. A .page-level child, so it is free to bleed. */
+.front .bull {
+  position: absolute; z-index: 2;
+  right: calc(-0.12in + var(--bleed)); top: 52%;
+  transform: translateY(-50%);
+  width: 4.25in;
 }
-/* The bull sits on the flat ink field: bright red on near-black is the highest
-   contrast this mark can get, and nothing behind it can muddy at press. */
 
-.front .headline { font-size: 42px; flex: none; }
+.front .safe { width: 5.1in; }   /* headline column only — bull owns the rest */
+.front .masthead { flex: none; }
+.front .headline { font-size: 50px; flex: none; }
 .front .headline .hot { color: var(--bright); }
-
 .front .lede {
-  flex: none; font-size: 9.3pt; line-height: 1.5; color: var(--bone-dim);
-  border-left: 2.5px solid var(--bull); padding-left: 11px;
-}
-.front .lede b { color: #fff; font-weight: 600; }
-
-.painbox {
-  flex: none; background: var(--ink-2);
-  border: 1px solid rgba(255,255,255,.11);
-  clip-path: var(--facet); padding: 10px 13px 16px;
-}
-.painbox .kicker { color: var(--bright); }
-.painbox p { font-size: 8.6pt; line-height: 1.45; color: var(--bone-dim); }
-.painbox .num { color: #fff; font-weight: 600; }
-
-/* stat band — bleeds to both page edges, text stays inside the safe well */
-.statband {
-  flex: none; background: var(--bull); color: #fff;
-  margin-left: calc(-1 * var(--inset)); margin-right: calc(-1 * var(--inset));
-  padding: 9px var(--inset) 10px;
-  display: grid; grid-template-columns: 1fr 1fr 1fr;
-}
-.statband .s { display: flex; flex-direction: column; }
-.statband .s + .s { border-left: 1px solid rgba(255,255,255,.36); padding-left: 10px; }
-.statband .s { padding-right: 8px; }
-.statband .n {
-  font-family: 'Archivo'; font-weight: 900; font-size: 24px;
-  letter-spacing: -.035em; line-height: 1;
-}
-/* The latin subset of Archivo has no U+2192, and letting it fall back would
-   put one glyph of Liberation Serif in the file. Drawn instead. */
-.statband .n .arw { width: 19px; height: 10px; margin: 0 1px; vertical-align: 1px; }
-.statband .l { font-size: 6.5pt; line-height: 1.3; margin-top: 4px; font-weight: 500; }
-.statband .src {
-  font-size: 5.6pt; letter-spacing: .13em; text-transform: uppercase;
-  margin-top: auto; padding-top: 5px; color: rgba(255,255,255,.78); font-weight: 600;
+  flex: none; font-size: 12.6pt; line-height: 1.34; color: var(--bone-dim);
+  font-weight: 400; max-width: 4.3in;
 }
 
-/* CTA */
-.cta {
-  flex: none; background: var(--paper); color: var(--ink);
-  clip-path: var(--facet); padding: 12px 15px 14px;
+.front .cta { flex: none; display: flex; align-items: baseline; gap: 14px; }
+.front .cta .tag {
+  font-family: 'Archivo'; font-weight: 800; font-size: 11pt;
+  text-transform: uppercase; letter-spacing: -.01em; color: #fff;
+  background: var(--bull); padding: 7px 11px 8px; line-height: 1;
+  align-self: center;
 }
-.cta .kicker { color: var(--bull); }
-.cta .phone {
-  font-family: 'Archivo'; font-weight: 900; font-size: 33px;
-  letter-spacing: -.035em; line-height: .96;
+/* line-height clears the Archivo inline box; at 1.0 the descender pokes a
+   pixel past the safe area and check.mjs (rightly) fails the build. */
+.front .cta .phone {
+  font-family: 'Archivo'; font-weight: 900; font-size: 30px;
+  letter-spacing: -.035em; line-height: 1.16; color: #fff;
 }
-.cta .phone span { color: var(--bull); }
-.cta .sub { color: #56524a; font-size: 7.8pt; line-height: 1.4; }
-.cta .offer { font-weight: 500; font-size: 8.8pt; line-height: 1.42; color: #1e1c19; }
+.front .cta .phone span { color: var(--bright); }
 
 /* ══════════════════════════════════════════════════════════════════════════
    PAGE 2 — BACK (bone paper, ink + red)
    ══════════════════════════════════════════════════════════════════════════ */
 .back { background: var(--paper); color: var(--ink); }
-.back .topbar {
-  position: absolute; top: 0; left: 0; right: 0; z-index: 3;
-  height: calc(var(--bleed) + .37in);
-  background: var(--ink);
-  clip-path: var(--facet-br);
+.back .head {
+  flex: none; display: flex; align-items: center; justify-content: space-between;
 }
-.back .topbar .tb {
-  position: absolute; left: var(--inset); right: var(--inset); bottom: 8px;
-  display: flex; align-items: center; justify-content: space-between;
-  color: var(--paper);
+.back .head .kicker { color: var(--muted); }
+.back .rule { flex: none; height: 2.5px; background: var(--bull); }
+
+/* four engagements, 2 x 2 with real gutters */
+.svcs {
+  flex: none; display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 0.42in; row-gap: 0.26in;
 }
-.back .topbar .tb .wordmark img { width: 25px; }
-.back .topbar .tb .wordmark .wm { font-size: 11.4pt; }
-.back .topbar .tb .kicker { color: var(--bright); font-size: 6.6pt; letter-spacing: .22em; }
-.back .safe { padding-top: 28px; }
-
-.sechead { display: flex; align-items: center; gap: 9px; flex: none; }
-.sechead .kicker { color: var(--bull); }
-.sechead .fill { flex: 1; height: 1px; background: var(--line); }
-
-/* services 01 / 02 / 03 */
-.svc { display: flex; gap: 11px; padding: 5px 0; }
-.svc + .svc { border-top: 1px solid var(--line); }
+.svc { display: flex; gap: 12px; }
 .svc .n {
-  font-family: 'Archivo'; font-weight: 900; font-size: 29px; line-height: .82;
-  letter-spacing: -.05em; color: var(--bull); width: 41px; flex: none;
+  font-family: 'Archivo'; font-weight: 900; font-size: 15pt; line-height: .95;
+  letter-spacing: -.05em; color: var(--bull); width: 26px; flex: none;
 }
 .svc h3 {
-  font-family: 'Archivo'; font-weight: 800; font-size: 12.2pt; line-height: 1.02;
-  letter-spacing: -.025em; text-transform: uppercase;
+  font-family: 'Archivo'; font-weight: 800; font-size: 14pt; line-height: 1;
+  letter-spacing: -.03em; text-transform: uppercase;
 }
 .svc h3 .tag {
-  font-family: 'IBM Plex Sans'; font-size: 6.4pt; font-weight: 600;
-  letter-spacing: .2em; color: var(--muted); margin-left: 6px;
-  vertical-align: 1.5px; text-transform: uppercase;
+  font-family: 'IBM Plex Sans'; font-size: 7pt; font-weight: 600;
+  letter-spacing: .18em; color: var(--bull); margin-left: 7px;
+  vertical-align: 2px; text-transform: uppercase; white-space: nowrap;
 }
-.svc p { font-size: 8.4pt; line-height: 1.38; color: #3b3830; margin-top: 2px; }
-.svc ul { list-style: none; margin-top: 3px; }
-.svc li {
-  font-size: 7.6pt; line-height: 1.3; color: var(--ink-dim);
-  padding-left: 10px; position: relative;
+.svc p { font-size: 10pt; line-height: 1.34; color: var(--ink-dim); margin-top: 4px; }
+
+/* one proof point, attributed */
+.proof { flex: none; display: flex; align-items: center; gap: 15px; }
+.proof .n {
+  font-family: 'Archivo'; font-weight: 900; font-size: 40px;
+  letter-spacing: -.04em; line-height: 1.1; color: var(--bull); flex: none;
 }
-.svc li::before {
-  content: ''; position: absolute; left: 0; top: .42em;
-  width: 4px; height: 4px; background: var(--bull);
-  clip-path: polygon(0 0, 100% 0, 100% 100%);
+/* The latin subset of Archivo has no U+2192, and letting it fall back would
+   put one glyph of Liberation Serif in the file. Drawn instead. */
+.proof .n .arw { width: 29px; height: 15px; margin: 0 4px; vertical-align: 3px; }
+.proof p { font-size: 11.4pt; line-height: 1.3; font-weight: 500; }
+.proof p .src {
+  display: block; font-size: 7pt; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--muted); font-weight: 600; margin-top: 4px;
 }
 
-/* process */
-.proc { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; flex: none; }
-.proc .st { border-top: 2px solid var(--ink); padding-top: 5px; }
-.proc .st .i { font-family: 'Archivo'; font-weight: 900; font-size: 7.4pt; color: var(--bull); }
-.proc .st h4 {
-  font-family: 'Archivo'; font-weight: 800; font-size: 9.4pt; letter-spacing: -.02em;
-  text-transform: uppercase; margin-top: 1px;
+/* contact — one band. The ink field is a page-level decoration so it can bleed
+   off three edges; the copy itself stays inside the safe well and is checked. */
+.back .band {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  height: calc(0.92in + var(--inset));
+  background: var(--ink);
 }
-.proc .st p { font-size: 7pt; line-height: 1.32; color: var(--ink-dim); margin-top: 2px; }
-
-/* verticals */
-.verts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: none; }
-.verts .v { background: var(--paper-2); clip-path: var(--facet-sm); padding: 8px 11px 10px 12px; }
-.verts .v h4 {
-  font-family: 'Archivo'; font-weight: 800; font-size: 9.4pt; letter-spacing: -.02em;
-  text-transform: uppercase; line-height: 1.04;
-}
-.verts .v p { font-size: 7.3pt; line-height: 1.34; color: var(--ink-dim); margin-top: 3px; }
-
-/* proof */
-.quotes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: none; }
-.quotes .q { border-left: 2.5px solid var(--bull); padding-left: 9px; }
-.quotes .q p {
-  font-family: 'Archivo'; font-weight: 600; font-size: 9pt; line-height: 1.24;
-  letter-spacing: -.015em;
-}
-.quotes .q .att {
-  font-size: 6.5pt; line-height: 1.34; margin-top: 5px; color: var(--muted);
-  text-transform: uppercase; letter-spacing: .1em; font-weight: 600;
-}
-.quotes .q .att b { color: var(--ink); font-weight: 700; display: block; letter-spacing: .07em; }
-
-/* closer */
-.closer { display: flex; align-items: flex-start; gap: 9px; flex: none; }
-.closer .bar { width: 22px; height: 2.5px; background: var(--bull); flex: none; margin-top: 5px; }
-.closer p {
-  font-family: 'Archivo'; font-weight: 800; font-size: 9.2pt; line-height: 1.18;
-  letter-spacing: -.02em; text-transform: uppercase;
-}
-.closer p em { font-style: normal; color: var(--bull); }
-
-/* contact */
 .contact {
-  flex: none; background: var(--ink); color: var(--paper);
-  clip-path: var(--facet); padding: 10px 14px 16px;
-  display: flex; gap: 13px;
+  flex: none; color: var(--paper);
+  height: 0.92in;
+  display: flex; align-items: center; gap: 22px;
 }
-.contact .col { flex: 1; }
-.contact .kicker { color: var(--bright); }
-.contact .bigphone {
-  font-family: 'Archivo'; font-weight: 900; font-size: 24px; letter-spacing: -.035em;
-  line-height: .98; color: #fff;
+.contact .phone {
+  font-family: 'Archivo'; font-weight: 900; font-size: 30px;
+  letter-spacing: -.035em; line-height: 1; color: #fff;
 }
-.contact .bigphone span { color: var(--bright); }
-.contact .tel2 { font-size: 7pt; color: var(--muted); margin-top: 2px; letter-spacing: .05em; }
-.contact dl { margin-top: 6px; display: grid; grid-template-columns: 33px 1fr; gap: 1px 7px; }
-.contact dt {
-  font-size: 5.7pt; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--muted); font-weight: 600; padding-top: 1.5px;
+.contact .phone span { color: var(--bright); }
+.contact .meta {
+  font-size: 8.6pt; color: var(--bone-dim); margin-top: 6px; letter-spacing: .02em;
 }
-.contact dd { font-size: 7.4pt; line-height: 1.28; color: var(--bone-dim); }
-.contact .qrwrap { width: 84px; flex: none; text-align: center; }
-.contact .qrwrap .qbox { background: #fff; padding: 5px; width: 84px; height: 84px; }
-.contact .qrwrap img { width: 74px; height: 74px; display: block; }
-.contact .qrwrap .cap {
-  font-size: 5.7pt; letter-spacing: .13em; text-transform: uppercase;
-  color: var(--muted); margin-top: 5px; font-weight: 600; line-height: 1.32;
-}
+.contact .grow { flex: 1 1 auto; }
+.contact .qbox { background: #fff; padding: 5px; width: 0.72in; height: 0.72in; flex: none; }
+.contact .qbox img { width: 100%; height: 100%; display: block; }
 </style>
 </head>
 <body>
 
 <!-- ══════════════════════════ PAGE 1 — FRONT ══════════════════════════ -->
 <section class="page front">
+  <img class="bull" src="../public/logo.png" alt="">
 
   <div class="safe">
-    <!-- masthead -->
     <div class="masthead">
       <div class="wordmark">
         <img src="../public/logo.png" alt="Marketing Bull">
         <div class="wm">Marketing<em>Bull</em></div>
       </div>
-      <div class="kicker loc">West Palm Beach, FL</div>
-    </div>
-    <div class="rule-red" style="margin-top:9px; flex:none;"></div>
-
-    <!-- bull motif -->
-    <div class="bullzone">
-      <img class="bull" src="../public/logo.png" alt="">
     </div>
 
-    <!-- headline -->
-    <div class="kicker" style="color:var(--bright); flex:none; margin-top:12px;">For law firms &amp; medical practices</div>
-    <h1 class="display headline" style="margin-top:13px;">
-      Every missed call<br>
-      is a case your<br>
-      <span class="hot">rival signs.</span>
+    <div class="grow"></div>
+
+    <h1 class="display headline">
+      Every<br>missed call<br>is a case your<br><span class="hot">rival signs.</span>
     </h1>
 
-    <!-- who we are -->
-    <p class="lede" style="margin-top:15px;">
-      <b>Marketing Bull is a senior growth consultancy for personal injury firms and
-      medical practices.</b> We find where a firm is losing cases or patients, build the
-      system that fixes it, and stay accountable for the number it was meant to move.
+    <p class="lede" style="margin-top:20px;">
+      We fix the intake systems that lose you clients.
     </p>
 
-    <!-- the pain -->
-    <div class="painbox" style="margin-top:13px;">
-      <div class="kicker" style="margin-bottom:6px;">You don't have a lead problem</div>
-      <p>
-        You have a leak. A prospect calls three firms in ten minutes and signs with the
-        one that answers &mdash; and <span class="num">42%</span> of intake arrives after
-        5pm, when most phones go to voicemail. You have already paid for those cases.
-        You are losing them at the front desk.
-      </p>
-    </div>
+    <div class="grow"></div>
 
-    <div style="flex:1 1 auto; min-height:4px;"></div>
-
-    <!-- proof -->
-    <div class="statband">
-      <div class="s">
-        <div class="n">0<svg class="arw" viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7h19M15.5 1.5 21.5 7l-6 5.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/></svg>20</div>
-        <div class="l">personal injury cases a month, from a standing start</div>
-        <div class="src">1-800-HURT-511</div>
-      </div>
-      <div class="s">
-        <div class="n">30 DAYS</div>
-        <div class="l">to take missed intake calls to zero</div>
-        <div class="src">1-800-HURT-511</div>
-      </div>
-      <div class="s">
-        <div class="n">30+</div>
-        <div class="l">new patients a month for an empty clinic schedule</div>
-        <div class="src">Queens Hyperbaric</div>
-      </div>
-    </div>
-
-    <!-- CTA -->
-    <div class="cta" style="margin-top:14px;">
-      <div class="kicker">Start with twenty minutes</div>
-      <div class="phone" style="margin-top:8px;">1-833-<span>GET-BULL</span></div>
-      <div class="sub" style="margin-top:4px;">1-833-438-2855 &nbsp;&middot;&nbsp; getmarketingbull.com</div>
-      <p class="offer" style="margin-top:8px;">
-        Book a free consultation. We will tell you where we would look first &mdash;
-        and whether we are the right people to look.
-      </p>
+    <div class="cta">
+      <div class="tag">Free consultation</div>
+      <div class="phone">1-833-<span>GET-BULL</span></div>
     </div>
   </div>
 </section>
 
 <!-- ══════════════════════════ PAGE 2 — BACK ══════════════════════════ -->
 <section class="page back">
-  <div class="topbar">
-    <div class="tb">
+  <div class="band"></div>
+
+  <div class="safe">
+
+    <div class="head">
       <div class="wordmark">
         <img src="../public/logo.png" alt="">
         <div class="wm">Marketing<em>Bull</em></div>
       </div>
-      <div class="kicker">getmarketingbull.com</div>
+      <div class="kicker">What we do</div>
     </div>
-  </div>
+    <div class="rule" style="margin-top:11px;"></div>
 
-  <div class="safe">
+    <div class="grow" style="flex-grow:.85;"></div>
 
-    <!-- WHAT WE DO -->
-    <div class="sechead">
-      <div class="kicker">What we do</div><div class="fill"></div>
-    </div>
-    <div style="margin-top:4px; flex:none;">
+    <div class="svcs">
       <div class="svc">
         <div class="n">01</div>
         <div>
           <h3>Website in 14 Days<span class="tag">Get found</span></h3>
-          <p>A conversion-built site on a modern stack. Fixed scope, fixed price, fixed date.</p>
-          <ul>
-            <li>Sub-second Next.js build; local SEO, schema and map listings</li>
-            <li>Sticky click-to-call and a short intake form on every page</li>
-            <li>You own the repo, the domain, the hosting and the data</li>
-          </ul>
+          <p>A conversion-built site, live in two weeks.</p>
         </div>
       </div>
       <div class="svc">
         <div class="n">02</div>
         <div>
           <h3>Intake Gap Audit<span class="tag">Get signed</span></h3>
-          <p>Exactly how many cases your intake is losing &mdash; with a dollar figure on it.</p>
-          <ul>
-            <li>Two mystery-shop calls, business hours and after hours, timestamped</li>
-            <li>Scored against our personal injury and medical intake checklist</li>
-            <li>ROI report and a ranked fix list, credited toward the build</li>
-          </ul>
+          <p>We find the cases your phone is losing.</p>
         </div>
       </div>
       <div class="svc">
         <div class="n">03</div>
         <div>
-          <h3>AI Content &amp; Search Engine<span class="tag">Get called</span></h3>
-          <p>Show up in Google and in AI answers, every week, without writing a word.</p>
-          <ul>
-            <li>Four long-form articles and weekly Google Business posts a month</li>
-            <li>Visibility tracked in ChatGPT, Perplexity and Google AI Overviews</li>
-            <li>Attorney or physician review before anything publishes</li>
-          </ul>
+          <h3>AI Content &amp; Search<span class="tag">Get called</span></h3>
+          <p>Rank in Google and in AI answers.</p>
+        </div>
+      </div>
+      <div class="svc">
+        <div class="n">04</div>
+        <div>
+          <h3>Lead Generation<span class="tag">Get in front</span></h3>
+          <p>Google and Meta ads, tracked to signed cases.</p>
         </div>
       </div>
     </div>
 
-    <!-- HOW AN ENGAGEMENT WORKS -->
-    <div class="sechead" style="margin-top:12px;">
-      <div class="kicker">How an engagement works</div><div class="fill"></div>
-    </div>
-    <div class="proc" style="margin-top:8px;">
-      <div class="st"><div class="i">01</div><h4>Conversation</h4><p>Twenty minutes. Are we the right fit?</p></div>
-      <div class="st"><div class="i">02</div><h4>Diagnosis</h4><p>Where cases are lost, with a dollar figure on it.</p></div>
-      <div class="st"><div class="i">03</div><h4>Build</h4><p>Fixed scope, one date. No open-ended retainers.</p></div>
-      <div class="st"><div class="i">04</div><h4>Compound</h4><p>Reported monthly against signed cases.</p></div>
+    <div class="grow"></div>
+
+    <div class="proof">
+      <div class="n">0<svg class="arw" viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7h19M15.5 1.5 21.5 7l-6 5.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg>20</div>
+      <p>
+        personal injury cases a month, from a standing start.
+        <span class="src">1-800-HURT-511</span>
+      </p>
     </div>
 
-    <!-- WHO WE SERVE -->
-    <div class="sechead" style="margin-top:12px;">
-      <div class="kicker">Who we serve</div><div class="fill"></div>
-    </div>
-    <div class="verts" style="margin-top:8px;">
-      <div class="v">
-        <h4>Personal injury<br>&amp; plaintiff firms</h4>
-        <p>Fast sites, visible authority and intake that answers &mdash; inside Florida Bar advertising rules.</p>
-      </div>
-      <div class="v">
-        <h4>Medical practices<br>&amp; specialty clinics</h4>
-        <p>Chiropractic, imaging, hyperbaric, dental, wellness. Where an empty slot is lost revenue.</p>
-      </div>
-    </div>
+    <div class="grow" style="flex-grow:.8;"></div>
 
-    <!-- PROOF -->
-    <div class="sechead" style="margin-top:12px;">
-      <div class="kicker">In their words</div><div class="fill"></div>
-    </div>
-    <div class="quotes" style="margin-top:8px;">
-      <div class="q">
-        <p>&ldquo;They don't just generate leads &mdash; they make sure you close them.&rdquo;</p>
-        <div class="att"><b>Todd D. Muhlstock, Esq.</b>WeSueThem.com</div>
-      </div>
-      <div class="q">
-        <p>&ldquo;We went from struggling to fill slots to 30 new faces every month.&rdquo;</p>
-        <div class="att"><b>Dr. Manoj Sadhnani</b>Queens Hyperbaric</div>
-      </div>
-    </div>
-
-    <div style="flex:1 1 auto; min-height:0;"></div>
-
-    <!-- CLOSER -->
-    <div class="closer" style="margin-bottom:11px;">
-      <div class="bar"></div>
-      <p>Every day without an answered phone is <em>a case walking to the firm down the street.</em></p>
-    </div>
-
-    <!-- CONTACT -->
     <div class="contact">
-      <div class="col">
-        <div class="kicker">Talk to us</div>
-        <div class="bigphone" style="margin-top:7px;">1-833-<span>GET-BULL</span></div>
-        <div class="tel2">1-833-438-2855</div>
-        <dl>
-          <dt>Email</dt><dd>hello@getmarketingbull.com</dd>
-          <dt>Web</dt><dd>getmarketingbull.com</dd>
-          <dt>Office</dt><dd>319 Clematis Street, Suite 300<br>West Palm Beach, FL 33401</dd>
-        </dl>
+      <div>
+        <div class="phone">1-833-<span>GET-BULL</span></div>
+        <div class="meta">1-833-438-2855 &nbsp;&middot;&nbsp; getmarketingbull.com &nbsp;&middot;&nbsp; hello@getmarketingbull.com</div>
       </div>
-      <div class="qrwrap">
-        <div class="qbox"><img src="qr.png" alt="getmarketingbull.com"></div>
-        <div class="cap">Scan to book<br>a consultation</div>
-      </div>
+      <div class="grow"></div>
+      <div class="qbox"><img src="qr.png" alt="getmarketingbull.com"></div>
     </div>
   </div>
 </section>
