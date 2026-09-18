@@ -53,7 +53,8 @@ node flyer/build.mjs        # writes both PDFs and both previews
   step tags and the proof attribution) is 7 pt and is used only for labels, never
   for anything a reader has to read at length.
 - **Raster content:** only the bull logo (783 × 506 — ~184 DPI at its largest
-  placed size, 4.25 in on the front) and the QR (1024 × 1024, ~1400 DPI at 0.72 in).
+  placed size, 4.25 in on the front) and the QR (2048 × 2048, ~2270 DPI at its
+  placed size — a 1.05 in white box with 0.90 in of modules inside it).
   All other artwork, including every rule and band, is vector.
 
 ## Notes on the two mechanical choices that are not obvious
@@ -88,7 +89,14 @@ grid; the name on the site is unchanged.
 
 Things that are load-bearing and easy to get wrong:
 
-- The phone is **1-833-GET-BULL = 1-833-438-2855**.
+- The phone is **1-833-GET-BULL = 1-833-438-2855**. It is on the back band only;
+  the front CTA carries the site, `getmarketingbull.com`, set clean — no scheme,
+  no `www.`, and never the tracking string.
+- The QR encodes
+  `https://getmarketingbull.com/?utm_source=brochure&utm_medium=print&utm_campaign=brochure`.
+  The URL is the `URL` constant at the top of `qr.mjs`; change it there, re-run
+  `qr.mjs`, then `build.mjs`. The white box around it in the layout is the printed
+  quiet zone — do not tighten it to gain size.
 - The free thing is the **consultation**. The Intake Gap Audit is paid (credited
   toward other work), so it must never be described as free.
 - There is no Home Services vertical, no founding year, and no stat that is not

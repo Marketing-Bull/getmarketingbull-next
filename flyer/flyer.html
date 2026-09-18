@@ -135,11 +135,16 @@ html, body {
 }
 /* line-height clears the Archivo inline box; at 1.0 the descender pokes a
    pixel past the safe area and check.mjs (rightly) fails the build. */
-.front .cta .phone {
-  font-family: 'Archivo'; font-weight: 900; font-size: 30px;
+/* 25px, not the 30px the phone number was set at: the URL is 20 characters to
+   the phone's 14, and 25px is the largest size that still holds one line inside
+   the 5.1in headline column beside the chip (26px measures 291.9px against
+   292.1px of room — no margin for a font update). The longer string carries the
+   same optical weight on the line. */
+.front .cta .site {
+  font-family: 'Archivo'; font-weight: 900; font-size: 25px;
   letter-spacing: -.035em; line-height: 1.16; color: #fff;
 }
-.front .cta .phone span { color: var(--bright); }
+.front .cta .site span { color: var(--bright); }
 
 /* ══════════════════════════════════════════════════════════════════════════
    PAGE 2 — BACK (bone paper, ink + red)
@@ -192,12 +197,15 @@ html, body {
    off three edges; the copy itself stays inside the safe well and is checked. */
 .back .band {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
-  height: calc(0.92in + var(--inset));
+  height: calc(1.25in + var(--inset));
   background: var(--ink);
 }
+/* 1.25in, up from 0.92in, so the QR can be a call to scan rather than a
+   footnote. The height comes out of the flex spacers above, which had 2.16in
+   between them; nothing else moves. */
 .contact {
   flex: none; color: var(--paper);
-  height: 0.92in;
+  height: 1.25in;
   display: flex; align-items: center; gap: 22px;
 }
 .contact .phone {
@@ -209,7 +217,10 @@ html, body {
   font-size: 8.6pt; color: var(--bone-dim); margin-top: 6px; letter-spacing: .02em;
 }
 .contact .grow { flex: 1 1 auto; }
-.contact .qbox { background: #fff; padding: 5px; width: 0.72in; height: 0.72in; flex: none; }
+/* 1.05in inside a 1.25in band — 0.1in of ink above and below it. The padding is
+   the printed quiet zone (the PNG itself carries only a 1-module margin) and is
+   scaled with the box, so the white surround grows rather than getting cropped. */
+.contact .qbox { background: #fff; padding: 7px; width: 1.05in; height: 1.05in; flex: none; }
 .contact .qbox img { width: 100%; height: 100%; display: block; }
 </style>
 </head>
@@ -241,7 +252,7 @@ html, body {
 
     <div class="cta">
       <div class="tag">Free consultation</div>
-      <div class="phone">1-833-<span>GET-BULL</span></div>
+      <div class="site">getmarketing<span>bull</span>.com</div>
     </div>
   </div>
 </section>
