@@ -119,6 +119,14 @@ html, body {
 
 .front .safe { width: 5.1in; }   /* headline column only — bull owns the rest */
 .front .masthead { flex: none; }
+/* Audience kicker. The front otherwise never says who the piece is for, and the
+   two verticals are the whole qualification. Sits on the headline's own column,
+   one line, tracked a touch tighter than the stock .kicker so it does not run
+   past the 5.1in well. Red on ink, not bone — it is an accent, not body copy. */
+.front .audience {
+  flex: none; color: var(--bright); letter-spacing: .28em;
+  margin-bottom: 15px;
+}
 .front .headline { font-size: 50px; flex: none; }
 .front .headline .hot { color: var(--bright); }
 .front .lede {
@@ -150,33 +158,29 @@ html, body {
    PAGE 2 — BACK (bone paper, ink + red)
    ══════════════════════════════════════════════════════════════════════════ */
 .back { background: var(--paper); color: var(--ink); }
-.back .head {
-  flex: none; display: flex; align-items: center; justify-content: space-between;
-}
-.back .head .kicker { color: var(--muted); }
+.back .head { flex: none; display: flex; align-items: center; }
 .back .rule { flex: none; height: 2.5px; background: var(--bull); }
 
-/* four engagements, 2 x 2 with real gutters */
+/* Four engagements, 2 x 2 with real gutters. The step tags ("Get found" etc.)
+   that used to sit beside each name are gone; the space they took has been put
+   back into the names (14pt -> 17.5pt) and the row gutter (0.26in -> 0.38in)
+   rather than left as a hole. The column gutter is unchanged on purpose — the
+   one-line descriptions need every pica of measure they had. */
 .svcs {
   flex: none; display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 0.42in; row-gap: 0.26in;
+  column-gap: 0.42in; row-gap: 0.38in;
 }
-.svc { display: flex; gap: 12px; }
+.svc { display: flex; gap: 13px; }
 .svc .n {
-  font-family: 'Archivo'; font-weight: 900; font-size: 15pt; line-height: .95;
-  letter-spacing: -.05em; color: var(--bull); width: 26px; flex: none;
+  font-family: 'Archivo'; font-weight: 900; font-size: 17pt; line-height: .95;
+  letter-spacing: -.05em; color: var(--bull); width: 28px; flex: none;
 }
 .svc h3 {
-  font-family: 'Archivo'; font-weight: 800; font-size: 14pt; line-height: 1;
+  font-family: 'Archivo'; font-weight: 800; font-size: 17.5pt; line-height: 1;
   letter-spacing: -.03em; text-transform: uppercase;
 }
-.svc h3 .tag {
-  font-family: 'IBM Plex Sans'; font-size: 7pt; font-weight: 600;
-  letter-spacing: .18em; color: var(--bull); margin-left: 7px;
-  vertical-align: 2px; text-transform: uppercase; white-space: nowrap;
-}
-.svc p { font-size: 10pt; line-height: 1.34; color: var(--ink-dim); margin-top: 4px; }
+.svc p { font-size: 10.4pt; line-height: 1.34; color: var(--ink-dim); margin-top: 7px; }
 
 /* one proof point, attributed */
 .proof { flex: none; display: flex; align-items: center; gap: 15px; }
@@ -240,6 +244,8 @@ html, body {
 
     <div class="grow"></div>
 
+    <div class="kicker audience">For Law Firms &amp; Medical Practices</div>
+
     <h1 class="display headline">
       Every<br>missed call<br>is a case your<br><span class="hot">rival signs.</span>
     </h1>
@@ -268,7 +274,6 @@ html, body {
         <img src="../public/logo.png" alt="">
         <div class="wm">Marketing<em>Bull</em></div>
       </div>
-      <div class="kicker">What we do</div>
     </div>
     <div class="rule" style="margin-top:11px;"></div>
 
@@ -278,34 +283,34 @@ html, body {
       <div class="svc">
         <div class="n">01</div>
         <div>
-          <h3>Website in 14 Days<span class="tag">Get found</span></h3>
+          <h3>Website in 14 Days</h3>
           <p>A conversion-built site, live in two weeks.</p>
         </div>
       </div>
       <div class="svc">
         <div class="n">02</div>
         <div>
-          <h3>Intake Gap Audit<span class="tag">Get signed</span></h3>
+          <h3>Intake Gap Audit</h3>
           <p>We find the cases your phone is losing.</p>
         </div>
       </div>
       <div class="svc">
         <div class="n">03</div>
         <div>
-          <h3>AI Content &amp; Search<span class="tag">Get called</span></h3>
+          <h3>AI Content &amp; Search</h3>
           <p>Rank in Google and in AI answers.</p>
         </div>
       </div>
       <div class="svc">
         <div class="n">04</div>
         <div>
-          <h3>Lead Generation<span class="tag">Get in front</span></h3>
+          <h3>Lead Generation</h3>
           <p>Google and Meta ads, tracked to signed cases.</p>
         </div>
       </div>
     </div>
 
-    <div class="grow"></div>
+    <div class="grow" style="flex-grow:1.15;"></div>
 
     <div class="proof">
       <div class="n">0<svg class="arw" viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7h19M15.5 1.5 21.5 7l-6 5.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg>20</div>
@@ -315,7 +320,7 @@ html, body {
       </p>
     </div>
 
-    <div class="grow" style="flex-grow:.8;"></div>
+    <div class="grow" style="flex-grow:.55;"></div>
 
     <div class="contact">
       <div>

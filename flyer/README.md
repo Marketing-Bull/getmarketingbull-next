@@ -4,7 +4,7 @@ Two-sided 8.5 × 5.5 in **landscape** flyer, authored as HTML/CSS and rendered t
 PDF with Playwright so it reuses the site's own palette and type rather than a
 separate design file.
 
-It is deliberately near-poster: 20 words on the front, 66 on the back. Anything
+It is deliberately near-poster: 25 words on the front, 54 on the back. Anything
 that did not earn its place has been cut rather than set smaller.
 
 ## Files
@@ -23,7 +23,7 @@ that did not earn its place has been cut rather than set smaller.
 ## Build
 
 ```bash
-npm install                 # playwright is already a devDependency
+npm i --no-save playwright  # build-only; deliberately not in package.json
 npx playwright install chromium
 node flyer/check.mjs        # fails if anything breaks the safe area
 node flyer/build.mjs        # writes both PDFs and both previews
@@ -49,9 +49,9 @@ node flyer/build.mjs        # writes both PDFs and both previews
   solids will look flatter. 100 lb gloss text or heavier is the safe call.
 - **Fonts:** Archivo and IBM Plex Sans, embedded as subsetted TrueType. No Type 3
   fonts, no substituted faces — `build.mjs` refuses to finish if either appears.
-- **Type floor:** body copy is 10–12.6 pt; the smallest text on the piece (the
-  step tags and the proof attribution) is 7 pt and is used only for labels, never
-  for anything a reader has to read at length.
+- **Type floor:** body copy is 10.4–12.6 pt; the smallest text on the piece (the
+  proof attribution at 7 pt and the front audience kicker at 7.6 pt) is used only
+  for labels, never for anything a reader has to read at length.
 - **Raster content:** only the bull logo (783 × 506 — ~184 DPI at its largest
   placed size, 4.25 in on the front) and the QR (2048 × 2048, ~2270 DPI at its
   placed size — a 1.05 in white box with 0.90 in of modules inside it).
@@ -72,20 +72,23 @@ nothing a press would reproduce, so the pages stay fully vector.
 ## Content
 
 Copy and proof points come from the live site (`src/lib/constants.ts`). The back
-carries the four engagements in `OFFERS` order, each as a name, its `step` tag,
-and one line:
+carries the four engagements in `OFFERS` order, each as a name and one line:
 
-| # | Offer | Step |
-| --- | --- | --- |
-| 01 | Website in 14 Days | Get found |
-| 02 | Intake Gap Audit | Get signed |
-| 03 | AI Content & Search Engine | Get called |
-| 04 | Lead Generation | Get in front |
+| # | Offer |
+| --- | --- |
+| 01 | Website in 14 Days |
+| 02 | Intake Gap Audit |
+| 03 | AI Content & Search Engine |
+| 04 | Lead Generation |
 
-Lead Generation was added to the site in PR #9 and is carried here with its own
-`step` wording, "Get in front", not a paraphrase. "AI Content & Search Engine" is
-set as "AI Content & Search" so the four titles hold one line each in the 2 × 2
-grid; the name on the site is unchanged.
+The `step` tags from the site ("Get found", "Get signed", "Get called", "Get in
+front") were carried here at 7 pt beside each name and have since been cut: at
+that size they were label noise, and the space they held has gone back into the
+names (14 pt → 17.5 pt) and the row gutter (0.26in → 0.38in). If they are ever
+wanted again, they cost 9 words and roughly 0.12in of grid.
+
+"AI Content & Search Engine" is set as "AI Content & Search" so the four titles
+hold one line each in the 2 × 2 grid; the name on the site is unchanged.
 
 Things that are load-bearing and easy to get wrong:
 
@@ -99,9 +102,12 @@ Things that are load-bearing and easy to get wrong:
   quiet zone — do not tighten it to gain size.
 - The free thing is the **consultation**. The Intake Gap Audit is paid (credited
   toward other work), so it must never be described as free.
-- There is no Home Services vertical, no founding year, and no stat that is not
-  attributable to a named client on the site.
+- The front kicker reads **FOR LAW FIRMS & MEDICAL PRACTICES**. Those are the
+  two verticals, and the only two. There is no Home Services vertical, no
+  founding year, and no stat that is not attributable to a named client on the
+  site.
 
 If the site's offers change, update this flyer with them. Resist adding: the
 piece works because of what is not on it. The word budgets are 25 on the front
-and 75 on the back — every addition should displace something.
+and 75 on the back — every addition should displace something. The front is now
+**at** its budget; anything added to it has to take 25 back down first.
