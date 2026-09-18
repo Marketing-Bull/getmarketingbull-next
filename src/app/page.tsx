@@ -4,7 +4,7 @@ import Button from '@/components/Button';
 import Reveal from '@/components/Reveal';
 import TestimonialCarousel from '@/components/TestimonialCarousel';
 import CTASection from '@/components/CTASection';
-import { OFFERS, TESTIMONIALS, COMPANY } from '@/lib/constants';
+import { TESTIMONIALS, COMPANY, getOffer, type OfferSlug } from '@/lib/constants';
 
 export const metadata: Metadata = {
   alternates: { canonical: COMPANY.website },
@@ -30,24 +30,30 @@ const PRINCIPLES = [
   },
 ];
 
-const LENSES = [
+const LENSES: { label: string; question: string; body: string; offer: OfferSlug }[] = [
   {
     label: 'Found',
     question: 'When someone searches, are you there — and credible?',
     body: 'Site speed, structure, and first impression decide whether a prospect calls you or the next result. We engineer the site as the front door it is.',
-    offer: OFFERS[0],
+    offer: 'website-in-14-days',
+  },
+  {
+    label: 'In front',
+    question: 'When someone is ready to hire today, who is paying to be in front of them?',
+    body: 'Organic compounds, but slowly. Paid search and social buy placement in front of people already looking — and most firms run them blind, because the reporting stops at the click and the calls go uncounted. We run the campaigns, the pages behind them, and the tracking that ties a signed case back to the ad.',
+    offer: 'lead-generation',
   },
   {
     label: 'Called',
     question: 'When they ask Google or an AI who\'s good, is your name in the answer?',
     body: 'Search has split: rankings still matter, and so does being cited by ChatGPT, Perplexity, and Google\'s AI answers. We build the authority that earns both.',
-    offer: OFFERS[2],
+    offer: 'ai-content-engine',
   },
   {
     label: 'Signed',
     question: 'When they call, what actually happens?',
     body: 'Speed-to-lead, after-hours coverage, qualification, follow-up. This is where most firms lose the cases they already paid to generate — and where the fix has the fastest return.',
-    offer: OFFERS[1],
+    offer: 'intake-gap-audit',
   },
 ];
 
@@ -151,23 +157,26 @@ export default function HomePage() {
           <Reveal>
             <div className="max-w-2xl mb-14">
               <p className="text-xs font-bold uppercase tracking-widest text-red-400 mb-3">Where we look</p>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">A case is lost in one of three places.</h2>
-              <p className="text-lg text-slate-400 leading-relaxed">Every diagnosis starts with the same three questions. The answers tell us what to build — and, just as often, what not to.</p>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">A case is lost in one of four places.</h2>
+              <p className="text-lg text-slate-400 leading-relaxed">Every diagnosis starts with the same four questions. The answers tell us what to build — and, just as often, what not to.</p>
             </div>
           </Reveal>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {LENSES.map((l, i) => (
-              <Reveal key={l.label} delay={i * 100}>
-                <div className="h-full flex flex-col rounded-2xl border border-slate-800 bg-slate-900/40 p-8">
-                  <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Get {l.label.toLowerCase()}</span>
-                  <h3 className="mt-3 text-xl font-black tracking-tight leading-snug">{l.question}</h3>
-                  <p className="mt-4 text-slate-400 leading-relaxed flex-1">{l.body}</p>
-                  <Link href={`/products/${l.offer.slug}`} className="mt-6 text-sm font-semibold text-white hover:text-red-400 transition">
-                    {l.offer.name} →
-                  </Link>
-                </div>
-              </Reveal>
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+            {LENSES.map((l, i) => {
+              const offer = getOffer(l.offer)!;
+              return (
+                <Reveal key={l.label} delay={i * 100}>
+                  <div className="h-full flex flex-col rounded-2xl border border-slate-800 bg-slate-900/40 p-8">
+                    <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Get {l.label.toLowerCase()}</span>
+                    <h3 className="mt-3 text-xl font-black tracking-tight leading-snug">{l.question}</h3>
+                    <p className="mt-4 text-slate-400 leading-relaxed flex-1">{l.body}</p>
+                    <Link href={`/products/${offer.slug}`} className="mt-6 text-sm font-semibold text-white hover:text-red-400 transition">
+                      {offer.name} →
+                    </Link>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
