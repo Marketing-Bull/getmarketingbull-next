@@ -25,6 +25,7 @@ const ACCENT: Record<string, { text: string; bg: string; border: string; soft: s
   red: { text: 'text-red-600', bg: 'bg-red-600', border: 'border-red-200', soft: 'bg-red-50' },
   blue: { text: 'text-blue-600', bg: 'bg-blue-600', border: 'border-blue-200', soft: 'bg-blue-50' },
   emerald: { text: 'text-emerald-600', bg: 'bg-emerald-600', border: 'border-emerald-200', soft: 'bg-emerald-50' },
+  amber: { text: 'text-amber-600', bg: 'bg-amber-600', border: 'border-amber-200', soft: 'bg-amber-50' },
 };
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {

@@ -32,7 +32,7 @@ export const COMPANY = {
   bookingUrl: '/free-consultation',
 };
 
-export type OfferSlug = 'website-in-14-days' | 'intake-gap-audit' | 'ai-content-engine';
+export type OfferSlug = 'website-in-14-days' | 'intake-gap-audit' | 'ai-content-engine' | 'lead-generation';
 
 export interface Offer {
   slug: OfferSlug;
@@ -180,6 +180,52 @@ export const OFFERS: Offer[] = [
     ],
     ctaLabel: 'Start publishing',
     accent: 'emerald',
+  },
+  {
+    slug: 'lead-generation',
+    step: 'Get in front',
+    name: 'Lead Generation',
+    headline: 'Paid search and social run end to end — the ads, the pages they land on, and the tracking that shows which clicks became cases.',
+    short:
+      'Google and Meta ads managed as one system: campaigns, the landing pages behind them, and call and form tracking wired to your CRM so every lead carries the campaign that produced it.',
+    terms: 'Monthly. 3-month minimum, then month-to-month, cancel with 30 days notice. Ad spend is paid directly to the platforms, never through us.',
+    timeline: 'First campaigns live within 10 business days',
+    bestFor: 'Firms and practices that need case or patient volume now, and want to know which ads produced it.',
+    problem:
+      'Most ad reporting stops at the click. You get impressions, cost per click, maybe form fills — and no idea which campaign produced a signed case or a booked patient. Meanwhile the calls those ads generate go untracked entirely, so the keyword doing the most work can look like it does none. Budget then follows the numbers that are easy to measure instead of the ones that matter.',
+    includes: [
+      'Campaign build and management on Google Ads, Meta, or both — whichever your market actually responds to',
+      'Keyword, audience and competitor research specific to your practice areas and service area',
+      'Conversion-built landing pages for each campaign, matched to the ad that sent the visitor',
+      'Call tracking with dynamic number insertion, so phone leads are attributed to the campaign and keyword behind them',
+      'Lead routing into your CRM with source, campaign and keyword attached to every record',
+      'Weekly search-term, placement and bid review, so spend stops reaching the wrong searches',
+      'Ad and landing page testing, with changes made on evidence rather than opinion',
+      'Monthly report tying spend to leads, and leads to signed matters or booked appointments wherever your CRM records the outcome',
+      'Florida Bar advertising-rule review on legal ad copy, and platform policy review on medical',
+    ],
+    notIncluded: [
+      'Ad spend itself — you pay the platforms directly and the accounts stay in your name',
+      'Website work beyond the campaign landing pages (see Website in 14 Days)',
+      'Organic search and content (see AI Content & Search Engine)',
+      'Answering the phone — ads create the call; what happens next is intake (see the Intake Gap Audit)',
+      'Tracking pixels on anything behind a patient login or portal',
+    ],
+    process: [
+      { title: 'Week 1 — Foundation', desc: 'Accounts built or accessed in your name, conversion and call tracking installed, research into the searches and audiences that convert in your market.' },
+      { title: 'Week 2 — Launch', desc: 'First campaigns and landing pages go live against an agreed budget. Baselines are recorded so later changes can be measured against something.' },
+      { title: 'Weekly — Manage', desc: 'Search terms, placements, bids and creative reviewed. Waste cut, winners scaled, and every change logged with the reason for it.' },
+      { title: 'Monthly — Report', desc: 'Spend, leads, cost per lead, and — where your CRM records the outcome — cost per signed case or booked patient. Next month is planned against that.' },
+    ],
+    faqs: [
+      { q: 'Do you mark up our ad spend?', a: 'No. You pay Google and Meta directly, the accounts are created in your name, and you keep them if you leave. We are paid for managing the work, not for how much of your budget we place.' },
+      { q: 'Google Ads or Meta — which one?', a: 'It depends on whether people search for what you do or need to be shown it. Personal injury and most medical specialties have real search demand, so paid search usually leads and Meta handles retargeting and awareness. We will tell you on the first call which we think fits, and running one rather than both is a perfectly good answer.' },
+      { q: 'How do you track phone calls?', a: 'Dynamic number insertion: the number shown on your site changes with how the visitor arrived, so a call can be tied to the campaign and keyword that produced it. The numbers forward to your real line and your staff answer normally. We do not record calls by default — Florida is an all-party consent state.' },
+      { q: 'Can you work with our existing ad accounts?', a: 'Yes, and we prefer it — the account history is worth keeping. We take a documented snapshot of what is running before changing anything, so you can see exactly what moved and why.' },
+      { q: 'What about ads for a medical practice?', a: 'Platform policy limits how health-related audiences can be targeted, and we do not place tracking pixels on anything behind a patient login or portal. Campaigns are built around what someone is actively searching for, not around inferences about their condition.' },
+    ],
+    ctaLabel: 'Start my campaigns',
+    accent: 'amber',
   },
 ];
 
