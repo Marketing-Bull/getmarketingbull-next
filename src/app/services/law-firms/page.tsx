@@ -4,7 +4,7 @@ import { COMPANY } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'For Law Firms',
-  description: 'Growth consulting for personal injury and plaintiff firms: the site that gets you found, the authority that gets you called, and the intake that gets the case signed.',
+  description: 'Growth consulting for personal injury and plaintiff firms: the site that gets you found, the ads that put you in front, the authority that gets you called, and the intake that gets the case signed.',
   alternates: { canonical: `${COMPANY.website}/services/law-firms` },
 };
 
@@ -13,15 +13,16 @@ export default function LawFirmsPage() {
     <VerticalPage
       eyebrow="Law firms · Personal injury & plaintiff"
       title="The prospect calls three firms in ten minutes. Be the one that answers."
-      subtitle="We work with personal injury and plaintiff firms on the three places a case is won or lost before an attorney ever sees it: search, the website, and the first phone call."
+      subtitle="We work with personal injury and plaintiff firms on the four places a case is won or lost before an attorney ever sees it: search, paid placement, the website, and the first phone call."
       problemTitle="The case is decided before the consult."
       problem={[
         'A personal injury prospect does not comparison-shop the way someone buying a car does. They are hurt, stressed, and often frightened, and they call several firms in quick succession. The firm that answers first, sounds competent, and captures their information usually signs the case. Reputation matters — but only among the firms that picked up.',
         'That means most firms are not losing on legal quality. They are losing on a slow website, a Google or AI answer that names someone else, or a front desk that sends a new lead to voicemail at 5:01 pm. Those are operational problems, and they are fixable in weeks, not years.',
-        'Our job is to find which of the three is costing you cases, put a dollar figure on it, and build the fix — inside Florida Bar advertising rules and inside infrastructure your firm owns.',
+        'Our job is to find which of the four is costing you cases, put a dollar figure on it, and build the fix — inside Florida Bar advertising rules and inside infrastructure your firm owns.',
       ]}
       lenses={[
         { label: 'Found', question: 'When someone searches, does your site earn the call?', body: 'A conversion-built site on a modern stack, with practice-area pages, click-to-call, and local schema — live in fourteen days, owned by the firm.', offer: 'website-in-14-days' },
+        { label: 'In front', question: 'When someone searches for a lawyer today, who is paying to sit above you?', body: 'Personal injury keywords are among the most expensive in advertising, so the win is not outspending the firm with the largest budget — it is not wasting. Campaigns, landing pages and call tracking run as one system, with ad copy reviewed against Florida Bar advertising rules, so you can see which keyword produced a signed case.', offer: 'lead-generation' },
         { label: 'Called', question: 'When they ask Google or ChatGPT "best PI lawyer near me," is your firm in the answer?', body: 'Weekly, attorney-reviewed content built to rank in search and be cited by AI engines, with monthly reporting on both.', offer: 'ai-content-engine' },
         { label: 'Signed', question: 'When they call, what actually happens?', body: 'Two scored mystery-shop calls, a full intake audit, and an ROI report on the cases slipping through the front desk.', offer: 'intake-gap-audit' },
       ]}

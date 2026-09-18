@@ -55,8 +55,8 @@ export default function VerticalPage(p: VerticalPageProps) {
       <section className="py-20 md:py-24 bg-slate-950 text-white">
         <div className="container-md">
           <p className="text-xs font-bold uppercase tracking-widest text-red-400 mb-3">Where we look</p>
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-12">Three questions, three engagements.</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-12">Four questions, four engagements.</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
             {p.lenses.map((l) => {
               const offer = OFFERS.find((o) => o.slug === l.offer)!;
               return (
