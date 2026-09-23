@@ -50,6 +50,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         {/*
+          Marks the document as scripted before first paint so <Reveal> can start
+          hidden (see globals.css) without SSR ever shipping invisible content. If
+          the page has reveals but hydration hasn't reached them within 3s (slow
+          or failed JS), drop the class so nothing stays hidden.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(d){d.classList.add('js');setTimeout(function(){if(!d.hasAttribute('data-reveal-ready')&&document.querySelector('[data-reveal]:not([data-shown])'))d.classList.remove('js')},3000)})(document.documentElement);`,
+          }}
+        />
+        {/*
           Google's canonical gtag snippet, server-rendered.
 
           This was previously <GoogleAnalytics> from @next/third-parties, which uses

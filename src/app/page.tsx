@@ -249,12 +249,10 @@ export default function HomePage() {
           </Reveal>
           <ol className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {ENGAGEMENT.map((e, i) => (
-              <Reveal key={e.step} delay={i * 100}>
-                <li className="h-full border-t-2 border-slate-900 pt-6">
-                  <span className="text-xs font-black text-red-600">0{i + 1}</span>
-                  <h3 className="mt-2 text-lg font-black tracking-tight text-slate-900">{e.step}</h3>
-                  <p className="mt-3 text-sm text-slate-600 leading-relaxed">{e.desc}</p>
-                </li>
+              <Reveal as="li" key={e.step} delay={i * 100} className="h-full border-t-2 border-slate-900 pt-6">
+                <span className="text-xs font-black text-red-600">0{i + 1}</span>
+                <h3 className="mt-2 text-lg font-black tracking-tight text-slate-900">{e.step}</h3>
+                <p className="mt-3 text-sm text-slate-600 leading-relaxed">{e.desc}</p>
               </Reveal>
             ))}
           </ol>
