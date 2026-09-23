@@ -41,9 +41,12 @@ export const metadata: Metadata = {
 
 // GA4 loads directly: there is no confirmed GTM container for this site, and the
 // one from the old WordPress build cannot be assumed to exist or to be clean.
-// GTM stays supported but unset — if a container is ever adopted, move the GA4 tag
-// into it and unset NEXT_PUBLIC_GA_ID rather than running both.
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+// NEXT_PUBLIC_GTM_ID is the switch between the two paths, never both:
+//   - unset (today): the gtag snippet below is rendered and GTM is not.
+//   - set: GTM is rendered and the gtag snippet is not. GA4 must then be configured
+//     as a tag inside the container, or GA collects nothing.
+// NEXT_PUBLIC_GA_ID only chooses which GA4 property the direct snippet reports to.
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || undefined;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -57,16 +60,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           so the served HTML carried only a preload link and nothing ran until
           hydration finished. These two tags are in the HTML itself, so GA starts on
           page load and does not depend on hydration succeeding.
+
+          Skipped only when a GTM container is set (see GTM_ID above), so GA4 never
+          runs twice.
         */}
-        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer = window.dataLayer || [];
+        {GTM_ID ? null : (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', '${GA_MEASUREMENT_ID}');`,
-          }}
-        />
+              }}
+            />
+          </>
+        )}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}

@@ -1,13 +1,14 @@
 /**
  * GA4 measurement id. Not a secret — it ships in client JS on every page and is
  * visible in any browser's network tab. Hardcoded so measurement works on deploy
- * with no configuration; override per-environment with NEXT_PUBLIC_GA_ID.
+ * with no configuration; override per-environment with NEXT_PUBLIC_GA_ID. `||`, not
+ * `??`: an env var that exists but is empty must fall back, not yield an empty id.
  *
- * If a GTM container is ever wired up (NEXT_PUBLIC_GTM_ID), do not also put a GA4
- * tag for this property inside it — the page would then load GA4 twice and every
- * pageview and event would be counted twice. Pick one path.
+ * This id is only used by the direct gtag snippet in layout.tsx, which is rendered
+ * only while NEXT_PUBLIC_GTM_ID is unset. Setting a GTM container id switches the
+ * snippet off; GA4 then has to live as a tag inside the container.
  */
-export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID ?? 'G-D5G7PCS5K0';
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-D5G7PCS5K0';
 
 export const COMPANY = {
   name: 'Marketing Bull',
