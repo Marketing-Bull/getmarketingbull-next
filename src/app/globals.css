@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
-html { scroll-behavior: smooth; }
+/* The fixed h-16 header would otherwise cover in-page anchor targets. */
+html { scroll-padding-top: 5rem; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
 body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .container-md {

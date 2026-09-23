@@ -47,7 +47,7 @@ const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/*
           Marks the document as scripted before first paint so <Reveal> can start
@@ -84,8 +84,14 @@ gtag('config', '${GA_MEASUREMENT_ID}');`,
         />
       </head>
       <body className={`${inter.className} antialiased bg-white text-slate-900`}>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-3 focus:z-[60] focus:rounded-full focus:bg-white focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-slate-900 focus:shadow-lg focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-red-600"
+        >
+          Skip to content
+        </a>
         <Header />
-        <main className="pt-16">{children}</main>
+        <main id="main" tabIndex={-1} className="pt-16 focus:outline-none">{children}</main>
         <Footer />
         <CallTracking />
         <Analytics />
