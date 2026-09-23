@@ -267,7 +267,7 @@ export default function HomePage() {
               { src: '/alex.webp', alt: 'Alexander Babenchuk' },
               { src: '/oleg.webp', alt: 'Oleg Babenchuk' },
             ].map((p) => (
-              <img key={p.src} src={p.src} alt={p.alt} width={72} height={72} className="h-[72px] w-[72px] rounded-full border-4 border-slate-50 object-cover shadow-md" />
+              <img key={p.src} src={p.src} alt={p.alt} width={72} height={72} loading="lazy" decoding="async" className="h-[72px] w-[72px] rounded-full border-4 border-slate-50 object-cover shadow-md" />
             ))}
           </div>
           <div className="flex-1 text-center md:text-left">

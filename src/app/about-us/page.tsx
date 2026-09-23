@@ -74,7 +74,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
             {TEAM.map((m) => (
               <div key={m.name} className="rounded-2xl border border-slate-200 bg-white p-8 flex gap-6">
-                <img src={m.photo} alt={m.name} width={80} height={80} className="h-20 w-20 rounded-full object-cover shrink-0" />
+                <img src={m.photo} alt={m.name} width={80} height={80} loading="lazy" decoding="async" className="h-20 w-20 rounded-full object-cover shrink-0" />
                 <div>
                   <h3 className="text-xl font-black tracking-tight text-slate-900">{m.name}</h3>
                   <p className="text-xs font-semibold uppercase tracking-widest text-red-600 mt-1 mb-3">{m.role}</p>

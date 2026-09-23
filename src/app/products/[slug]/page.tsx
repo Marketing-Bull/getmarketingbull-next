@@ -108,7 +108,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <ul className="space-y-3.5">
                 {offer.includes.map((item) => (
                   <li key={item} className="flex gap-3 rounded-xl bg-white border border-slate-200 px-5 py-4 text-slate-800">
-                    <span className={`shrink-0 mt-0.5 h-5 w-5 rounded-full ${a.bg} text-white text-xs font-bold flex items-center justify-center`}>✓</span>
+                    <span className={`shrink-0 mt-0.5 h-5 w-5 rounded-full ${a.bg} text-white text-xs font-bold flex items-center justify-center`} aria-hidden="true">✓</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -120,7 +120,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <ul className="space-y-3.5">
                 {offer.notIncluded.map((item) => (
                   <li key={item} className="flex gap-3 rounded-xl border border-dashed border-slate-300 px-5 py-4 text-slate-600">
-                    <span className="shrink-0 text-slate-400 font-bold">—</span>
+                    <span className="shrink-0 text-slate-400 font-bold" aria-hidden="true">—</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -156,7 +156,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <details key={f.q} className="group py-5">
                 <summary className="flex cursor-pointer items-center justify-between gap-4 text-left text-lg font-semibold text-slate-900 list-none">
                   {f.q}
-                  <span className="shrink-0 text-slate-400 transition group-open:rotate-45 text-2xl leading-none">+</span>
+                  <span className="shrink-0 text-slate-400 transition group-open:rotate-45 text-2xl leading-none" aria-hidden="true">+</span>
                 </summary>
                 <p className="mt-3 text-slate-600 leading-relaxed">{f.a}</p>
               </details>

@@ -33,7 +33,7 @@ export default function OfferCard({ offer, featured = false, compact = false }: 
         <ul className="mt-6 space-y-2.5 text-sm text-slate-700">
           {offer.includes.slice(0, 3).map((item) => (
             <li key={item} className="flex gap-2.5">
-              <span className={`mt-0.5 shrink-0 font-bold ${a.text}`}>✓</span>
+              <span className={`mt-0.5 shrink-0 font-bold ${a.text}`} aria-hidden="true">✓</span>
               <span>{item}</span>
             </li>
           ))}

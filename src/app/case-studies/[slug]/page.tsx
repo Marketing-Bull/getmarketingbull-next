@@ -66,13 +66,13 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             { label: 'Result', body: cs.result },
           ].map((s) => (
             <div key={s.label} className="grid grid-cols-1 md:grid-cols-12 gap-6 py-8 border-t border-slate-200">
-              <p className="md:col-span-3 text-xs font-bold uppercase tracking-widest text-red-600">{s.label}</p>
+              <h2 className="md:col-span-3 text-xs font-bold uppercase tracking-widest text-red-600">{s.label}</h2>
               <p className="md:col-span-9 text-lg text-slate-700 leading-relaxed">{s.body}</p>
             </div>
           ))}
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 py-8 border-t border-slate-200">
-            <p className="md:col-span-3 text-xs font-bold uppercase tracking-widest text-slate-400">Scope</p>
+            <h2 className="md:col-span-3 text-xs font-bold uppercase tracking-widest text-slate-500">Scope</h2>
             <ul className="md:col-span-9 flex flex-wrap gap-2">
               {cs.services.map((s) => (
                 <li key={s} className="rounded-full border border-slate-200 px-3 py-1 text-sm text-slate-700">{s}</li>
@@ -94,7 +94,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
       {others.length > 0 && (
         <section className="py-14 bg-slate-50 border-t border-slate-100">
           <div className="container-md max-w-4xl">
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">More case studies</p>
+            <h2 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">More case studies</h2>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {others.map((o) => (
                 <li key={o.slug}>

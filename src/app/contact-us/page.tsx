@@ -35,7 +35,7 @@ export default function ContactPage() {
                     { icon: '📍', label: 'Office', value: '319 Clematis Street, Suite 300', href: null, sub: 'West Palm Beach, FL 33401' },
                   ].map((item) => (
                     <div key={item.label} className="flex gap-5 p-6 bg-slate-50 rounded-2xl border border-slate-200">
-                      <div className="text-2xl">{item.icon}</div>
+                      <div className="text-2xl" aria-hidden="true">{item.icon}</div>
                       <div>
                         <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-1">{item.label}</p>
                         {item.href ? (

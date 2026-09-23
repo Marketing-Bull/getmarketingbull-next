@@ -42,6 +42,7 @@ export default function EngagementsPage() {
 
       <section className="py-16 md:py-20 bg-slate-50">
         <div className="container-md">
+          <h2 className="sr-only">Engagements</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch pt-4">
             {OFFERS.map((o) => (
               <OfferCard key={o.slug} offer={o} featured={o.slug === 'ai-content-engine'} />
@@ -61,7 +62,7 @@ export default function EngagementsPage() {
               <details key={f.q} className="group py-5">
                 <summary className="flex cursor-pointer items-center justify-between gap-4 text-left text-lg font-semibold text-slate-900 list-none">
                   {f.q}
-                  <span className="shrink-0 text-slate-400 transition group-open:rotate-45 text-2xl leading-none">+</span>
+                  <span className="shrink-0 text-slate-400 transition group-open:rotate-45 text-2xl leading-none" aria-hidden="true">+</span>
                 </summary>
                 <p className="mt-3 text-slate-600 leading-relaxed">{f.a}</p>
               </details>

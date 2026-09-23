@@ -47,7 +47,7 @@ export default async function FreeConsultationPage({ searchParams }: { searchPar
               <div className="space-y-7 mb-12">
                 {WHAT_TO_EXPECT.map((item) => (
                   <div key={item.step} className="flex gap-5">
-                    <div className="text-3xl font-black text-slate-200 min-w-[44px]">{item.step}</div>
+                    <div className="text-3xl font-black text-slate-200 min-w-[44px]" aria-hidden="true">{item.step}</div>
                     <div>
                       <h3 className="text-lg font-bold text-slate-900 mb-1.5">{item.title}</h3>
                       <p className="text-slate-600 leading-relaxed">{item.desc}</p>
