@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Marketing Bull — Landscape Flyer</title>
+<style>
+/* ── PAGE SIZE ─────────────────────────────────────────────────────────────
+   build.mjs swaps the block between the markers below to emit the no-bleed
+   (digital) variant. Default is the print variant: 8.5x5.5 landscape trim +
+   0.125in bleed on all four sides. */
+/* @PAGE_SIZE_START */
+@page { size: 8.75in 5.75in; margin: 0; }
+:root { --bleed: 0.125in; }
+/* @PAGE_SIZE_END */
+
+/* ── FONTS ────────────────────────────────────────────────────────────────
+   Real Archivo and IBM Plex Sans, self-hosted. These are STATIC instances cut
+   from the variable originals by fonts/build-static.py — Chromium's PDF writer
+   cannot embed a variable instance as a TrueType subset and silently falls back
+   to Type 3 glyph procedures, which bloats the file and trips print preflight.
+   Only the weights the flyer actually uses are cut. */
+@font-face { font-family:'Archivo'; src:url('fonts/Archivo-600.woff2') format('woff2'); font-weight:600; font-style:normal; font-display:block; }
+@font-face { font-family:'Archivo'; src:url('fonts/Archivo-800.woff2') format('woff2'); font-weight:800; font-style:normal; font-display:block; }
+@font-face { font-family:'Archivo'; src:url('fonts/Archivo-900.woff2') format('woff2'); font-weight:900; font-style:normal; font-display:block; }
+@font-face { font-family:'IBM Plex Sans'; src:url('fonts/IBMPlexSans-400.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:block; }
+@font-face { font-family:'IBM Plex Sans'; src:url('fonts/IBMPlexSans-500.woff2') format('woff2'); font-weight:500; font-style:normal; font-display:block; }
+@font-face { font-family:'IBM Plex Sans'; src:url('fonts/IBMPlexSans-600.woff2') format('woff2'); font-weight:600; font-style:normal; font-display:block; }
+@font-face { font-family:'IBM Plex Sans'; src:url('fonts/IBMPlexSans-700.woff2') format('woff2'); font-weight:700; font-style:normal; font-display:block; }
+
+/* ── TOKENS ──────────────────────────────────────────────────────────────── */
+:root {
+  --ink:      #0c0c0e;
+  --bull:     #e11d2a;
+  --bright:   #ff2a36;
+  --paper:    #f4f1ea;
+  --line:     #d8d1c1;
+  --muted:    #8a8578;
+  --bone-dim: #cdc8bd;   /* body copy on ink — print-safe contrast */
+  --ink-dim:  #3b3830;   /* body copy on paper */
+
+  --trim-w: 8.5in;       /* landscape */
+  --trim-h: 5.5in;
+  --safe:   0.25in;      /* safe margin, measured from TRIM */
+  --inset:  calc(var(--bleed) + var(--safe));
+
+  --facet: polygon(0 0, 100% 0, 100% 100%, 26px 100%, 0 calc(100% - 26px));
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-variant-ligatures: none;
+  text-rendering: geometricPrecision;
+}
+
+.page {
+  position: relative;
+  width:  calc(var(--trim-w) + 2 * var(--bleed));
+  height: calc(var(--trim-h) + 2 * var(--bleed));
+  overflow: hidden;
+  page-break-after: always;
+  break-after: page;
+}
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+/* Content well: 0.25in in from trim on every side. */
+.safe {
+  position: absolute;
+  inset: var(--inset);
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+}
+
+/* No grain/noise layer here on purpose. A feTurbulence background forces
+   Chromium's PDF writer to flatten the whole page into a ~150 DPI bitmap
+   (6.7 MB, everything under it resampled). At 5% opacity it bought nothing
+   a press would show, so the pages stay fully vector instead. */
+
+/* ── TYPE PRIMITIVES ────────────────────────────────────────────────────── */
+.kicker {
+  font-size: 7.6pt; font-weight: 600;
+  letter-spacing: .3em; text-transform: uppercase;
+  line-height: 1;
+}
+.display {
+  font-family: 'Archivo'; font-weight: 900;
+  text-transform: uppercase; line-height: .88; letter-spacing: -.035em;
+}
+.grow { flex: 1 1 auto; min-height: 0; }
+
+.wordmark { display: flex; align-items: center; gap: 8px; }
+.wordmark img { width: 32px; display: block; }
+.wordmark .wm {
+  font-family: 'Archivo'; font-weight: 800; font-size: 14pt;
+  letter-spacing: -.035em; text-transform: uppercase; line-height: 1;
+}
+.wordmark .wm em { font-style: normal; color: var(--bull); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PAGE 1 — FRONT
+   Horizontal split: headline holds the left, the bull runs off the right
+   edge at full scale. Four elements, and a lot of deliberate emptiness.
+   ══════════════════════════════════════════════════════════════════════════ */
+.front { background: var(--ink); color: var(--paper); }
+
+/* The bull sits on the flat ink field and bleeds off the right edge — bright
+   red on near-black is the highest contrast this mark can get, and nothing
+   behind it can muddy at press. A .page-level child, so it is free to bleed. */
+.front .bull {
+  position: absolute; z-index: 2;
+  right: calc(-0.12in + var(--bleed)); top: 52%;
+  transform: translateY(-50%);
+  width: 4.25in;
+}
+
+.front .safe { width: 5.1in; }   /* headline column only — bull owns the rest */
+.front .masthead { flex: none; }
+/* Audience kicker. The front otherwise never says who the piece is for, and the
+   two verticals are the whole qualification. Sits on the headline's own column,
+   one line, tracked a touch tighter than the stock .kicker so it does not run
+   past the 5.1in well. Red on ink, not bone — it is an accent, not body copy. */
+.front .audience {
+  flex: none; color: var(--bright); letter-spacing: .28em;
+  margin-bottom: 15px;
+}
+.front .headline { font-size: 50px; flex: none; }
+.front .headline .hot { color: var(--bright); }
+.front .lede {
+  flex: none; font-size: 12.6pt; line-height: 1.34; color: var(--bone-dim);
+  font-weight: 400; max-width: 4.3in;
+}
+
+.front .cta { flex: none; display: flex; align-items: baseline; gap: 14px; }
+.front .cta .tag {
+  font-family: 'Archivo'; font-weight: 800; font-size: 11pt;
+  text-transform: uppercase; letter-spacing: -.01em; color: #fff;
+  background: var(--bull); padding: 7px 11px 8px; line-height: 1;
+  align-self: center;
+}
+/* line-height clears the Archivo inline box; at 1.0 the descender pokes a
+   pixel past the safe area and check.mjs (rightly) fails the build. */
+/* 25px, not the 30px the phone number was set at: the URL is 20 characters to
+   the phone's 14, and 25px is the largest size that still holds one line inside
+   the 5.1in headline column beside the chip (26px measures 291.9px against
+   292.1px of room — no margin for a font update). The longer string carries the
+   same optical weight on the line. */
+.front .cta .site {
+  font-family: 'Archivo'; font-weight: 900; font-size: 25px;
+  letter-spacing: -.035em; line-height: 1.16; color: #fff;
+}
+.front .cta .site span { color: var(--bright); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PAGE 2 — BACK (bone paper, ink + red)
+   ══════════════════════════════════════════════════════════════════════════ */
+.back { background: var(--paper); color: var(--ink); }
+.back .head { flex: none; display: flex; align-items: center; }
+.back .rule { flex: none; height: 2.5px; background: var(--bull); }
+
+/* Four engagements, 2 x 2 with real gutters. The step tags ("Get found" etc.)
+   that used to sit beside each name are gone; the space they took has been put
+   back into the names (14pt -> 17.5pt) and the row gutter (0.26in -> 0.38in)
+   rather than left as a hole. The column gutter is unchanged on purpose — the
+   one-line descriptions need every pica of measure they had. */
+.svcs {
+  flex: none; display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 0.42in; row-gap: 0.38in;
+}
+.svc { display: flex; gap: 13px; }
+.svc .n {
+  font-family: 'Archivo'; font-weight: 900; font-size: 17pt; line-height: .95;
+  letter-spacing: -.05em; color: var(--bull); width: 28px; flex: none;
+}
+.svc h3 {
+  font-family: 'Archivo'; font-weight: 800; font-size: 17.5pt; line-height: 1;
+  letter-spacing: -.03em; text-transform: uppercase;
+}
+.svc p { font-size: 10.4pt; line-height: 1.34; color: var(--ink-dim); margin-top: 7px; }
+
+/* one proof point, attributed */
+.proof { flex: none; display: flex; align-items: center; gap: 15px; }
+.proof .n {
+  font-family: 'Archivo'; font-weight: 900; font-size: 40px;
+  letter-spacing: -.04em; line-height: 1.1; color: var(--bull); flex: none;
+}
+/* The latin subset of Archivo has no U+2192, and letting it fall back would
+   put one glyph of Liberation Serif in the file. Drawn instead. */
+.proof .n .arw { width: 29px; height: 15px; margin: 0 4px; vertical-align: 3px; }
+.proof p { font-size: 11.4pt; line-height: 1.3; font-weight: 500; }
+.proof p .src {
+  display: block; font-size: 7pt; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--muted); font-weight: 600; margin-top: 4px;
+}
+
+/* contact — one band. The ink field is a page-level decoration so it can bleed
+   off three edges; the copy itself stays inside the safe well and is checked. */
+.back .band {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  height: calc(1.25in + var(--inset));
+  background: var(--ink);
+}
+/* 1.25in, up from 0.92in, so the QR can be a call to scan rather than a
+   footnote. The height comes out of the flex spacers above, which had 2.16in
+   between them; nothing else moves. */
+.contact {
+  flex: none; color: var(--paper);
+  height: 1.25in;
+  display: flex; align-items: center; gap: 22px;
+}
+.contact .phone {
+  font-family: 'Archivo'; font-weight: 900; font-size: 30px;
+  letter-spacing: -.035em; line-height: 1; color: #fff;
+}
+.contact .phone span { color: var(--bright); }
+.contact .meta {
+  font-size: 8.6pt; color: var(--bone-dim); margin-top: 6px; letter-spacing: .02em;
+}
+.contact .grow { flex: 1 1 auto; }
+/* 1.05in inside a 1.25in band — 0.1in of ink above and below it. The padding is
+   the printed quiet zone (the PNG itself carries only a 1-module margin) and is
+   scaled with the box, so the white surround grows rather than getting cropped. */
+.contact .qbox { background: #fff; padding: 7px; width: 1.05in; height: 1.05in; flex: none; }
+.contact .qbox img { width: 100%; height: 100%; display: block; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════ PAGE 1 — FRONT ══════════════════════════ -->
+<section class="page front">
+  <img class="bull" src="../public/logo.png" alt="">
+
+  <div class="safe">
+    <div class="masthead">
+      <div class="wordmark">
+        <img src="../public/logo.png" alt="Marketing Bull">
+        <div class="wm">Marketing<em>Bull</em></div>
+      </div>
+    </div>
+
+    <div class="grow"></div>
+
+    <div class="kicker audience">For Law Firms &amp; Medical Practices</div>
+
+    <h1 class="display headline">
+      Every<br>missed call<br>is a case your<br><span class="hot">rival signs.</span>
+    </h1>
+
+    <p class="lede" style="margin-top:20px;">
+      We fix the intake systems that lose you clients.
+    </p>
+
+    <div class="grow"></div>
+
+    <div class="cta">
+      <div class="tag">Free consultation</div>
+      <div class="site">getmarketing<span>bull</span>.com</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ PAGE 2 — BACK ══════════════════════════ -->
+<section class="page back">
+  <div class="band"></div>
+
+  <div class="safe">
+
+    <div class="head">
+      <div class="wordmark">
+        <img src="../public/logo.png" alt="">
+        <div class="wm">Marketing<em>Bull</em></div>
+      </div>
+    </div>
+    <div class="rule" style="margin-top:11px;"></div>
+
+    <div class="grow" style="flex-grow:.85;"></div>
+
+    <div class="svcs">
+      <div class="svc">
+        <div class="n">01</div>
+        <div>
+          <h3>Website in 14 Days</h3>
+          <p>A conversion-built site, live in two weeks.</p>
+        </div>
+      </div>
+      <div class="svc">
+        <div class="n">02</div>
+        <div>
+          <h3>Intake Gap Audit</h3>
+          <p>We find the cases your phone is losing.</p>
+        </div>
+      </div>
+      <div class="svc">
+        <div class="n">03</div>
+        <div>
+          <h3>AI Content &amp; Search</h3>
+          <p>Rank in Google and in AI answers.</p>
+        </div>
+      </div>
+      <div class="svc">
+        <div class="n">04</div>
+        <div>
+          <h3>Lead Generation</h3>
+          <p>Google and Meta ads, tracked to signed cases.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grow" style="flex-grow:1.15;"></div>
+
+    <div class="proof">
+      <div class="n">0<svg class="arw" viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7h19M15.5 1.5 21.5 7l-6 5.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg>20</div>
+      <p>
+        personal injury cases a month, from a standing start.
+        <span class="src">1-800-HURT-511</span>
+      </p>
+    </div>
+
+    <div class="grow" style="flex-grow:.55;"></div>
+
+    <div class="contact">
+      <div>
+        <div class="phone">1-833-<span>GET-BULL</span></div>
+        <div class="meta">1-833-438-2855 &nbsp;&middot;&nbsp; getmarketingbull.com &nbsp;&middot;&nbsp; hello@getmarketingbull.com</div>
+      </div>
+      <div class="grow"></div>
+      <div class="qbox"><img src="qr.png" alt="getmarketingbull.com"></div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
