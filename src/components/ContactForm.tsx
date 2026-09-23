@@ -2,7 +2,10 @@
 
 import { useState } from 'react';
 import { track } from '@/lib/analytics';
+import { COMPANY } from '@/lib/constants';
 import Button from './Button';
+
+const FALLBACK_ERROR = `Sorry — that didn't go through. Please call ${COMPANY.phone} (${COMPANY.phoneFormatted}) or email ${COMPANY.email}.`;
 
 interface ContactFormProps {
   /** Optional product name, pre-filled and sent with the lead. */
@@ -33,14 +36,15 @@ export default function ContactForm({ product, source = 'website', submitLabel =
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, product, source }),
       });
-      const data = (await r.json()) as { ok: boolean; error?: string };
-      if (!r.ok || !data.ok) throw new Error(data.error || 'Something went wrong.');
+      // A platform error page (e.g. a 504) isn't JSON — don't surface a parser message to the visitor.
+      const data = (await r.json().catch(() => ({ ok: false }))) as { ok: boolean; dropped?: boolean; error?: string };
+      if (!r.ok || !data.ok) throw new Error(data.error || FALLBACK_ERROR);
       // The form never navigates, so this event is the only conversion signal.
-      track('lead_submit', { product: product ?? '', source: source ?? '' });
+      if (!data.dropped) track('lead_submit', { product: product ?? '', source: source ?? '' });
       setStatus('sent');
     } catch (err) {
       setStatus('error');
-      setError(err instanceof Error ? err.message : 'Something went wrong.');
+      setError(err instanceof Error && !(err instanceof TypeError) ? err.message : FALLBACK_ERROR);
     }
   };
 
