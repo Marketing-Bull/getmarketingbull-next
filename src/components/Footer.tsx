@@ -22,7 +22,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src="/logo-mark.webp" alt="Marketing Bull" width={28} height={28} className="rounded" />
+              <img src="/logo-mark.webp" alt="" width={28} height={18} className="rounded" />
               <span className="text-white font-bold">Marketing <span className="text-red-500">Bull</span></span>
             </div>
             <p className="text-sm leading-relaxed mb-5">{COMPANY.tagline}</p>
@@ -34,7 +34,7 @@ export default function Footer() {
             </div>
           </div>
           <div>
-            <h4 className="text-white font-semibold mb-4 text-sm">Products</h4>
+            <h2 className="text-white font-semibold mb-4 text-sm">Products</h2>
             <ul className="text-sm space-y-2">
               {OFFERS.map((o) => (
                 <li key={o.slug}><Link href={`/products/${o.slug}`} className="hover:text-white transition">{o.name}</Link></li>
@@ -45,7 +45,7 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="text-white font-semibold mb-4 text-sm">Company</h4>
+            <h2 className="text-white font-semibold mb-4 text-sm">Company</h2>
             <ul className="text-sm space-y-2">
               <li><Link href="/about-us" className="hover:text-white transition">About Us</Link></li>
               <li><Link href="/case-studies" className="hover:text-white transition">Case Studies</Link></li>
@@ -55,7 +55,7 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="text-white font-semibold mb-4 text-sm">Contact</h4>
+            <h2 className="text-white font-semibold mb-4 text-sm">Contact</h2>
             <ul className="text-sm space-y-2">
               <li><a href={`tel:${COMPANY.phoneFormatted}`} className="text-blue-400 hover:text-blue-300">{COMPANY.phone}</a></li>
               <li><a href={`mailto:${COMPANY.email}`} className="text-blue-400 hover:text-blue-300">{COMPANY.email}</a></li>
