@@ -3,12 +3,14 @@ import Link from 'next/link';
 import CTASection from '@/components/CTASection';
 import { COMPANY } from '@/lib/constants';
 import { personSchema } from '@/lib/schema';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/about-us',
   title: 'About',
-  description: 'Marketing Bull is a small senior growth consultancy in West Palm Beach that works only with law firms and medical practices. Meet the two people who do the work.',
-  alternates: { canonical: `${COMPANY.website}/about-us` },
-};
+  description:
+    'Marketing Bull is a small senior growth consultancy in West Palm Beach working only with law firms and medical practices. Meet the two people who do the work.',
+});
 
 const TEAM = [
   {

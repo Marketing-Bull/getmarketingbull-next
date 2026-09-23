@@ -3,13 +3,15 @@ import Link from 'next/link';
 import Button from '@/components/Button';
 import OfferCard from '@/components/OfferCard';
 import CTASection from '@/components/CTASection';
-import { OFFERS, COMPANY } from '@/lib/constants';
+import { OFFERS } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/services',
   title: 'How We Help',
-  description: 'Three fixed-scope engagements for law firms and medical practices — a website in 14 days, an AI content and search engine, and an intake gap audit — delivered by a senior consultancy in West Palm Beach.',
-  alternates: { canonical: `${COMPANY.website}/services` },
-};
+  description:
+    'Fixed-scope engagements for law firms and medical practices: a website in 14 days, lead generation, AI content and search, and an intake gap audit.',
+});
 
 const VERTICALS = [
   { title: 'Law firms', desc: 'Personal injury and plaintiff firms. Search, site, and the first phone call — inside Florida Bar advertising rules.', href: '/services/law-firms' },

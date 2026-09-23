@@ -2,13 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import ContactForm from '@/components/ContactForm';
 import { COMPANY, OFFERS, getOffer } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/free-consultation',
   title: 'Start a Conversation',
   description:
     'Twenty minutes with Marketing Bull about your firm or practice. We tell you where we would look first, and whether we are the right fit.',
-  alternates: { canonical: `${COMPANY.website}/free-consultation` },
-};
+});
 
 const WHAT_TO_EXPECT = [
   { step: '01', title: 'Where the leak is', desc: 'Five minutes on where you\'re losing cases or patients today: search, the site, or the phone.' },

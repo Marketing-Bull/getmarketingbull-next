@@ -2,13 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import CTASection from '@/components/CTASection';
 import { CASE_STUDIES } from '@/lib/caseStudies';
-import { COMPANY } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/case-studies',
   title: 'Case Studies',
   description: 'Selected engagements with law firms and medical practices — what the constraint was, what we built, and what happened.',
-  alternates: { canonical: `${COMPANY.website}/case-studies` },
-};
+});
 
 export default function CaseStudiesPage() {
   return (

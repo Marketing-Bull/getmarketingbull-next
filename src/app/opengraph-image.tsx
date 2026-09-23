@@ -1,6 +1,7 @@
 import { renderOg, OG_SIZE } from '@/lib/og';
+import { SITE_OG_IMAGE } from '@/lib/metadata';
 
-export const alt = 'Marketing Bull — growth consultancy for law firms and medical practices';
+export const alt = SITE_OG_IMAGE.alt;
 export const size = OG_SIZE;
 export const contentType = 'image/png';
 

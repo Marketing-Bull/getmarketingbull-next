@@ -4,11 +4,11 @@ import Button from '@/components/Button';
 import Reveal from '@/components/Reveal';
 import TestimonialCarousel from '@/components/TestimonialCarousel';
 import CTASection from '@/components/CTASection';
-import { TESTIMONIALS, COMPANY, getOffer, type OfferSlug } from '@/lib/constants';
+import { TESTIMONIALS, getOffer, type OfferSlug } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  alternates: { canonical: COMPANY.website },
-};
+// Title and description come from the root layout's defaults.
+export const metadata: Metadata = pageMeta({ path: '/', ownOgImage: true });
 
 const CLIENTS = ['1-800-HURT-511', 'WeSueThem.com', 'Queens Hyperbaric', 'Metropolitan Orthopedics', 'Linder Diaz Law', '3D Dental', 'GreenBills'];
 

@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import VerticalPage from '@/components/VerticalPage';
-import { COMPANY } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/services/medical',
   title: 'For Medical Practices',
-  description: 'Growth consulting for medical practices and specialty clinics: a website that books, paid campaigns that fill the gaps, search and AI visibility, and a front desk that converts the call.',
-  alternates: { canonical: `${COMPANY.website}/services/medical` },
-};
+  description:
+    'Growth consulting for medical practices and clinics: a website that books, ads that fill the gaps, search and AI visibility, and a front desk that converts.',
+});
 
 export default function MedicalPage() {
   return (

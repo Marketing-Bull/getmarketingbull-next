@@ -2,15 +2,16 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import OfferCard from '@/components/OfferCard';
 import CTASection from '@/components/CTASection';
-import { OFFERS, COMPANY } from '@/lib/constants';
+import { OFFERS } from '@/lib/constants';
 import { faqSchema } from '@/lib/schema';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/engagements',
   title: 'Engagements',
   description:
-    'Four fixed-scope engagements for law firms and medical practices: Website in 14 Days, Lead Generation, the AI Content & Search Engine, and the Intake Gap Audit. Defined deliverable, defined date, fee agreed before anything begins.',
-  alternates: { canonical: `${COMPANY.website}/engagements` },
-};
+    'Four fixed-scope engagements for law firms and medical practices: Website in 14 Days, Lead Generation, AI Content & Search, and the Intake Gap Audit.',
+});
 
 const FAQS = [
   { q: 'What does an engagement cost?', a: 'It depends on the size of the firm and the shape of the work, so we quote it rather than publish a list. You get the scope and the fee in writing within a business day of the first call — no three-session discovery process before anyone names a figure — and neither moves once we start.' },

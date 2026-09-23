@@ -35,6 +35,7 @@ src/
     constants.ts         COMPANY, OFFERS, NAV_LINKS, TESTIMONIALS — single source of truth
     schema.ts            organizationSchema, offerSchema(), faqSchema(),
                          breadcrumbSchema(), caseStudySchema(), personSchema()
+    metadata.ts          pageMeta(): canonical + og:url (+ og:type article) per page
     blog.ts              POSTS (hardcoded)
 ```
 

@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import { COMPANY } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/accessibility',
   title: 'Accessibility Statement',
   description: 'Marketing Bull is committed to making our website accessible to all users.',
-  alternates: { canonical: `${COMPANY.website}/accessibility` },
-};
+});
 
 export default function AccessibilityPage() {
   return (

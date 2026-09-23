@@ -8,6 +8,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { COMPANY, GA_MEASUREMENT_ID } from '@/lib/constants';
 import { organizationSchema } from '@/lib/schema';
+import { OG_BASE } from '@/lib/metadata';
 
 // Self-hosted by Next at build time: no render-blocking request to Google and no
 // swap-in flash. og.tsx still fetches Inter from Google, but that runs server-side
@@ -21,17 +22,16 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(COMPANY.website),
   title: {
-    default: 'Marketing Bull | Growth Consultancy for Law Firms & Medical Practices',
+    default: 'Marketing Bull | Growth for Law Firms & Medical Practices',
     template: '%s | Marketing Bull',
   },
   description:
-    'A senior growth consultancy in West Palm Beach for personal injury firms and medical practices. We find where a firm is losing cases or patients, build the system that fixes it, and stay accountable for the number.',
+    'Senior growth consultancy for PI firms and medical practices. We find where you lose cases or patients, build the fix, and stay accountable for the number.',
   // Only sitewide-invariant fields here. Title, description and url are left to
   // each page so shares carry that page's own copy rather than the homepage's.
   openGraph: {
+    ...OG_BASE,
     type: 'website',
-    locale: 'en_US',
-    siteName: COMPANY.name,
   },
   twitter: {
     card: 'summary_large_image',
