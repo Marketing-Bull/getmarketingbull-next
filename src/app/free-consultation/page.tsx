@@ -58,7 +58,7 @@ export default async function FreeConsultationPage({ searchParams }: { searchPar
 
               <div className="bg-slate-50 rounded-2xl border border-slate-200 p-7 mb-8">
                 <h3 className="text-base font-bold text-slate-900 mb-3">Prefer to call?</h3>
-                <a href={`tel:${COMPANY.phoneFormatted}`} className="text-red-600 font-black text-2xl tracking-tight hover:underline">{COMPANY.phone}</a>
+                <a href={`tel:${COMPANY.phoneE164}`} className="text-red-600 font-black text-2xl tracking-tight hover:underline">{COMPANY.phone}</a>
                 <p className="text-slate-500 text-sm mt-1">Mon–Fri, 9am–6pm ET</p>
                 <a href={`mailto:${COMPANY.email}`} className="mt-4 block text-slate-600 hover:text-slate-900 text-sm">{COMPANY.email}</a>
               </div>

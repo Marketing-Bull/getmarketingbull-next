@@ -63,9 +63,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px)', backgroundSize: '28px 28px' }}
         />
         <div className="container-md max-w-3xl relative">
-          <Link href="/blog" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white text-sm mb-8 transition-colors">
-            ← Back to Blog
-          </Link>
+          <nav className="text-xs text-slate-400 mb-8" aria-label="Breadcrumb">
+            <Link href="/" className="hover:text-white transition-colors">Home</Link> <span className="mx-1.5">/</span>
+            <Link href="/blog" className="hover:text-white transition-colors">Blog</Link> <span className="mx-1.5">/</span>
+            <span className="text-slate-300">{post.title}</span>
+          </nav>
           <div className="flex items-center gap-3 mb-5">
             <span className={`text-xs font-semibold px-3 py-1 rounded-full ${CATEGORY_COLORS[post.category] ?? 'bg-slate-100 text-slate-600'}`}>
               {post.category}
@@ -187,7 +189,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         title="Ready to Put These Ideas to Work?"
         description="Twenty minutes about your firm or practice. We'll tell you where we'd look first."
         primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
-        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:+18334382855' }}
+        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>
   );

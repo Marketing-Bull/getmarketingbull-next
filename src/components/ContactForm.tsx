@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { track } from '@/lib/analytics';
+import { COMPANY } from '@/lib/constants';
 import Button from './Button';
 
 interface ContactFormProps {
@@ -53,7 +54,7 @@ export default function ContactForm({ product, source = 'website', submitLabel =
         <p className="text-2xl font-black text-slate-900 mb-2">Got it.</p>
         <p className="text-slate-600">
           We reply to every inquiry within one business day{product ? ` about ${product}` : ''}. If it&apos;s urgent, call{' '}
-          <a href="tel:18334382855" className="font-semibold text-red-600">1-833-GET-BULL</a>.
+          <a href={`tel:${COMPANY.phoneE164}`} className="font-semibold text-red-600">1-833-GET-BULL</a>.
         </p>
       </div>
     );
