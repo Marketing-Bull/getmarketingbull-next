@@ -16,7 +16,7 @@ interface ButtonProps {
 }
 
 const variantClasses: Record<Variant, string> = {
-  primary: 'bg-red-600 text-white hover:bg-red-500 shadow-lg shadow-red-600/20 hover:-translate-y-0.5',
+  primary: 'bg-red-600 text-white hover:bg-red-700 shadow-lg shadow-red-600/20 hover:-translate-y-0.5',
   secondary: 'border border-white/25 text-white hover:border-white/60 hover:bg-white/5 hover:-translate-y-0.5',
   ghost: 'bg-white text-slate-900 hover:bg-slate-50 shadow-md hover:-translate-y-0.5',
 };

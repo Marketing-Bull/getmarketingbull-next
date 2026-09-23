@@ -64,7 +64,7 @@ export default async function FreeConsultationPage({ searchParams }: { searchPar
               </div>
 
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Already know what you want?</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">Already know what you want?</p>
                 <ul className="space-y-2">
                   {OFFERS.map((o) => (
                     <li key={o.slug}>

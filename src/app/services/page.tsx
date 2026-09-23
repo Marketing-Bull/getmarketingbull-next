@@ -62,7 +62,7 @@ export default function ServicesPage() {
 
       <section className="py-16 bg-slate-50 border-y border-slate-100">
         <div className="container-md max-w-3xl">
-          <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">What we don&apos;t do</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">What we don&apos;t do</p>
           <p className="text-lg text-slate-700 leading-relaxed">
             Standalone ad management, social media management, branding-only projects, or anything for a business outside law and medicine. If that is what you need, say so on the call and we will point you to someone good.
           </p>

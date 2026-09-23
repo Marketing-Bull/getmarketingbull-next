@@ -42,16 +42,16 @@ export default function BlogPage() {
                     <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${CATEGORY_COLORS[post.category] ?? 'bg-slate-100 text-slate-600'}`}>
                       {post.category}
                     </span>
-                    <span className="text-xs text-slate-400">{post.readTime}</span>
+                    <span className="text-xs text-slate-500">{post.readTime}</span>
                   </div>
                   <h2 className="text-base font-bold text-slate-900 mb-2 leading-snug group-hover:text-red-600 transition-colors">{post.title}</h2>
                   <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">{post.excerpt}</p>
-                  <p className="text-xs text-slate-400 mt-4">{post.date}</p>
+                  <p className="text-xs text-slate-500 mt-4">{post.date}</p>
                 </div>
               </Link>
             ))}
           </div>
-          <p className="text-center text-slate-400 text-sm mt-16">More articles coming soon. <Link href="/free-consultation" className="text-red-500 hover:underline">Get in touch</Link> if you have a topic request.</p>
+          <p className="text-center text-slate-500 text-sm mt-16">More articles coming soon. <Link href="/free-consultation" className="text-red-600 hover:underline">Get in touch</Link> if you have a topic request.</p>
         </div>
       </section>
 

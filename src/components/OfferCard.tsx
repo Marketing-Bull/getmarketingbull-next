@@ -5,8 +5,8 @@ import type { Offer } from '@/lib/constants';
 const ACCENT: Record<string, { ring: string; text: string; badge: string }> = {
   red: { ring: 'hover:border-red-300', text: 'text-red-600', badge: 'bg-red-50 text-red-700 border-red-100' },
   blue: { ring: 'hover:border-blue-300', text: 'text-blue-600', badge: 'bg-blue-50 text-blue-700 border-blue-100' },
-  emerald: { ring: 'hover:border-emerald-300', text: 'text-emerald-600', badge: 'bg-emerald-50 text-emerald-700 border-emerald-100' },
-  amber: { ring: 'hover:border-amber-300', text: 'text-amber-600', badge: 'bg-amber-50 text-amber-700 border-amber-100' },
+  emerald: { ring: 'hover:border-emerald-300', text: 'text-emerald-700', badge: 'bg-emerald-50 text-emerald-700 border-emerald-100' },
+  amber: { ring: 'hover:border-amber-300', text: 'text-amber-700', badge: 'bg-amber-50 text-amber-700 border-amber-100' },
 };
 
 export default function OfferCard({ offer, featured = false, compact = false }: { offer: Offer; featured?: boolean; compact?: boolean }) {
@@ -25,7 +25,7 @@ export default function OfferCard({ offer, featured = false, compact = false }: 
       <p className="mt-2 text-sm leading-relaxed text-slate-600">{offer.short}</p>
 
       <div className="mt-6 border-t border-slate-100 pt-5">
-        <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Delivery</p>
+        <p className="text-[11px] font-bold uppercase tracking-widest text-slate-500">Delivery</p>
         <p className="mt-1 text-lg font-bold tracking-tight text-slate-900">{offer.timeline}</p>
       </div>
 

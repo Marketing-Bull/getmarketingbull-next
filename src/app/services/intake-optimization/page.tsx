@@ -70,7 +70,7 @@ export default function IntakeOptimizationPage() {
 
       <section className="py-16 bg-white">
         <div className="container-md max-w-3xl">
-          <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Further reading</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">Further reading</p>
           <ul className="space-y-3">
             <li><Link href="/blog/ultimate-guide-to-personal-injury-intake" className="text-lg font-semibold text-slate-900 hover:text-red-600">The Ultimate Guide to Personal Injury Intake →</Link></li>
             <li><Link href="/blog/speed-is-key-when-converting-legal-leads-to-clients" className="text-lg font-semibold text-slate-900 hover:text-red-600">Speed Is the Whole Game: Lead Response Time and Case Acquisition →</Link></li>

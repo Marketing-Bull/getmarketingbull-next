@@ -29,7 +29,7 @@ export default function CaseStudiesPage() {
           {CASE_STUDIES.map((c) => (
             <Link key={c.slug} href={`/case-studies/${c.slug}`} className="group grid grid-cols-1 lg:grid-cols-12 gap-6 rounded-3xl border border-slate-200 p-8 md:p-10 hover:border-slate-900 transition-colors">
               <div className="lg:col-span-7">
-                <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">{c.vertical} · {c.industry} · {c.location}</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">{c.vertical} · {c.industry} · {c.location}</p>
                 <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-900">{c.client}</h2>
                 <p className="mt-3 text-lg text-slate-600 leading-relaxed">{c.summary}</p>
                 <span className="mt-5 inline-block text-sm font-semibold text-slate-900 group-hover:text-red-600 transition">Read the case study →</span>
