@@ -2,13 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Button from '@/components/Button';
 import CTASection from '@/components/CTASection';
-import { COMPANY, getOffer } from '@/lib/constants';
+import { getOffer } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/services/intake-optimization',
   title: 'Intake Optimization',
   description: 'Where most firms lose the cases they already paid for: the first phone call. How we measure it, what we fix, and why the audit comes first.',
-  alternates: { canonical: `${COMPANY.website}/services/intake-optimization` },
-};
+});
 
 const FAILURES = [
   { title: 'Speed to lead', body: 'The lead-to-case window closes in minutes. A prospect who submits a form at 2 pm has called three firms by 2:10. Most firms call back at end of day.' },

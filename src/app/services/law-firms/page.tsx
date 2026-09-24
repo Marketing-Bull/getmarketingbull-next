@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import VerticalPage from '@/components/VerticalPage';
-import { COMPANY } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/services/law-firms',
   title: 'For Law Firms',
-  description: 'Growth consulting for personal injury and plaintiff firms: the site that gets you found, the ads that put you in front, the authority that gets you called, and the intake that gets the case signed.',
-  alternates: { canonical: `${COMPANY.website}/services/law-firms` },
-};
+  description:
+    'Growth consulting for PI and plaintiff firms: a site that gets you found, ads that put you in front, authority that gets you called, intake that signs cases.',
+});
 
 export default function LawFirmsPage() {
   return (

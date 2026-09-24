@@ -78,14 +78,19 @@ export function caseStudySchema(cs: {
   industry: string;
   location: string;
   summary: string;
+  published: string;
 }) {
+  const url = `${COMPANY.website}/case-studies/${cs.slug}`;
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: `${cs.client} — Case Study`,
     description: cs.summary,
-    url: `${COMPANY.website}/case-studies/${cs.slug}`,
-    author: { '@id': `${COMPANY.website}/#organization` },
+    url,
+    datePublished: cs.published,
+    // The page's own file-based OG image (case-studies/[slug]/opengraph-image.tsx).
+    image: `${url}/opengraph-image`,
+    author: { '@type': 'Organization', '@id': `${COMPANY.website}/#organization`, name: COMPANY.legalName },
     publisher: { '@id': `${COMPANY.website}/#organization` },
     about: {
       '@type': 'Organization',

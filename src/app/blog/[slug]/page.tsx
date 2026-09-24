@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { COMPANY } from '@/lib/constants';
 import { breadcrumbSchema, personId } from '@/lib/schema';
+import { pageMeta } from '@/lib/metadata';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import CTASection from '@/components/CTASection';
@@ -14,11 +15,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const post = POSTS.find((p) => p.slug === slug);
   if (!post) return {};
-  return {
-    title: post.title,
-    description: post.excerpt,
-    alternates: { canonical: `${COMPANY.website}/blog/${post.slug}` },
-  };
+  return pageMeta({
+    path: `/blog/${post.slug}`,
+    title: post.seoTitle ?? post.title,
+    description: post.metaDescription ?? post.excerpt,
+    article: { publishedTime: post.dateISO, modifiedTime: post.updatedISO ?? post.dateISO },
+  });
 }
 
 /** Byline for every post. Matches the /about-us Person exactly so the @ids line up. */
@@ -35,6 +37,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     headline: post.title,
     description: post.excerpt,
     datePublished: post.dateISO,
+    dateModified: post.updatedISO ?? post.dateISO,
+    // Posts have no opengraph-image of their own, so they share the site's.
+    image: `${COMPANY.website}/opengraph-image`,
     // Same @id as the Person node on /about-us, so the author and the team member
     // resolve to one entity rather than two people who share a name.
     author: {

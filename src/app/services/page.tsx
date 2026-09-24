@@ -4,12 +4,13 @@ import Button from '@/components/Button';
 import OfferCard from '@/components/OfferCard';
 import CTASection from '@/components/CTASection';
 import { OFFERS, COMPANY, offerCountWord, offerNameList } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/services',
   title: 'How We Help',
   description: `${offerCountWord(true)} fixed-scope engagements for law firms and medical practices: ${offerNameList()}.`,
-  alternates: { canonical: `${COMPANY.website}/services` },
-};
+});
 
 const VERTICALS = [
   { title: 'Law firms', desc: 'Personal injury and plaintiff firms. Search, site, and the first phone call — inside Florida Bar advertising rules.', href: '/services/law-firms' },

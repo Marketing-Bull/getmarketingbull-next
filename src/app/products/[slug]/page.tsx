@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import OfferCTA from '@/components/OfferCTA';
 import ContactForm from '@/components/ContactForm';
-import { OFFERS, COMPANY, getOffer } from '@/lib/constants';
+import { OFFERS, getOffer } from '@/lib/constants';
 import { offerSchema, faqSchema, breadcrumbSchema } from '@/lib/schema';
+import { pageMeta } from '@/lib/metadata';
 
 export function generateStaticParams() {
   return OFFERS.map((o) => ({ slug: o.slug }));
@@ -14,11 +15,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const offer = getOffer(slug);
   if (!offer) return {};
-  return {
+  return pageMeta({
+    path: `/products/${offer.slug}`,
     title: `${offer.name} — ${offer.step}`,
-    description: offer.short,
-    alternates: { canonical: `${COMPANY.website}/products/${offer.slug}` },
-  };
+    description: offer.metaDescription ?? offer.short,
+    ownOgImage: true,
+  });
 }
 
 const ACCENT: Record<string, { text: string; bg: string; border: string; soft: string }> = {

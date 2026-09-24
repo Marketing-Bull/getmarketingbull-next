@@ -6,8 +6,10 @@ import { COMPANY } from '@/lib/constants';
 export const metadata: Metadata = {
   title: 'Thank You',
   description: 'We received your request and will reply within one business day.',
+  // noindex, and no canonical: a canonical asks Google to index this URL, which
+  // contradicts the noindex. robots.ts deliberately does not disallow this path, so
+  // crawlers can fetch the page and see the noindex.
   robots: { index: false, follow: true },
-  alternates: { canonical: `${COMPANY.website}/thank-you` },
 };
 
 export default function ThankYouPage() {

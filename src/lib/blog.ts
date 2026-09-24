@@ -1,10 +1,23 @@
 export interface BlogPost {
   slug: string;
   category: string;
+  /** On-page H1. Also the <title> unless seoTitle is set. */
   title: string;
+  /**
+   * <title> and og:title when `title` is too long for search results (60 chars
+   * including the " | Marketing Bull" suffix). A plain string goes through the
+   * site's title template; `{ absolute }` skips the suffix when it will not fit.
+   */
+  seoTitle?: string | { absolute: string };
   excerpt: string;
+  /** Meta description when `excerpt` (shown on /blog and the post hero) runs past 160 chars. */
+  metaDescription?: string;
+  /** Display date shown on the page, e.g. 'April 2026' or 'Updated September 2026'. */
   date: string;
+  /** First publication date (ISO). For posts migrated from WordPress, the original date. */
   dateISO: string;
+  /** Last substantive update (ISO), when later than dateISO. */
+  updatedISO?: string;
   readTime: string;
   content: Section[];
 }
@@ -21,6 +34,7 @@ export const POSTS: BlogPost[] = [
     slug: 'why-pi-clients-hire-the-first-firm-that-answers',
     category: 'Intake Optimization',
     title: 'Why 78% of PI Clients Hire the First Firm That Answers — And What To Do About It',
+    seoTitle: { absolute: 'Why 78% of PI Clients Hire the First Firm That Answers' },
     excerpt: 'Speed-to-lead is the single most important factor in converting a PI prospect into a signed client. Here\'s the data, and here\'s how to fix your intake.',
     date: 'April 2026',
     dateISO: '2026-04-10',
@@ -70,6 +84,7 @@ export const POSTS: BlogPost[] = [
     slug: 'ghl-voice-agents-replacing-intake-staff-at-law-firms',
     category: 'AI Automation',
     title: 'How GHL Voice Agents Are Replacing $60K/Year Intake Staff at Law Firms',
+    seoTitle: 'How GHL Voice Agents Replace Intake Staff',
     excerpt: 'A breakdown of how we deploy AI receptionist systems that answer, qualify, and book 24/7 — without adding headcount.',
     date: 'March 2026',
     dateISO: '2026-03-18',
@@ -125,6 +140,7 @@ export const POSTS: BlogPost[] = [
     slug: 'patient-recall-system-reactivated-lapsed-patients',
     category: 'Medical Marketing',
     title: 'The Patient Recall System That Reactivated 60% of Lapsed Patients for a Florida Dental Practice',
+    seoTitle: 'Reactivating 60% of Lapsed Dental Patients',
     excerpt: 'Your existing patient database is worth more than any ad campaign. Here\'s the exact automation sequence we used.',
     date: 'March 2026',
     dateISO: '2026-03-05',
@@ -169,6 +185,7 @@ export const POSTS: BlogPost[] = [
     slug: 'the-5-minute-rule-response-time-case-acquisition',
     category: 'Intake Optimization',
     title: 'The 5-Minute Rule: How Response Time Affects Your Case Acquisition Rate',
+    seoTitle: 'The 5-Minute Rule for Case Acquisition',
     excerpt: 'After analyzing intake data across 30+ PI firms, the pattern is clear: firms that respond in under 5 minutes close at 3x the rate of those that don\'t.',
     date: 'February 2026',
     dateISO: '2026-02-08',
@@ -224,9 +241,14 @@ export const POSTS: BlogPost[] = [
     slug: 'ultimate-guide-to-personal-injury-intake',
     category: 'Intake Optimization',
     title: 'The Ultimate Guide to Personal Injury Intake',
+    seoTitle: 'Ultimate Guide to Personal Injury Intake',
     excerpt: 'Why the first call decides the case, how top firms handle it, the technology that makes it repeatable, and a mystery-shop checklist you can run on your own firm this week.',
+    metaDescription: 'Why the first call decides the case, how top firms handle it, the technology that makes it repeatable, and a mystery-shop checklist to run on your own firm.',
     date: 'Updated September 2026',
-    dateISO: '2026-09-03',
+    // Originally published on the WordPress site 2024-04-10 (article:published_time,
+    // Wayback snapshot 2024-05-20); migrated and updated here 2026-09-03.
+    dateISO: '2024-04-10',
+    updatedISO: '2026-09-03',
     readTime: '14 min read',
     content: [
       { type: 'h2', text: 'Why intake deserves more attention than your ad budget' },
@@ -301,9 +323,13 @@ export const POSTS: BlogPost[] = [
     slug: 'speed-is-key-when-converting-legal-leads-to-clients',
     category: 'Intake Optimization',
     title: 'Speed Is the Whole Game: Lead Response Time and Case Acquisition',
+    seoTitle: 'Speed Is the Whole Game: Lead Response Time',
     excerpt: 'Response within five minutes changes conversion by an order of magnitude. The research, and the three operational fixes that get a firm there.',
     date: 'Updated September 2026',
-    dateISO: '2026-09-03',
+    // Originally published on the WordPress site 2024-01-31 (article:published_time,
+    // Wayback snapshot 2024-02-21); migrated and updated here 2026-09-03.
+    dateISO: '2024-01-31',
+    updatedISO: '2026-09-03',
     readTime: '5 min read',
     content: [
       { type: 'p', text: 'The speed at which a law firm responds to a lead has an outsized effect on whether that lead becomes a client. The research is consistent, and it is not close.' },

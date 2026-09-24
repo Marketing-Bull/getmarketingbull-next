@@ -1,13 +1,14 @@
 /**
  * GA4 measurement id. Not a secret — it ships in client JS on every page and is
  * visible in any browser's network tab. Hardcoded so measurement works on deploy
- * with no configuration; override per-environment with NEXT_PUBLIC_GA_ID.
+ * with no configuration; override per-environment with NEXT_PUBLIC_GA_ID. `||`, not
+ * `??`: an env var that exists but is empty must fall back, not yield an empty id.
  *
- * If a GTM container is ever wired up (NEXT_PUBLIC_GTM_ID), do not also put a GA4
- * tag for this property inside it — the page would then load GA4 twice and every
- * pageview and event would be counted twice. Pick one path.
+ * This id is only used by the direct gtag snippet in layout.tsx, which is rendered
+ * only while NEXT_PUBLIC_GTM_ID is unset. Setting a GTM container id switches the
+ * snippet off; GA4 then has to live as a tag inside the container.
  */
-export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID ?? 'G-D5G7PCS5K0';
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-D5G7PCS5K0';
 
 export const COMPANY = {
   name: 'Marketing Bull',
@@ -43,6 +44,8 @@ export interface Offer {
   name: string;
   headline: string;
   short: string;
+  /** Meta description when `short` (on-page copy) runs past 160 chars. Falls back to `short`. */
+  metaDescription?: string;
   /** Commercial shape of the engagement — commitment and what's bundled. No figures; we quote per firm. */
   terms: string;
   timeline: string;
@@ -148,6 +151,8 @@ export const OFFERS: Offer[] = [
     headline: 'Show up in Google and in AI answers — every week, without writing a word.',
     short:
       'A managed content system that publishes search- and AI-optimized content to your site every week, tracks where you appear in ChatGPT, Perplexity, and Google AI Overviews, and reports it monthly.',
+    metaDescription:
+      'Managed content that publishes search- and AI-optimized pages weekly, tracks where you appear in ChatGPT, Perplexity and AI Overviews, and reports it monthly.',
     terms: 'Monthly. 3-month minimum, then month-to-month, cancel with 30 days notice.',
     timeline: 'First content live within 10 business days',
     bestFor: 'Firms and practices that want to compound organic visibility without hiring a writer or an SEO agency.',
@@ -191,6 +196,8 @@ export const OFFERS: Offer[] = [
     headline: 'Paid search and social run end to end — the ads, the pages they land on, and the tracking that shows which clicks became cases.',
     short:
       'Google and Meta ads managed as one system: campaigns, the landing pages behind them, and call and form tracking wired to your CRM so every lead carries the campaign that produced it.',
+    metaDescription:
+      'Google and Meta ads run as one system: campaigns, their landing pages, and call and form tracking wired to your CRM so every lead carries its source campaign.',
     terms: 'Monthly. 3-month minimum, then month-to-month, cancel with 30 days notice. Ad spend is paid directly to the platforms, never through us.',
     timeline: 'First campaigns live within 10 business days',
     bestFor: 'Firms and practices that need case or patient volume now, and want to know which ads produced it.',

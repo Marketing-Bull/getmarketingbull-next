@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { COMPANY } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/careers',
   title: 'Careers',
   description: 'Marketing Bull is a small senior team. We are not hiring right now, but we read every note from people who do good work in legal and medical marketing.',
-  alternates: { canonical: `${COMPANY.website}/careers` },
-};
+});
 
 export default function CareersPage() {
   return (
