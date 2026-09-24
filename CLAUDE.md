@@ -6,7 +6,7 @@ Marketing website for Marketing Bull, LLC — a content-driven Next.js App Route
 
 ## Stack
 
-Next.js 16, React 19, TypeScript 5.9 (`"type": "module"`), Tailwind CSS v4 via `@tailwindcss/postcss` (CSS-first; theme lives in `src/app/globals.css`), lucide-react. Deployed on Vercel (project `getmarketingbull-next`).
+Next.js 16, React 19, TypeScript 5.9 (`"type": "module"`), Tailwind CSS v4 via `@tailwindcss/postcss` (CSS-first; theme lives in `src/app/globals.css`). Deployed on Vercel (project `getmarketingbull-next`).
 
 ## Commands
 
@@ -29,8 +29,8 @@ src/
     free-consultation/   consult form; reads ?product= (dynamic)
     api/lead/route.ts    lead endpoint: validate → webhook and/or Resend email
     services/ about-us/ case-studies/ blog/ careers/ contact-us/ legal pages
-  components/            Header, Footer, Hero, Button, CTASection, ContactForm,
-                         OfferCard, OfferCTA, Reveal, FAQAccordion, TestimonialCarousel
+  components/            Header, Footer, Button, CTASection, ContactForm, OfferCard,
+                         OfferCTA, Reveal, TestimonialCarousel, VerticalPage, CallTracking
   lib/
     constants.ts         COMPANY, OFFERS, NAV_LINKS, TESTIMONIALS — single source of truth
     schema.ts            organizationSchema, offerSchema(), faqSchema(),

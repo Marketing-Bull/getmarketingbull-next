@@ -38,7 +38,7 @@ export default function SoftwareLicensePage() {
   return (
     <section className="py-20 bg-white">
       <div className="container-md max-w-3xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-6">Legal</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500 mb-6">Legal</p>
         {renderMarkdown(LICENSE_MD)}
         <p className="mt-12 text-sm text-slate-500 border-t border-slate-200 pt-6">
           Questions about this agreement: <a href={`mailto:${COMPANY.email}`} className="font-semibold text-slate-900">{COMPANY.email}</a>

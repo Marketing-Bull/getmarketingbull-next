@@ -61,7 +61,7 @@ export default function VerticalPage(p: VerticalPageProps) {
               const offer = OFFERS.find((o) => o.slug === l.offer)!;
               return (
                 <div key={l.label} className="h-full flex flex-col rounded-2xl border border-slate-800 bg-slate-900/40 p-8">
-                  <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Get {l.label.toLowerCase()}</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Get {l.label.toLowerCase()}</span>
                   <h3 className="mt-3 text-xl font-black tracking-tight leading-snug">{l.question}</h3>
                   <p className="mt-4 text-slate-400 leading-relaxed flex-1">{l.body}</p>
                   <Link href={`/products/${offer.slug}`} className="mt-6 text-sm font-semibold text-white hover:text-red-400 transition">{offer.name} →</Link>
@@ -94,7 +94,7 @@ export default function VerticalPage(p: VerticalPageProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {cases.map((c) => (
                 <Link key={c.slug} href={`/case-studies/${c.slug}`} className="group rounded-2xl border border-slate-200 bg-white p-8 hover:border-slate-900 transition-colors">
-                  <p className="text-xs uppercase tracking-widest text-slate-400">{c.industry} · {c.location}</p>
+                  <p className="text-xs uppercase tracking-widest text-slate-500">{c.industry} · {c.location}</p>
                   <p className="mt-2 text-2xl font-black tracking-tight text-slate-900">{c.client}</p>
                   <p className="mt-3 text-slate-600 leading-relaxed">{c.summary}</p>
                   <span className="mt-4 inline-block text-sm font-semibold text-slate-900 group-hover:text-red-600 transition">Read the case study →</span>
@@ -115,7 +115,7 @@ export default function VerticalPage(p: VerticalPageProps) {
               <details key={f.q} className="group py-5">
                 <summary className="flex cursor-pointer items-center justify-between gap-4 text-left text-lg font-semibold text-slate-900 list-none">
                   {f.q}
-                  <span className="shrink-0 text-slate-400 transition group-open:rotate-45 text-2xl leading-none">+</span>
+                  <span className="shrink-0 text-slate-400 transition group-open:rotate-45 text-2xl leading-none" aria-hidden="true">+</span>
                 </summary>
                 <p className="mt-3 text-slate-600 leading-relaxed">{f.a}</p>
               </details>

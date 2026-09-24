@@ -26,8 +26,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 const ACCENT: Record<string, { text: string; bg: string; border: string; soft: string }> = {
   red: { text: 'text-red-600', bg: 'bg-red-600', border: 'border-red-200', soft: 'bg-red-50' },
   blue: { text: 'text-blue-600', bg: 'bg-blue-600', border: 'border-blue-200', soft: 'bg-blue-50' },
-  emerald: { text: 'text-emerald-600', bg: 'bg-emerald-600', border: 'border-emerald-200', soft: 'bg-emerald-50' },
-  amber: { text: 'text-amber-600', bg: 'bg-amber-600', border: 'border-amber-200', soft: 'bg-amber-50' },
+  emerald: { text: 'text-emerald-700', bg: 'bg-emerald-600', border: 'border-emerald-200', soft: 'bg-emerald-50' },
+  amber: { text: 'text-amber-700', bg: 'bg-amber-600', border: 'border-amber-200', soft: 'bg-amber-50' },
 };
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -53,7 +53,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <div className="container-md relative py-20 md:py-28">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
             <div className="lg:col-span-8">
-              <nav className="text-xs text-slate-500 mb-6" aria-label="Breadcrumb">
+              <nav className="text-xs text-slate-400 mb-6" aria-label="Breadcrumb">
                 <Link href="/" className="hover:text-slate-300">Home</Link> <span className="mx-1.5">/</span>
                 <Link href="/engagements" className="hover:text-slate-300">Engagements</Link> <span className="mx-1.5">/</span>
                 <span className="text-slate-300">{offer.name}</span>
@@ -66,15 +66,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </div>
             <div className="lg:col-span-4">
               <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-7 backdrop-blur">
-                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Delivery</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">Delivery</p>
                 <p className="mt-1.5 text-3xl font-black tracking-tight leading-tight">{offer.timeline}</p>
                 <dl className="mt-5 space-y-3 border-t border-slate-800 pt-5 text-sm">
                   <div>
-                    <dt className="text-slate-500">Engagement</dt>
+                    <dt className="text-slate-400">Engagement</dt>
                     <dd className="mt-0.5 text-slate-300">{offer.terms}</dd>
                   </div>
                   <div>
-                    <dt className="text-slate-500">Fee</dt>
+                    <dt className="text-slate-400">Fee</dt>
                     <dd className="mt-0.5 text-slate-300">Fixed and quoted in writing before anything begins.</dd>
                   </div>
                 </dl>
@@ -110,19 +110,19 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <ul className="space-y-3.5">
                 {offer.includes.map((item) => (
                   <li key={item} className="flex gap-3 rounded-xl bg-white border border-slate-200 px-5 py-4 text-slate-800">
-                    <span className={`shrink-0 mt-0.5 h-5 w-5 rounded-full ${a.bg} text-white text-xs font-bold flex items-center justify-center`}>✓</span>
+                    <span className={`shrink-0 mt-0.5 h-5 w-5 rounded-full ${a.bg} text-white text-xs font-bold flex items-center justify-center`} aria-hidden="true">✓</span>
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
             <div className="lg:col-span-5">
-              <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">What&apos;s not</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">What&apos;s not</p>
               <h2 className="text-3xl font-black tracking-tight text-slate-900 mb-8">So there are no surprises</h2>
               <ul className="space-y-3.5">
                 {offer.notIncluded.map((item) => (
                   <li key={item} className="flex gap-3 rounded-xl border border-dashed border-slate-300 px-5 py-4 text-slate-600">
-                    <span className="shrink-0 text-slate-400 font-bold">—</span>
+                    <span className="shrink-0 text-slate-400 font-bold" aria-hidden="true">—</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -158,7 +158,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <details key={f.q} className="group py-5">
                 <summary className="flex cursor-pointer items-center justify-between gap-4 text-left text-lg font-semibold text-slate-900 list-none">
                   {f.q}
-                  <span className="shrink-0 text-slate-400 transition group-open:rotate-45 text-2xl leading-none">+</span>
+                  <span className="shrink-0 text-slate-400 transition group-open:rotate-45 text-2xl leading-none" aria-hidden="true">+</span>
                 </summary>
                 <p className="mt-3 text-slate-600 leading-relaxed">{f.a}</p>
               </details>
@@ -177,13 +177,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </p>
             <OfferCTA offer={offer} size="lg" />
             <div className="mt-12 border-t border-slate-800 pt-8">
-              <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Pairs with</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Pairs with</p>
               <ul className="space-y-3">
                 {others.map((o) => (
                   <li key={o.slug}>
                     <Link href={`/products/${o.slug}`} className="group flex items-center justify-between rounded-xl border border-slate-800 px-5 py-4 hover:border-slate-600 transition">
                       <span>
-                        <span className="block text-xs text-slate-500 uppercase tracking-widest">{o.step}</span>
+                        <span className="block text-xs text-slate-400 uppercase tracking-widest">{o.step}</span>
                         <span className="font-semibold group-hover:text-white">{o.name}</span>
                       </span>
                       <span className="text-slate-400 text-sm">{o.timeline} →</span>

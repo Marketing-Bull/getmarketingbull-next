@@ -114,7 +114,7 @@ export default function HomePage() {
       {/* ── CLIENT STRIP ── */}
       <section className="bg-white border-b border-slate-100">
         <div className="container-md py-8 flex flex-col md:flex-row items-center gap-4 md:gap-10">
-          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 shrink-0">Trusted by</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 shrink-0">Trusted by</p>
           <ul className="flex flex-wrap items-center gap-x-8 gap-y-2 text-sm font-semibold text-slate-500">
             {CLIENTS.map((c) => <li key={c}>{c}</li>)}
           </ul>
@@ -167,7 +167,7 @@ export default function HomePage() {
               return (
                 <Reveal key={l.label} delay={i * 100}>
                   <div className="h-full flex flex-col rounded-2xl border border-slate-800 bg-slate-900/40 p-8">
-                    <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Get {l.label.toLowerCase()}</span>
+                    <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Get {l.label.toLowerCase()}</span>
                     <h3 className="mt-3 text-xl font-black tracking-tight leading-snug">{l.question}</h3>
                     <p className="mt-4 text-slate-400 leading-relaxed flex-1">{l.body}</p>
                     <Link href={`/products/${offer.slug}`} className="mt-6 text-sm font-semibold text-white hover:text-red-400 transition">
@@ -218,7 +218,7 @@ export default function HomePage() {
                 <div className="h-full rounded-2xl bg-white border border-slate-200 p-8">
                   <p className="text-5xl font-black tracking-tight text-slate-900">{o.n}</p>
                   <p className="mt-3 text-slate-700 leading-relaxed">{o.l}</p>
-                  <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-slate-400">{o.src}</p>
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-slate-500">{o.src}</p>
                 </div>
               </Reveal>
             ))}
@@ -249,12 +249,10 @@ export default function HomePage() {
           </Reveal>
           <ol className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {ENGAGEMENT.map((e, i) => (
-              <Reveal key={e.step} delay={i * 100}>
-                <li className="h-full border-t-2 border-slate-900 pt-6">
-                  <span className="text-xs font-black text-red-600">0{i + 1}</span>
-                  <h3 className="mt-2 text-lg font-black tracking-tight text-slate-900">{e.step}</h3>
-                  <p className="mt-3 text-sm text-slate-600 leading-relaxed">{e.desc}</p>
-                </li>
+              <Reveal as="li" key={e.step} delay={i * 100} className="h-full border-t-2 border-slate-900 pt-6">
+                <span className="text-xs font-black text-red-600">0{i + 1}</span>
+                <h3 className="mt-2 text-lg font-black tracking-tight text-slate-900">{e.step}</h3>
+                <p className="mt-3 text-sm text-slate-600 leading-relaxed">{e.desc}</p>
               </Reveal>
             ))}
           </ol>
@@ -269,7 +267,7 @@ export default function HomePage() {
               { src: '/alex.webp', alt: 'Alexander Babenchuk' },
               { src: '/oleg.webp', alt: 'Oleg Babenchuk' },
             ].map((p) => (
-              <img key={p.src} src={p.src} alt={p.alt} width={72} height={72} className="h-[72px] w-[72px] rounded-full border-4 border-slate-50 object-cover shadow-md" />
+              <img key={p.src} src={p.src} alt={p.alt} width={72} height={72} loading="lazy" decoding="async" className="h-[72px] w-[72px] rounded-full border-4 border-slate-50 object-cover shadow-md" />
             ))}
           </div>
           <div className="flex-1 text-center md:text-left">

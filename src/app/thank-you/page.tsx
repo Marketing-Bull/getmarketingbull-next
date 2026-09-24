@@ -27,7 +27,7 @@ export default function ThankYouPage() {
           <Button variant="primary" size="md" href="/case-studies">Read the case studies</Button>
           <Button variant="secondary" size="md" href="/">Back to home</Button>
         </div>
-        <p className="mt-10 text-sm text-slate-500">
+        <p className="mt-10 text-sm text-slate-400">
           <Link href="/engagements" className="hover:text-slate-300">See how engagements are scoped →</Link>
         </p>
       </div>

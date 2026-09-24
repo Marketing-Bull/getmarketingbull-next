@@ -77,8 +77,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <span className={`text-xs font-semibold px-3 py-1 rounded-full ${CATEGORY_COLORS[post.category] ?? 'bg-slate-100 text-slate-600'}`}>
               {post.category}
             </span>
-            <span className="text-slate-500 text-xs">{post.readTime}</span>
-            <span className="text-slate-500 text-xs">{post.date}</span>
+            <span className="text-slate-400 text-xs">{post.readTime}</span>
+            <span className="text-slate-400 text-xs">{post.date}</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-black tracking-tight leading-[1.1] mb-6">{post.title}</h1>
           <p className="text-lg text-slate-400 leading-relaxed">{post.excerpt}</p>
@@ -104,7 +104,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   <ul key={i} className="space-y-2 my-2">
                     {section.items?.map((item, j) => (
                       <li key={j} className="flex gap-2.5 text-slate-600">
-                        <span className="text-red-500 flex-shrink-0 mt-1">·</span>
+                        <span className="text-red-600 flex-shrink-0 mt-1">·</span>
                         <span>{item}</span>
                       </li>
                     ))}
@@ -116,7 +116,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   <ol key={i} className="space-y-3 my-2">
                     {section.items?.map((item, j) => (
                       <li key={j} className="flex gap-3 text-slate-600">
-                        <span className="text-red-500 font-bold flex-shrink-0 w-5">{j + 1}.</span>
+                        <span className="text-red-600 font-bold flex-shrink-0 w-5">{j + 1}.</span>
                         <span>{item}</span>
                       </li>
                     ))}
@@ -183,7 +183,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   {related.category}
                 </span>
                 <h3 className="mt-3 text-sm font-bold text-slate-900 leading-snug group-hover:text-red-600 transition-colors line-clamp-3">{related.title}</h3>
-                <p className="text-xs text-slate-400 mt-3">{related.date}</p>
+                <p className="text-xs text-slate-500 mt-3">{related.date}</p>
               </Link>
             ))}
           </div>

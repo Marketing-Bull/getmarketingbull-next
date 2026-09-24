@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
-html { scroll-behavior: smooth; }
+/* The fixed h-16 header would otherwise cover in-page anchor targets. */
+html { scroll-padding-top: 5rem; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
 body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .container-md {
@@ -16,5 +20,21 @@ body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; 
   .container-md {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+}
+
+/*
+  <Reveal> fade-in. Content is visible by default; it starts hidden only when
+  JavaScript is running (html.js, set by the inline script in layout.tsx), on a
+  screen, for users who haven't asked for reduced motion. No JS, print, or
+  reduced motion → the content is simply there, with no transform or transition.
+*/
+@media screen and (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1), transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .js [data-reveal]:not([data-shown]) {
+    opacity: 0;
+    transform: translateY(1.25rem);
   }
 }

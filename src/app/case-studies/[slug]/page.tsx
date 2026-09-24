@@ -41,7 +41,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
       <section className="relative bg-slate-950 text-white overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
         <div className="container-md relative py-20 md:py-28 max-w-4xl">
-          <nav className="text-xs text-slate-500 mb-6" aria-label="Breadcrumb">
+          <nav className="text-xs text-slate-400 mb-6" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-slate-300">Home</Link> <span className="mx-1.5">/</span>
             <Link href="/case-studies" className="hover:text-slate-300">Case Studies</Link> <span className="mx-1.5">/</span>
             <span className="text-slate-300">{cs.client}</span>
@@ -68,13 +68,13 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             { label: 'Result', body: cs.result },
           ].map((s) => (
             <div key={s.label} className="grid grid-cols-1 md:grid-cols-12 gap-6 py-8 border-t border-slate-200">
-              <p className="md:col-span-3 text-xs font-bold uppercase tracking-widest text-red-600">{s.label}</p>
+              <h2 className="md:col-span-3 text-xs font-bold uppercase tracking-widest text-red-600">{s.label}</h2>
               <p className="md:col-span-9 text-lg text-slate-700 leading-relaxed">{s.body}</p>
             </div>
           ))}
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 py-8 border-t border-slate-200">
-            <p className="md:col-span-3 text-xs font-bold uppercase tracking-widest text-slate-400">Scope</p>
+            <h2 className="md:col-span-3 text-xs font-bold uppercase tracking-widest text-slate-500">Scope</h2>
             <ul className="md:col-span-9 flex flex-wrap gap-2">
               {cs.services.map((s) => (
                 <li key={s} className="rounded-full border border-slate-200 px-3 py-1 text-sm text-slate-700">{s}</li>
@@ -96,12 +96,12 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
       {others.length > 0 && (
         <section className="py-14 bg-slate-50 border-t border-slate-100">
           <div className="container-md max-w-4xl">
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">More case studies</p>
+            <h2 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">More case studies</h2>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {others.map((o) => (
                 <li key={o.slug}>
                   <Link href={`/case-studies/${o.slug}`} className="group block rounded-2xl border border-slate-200 bg-white p-6 hover:border-slate-900 transition-colors">
-                    <p className="text-xs uppercase tracking-widest text-slate-400">{o.industry}</p>
+                    <p className="text-xs uppercase tracking-widest text-slate-500">{o.industry}</p>
                     <p className="mt-1 text-lg font-black tracking-tight text-slate-900">{o.client}</p>
                     <p className="mt-2 text-sm text-slate-600">{o.summary}</p>
                   </Link>
