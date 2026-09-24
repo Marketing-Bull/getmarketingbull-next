@@ -54,7 +54,7 @@ const SECTIONS = [
   },
   {
     title: '12. Contact',
-    body: `Questions about these Terms of Service should be directed to: Marketing Bull, LLC · 319 Clematis Street, Suite 300, West Palm Beach, FL 33401 · hello@getmarketingbull.com`,
+    body: `Questions about these Terms of Service should be directed to: ${COMPANY.legalName} · ${COMPANY.address} · ${COMPANY.email}`,
   },
 ];
 

@@ -15,7 +15,10 @@ export const COMPANY = {
   tagline: 'Growth consultancy for law firms and medical practices.',
   phone: '1-833-GET-BULL',
   phoneFormatted: '1-833-438-2855',
+  /** The only form any `tel:` href should use. */
+  phoneE164: '+18334382855',
   email: 'hello@getmarketingbull.com',
+  street: '319 Clematis Street, Suite 300',
   address: '319 Clematis Street, Suite 300, West Palm Beach, FL 33401',
   city: 'West Palm Beach',
   state: 'FL',
@@ -79,7 +82,7 @@ export const OFFERS: Offer[] = [
     ],
     notIncluded: [
       'Ongoing content or blog writing (see AI Content & Search Engine)',
-      'Paid ads management',
+      'Paid ads management (see Lead Generation)',
       'Custom web applications, client portals, or e-commerce',
       'Professional photography (we use licensed stock or your existing photos)',
     ],
@@ -131,7 +134,7 @@ export const OFFERS: Offer[] = [
       { title: 'Days 9–10 — Readout', desc: 'You get the report, the scorecards, and a call to walk through what to fix first.' },
     ],
     faqs: [
-      { q: 'Will my staff know they\'re being tested?', a: 'Not unless you tell them. Our tester calls exactly like a prospect would and scores the interaction on a timestamped scorecard. We don\'t record calls by default — Florida is an all-party consent state. If you want recordings, you authorize it as the business owner at kickoff and we handle the disclosure.' },
+      { q: 'Will my staff know they\'re being tested?', a: 'Not unless you tell them. Our tester calls exactly like a prospect would and scores the interaction on a timestamped scorecard. We don\'t record calls — Florida is an all-party consent state.' },
       { q: 'Is the audit fee refundable?', a: 'No, but it\'s credited in full toward any Marketing Bull engagement you start within 60 days — so if you act on the findings, the audit pays for itself.' },
       { q: 'We don\'t have a CRM. Can you still audit us?', a: 'Yes. The mystery shops and ROI report don\'t depend on a CRM. We\'ll note it as a gap.' },
     ],
@@ -162,7 +165,7 @@ export const OFFERS: Offer[] = [
     ],
     notIncluded: [
       'Website build or redesign (see Website in 14 Days)',
-      'Paid ads',
+      'Paid ads (see Lead Generation)',
       'Link-buying or private blog networks — practices that put your domain at risk',
       'Social media management beyond Google Business Profile',
     ],
@@ -220,7 +223,7 @@ export const OFFERS: Offer[] = [
     faqs: [
       { q: 'Do you mark up our ad spend?', a: 'No. You pay Google and Meta directly, the accounts are created in your name, and you keep them if you leave. We are paid for managing the work, not for how much of your budget we place.' },
       { q: 'Google Ads or Meta — which one?', a: 'It depends on whether people search for what you do or need to be shown it. Personal injury and most medical specialties have real search demand, so paid search usually leads and Meta handles retargeting and awareness. We will tell you on the first call which we think fits, and running one rather than both is a perfectly good answer.' },
-      { q: 'How do you track phone calls?', a: 'Dynamic number insertion: the number shown on your site changes with how the visitor arrived, so a call can be tied to the campaign and keyword that produced it. The numbers forward to your real line and your staff answer normally. We do not record calls by default — Florida is an all-party consent state.' },
+      { q: 'How do you track phone calls?', a: 'Dynamic number insertion: the number shown on your site changes with how the visitor arrived, so a call can be tied to the campaign and keyword that produced it. The numbers forward to your real line and your staff answer normally. We do not record calls — Florida is an all-party consent state.' },
       { q: 'Can you work with our existing ad accounts?', a: 'Yes, and we prefer it — the account history is worth keeping. We take a documented snapshot of what is running before changing anything, so you can see exactly what moved and why.' },
       { q: 'What about ads for a medical practice?', a: 'Platform policy limits how health-related audiences can be targeted, and we do not place tracking pixels on anything behind a patient login or portal. Campaigns are built around what someone is actively searching for, not around inferences about their condition.' },
     ],
@@ -228,6 +231,23 @@ export const OFFERS: Offer[] = [
     accent: 'amber',
   },
 ];
+
+const NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+
+/**
+ * How many engagements there are, as a word ("four"), so copy that counts them
+ * can't drift from OFFERS. Pass `true` for sentence case ("Four").
+ */
+export function offerCountWord(capitalize = false): string {
+  const w = NUMBER_WORDS[OFFERS.length] ?? String(OFFERS.length);
+  return capitalize ? w.charAt(0).toUpperCase() + w.slice(1) : w;
+}
+
+/** Every engagement name as one English list: "A, B, C, and D". */
+export function offerNameList(): string {
+  const names = OFFERS.map((o) => o.name);
+  return names.length < 3 ? names.join(' and ') : `${names.slice(0, -1).join(', ')}, and ${names[names.length - 1]}`;
+}
 
 export const NAV_LINKS = [
   {

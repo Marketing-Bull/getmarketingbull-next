@@ -54,7 +54,7 @@ export default function CaseStudiesPage() {
         title="Start with a conversation."
         description="Twenty minutes about your firm or practice. We'll tell you where we'd look first — and whether we're the right people to look."
         primaryCTA={{ text: 'Book a conversation', href: '/free-consultation' }}
-        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:18334382855' }}
+        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>
   );

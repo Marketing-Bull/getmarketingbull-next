@@ -34,7 +34,7 @@ const SECTIONS = [
   },
   {
     title: '7. Your Rights',
-    body: `Depending on your location, you may have the right to access, correct, delete, or restrict processing of your personal information. To exercise these rights, contact us at hello@getmarketingbull.com. We will respond within 30 days.`,
+    body: `Depending on your location, you may have the right to access, correct, delete, or restrict processing of your personal information. To exercise these rights, contact us at ${COMPANY.email}. We will respond within 30 days.`,
   },
   {
     title: '8. Children\'s Privacy',
@@ -46,7 +46,7 @@ const SECTIONS = [
   },
   {
     title: '10. Contact Us',
-    body: `If you have questions about this Privacy Policy, please contact us at: Marketing Bull, LLC · 319 Clematis Street, Suite 300, West Palm Beach, FL 33401 · hello@getmarketingbull.com · 1-833-GET-BULL`,
+    body: `If you have questions about this Privacy Policy, please contact us at: ${COMPANY.legalName} · ${COMPANY.address} · ${COMPANY.email} · ${COMPANY.phone}`,
   },
 ];
 

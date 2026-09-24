@@ -57,7 +57,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm">Contact</h4>
             <ul className="text-sm space-y-2">
-              <li><a href={`tel:${COMPANY.phoneFormatted}`} className="text-blue-400 hover:text-blue-300">{COMPANY.phone}</a></li>
+              <li><a href={`tel:${COMPANY.phoneE164}`} className="text-blue-400 hover:text-blue-300">{COMPANY.phone}</a></li>
               <li><a href={`mailto:${COMPANY.email}`} className="text-blue-400 hover:text-blue-300">{COMPANY.email}</a></li>
               <li>{COMPANY.address}</li>
               <li className="pt-2">

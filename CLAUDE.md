@@ -24,7 +24,7 @@ src/
   app/
     layout.tsx           root layout: metadata, Inter, Organization JSON-LD, <Header/> + <Footer/>
     page.tsx             homepage (server component)
-    engagements/         all three engagements (was /pricing; 301 kept in next.config.ts)
+    engagements/         every engagement in OFFERS (was /pricing; 301 kept in next.config.ts)
     products/[slug]/     product pages, generateStaticParams over OFFERS
     free-consultation/   consult form; reads ?product= (dynamic)
     api/lead/route.ts    lead endpoint: validate → webhook and/or Resend email
