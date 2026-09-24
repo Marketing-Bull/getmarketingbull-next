@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Button from './Button';
 import CTASection from './CTASection';
 import TestimonialCarousel from './TestimonialCarousel';
-import { OFFERS, TESTIMONIALS, type OfferSlug } from '@/lib/constants';
+import { OFFERS, TESTIMONIALS, COMPANY, type OfferSlug } from '@/lib/constants';
 import { CASE_STUDIES } from '@/lib/caseStudies';
 import { faqSchema } from '@/lib/schema';
 
@@ -128,7 +128,7 @@ export default function VerticalPage(p: VerticalPageProps) {
         title="Start with a conversation."
         description="Twenty minutes about your firm or practice. We'll tell you where we'd look first — and whether we're the right people to look."
         primaryCTA={{ text: 'Book a conversation', href: '/free-consultation' }}
-        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:18334382855' }}
+        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>
   );

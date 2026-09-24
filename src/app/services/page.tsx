@@ -3,14 +3,13 @@ import Link from 'next/link';
 import Button from '@/components/Button';
 import OfferCard from '@/components/OfferCard';
 import CTASection from '@/components/CTASection';
-import { OFFERS } from '@/lib/constants';
+import { OFFERS, COMPANY, offerCountWord, offerNameList } from '@/lib/constants';
 import { pageMeta } from '@/lib/metadata';
 
 export const metadata: Metadata = pageMeta({
   path: '/services',
   title: 'How We Help',
-  description:
-    'Fixed-scope engagements for law firms and medical practices: a website in 14 days, lead generation, AI content and search, and an intake gap audit.',
+  description: `${offerCountWord(true)} fixed-scope engagements for law firms and medical practices: ${offerNameList()}.`,
 });
 
 const VERTICALS = [
@@ -66,7 +65,7 @@ export default function ServicesPage() {
         <div className="container-md max-w-3xl">
           <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">What we don&apos;t do</p>
           <p className="text-lg text-slate-700 leading-relaxed">
-            Standalone ad management, social media management, branding-only projects, or anything for a business outside law and medicine. If that is what you need, say so on the call and we will point you to someone good.
+            Social media management, branding-only projects, or anything for a business outside law and medicine. If that is what you need, say so on the call and we will point you to someone good.
           </p>
         </div>
       </section>
@@ -75,7 +74,7 @@ export default function ServicesPage() {
         title="Start with a conversation."
         description="Twenty minutes about your firm or practice. We'll tell you where we'd look first — and whether we're the right people to look."
         primaryCTA={{ text: 'Book a conversation', href: '/free-consultation' }}
-        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:18334382855' }}
+        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>
   );

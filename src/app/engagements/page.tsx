@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import OfferCard from '@/components/OfferCard';
 import CTASection from '@/components/CTASection';
-import { OFFERS } from '@/lib/constants';
+import { OFFERS, COMPANY } from '@/lib/constants';
 import { faqSchema } from '@/lib/schema';
 import { pageMeta } from '@/lib/metadata';
 
@@ -75,7 +75,7 @@ export default function EngagementsPage() {
         title="Want the number for your firm?"
         description="Call 1-833-GET-BULL or book twenty minutes. We'll scope it on the call and tell you which engagement fits — or that none of them do."
         primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
-        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:18334382855' }}
+        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>
   );
