@@ -63,4 +63,4 @@ GA4 loads from Google's canonical gtag snippet, server-rendered into `<head>` in
 
 ## Env
 
-See `.env.example`. `LEAD_WEBHOOK_URL`, `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`, `LEAD_FROM_EMAIL`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_GTM_ID`.
+See `.env.example`. `LEAD_GHL_API_KEY`, `LEAD_GHL_LOCATION_ID`, `LEAD_WEBHOOK_URL`, `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`, `LEAD_FROM_EMAIL`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_GTM_ID`.
