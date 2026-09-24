@@ -1,14 +1,15 @@
 import type { Metadata } from 'next';
-import { COMPANY } from '@/lib/constants';
 import Link from 'next/link';
 import CTASection from '@/components/CTASection';
 import { POSTS, CATEGORY_COLORS } from '@/lib/blog';
+import { COMPANY } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/blog',
   title: 'Blog',
   description: 'Insights on intake optimization, AI automation, and performance marketing for law firms and medical practices.',
-  alternates: { canonical: `${COMPANY.website}/blog` },
-};
+});
 
 export default function BlogPage() {
   return (
@@ -59,7 +60,7 @@ export default function BlogPage() {
         title="Ready to Put These Ideas to Work?"
         description="Twenty minutes about your firm or practice. We'll tell you where we'd look first."
         primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
-        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:+18334382855' }}
+        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>
   );

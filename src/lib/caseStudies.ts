@@ -17,6 +17,8 @@ export interface CaseStudy {
   services: string[];
   quote?: { text: string; name: string; title: string };
   source: string;
+  /** Date this write-up was published on this site (ISO). Article datePublished and sitemap lastmod. */
+  published: string;
   featured?: boolean;
 }
 
@@ -43,6 +45,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     services: ['Brand design', 'Multilingual website (EN / ES / RU / UZ)', 'SEO', 'Google, Meta, Snapchat, TikTok, Display ads', 'Billboard, radio, and TV buying', 'Zoho CRM implementation', 'Intake call-center deployment'],
     quote: { text: 'They delivered results beyond expectations.', name: 'Isak Yuhan', title: '1-800-HURT-511' },
     source: 'Published case study, getmarketingbull.com (migrated Sep 2026); client testimonial.',
+    published: '2026-09-03',
     featured: true,
   },
   {
@@ -66,6 +69,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     services: ['Brand style guide', 'Website and landing page', 'SEO and content', 'Google Business Profile / Maps', 'Google Ads', 'Review generation', 'Social media management and ads', 'Video commercial'],
     quote: { text: 'Working with Marketing Bull has been a game-changer for my practice. We went from struggling to fill slots to seeing 30 new faces every month.', name: 'Dr. Manoj Sadhnani', title: 'Queens Hyperbaric' },
     source: 'Published case study (services) and client testimonial (30+ patients), getmarketingbull.com.',
+    published: '2026-09-03',
     featured: true,
   },
   {
@@ -87,6 +91,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     ],
     services: ['Marketing strategy', 'Brand design and style guidelines', 'Website with consultation scheduling', 'Google Business Profile', 'Facebook and Instagram content'],
     source: 'Published case study, getmarketingbull.com. Launch engagement; no outcome metrics were published.',
+    published: '2026-09-03',
   },
 ];
 

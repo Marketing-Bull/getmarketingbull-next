@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import { COMPANY } from '@/lib/constants';
 import { LICENSE_MD } from './license';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/software-license',
   title: 'Software License Agreement',
   description: 'License terms for custom software, plugins, and applications developed by Marketing Bull for clients.',
-  alternates: { canonical: `${COMPANY.website}/software-license` },
-};
+});
 
 /** Minimal renderer for the legal text: #, ##, **bold**, "- " bullets, paragraphs. */
 function renderInline(text: string, key: string) {

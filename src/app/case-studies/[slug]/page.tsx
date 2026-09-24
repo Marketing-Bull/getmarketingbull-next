@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import CTASection from '@/components/CTASection';
 import { CASE_STUDIES, getCaseStudy } from '@/lib/caseStudies';
-import { COMPANY } from '@/lib/constants';
 import { caseStudySchema, breadcrumbSchema } from '@/lib/schema';
+import { pageMeta } from '@/lib/metadata';
 
 export function generateStaticParams() {
   return CASE_STUDIES.map((c) => ({ slug: c.slug }));
@@ -14,11 +14,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const cs = getCaseStudy(slug);
   if (!cs) return {};
-  return {
+  return pageMeta({
+    path: `/case-studies/${cs.slug}`,
     title: `${cs.client} — Case Study`,
     description: cs.summary,
-    alternates: { canonical: `${COMPANY.website}/case-studies/${cs.slug}` },
-  };
+    article: { publishedTime: cs.published },
+    ownOgImage: true,
+  });
 }
 
 export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {

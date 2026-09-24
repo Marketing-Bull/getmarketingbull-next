@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
-import { COMPANY } from '@/lib/constants';
 import Link from 'next/link';
 import ContactForm from '@/components/ContactForm';
+import { COMPANY } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/contact-us',
   title: 'Contact Us',
-  description: 'Get in touch with Marketing Bull. Call 1-833-GET-BULL, email us, or fill out the form and we\'ll respond within one business hour.',
-  alternates: { canonical: `${COMPANY.website}/contact-us` },
-};
+  description: `Get in touch with Marketing Bull. Call ${COMPANY.phone}, email us, or fill out the form and we'll respond within one business day.`,
+});
 
 export default function ContactPage() {
   return (
@@ -17,7 +18,7 @@ export default function ContactPage() {
           <p className="text-blue-300 font-semibold text-sm uppercase tracking-widest mb-4">Get in Touch</p>
           <h1 className="text-5xl font-bold mb-6">Let&apos;s Talk</h1>
           <p className="text-xl text-slate-300 leading-relaxed">
-            Whether you&apos;re ready to start or just exploring — we respond within one business hour.
+            Whether you&apos;re ready to start or just exploring — we respond within one business day.
           </p>
         </div>
       </section>
@@ -30,9 +31,9 @@ export default function ContactPage() {
                 <h2 className="text-3xl font-bold text-slate-900 mb-8">Contact Information</h2>
                 <div className="space-y-6">
                   {[
-                    { icon: '📞', label: 'Phone', value: '1-833-GET-BULL', href: 'tel:+18334382855', sub: 'Mon–Fri, 9am–6pm EST' },
-                    { icon: '✉️', label: 'Email', value: 'hello@getmarketingbull.com', href: 'mailto:hello@getmarketingbull.com', sub: 'We respond within 1 business hour' },
-                    { icon: '📍', label: 'Office', value: '319 Clematis Street, Suite 300', href: null, sub: 'West Palm Beach, FL 33401' },
+                    { icon: '📞', label: 'Phone', value: COMPANY.phone, href: `tel:${COMPANY.phoneE164}`, sub: 'Mon–Fri, 9am–6pm ET' },
+                    { icon: '✉️', label: 'Email', value: COMPANY.email, href: `mailto:${COMPANY.email}`, sub: 'We respond within one business day' },
+                    { icon: '📍', label: 'Office', value: COMPANY.street, href: null, sub: `${COMPANY.city}, ${COMPANY.state} ${COMPANY.zip}` },
                   ].map((item) => (
                     <div key={item.label} className="flex gap-5 p-6 bg-slate-50 rounded-2xl border border-slate-200">
                       <div className="text-2xl" aria-hidden="true">{item.icon}</div>
@@ -61,7 +62,7 @@ export default function ContactPage() {
 
             <div className="bg-white rounded-2xl border border-slate-200 shadow-lg p-8">
               <h2 className="text-2xl font-bold text-slate-900 mb-2">Send a Message</h2>
-              <p className="text-slate-500 mb-8">We&apos;ll get back to you within one business hour.</p>
+              <p className="text-slate-500 mb-8">We&apos;ll get back to you within one business day.</p>
               <ContactForm />
             </div>
           </div>
@@ -69,7 +70,7 @@ export default function ContactPage() {
       </section>
       <section className="bg-slate-100">
         <iframe
-          src="https://maps.google.com/maps?q=319+Clematis+Street+Suite+300+West+Palm+Beach+FL+33401&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          src={`https://maps.google.com/maps?q=${encodeURIComponent(COMPANY.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
           width="100%"
           height="400"
           style={{ border: 0, display: 'block' }}

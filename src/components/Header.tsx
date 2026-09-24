@@ -67,7 +67,7 @@ export default function Header() {
                 )}
               </div>
             ))}
-            <a href={`tel:${COMPANY.phoneFormatted}`} className="text-sm text-slate-300 hover:text-white transition font-medium">
+            <a href={`tel:${COMPANY.phoneE164}`} className="text-sm text-slate-300 hover:text-white transition font-medium">
               {COMPANY.phone}
             </a>
             <Link href="/free-consultation" className="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition">
@@ -113,7 +113,7 @@ export default function Header() {
                 )}
               </div>
             ))}
-            <a href={`tel:${COMPANY.phoneFormatted}`} className="block px-4 py-2.5 text-sm text-slate-300 font-medium">
+            <a href={`tel:${COMPANY.phoneE164}`} className="block px-4 py-2.5 text-sm text-slate-300 font-medium">
               Call {COMPANY.phone}
             </a>
         </nav>

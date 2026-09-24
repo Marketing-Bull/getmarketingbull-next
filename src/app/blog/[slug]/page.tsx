@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { COMPANY } from '@/lib/constants';
 import { breadcrumbSchema, personId } from '@/lib/schema';
+import { pageMeta } from '@/lib/metadata';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import CTASection from '@/components/CTASection';
@@ -14,11 +15,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const post = POSTS.find((p) => p.slug === slug);
   if (!post) return {};
-  return {
-    title: post.title,
-    description: post.excerpt,
-    alternates: { canonical: `${COMPANY.website}/blog/${post.slug}` },
-  };
+  return pageMeta({
+    path: `/blog/${post.slug}`,
+    title: post.seoTitle ?? post.title,
+    description: post.metaDescription ?? post.excerpt,
+    article: { publishedTime: post.dateISO, modifiedTime: post.updatedISO ?? post.dateISO },
+  });
 }
 
 /** Byline for every post. Matches the /about-us Person exactly so the @ids line up. */
@@ -35,6 +37,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     headline: post.title,
     description: post.excerpt,
     datePublished: post.dateISO,
+    dateModified: post.updatedISO ?? post.dateISO,
+    // Posts have no opengraph-image of their own, so they share the site's.
+    image: `${COMPANY.website}/opengraph-image`,
     // Same @id as the Person node on /about-us, so the author and the team member
     // resolve to one entity rather than two people who share a name.
     author: {
@@ -63,9 +68,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px)', backgroundSize: '28px 28px' }}
         />
         <div className="container-md max-w-3xl relative">
-          <Link href="/blog" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white text-sm mb-8 transition-colors">
-            ← Back to Blog
-          </Link>
+          <nav className="text-xs text-slate-400 mb-8" aria-label="Breadcrumb">
+            <Link href="/" className="hover:text-white transition-colors">Home</Link> <span className="mx-1.5">/</span>
+            <Link href="/blog" className="hover:text-white transition-colors">Blog</Link> <span className="mx-1.5">/</span>
+            <span className="text-slate-300">{post.title}</span>
+          </nav>
           <div className="flex items-center gap-3 mb-5">
             <span className={`text-xs font-semibold px-3 py-1 rounded-full ${CATEGORY_COLORS[post.category] ?? 'bg-slate-100 text-slate-600'}`}>
               {post.category}
@@ -187,7 +194,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         title="Ready to Put These Ideas to Work?"
         description="Twenty minutes about your firm or practice. We'll tell you where we'd look first."
         primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
-        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:+18334382855' }}
+        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>
   );

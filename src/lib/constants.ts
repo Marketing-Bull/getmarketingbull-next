@@ -1,13 +1,14 @@
 /**
  * GA4 measurement id. Not a secret — it ships in client JS on every page and is
  * visible in any browser's network tab. Hardcoded so measurement works on deploy
- * with no configuration; override per-environment with NEXT_PUBLIC_GA_ID.
+ * with no configuration; override per-environment with NEXT_PUBLIC_GA_ID. `||`, not
+ * `??`: an env var that exists but is empty must fall back, not yield an empty id.
  *
- * If a GTM container is ever wired up (NEXT_PUBLIC_GTM_ID), do not also put a GA4
- * tag for this property inside it — the page would then load GA4 twice and every
- * pageview and event would be counted twice. Pick one path.
+ * This id is only used by the direct gtag snippet in layout.tsx, which is rendered
+ * only while NEXT_PUBLIC_GTM_ID is unset. Setting a GTM container id switches the
+ * snippet off; GA4 then has to live as a tag inside the container.
  */
-export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID ?? 'G-D5G7PCS5K0';
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-D5G7PCS5K0';
 
 export const COMPANY = {
   name: 'Marketing Bull',
@@ -15,7 +16,10 @@ export const COMPANY = {
   tagline: 'Growth consultancy for law firms and medical practices.',
   phone: '1-833-GET-BULL',
   phoneFormatted: '1-833-438-2855',
+  /** The only form any `tel:` href should use. */
+  phoneE164: '+18334382855',
   email: 'hello@getmarketingbull.com',
+  street: '319 Clematis Street, Suite 300',
   address: '319 Clematis Street, Suite 300, West Palm Beach, FL 33401',
   city: 'West Palm Beach',
   state: 'FL',
@@ -40,6 +44,8 @@ export interface Offer {
   name: string;
   headline: string;
   short: string;
+  /** Meta description when `short` (on-page copy) runs past 160 chars. Falls back to `short`. */
+  metaDescription?: string;
   /** Commercial shape of the engagement — commitment and what's bundled. No figures; we quote per firm. */
   terms: string;
   timeline: string;
@@ -79,7 +85,7 @@ export const OFFERS: Offer[] = [
     ],
     notIncluded: [
       'Ongoing content or blog writing (see AI Content & Search Engine)',
-      'Paid ads management',
+      'Paid ads management (see Lead Generation)',
       'Custom web applications, client portals, or e-commerce',
       'Professional photography (we use licensed stock or your existing photos)',
     ],
@@ -131,7 +137,7 @@ export const OFFERS: Offer[] = [
       { title: 'Days 9–10 — Readout', desc: 'You get the report, the scorecards, and a call to walk through what to fix first.' },
     ],
     faqs: [
-      { q: 'Will my staff know they\'re being tested?', a: 'Not unless you tell them. Our tester calls exactly like a prospect would and scores the interaction on a timestamped scorecard. We don\'t record calls by default — Florida is an all-party consent state. If you want recordings, you authorize it as the business owner at kickoff and we handle the disclosure.' },
+      { q: 'Will my staff know they\'re being tested?', a: 'Not unless you tell them. Our tester calls exactly like a prospect would and scores the interaction on a timestamped scorecard. We don\'t record calls — Florida is an all-party consent state.' },
       { q: 'Is the audit fee refundable?', a: 'No, but it\'s credited in full toward any Marketing Bull engagement you start within 60 days — so if you act on the findings, the audit pays for itself.' },
       { q: 'We don\'t have a CRM. Can you still audit us?', a: 'Yes. The mystery shops and ROI report don\'t depend on a CRM. We\'ll note it as a gap.' },
     ],
@@ -145,6 +151,8 @@ export const OFFERS: Offer[] = [
     headline: 'Show up in Google and in AI answers — every week, without writing a word.',
     short:
       'A managed content system that publishes search- and AI-optimized content to your site every week, tracks where you appear in ChatGPT, Perplexity, and Google AI Overviews, and reports it monthly.',
+    metaDescription:
+      'Managed content that publishes search- and AI-optimized pages weekly, tracks where you appear in ChatGPT, Perplexity and AI Overviews, and reports it monthly.',
     terms: 'Monthly. 3-month minimum, then month-to-month, cancel with 30 days notice.',
     timeline: 'First content live within 10 business days',
     bestFor: 'Firms and practices that want to compound organic visibility without hiring a writer or an SEO agency.',
@@ -162,7 +170,7 @@ export const OFFERS: Offer[] = [
     ],
     notIncluded: [
       'Website build or redesign (see Website in 14 Days)',
-      'Paid ads',
+      'Paid ads (see Lead Generation)',
       'Link-buying or private blog networks — practices that put your domain at risk',
       'Social media management beyond Google Business Profile',
     ],
@@ -188,6 +196,8 @@ export const OFFERS: Offer[] = [
     headline: 'Paid search and social run end to end — the ads, the pages they land on, and the tracking that shows which clicks became cases.',
     short:
       'Google and Meta ads managed as one system: campaigns, the landing pages behind them, and call and form tracking wired to your CRM so every lead carries the campaign that produced it.',
+    metaDescription:
+      'Google and Meta ads run as one system: campaigns, their landing pages, and call and form tracking wired to your CRM so every lead carries its source campaign.',
     terms: 'Monthly. 3-month minimum, then month-to-month, cancel with 30 days notice. Ad spend is paid directly to the platforms, never through us.',
     timeline: 'First campaigns live within 10 business days',
     bestFor: 'Firms and practices that need case or patient volume now, and want to know which ads produced it.',
@@ -220,7 +230,7 @@ export const OFFERS: Offer[] = [
     faqs: [
       { q: 'Do you mark up our ad spend?', a: 'No. You pay Google and Meta directly, the accounts are created in your name, and you keep them if you leave. We are paid for managing the work, not for how much of your budget we place.' },
       { q: 'Google Ads or Meta — which one?', a: 'It depends on whether people search for what you do or need to be shown it. Personal injury and most medical specialties have real search demand, so paid search usually leads and Meta handles retargeting and awareness. We will tell you on the first call which we think fits, and running one rather than both is a perfectly good answer.' },
-      { q: 'How do you track phone calls?', a: 'Dynamic number insertion: the number shown on your site changes with how the visitor arrived, so a call can be tied to the campaign and keyword that produced it. The numbers forward to your real line and your staff answer normally. We do not record calls by default — Florida is an all-party consent state.' },
+      { q: 'How do you track phone calls?', a: 'Dynamic number insertion: the number shown on your site changes with how the visitor arrived, so a call can be tied to the campaign and keyword that produced it. The numbers forward to your real line and your staff answer normally. We do not record calls — Florida is an all-party consent state.' },
       { q: 'Can you work with our existing ad accounts?', a: 'Yes, and we prefer it — the account history is worth keeping. We take a documented snapshot of what is running before changing anything, so you can see exactly what moved and why.' },
       { q: 'What about ads for a medical practice?', a: 'Platform policy limits how health-related audiences can be targeted, and we do not place tracking pixels on anything behind a patient login or portal. Campaigns are built around what someone is actively searching for, not around inferences about their condition.' },
     ],
@@ -228,6 +238,23 @@ export const OFFERS: Offer[] = [
     accent: 'amber',
   },
 ];
+
+const NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+
+/**
+ * How many engagements there are, as a word ("four"), so copy that counts them
+ * can't drift from OFFERS. Pass `true` for sentence case ("Four").
+ */
+export function offerCountWord(capitalize = false): string {
+  const w = NUMBER_WORDS[OFFERS.length] ?? String(OFFERS.length);
+  return capitalize ? w.charAt(0).toUpperCase() + w.slice(1) : w;
+}
+
+/** Every engagement name as one English list: "A, B, C, and D". */
+export function offerNameList(): string {
+  const names = OFFERS.map((o) => o.name);
+  return names.length < 3 ? names.join(' and ') : `${names.slice(0, -1).join(', ')}, and ${names[names.length - 1]}`;
+}
 
 export const NAV_LINKS = [
   {

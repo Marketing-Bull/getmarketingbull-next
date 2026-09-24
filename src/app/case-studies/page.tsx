@@ -3,12 +3,13 @@ import Link from 'next/link';
 import CTASection from '@/components/CTASection';
 import { CASE_STUDIES } from '@/lib/caseStudies';
 import { COMPANY } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/case-studies',
   title: 'Case Studies',
   description: 'Selected engagements with law firms and medical practices — what the constraint was, what we built, and what happened.',
-  alternates: { canonical: `${COMPANY.website}/case-studies` },
-};
+});
 
 export default function CaseStudiesPage() {
   return (
@@ -54,7 +55,7 @@ export default function CaseStudiesPage() {
         title="Start with a conversation."
         description="Twenty minutes about your firm or practice. We'll tell you where we'd look first — and whether we're the right people to look."
         primaryCTA={{ text: 'Book a conversation', href: '/free-consultation' }}
-        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: 'tel:18334382855' }}
+        secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>
   );

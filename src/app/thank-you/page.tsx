@@ -6,8 +6,10 @@ import { COMPANY } from '@/lib/constants';
 export const metadata: Metadata = {
   title: 'Thank You',
   description: 'We received your request and will reply within one business day.',
+  // noindex, and no canonical: a canonical asks Google to index this URL, which
+  // contradicts the noindex. robots.ts deliberately does not disallow this path, so
+  // crawlers can fetch the page and see the noindex.
   robots: { index: false, follow: true },
-  alternates: { canonical: `${COMPANY.website}/thank-you` },
 };
 
 export default function ThankYouPage() {
@@ -19,7 +21,7 @@ export default function ThankYouPage() {
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">Thank you.</h1>
         <p className="text-lg text-slate-300 leading-relaxed mb-10">
           A person will reply within one business day. If it&apos;s urgent, call{' '}
-          <a href={`tel:${COMPANY.phoneFormatted}`} className="font-semibold text-white underline decoration-red-500 underline-offset-4">{COMPANY.phone}</a>.
+          <a href={`tel:${COMPANY.phoneE164}`} className="font-semibold text-white underline decoration-red-500 underline-offset-4">{COMPANY.phone}</a>.
         </p>
         <div className="flex flex-row flex-wrap gap-3 justify-center">
           <Button variant="primary" size="md" href="/case-studies">Read the case studies</Button>

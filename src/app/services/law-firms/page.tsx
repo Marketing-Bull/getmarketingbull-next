@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import VerticalPage from '@/components/VerticalPage';
-import { COMPANY } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/services/law-firms',
   title: 'For Law Firms',
-  description: 'Growth consulting for personal injury and plaintiff firms: the site that gets you found, the ads that put you in front, the authority that gets you called, and the intake that gets the case signed.',
-  alternates: { canonical: `${COMPANY.website}/services/law-firms` },
-};
+  description:
+    'Growth consulting for PI and plaintiff firms: a site that gets you found, ads that put you in front, authority that gets you called, intake that signs cases.',
+});
 
 export default function LawFirmsPage() {
   return (
@@ -38,7 +39,7 @@ export default function LawFirmsPage() {
         { q: 'We already have a marketing agency. Why would we need this?', a: 'Most agencies are paid to generate leads, not to sign them. If your leads are arriving and your signed-case count is not moving, the leak is downstream of the agency — usually intake — and the audit will show you exactly where. We are happy to work alongside an existing agency.' },
         { q: 'Do you work with firms outside Florida?', a: 'Yes. Everything is delivered remotely and we have worked with firms in New York and elsewhere. Florida firms get the benefit of our familiarity with Florida Bar rules; outside Florida, you will want your own compliance review on marketing copy.' },
         { q: 'What size firm is this for?', a: 'Firms already spending on lead generation who suspect they are not converting it — typically two to fifteen attorneys. Solo practitioners get the most out of the website and the audit; larger firms tend to start with the content engine.' },
-        { q: 'Will you run our Google Ads?', a: 'Not as a standalone service. Paid search is included where an engagement calls for it, but we do not sell ad management on its own — it is where firms get locked into opaque retainers, and we would rather fix the things that make ads work.' },
+        { q: 'Will you run our Google Ads?', a: 'Yes — that is our Lead Generation engagement. We build and manage your Google Ads (and Meta, where your market responds to it) end to end, along with the landing pages the ads send people to and call tracking that ties each phone lead to the campaign and keyword behind it. Ad copy is reviewed against Florida Bar advertising rules. It runs monthly with a 3-month minimum, and your ad spend is paid directly to Google and Meta, never through us, in accounts that stay in your name. The full scope is on the Lead Generation page.' },
       ]}
       caseStudySlugs={['1-800-hurt-511']}
       testimonialNames={['Todd D. Muhlstock, Esq.', 'Isak Yuhan', 'Laura Cole, Esq.']}

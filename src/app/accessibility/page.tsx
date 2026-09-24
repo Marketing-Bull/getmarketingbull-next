@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import { COMPANY } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/accessibility',
   title: 'Accessibility Statement',
   description: 'Marketing Bull is committed to making our website accessible to all users.',
-  alternates: { canonical: `${COMPANY.website}/accessibility` },
-};
+});
 
 export default function AccessibilityPage() {
   return (
@@ -40,9 +41,9 @@ export default function AccessibilityPage() {
             <h2 className="text-xl font-bold text-slate-900 mb-3">Feedback and Contact</h2>
             <p>We welcome your feedback on the accessibility of our website. If you experience any barriers or have suggestions, please contact us:</p>
             <ul className="mt-4 space-y-2 list-disc list-inside">
-              <li>Email: <a href="mailto:hello@getmarketingbull.com" className="text-red-600 hover:underline">hello@getmarketingbull.com</a></li>
-              <li>Phone: <a href="tel:+18334382855" className="text-red-600 hover:underline">1-833-GET-BULL</a></li>
-              <li>Mail: 319 Clematis Street, Suite 300, West Palm Beach, FL 33401</li>
+              <li>Email: <a href={`mailto:${COMPANY.email}`} className="text-red-600 hover:underline">{COMPANY.email}</a></li>
+              <li>Phone: <a href={`tel:${COMPANY.phoneE164}`} className="text-red-600 hover:underline">{COMPANY.phone}</a></li>
+              <li>Mail: {COMPANY.address}</li>
             </ul>
             <p className="mt-4">We aim to respond to accessibility feedback within 5 business days.</p>
           </div>

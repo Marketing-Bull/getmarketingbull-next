@@ -1,14 +1,16 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import CTASection from '@/components/CTASection';
-import { COMPANY } from '@/lib/constants';
+import { COMPANY, offerCountWord } from '@/lib/constants';
 import { personSchema } from '@/lib/schema';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/about-us',
   title: 'About',
-  description: 'Marketing Bull is a small senior growth consultancy in West Palm Beach that works only with law firms and medical practices. Meet the two people who do the work.',
-  alternates: { canonical: `${COMPANY.website}/about-us` },
-};
+  description:
+    'Marketing Bull is a small senior growth consultancy in West Palm Beach working only with law firms and medical practices. Meet the two people who do the work.',
+});
 
 const TEAM = [
   {
@@ -61,7 +63,7 @@ export default function AboutPage() {
           </div>
           <div className="lg:col-span-8 space-y-5 text-lg text-slate-700 leading-relaxed">
             <p>Marketing Bull started as a conventional agency — websites, search, paid media — for whoever asked. The clients who got the best results had two things in common: they were law firms or medical practices, and the work that moved their numbers was rarely the ad. It was the site that finally loaded, the phone that finally got answered, the content that finally showed up when a prospect searched.</p>
-            <p>So we narrowed. Two verticals, where we know the regulations and the patient or client behavior cold. Three fixed-scope engagements, each built around one of the three places a case or patient is lost. And a consulting posture: diagnose first, build what the diagnosis calls for, and stay accountable for the outcome.</p>
+            <p>So we narrowed. Two verticals, where we know the regulations and the patient or client behavior cold. {offerCountWord(true)} fixed-scope engagements, each built around one of the places a case or patient is won or lost. And a consulting posture: diagnose first, build what the diagnosis calls for, and stay accountable for the outcome.</p>
             <p>The work we are proudest of is in the <Link href="/case-studies" className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-red-600">case studies</Link> — with only the numbers the client reported.</p>
           </div>
         </div>
@@ -104,7 +106,7 @@ export default function AboutPage() {
 
       <section className="py-14 bg-slate-50 border-t border-slate-100">
         <div className="container-md max-w-3xl text-sm text-slate-500">
-          <p>{COMPANY.legalName} · {COMPANY.address} · <a href={`tel:${COMPANY.phoneFormatted}`} className="font-semibold text-slate-700">{COMPANY.phone}</a> · <a href={`mailto:${COMPANY.email}`} className="font-semibold text-slate-700">{COMPANY.email}</a></p>
+          <p>{COMPANY.legalName} · {COMPANY.address} · <a href={`tel:${COMPANY.phoneE164}`} className="font-semibold text-slate-700">{COMPANY.phone}</a> · <a href={`mailto:${COMPANY.email}`} className="font-semibold text-slate-700">{COMPANY.email}</a></p>
         </div>
       </section>
 

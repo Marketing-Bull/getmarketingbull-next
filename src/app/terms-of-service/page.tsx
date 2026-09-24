@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import { COMPANY } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/terms-of-service',
   title: 'Terms of Service',
   description: 'Marketing Bull terms of service — the terms governing use of our website and services.',
-  alternates: { canonical: `${COMPANY.website}/terms-of-service` },
-};
+});
 
 const SECTIONS = [
   {
@@ -54,7 +55,7 @@ const SECTIONS = [
   },
   {
     title: '12. Contact',
-    body: `Questions about these Terms of Service should be directed to: Marketing Bull, LLC · 319 Clematis Street, Suite 300, West Palm Beach, FL 33401 · hello@getmarketingbull.com`,
+    body: `Questions about these Terms of Service should be directed to: ${COMPANY.legalName} · ${COMPANY.address} · ${COMPANY.email}`,
   },
 ];
 
