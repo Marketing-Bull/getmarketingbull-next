@@ -7,7 +7,8 @@ import { COMPANY, OFFERS } from '@/lib/constants';
  * Delivery — set whichever env vars you have on Vercel; all configured channels run in parallel:
  *   LEAD_GHL_API_KEY    → POSTs the lead to GoHighLevel as a Contact in the MB sub-account
  *                          (LEAD_GHL_LOCATION_ID, default TpaL2rALzbFCdbM1sxmH) with tag
- *                          `mb-site-lead` and 4 custom fields.
+ *                          `mb-site-lead` and 4 custom fields. A repeat visitor (duplicate
+ *                          contact) gets the new inquiry as a note on their existing record.
  *   LEAD_WEBHOOK_URL   → POSTs the JSON payload (legacy: Zapier, Make, n8n…)
  *   RESEND_API_KEY     → emails the lead to LEAD_NOTIFY_EMAIL (default hello@getmarketingbull.com)
  *
@@ -123,41 +124,83 @@ export async function POST(req: Request) {
   const fromEmail = process.env.LEAD_FROM_EMAIL || 'leads@getmarketingbull.com';
 
   // `accept` lets a channel treat a specific non-2xx as delivered.
-  const channels: { name: string; send: () => Promise<Response>; accept?: (status: number, body: string) => boolean }[] = [];
+  const channels: {
+    name: string;
+    send: () => Promise<Response>;
+    accept?: (status: number, body: string) => boolean | Promise<boolean>;
+  }[] = [];
 
   if (ghlKey) {
+    const ghl = (path: string, payload: unknown) =>
+      fetch(`https://services.leadconnectorhq.com${path}`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${ghlKey}`,
+          'Content-Type': 'application/json',
+          Version: '2021-07-28',
+        },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
+      });
+
     channels.push({
       name: 'ghl',
       send: () =>
-        fetch('https://services.leadconnectorhq.com/contacts/', {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${ghlKey}`,
-            'Content-Type': 'application/json',
-            Version: '2021-07-28',
-          },
-          body: JSON.stringify({
-            locationId: ghlLocationId,
-            firstName,
-            lastName,
-            name,
-            email,
-            phone,
-            website: lead.website || undefined,
-            source: 'Marketing Bull Site',
-            tags: ['mb-site-lead'],
-            customFields: [
-              { id: 'n3Ur3Tm4gLb7BfhPFJt5', value: lead.source },
-              { id: 'ssDT5kiOUvt30YA6vX15', value: lead.message },
-              { id: 'nOLB2wsnl4T71In4ybss', value: lead.website },
-              { id: 'PqYofPTdo3wZf6li9v9I', value: lead.smsConsent ? 'yes' : 'no' },
-            ],
-          }),
-          signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
+        ghl('/contacts/', {
+          locationId: ghlLocationId,
+          firstName,
+          lastName,
+          name,
+          email,
+          phone,
+          website: lead.website || undefined,
+          source: 'Marketing Bull Site',
+          tags: ['mb-site-lead'],
+          customFields: [
+            { id: 'n3Ur3Tm4gLb7BfhPFJt5', value: lead.source },
+            { id: 'ssDT5kiOUvt30YA6vX15', value: lead.message },
+            { id: 'nOLB2wsnl4T71In4ybss', value: lead.website },
+            { id: 'PqYofPTdo3wZf6li9v9I', value: lead.smsConsent ? 'yes' : 'no' },
+          ],
         }),
       // A repeat visitor already exists as a contact, so GHL answers 400 "does not allow duplicated
-      // contacts". The person is in the CRM; the new message is only in the log below.
-      accept: (status, body) => status === 400 && body.includes('duplicated contacts'),
+      // contacts" with the existing contactId in `meta`. The person is in the CRM either way; attach
+      // this inquiry to their record as a note and re-add the tag. Both calls are additive — unlike
+      // /contacts/upsert, they can't overwrite tags or fields someone set by hand.
+      accept: async (status, body) => {
+        if (status !== 400 || !body.includes('duplicated contacts')) return false;
+        let contactId: unknown;
+        try {
+          contactId = (JSON.parse(body) as { meta?: { contactId?: unknown } }).meta?.contactId;
+        } catch {}
+        if (typeof contactId !== 'string' || !contactId) {
+          console.warn('[lead] ghl duplicate without contactId; message is only in this log');
+          return true;
+        }
+        const id = encodeURIComponent(contactId);
+        const note = [
+          `New website inquiry (${lead.submittedAt})`,
+          `Source: ${lead.source}`,
+          lead.product && `Product: ${lead.product}`,
+          `Phone: ${lead.phone}`,
+          lead.website && `Website: ${lead.website}`,
+          `SMS consent: ${lead.smsConsent ? 'yes' : 'no'}`,
+          lead.page && `Page: ${lead.page}`,
+        ]
+          .filter(Boolean)
+          .join('\n')
+          .concat('\n\n', lead.message || '(no message)');
+        const followUps = await Promise.allSettled([
+          ghl(`/contacts/${id}/notes`, { body: note }),
+          ghl(`/contacts/${id}/tags`, { tags: ['mb-site-lead'] }),
+        ]);
+        for (const [i, r] of followUps.entries()) {
+          const what = i === 0 ? 'note' : 'tag';
+          if (r.status === 'rejected') console.error(`[lead] ghl ${what} failed`, contactId, r.reason);
+          else if (!r.value.ok) console.error(`[lead] ghl ${what} non-2xx`, contactId, r.value.status, (await r.value.text().catch(() => '')).slice(0, 500));
+        }
+        return true;
+      },
     });
   }
 
@@ -219,7 +262,7 @@ export async function POST(req: Request) {
         const r = await send();
         if (r.ok) return { channel, ok: true, detail: String(r.status) };
         const text = await r.text().catch(() => '');
-        if (accept?.(r.status, text)) {
+        if (await accept?.(r.status, text)) {
           console.warn(`[lead] ${channel} accepted ${r.status}`, text.slice(0, 1000), JSON.stringify(lead));
           return { channel, ok: true, detail: `${r.status}-accepted` };
         }
