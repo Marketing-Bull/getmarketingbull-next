@@ -105,8 +105,11 @@ export default function HomePage() {
             </p>
             <div className="flex flex-row flex-wrap gap-3">
               <Button variant="primary" size="lg" href="/free-consultation">Start a conversation</Button>
-              <Button variant="secondary" size="lg" href="#approach">How we work</Button>
+              <Button variant="secondary" size="lg" href="/pi-intake-scorecard">Score your intake (free)</Button>
             </div>
+            <p className="mt-6 text-sm">
+              <a href="#approach" className="font-semibold text-slate-400 hover:text-white transition">How we work ↓</a>
+            </p>
           </div>
         </div>
       </section>
@@ -173,6 +176,11 @@ export default function HomePage() {
                     <Link href={`/products/${offer.slug}`} className="mt-6 text-sm font-semibold text-white hover:text-red-400 transition">
                       {offer.name} →
                     </Link>
+                    {l.offer === 'intake-gap-audit' && (
+                      <Link href="/pi-intake-scorecard" className="mt-2 text-sm font-semibold text-slate-400 hover:text-red-400 transition">
+                        Or score your own intake first →
+                      </Link>
+                    )}
                   </div>
                 </Reveal>
               );

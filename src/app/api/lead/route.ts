@@ -11,6 +11,10 @@ import { COMPANY, OFFERS } from '@/lib/constants';
  *   LEAD_WEBHOOK_URL   → POSTs the JSON payload (legacy: Zapier, Make, n8n…)
  *   RESEND_API_KEY     → emails the lead to LEAD_NOTIFY_EMAIL (default hello@getmarketingbull.com)
  *
+ * Lead-magnet sources (LEAD_MAGNET_SOURCES, e.g. the PI Intake Scorecard) differ in three ways:
+ * phone is optional, firm name and attorney count are required, and the source is added as a
+ * GHL tag so a GHL workflow can email the asset and the follow-ups.
+ *
  * The visitor is told "sent" only when at least one channel returned 2xx. If every channel fails,
  * the route returns 502 so the form shows the phone number instead of firing a false conversion.
  * With no channel configured, production returns 503; other environments log the lead and succeed.
@@ -25,13 +29,20 @@ interface LeadPayload {
   smsConsent?: unknown;
   product?: unknown;
   source?: unknown;
+  firm?: unknown;
+  attorneys?: unknown;
+  attribution?: unknown; // utm_* / click ids from the landing URL, as a query string
   hp?: unknown; // honeypot
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const SOURCE_RE = /^[a-z0-9:-]{1,100}$/;
 const MAX_BODY_BYTES = 20_000;
-const LIMITS = { name: 100, email: 254, phone: 30, website: 300, message: 5000 } as const;
+const LIMITS = { name: 100, email: 254, phone: 30, website: 300, message: 5000, firm: 150, attribution: 1000 } as const;
+/** Sources whose form collects firm + attorney count, makes phone optional, and tags the GHL contact. */
+const LEAD_MAGNET_SOURCES = new Set(['pi-intake-scorecard']);
+/** Must match ATTORNEY_OPTIONS in ScorecardForm. */
+const ATTORNEY_OPTIONS = ['1', '2 to 5', '6 to 15', '16+'];
 const UPSTREAM_TIMEOUT_MS = 8000;
 
 // Best-effort per-instance rate limit. Instances are reused under Fluid compute, so this
@@ -93,19 +104,41 @@ export async function POST(req: Request) {
   const name = str(body.name, LIMITS.name).replace(/\s+/g, ' ');
   const email = str(body.email, LIMITS.email);
   const phone = str(body.phone, LIMITS.phone);
-  if (name.length < 2 || !EMAIL_RE.test(email) || phone.replace(/\D/g, '').length < 7) {
-    return NextResponse.json({ ok: false, error: 'Please provide a name, a valid email, and a phone number.' }, { status: 422 });
+  const source = str(body.source, 100);
+  const leadMagnet = LEAD_MAGNET_SOURCES.has(source);
+  const phoneDigits = phone.replace(/\D/g, '').length;
+  const phoneOk = leadMagnet ? phone === '' || phoneDigits >= 7 : phoneDigits >= 7;
+  if (name.length < 2 || !EMAIL_RE.test(email) || !phoneOk) {
+    const error = leadMagnet
+      ? 'Please provide a name and a valid email. Phone is optional, but needs at least 7 digits if given.'
+      : 'Please provide a name, a valid email, and a phone number.';
+    return NextResponse.json({ ok: false, error }, { status: 422 });
   }
 
+  const firm = str(body.firm, LIMITS.firm).replace(/\s+/g, ' ');
+  const attorneysRaw = str(body.attorneys, 20);
+  const attorneys = ATTORNEY_OPTIONS.includes(attorneysRaw) ? attorneysRaw : '';
+  if (leadMagnet && (firm.length < 2 || !attorneys)) {
+    return NextResponse.json({ ok: false, error: 'Please provide your firm name and the number of attorneys.' }, { status: 422 });
+  }
+  const attribution = str(body.attribution, LIMITS.attribution);
+  // These forms have no message box. Folding the extra fields into the message gets them to every
+  // channel (GHL's message custom field, the webhook, the email) without new GHL custom fields.
+  const details = [firm && `Firm: ${firm}`, attorneys && `Attorneys: ${attorneys}`, attribution && `Attribution: ${attribution}`]
+    .filter(Boolean)
+    .join('\n');
+
   const product = str(body.product, 200);
-  const source = str(body.source, 100);
   const lead = {
     name,
     email,
     phone,
     website: str(body.website, LIMITS.website),
-    message: str(body.message, LIMITS.message),
-    smsConsent: body.smsConsent === true,
+    message: [str(body.message, LIMITS.message), details].filter(Boolean).join('\n\n').slice(0, LIMITS.message),
+    firm,
+    attorneys,
+    attribution,
+    smsConsent: body.smsConsent === true && phone !== '',
     product: OFFERS.some((o) => o.name === product) ? product : '',
     source: SOURCE_RE.test(source) ? source : 'website',
     submittedAt: new Date().toISOString(),
@@ -142,10 +175,12 @@ export async function POST(req: Request) {
             lastName,
             name,
             email,
-            phone,
+            phone: phone || undefined,
+            companyName: firm || undefined,
             website: lead.website || undefined,
             source: 'Marketing Bull Site',
-            tags: ['mb-site-lead'],
+            // The lead-magnet tag is what a GHL workflow triggers on to send the asset.
+            tags: leadMagnet ? ['mb-site-lead', lead.source] : ['mb-site-lead'],
             customFields: [
               { id: 'n3Ur3Tm4gLb7BfhPFJt5', value: lead.source },
               { id: 'ssDT5kiOUvt30YA6vX15', value: lead.message },
@@ -182,6 +217,9 @@ export async function POST(req: Request) {
           <tr><td><b>Email</b></td><td>${esc(lead.email)}</td></tr>
           <tr><td><b>Phone</b></td><td>${esc(lead.phone)}</td></tr>
           <tr><td><b>Website</b></td><td>${esc(lead.website)}</td></tr>
+          <tr><td><b>Firm</b></td><td>${esc(lead.firm)}</td></tr>
+          <tr><td><b>Attorneys</b></td><td>${esc(lead.attorneys)}</td></tr>
+          <tr><td><b>Source</b></td><td>${esc(lead.source)}</td></tr>
           <tr><td><b>Product</b></td><td>${esc(lead.product)}</td></tr>
           <tr><td><b>SMS consent</b></td><td>${lead.smsConsent ? 'yes' : 'no'}</td></tr>
           <tr><td><b>Page</b></td><td>${esc(lead.page)}</td></tr>
@@ -197,7 +235,7 @@ export async function POST(req: Request) {
             from: `Marketing Bull Leads <${fromEmail}>`,
             to: [notifyEmail],
             reply_to: lead.email,
-            subject: `New lead: ${lead.name}${lead.product ? ` — ${lead.product}` : ''}`,
+            subject: `New lead: ${lead.name}${lead.product ? ` — ${lead.product}` : ''}${leadMagnet ? ` — ${lead.source}` : ''}`,
             html,
           }),
           signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
