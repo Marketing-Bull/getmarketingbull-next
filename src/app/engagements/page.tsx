@@ -33,7 +33,7 @@ export default function EngagementsPage() {
             Engagements
           </p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-5 max-w-3xl mx-auto">
-            Fixed scope. Fixed date. No open-ended retainers.
+            Fixed scope. Fixed date. No long-term contracts.
           </h1>
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
             Four ways we work, each with a defined deliverable and a delivery date. The fee is scoped to your firm and agreed in writing before anything begins — and it does not move once it has.
