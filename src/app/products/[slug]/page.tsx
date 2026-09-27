@@ -30,6 +30,9 @@ const ACCENT: Record<string, { text: string; bg: string; border: string; soft: s
   amber: { text: 'text-amber-700', bg: 'bg-amber-600', border: 'border-amber-200', soft: 'bg-amber-50' },
 };
 
+/** Footnote markers matching the superscripts written into `offer.problem`. */
+const FOOTNOTE_MARKS = ['¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
+
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const offer = getOffer(slug);
@@ -96,6 +99,21 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
           <div className="lg:col-span-8">
             <p className="text-lg text-slate-700 leading-relaxed">{offer.problem}</p>
+            {offer.problemSources && offer.problemSources.length > 0 && (
+              <div className="mt-5 border-t border-slate-100 pt-4 text-xs text-slate-500 leading-relaxed">
+                <p className="font-semibold text-slate-600">Sources</p>
+                <ol className="mt-1.5 space-y-1">
+                  {offer.problemSources.map((s, i) => (
+                    <li key={s.url} className="flex gap-1.5">
+                      <span className="shrink-0" aria-hidden="true">{FOOTNOTE_MARKS[i] ?? `${i + 1}.`}</span>
+                      <a href={s.url} target="_blank" rel="noopener noreferrer" className="underline decoration-slate-300 underline-offset-2 hover:text-slate-700">
+                        {s.label}<span className="sr-only"> (opens in a new tab)</span>
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
           </div>
         </div>
       </section>
