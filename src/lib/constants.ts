@@ -51,6 +51,11 @@ export interface Offer {
   timeline: string;
   bestFor: string;
   problem: string;
+  /**
+   * Citations for figures in `problem`, in footnote order: `problem` marks them ¹ ², and the
+   * product page lists them under the paragraph. Every figure in `problem` needs one.
+   */
+  problemSources?: { label: string; url: string }[];
   includes: string[];
   notIncluded: string[];
   process: { title: string; desc: string }[];
@@ -115,7 +120,17 @@ export const OFFERS: Offer[] = [
     timeline: '7–10 business days',
     bestFor: 'Firms spending on lead generation who suspect the problem isn\'t the leads.',
     problem:
-      'The average firm takes 78 minutes to respond to a new lead. The prospect has called three other firms in the first 10. 42% of PI leads come in after 5pm and most go to voicemail. You\'re paying for leads and losing them at the front desk — and nobody inside the firm can see it happening.',
+      'Only a quarter of law firms reply to a web lead within five minutes, and 26% never reply at all.¹ After 5pm it gets worse: when one study called 1,000 personal injury firms in the evening, 41% never picked up.² You\'re paying for leads and losing them at the front desk, and nobody inside the firm can see it happening.',
+    problemSources: [
+      {
+        label: 'Hennessey Digital, 2025 Lead Form Response Time Study (1,333 U.S. law firms, Q1 2025)',
+        url: 'https://hennessey.com/2025-lead-form-response-time-study',
+      },
+      {
+        label: 'ClaireAI, Measuring After-Hours Legal Intake at 1,000 Law Firms (2026; after-5pm calls to 1,000 PI firms)',
+        url: 'https://theclaireai.com/blog/2026-legal-intake-benchmark-report',
+      },
+    ],
     includes: [
       'Two mystery-shop calls scored on a timestamped scorecard: one during business hours, one after hours',
       'Web form and chat response test with timestamps',
