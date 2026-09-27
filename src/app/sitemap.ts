@@ -10,7 +10,7 @@ import { POSTS } from '@/lib/blog';
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = COMPANY.website;
-  const statics = ['', '/engagements', '/free-consultation', '/services', '/services/law-firms', '/services/medical', '/services/intake-optimization', '/about-us', '/case-studies', '/blog', '/careers', '/contact-us', '/privacy-policy', '/terms-of-service', '/accessibility', '/software-license'];
+  const statics = ['', '/engagements', '/free-consultation', '/pi-intake-scorecard', '/services', '/services/law-firms', '/services/medical', '/services/intake-optimization', '/about-us', '/case-studies', '/blog', '/careers', '/contact-us', '/privacy-policy', '/terms-of-service', '/accessibility', '/software-license'];
   return [
     ...statics.map((p) => ({ url: `${base}${p}`, changeFrequency: 'monthly' as const, priority: p === '' ? 1 : 0.7 })),
     ...OFFERS.map((o) => ({ url: `${base}/products/${o.slug}`, changeFrequency: 'monthly' as const, priority: 0.9 })),
