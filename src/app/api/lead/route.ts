@@ -33,6 +33,7 @@ interface LeadPayload {
   product?: unknown;
   source?: unknown;
   hp?: unknown; // honeypot
+  turnstileToken?: unknown;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -114,6 +115,16 @@ export async function POST(req: Request) {
   const phone = str(body.phone, LIMITS.phone);
   if (name.length < 2 || !EMAIL_RE.test(email) || phone.replace(/\D/g, '').length < 7) {
     return NextResponse.json({ ok: false, error: 'Please provide a name, a valid email, and a phone number.' }, { status: 422 });
+  }
+
+  // Cloudflare Turnstile, enforced only when both keys are set (a secret without the public site
+  // key would reject every lead, since the form never renders the widget).
+  const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+  if (turnstileSecret && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
+    const verdict = await verifyTurnstile(turnstileSecret, str(body.turnstileToken, 2048), ip);
+    if (verdict === 'fail') {
+      return NextResponse.json({ ok: false, error: `We couldn't verify the form. Please try again, or call ${COMPANY.phone}.` }, { status: 403 });
+    }
   }
 
   const product = str(body.product, 200);
@@ -349,6 +360,34 @@ export async function POST(req: Request) {
     );
   }
   return NextResponse.json({ ok: true });
+}
+
+/**
+ * 'unavailable' (Cloudflare unreachable or erroring) lets the lead through: a spam lead costs
+ * less than a lost one, and the honeypot and rate limits still apply.
+ */
+async function verifyTurnstile(secret: string, token: string, ip: string): Promise<'pass' | 'fail' | 'unavailable'> {
+  if (!token) return 'fail';
+  try {
+    const form = new URLSearchParams({ secret, response: token });
+    if (ip !== 'unknown') form.set('remoteip', ip);
+    const r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      body: form,
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!r.ok) {
+      console.warn('[lead] turnstile siteverify non-2xx', r.status);
+      return 'unavailable';
+    }
+    const result = (await r.json()) as { success?: boolean; 'error-codes'?: string[] };
+    if (result.success) return 'pass';
+    console.warn('[lead] turnstile rejected', result['error-codes']);
+    return 'fail';
+  } catch (e) {
+    console.warn('[lead] turnstile siteverify failed', e);
+    return 'unavailable';
+  }
 }
 
 function alertBody(lead: Record<string, string | boolean>, problem: string): string {

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { track } from '@/lib/analytics';
 import { COMPANY, SMS_CONSENT_LABEL } from '@/lib/constants';
 import Button from './Button';
+import Turnstile, { TURNSTILE_SITE_KEY } from './Turnstile';
 
 const FALLBACK_ERROR = `Sorry — that didn't go through. Please call ${COMPANY.phone} (${COMPANY.phoneFormatted}) or email ${COMPANY.email}.`;
 
@@ -36,6 +37,8 @@ export default function ContactForm({ product, source = 'website', submitLabel =
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string>('');
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileReset, setTurnstileReset] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
 
@@ -67,13 +70,18 @@ export default function ContactForm({ product, source = 'website', submitLabel =
       formRef.current?.querySelector<HTMLInputElement>(`[name="${firstInvalid}"]`)?.focus();
       return;
     }
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      setStatus('error');
+      setError(`Please complete the verification check above the button. If it doesn't appear, call ${COMPANY.phone}.`);
+      return;
+    }
     setStatus('sending');
     setError('');
     try {
       const r = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, product, source }),
+        body: JSON.stringify({ ...formData, product, source, turnstileToken }),
       });
       // A platform error page (e.g. a 504) isn't JSON — don't surface a parser message to the visitor.
       const data = (await r.json().catch(() => ({ ok: false }))) as { ok: boolean; dropped?: boolean; error?: string };
@@ -82,6 +90,7 @@ export default function ContactForm({ product, source = 'website', submitLabel =
       if (!data.dropped) track('lead_submit', { product: product ?? '', source: source ?? '' });
       setStatus('sent');
     } catch (err) {
+      setTurnstileReset((n) => n + 1); // the token was spent on this attempt
       setStatus('error');
       setError(err instanceof Error && !(err instanceof TypeError) ? err.message : FALLBACK_ERROR);
     }
@@ -154,6 +163,7 @@ export default function ContactForm({ product, source = 'website', submitLabel =
           {SMS_CONSENT_LABEL}
         </label>
       </div>
+      <Turnstile onToken={setTurnstileToken} resetKey={turnstileReset} />
       {status === 'error' && (
         <p className="text-sm text-red-600 font-medium" role="alert">{error}</p>
       )}

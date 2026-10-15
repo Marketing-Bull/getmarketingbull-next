@@ -30,7 +30,7 @@ src/
     get-started/         same page, static: the A2P SMS opt-in URL registered with TCR (no redirect)
     api/lead/route.ts    lead endpoint: validate → webhook and/or Resend email
     services/ about-us/ case-studies/ blog/ careers/ contact-us/ legal pages
-  components/            Header, Footer, Button, CTASection, ContactForm, ConsultationPage, OfferCard,
+  components/            Header, Footer, Button, CTASection, ContactForm, ConsultationPage, Turnstile, OfferCard,
                          OfferCTA, Reveal, TestimonialCarousel, VerticalPage, CallTracking
   lib/
     constants.ts         COMPANY, OFFERS, NAV_LINKS, TESTIMONIALS — single source of truth
@@ -69,4 +69,4 @@ GA4 loads from Google's canonical gtag snippet, server-rendered into `<head>` in
 
 ## Env
 
-See `.env.example`. `LEAD_GHL_API_KEY`, `LEAD_GHL_LOCATION_ID`, `LEAD_WEBHOOK_URL`, `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`, `LEAD_FROM_EMAIL`, `LEAD_ALERT_EMAIL`, `LEAD_ALERT_WEBHOOK_URL`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_GTM_ID`.
+See `.env.example`. `LEAD_GHL_API_KEY`, `LEAD_GHL_LOCATION_ID`, `LEAD_WEBHOOK_URL`, `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`, `LEAD_FROM_EMAIL`, `LEAD_ALERT_EMAIL`, `LEAD_ALERT_WEBHOOK_URL`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_GTM_ID`.
