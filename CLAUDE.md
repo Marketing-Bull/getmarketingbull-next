@@ -37,6 +37,7 @@ src/
     schema.ts            organizationSchema, offerSchema(), faqSchema(),
                          breadcrumbSchema(), caseStudySchema(), personSchema()
     metadata.ts          pageMeta(): canonical + og:url (+ og:type article) per page
+    alert.ts             sendAlert(): email/Slack alert when a lead is lost or partly delivered
     blog.ts              POSTS (hardcoded)
 ```
 
@@ -68,4 +69,4 @@ GA4 loads from Google's canonical gtag snippet, server-rendered into `<head>` in
 
 ## Env
 
-See `.env.example`. `LEAD_GHL_API_KEY`, `LEAD_GHL_LOCATION_ID`, `LEAD_WEBHOOK_URL`, `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`, `LEAD_FROM_EMAIL`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_GTM_ID`.
+See `.env.example`. `LEAD_GHL_API_KEY`, `LEAD_GHL_LOCATION_ID`, `LEAD_WEBHOOK_URL`, `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`, `LEAD_FROM_EMAIL`, `LEAD_ALERT_EMAIL`, `LEAD_ALERT_WEBHOOK_URL`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_GTM_ID`.
