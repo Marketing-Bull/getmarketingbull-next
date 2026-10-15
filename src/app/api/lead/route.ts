@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { sendAlert } from '@/lib/alert';
 import { COMPANY, OFFERS, SMS_CONSENT_LABEL, SMS_OPT_IN_CONFIRMATION } from '@/lib/constants';
 
 /**
@@ -17,6 +18,9 @@ import { COMPANY, OFFERS, SMS_CONSENT_LABEL, SMS_OPT_IN_CONFIRMATION } from '@/l
  * The visitor is told "sent" only when at least one channel returned 2xx. If every channel fails,
  * the route returns 502 so the form shows the phone number instead of firing a false conversion.
  * With no channel configured, production returns 503; other environments log the lead and succeed.
+ *
+ * Anything short of full delivery (a lost lead, a failed channel, a failed GHL note/tag/SMS) also
+ * sends an operational alert with the lead's details — see src/lib/alert.ts.
  */
 
 interface LeadPayload {
@@ -137,6 +141,9 @@ export async function POST(req: Request) {
   const notifyEmail = process.env.LEAD_NOTIFY_EMAIL || COMPANY.email;
   const fromEmail = process.env.LEAD_FROM_EMAIL || 'leads@getmarketingbull.com';
 
+  // Partial failures that didn't stop delivery (a GHL note, tag or SMS); reported in the alert below.
+  const followUpProblems: string[] = [];
+
   // Each channel resolves with a short status for the log line, or throws when the lead
   // did not get through.
   const channels: { name: string; deliver: () => Promise<string> }[] = [];
@@ -200,8 +207,13 @@ export async function POST(req: Request) {
         if (r.status === 'rejected') {
           console.error(`[lead] ghl ${what} failed`, contactId, r.reason);
           outcome.push(`${what}:error`);
+          followUpProblems.push(`GHL ${what} failed (contact ${contactId}): ${String(r.reason)}`);
         } else {
-          if (!r.value.ok) console.error(`[lead] ghl ${what} non-2xx`, contactId, r.value.status, (await r.value.text().catch(() => '')).slice(0, 500));
+          if (!r.value.ok) {
+            const detail = (await r.value.text().catch(() => '')).slice(0, 500);
+            console.error(`[lead] ghl ${what} non-2xx`, contactId, r.value.status, detail);
+            followUpProblems.push(`GHL ${what} returned ${r.value.status} (contact ${contactId}): ${detail}`);
+          }
           outcome.push(`${what}:${r.value.status}`);
         }
       }
@@ -295,6 +307,7 @@ export async function POST(req: Request) {
   if (channels.length === 0) {
     console.error('[lead] no delivery configured', JSON.stringify(lead));
     if (process.env.VERCEL_ENV === 'production') {
+      await sendAlert(`LEAD LOST: no delivery channel configured — ${lead.name}`, alertBody(lead, 'No lead delivery env var is set in production.'));
       return NextResponse.json({ ok: false, error: FAIL_MESSAGE }, { status: 503 });
     }
     return NextResponse.json({ ok: true });
@@ -319,11 +332,28 @@ export async function POST(req: Request) {
   if (!results.some((r) => r.ok)) {
     // Every channel failed: keep the full lead in the log so it can be recovered by hand.
     console.error('[lead] ALL CHANNELS FAILED', summary, JSON.stringify(lead));
+    await sendAlert(
+      `LEAD LOST: every delivery channel failed — ${lead.name}`,
+      alertBody(lead, `Delivery results: ${summary}\nThe visitor was shown the phone number. Enter this lead by hand.`),
+    );
     return NextResponse.json({ ok: false, error: FAIL_MESSAGE }, { status: 502 });
   }
 
   console.log('[lead] delivery results:', summary);
+  const failed = results.filter((r) => !r.ok).map((r) => r.channel);
+  if (failed.length || followUpProblems.length) {
+    const what = [...failed, ...followUpProblems.map((p) => p.split(' ').slice(0, 2).join(' '))].join(', ');
+    await sendAlert(
+      `Lead partly delivered (${what}) — ${lead.name}`,
+      alertBody(lead, [`Delivery results: ${summary}`, ...followUpProblems].join('\n')),
+    );
+  }
   return NextResponse.json({ ok: true });
+}
+
+function alertBody(lead: Record<string, string | boolean>, problem: string): string {
+  const fields = ['name', 'email', 'phone', 'website', 'product', 'source', 'smsConsent', 'page', 'submittedAt', 'message'];
+  return `${problem}\n\n${fields.map((f) => `${f}: ${String(lead[f] ?? '')}`).join('\n')}`;
 }
 
 function esc(s: string) {
