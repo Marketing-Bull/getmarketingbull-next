@@ -27,9 +27,10 @@ src/
     engagements/         every engagement in OFFERS (was /pricing; 301 kept in next.config.ts)
     products/[slug]/     product pages, generateStaticParams over OFFERS
     free-consultation/   consult form; reads ?product= (dynamic)
+    get-started/         same page, static: the A2P SMS opt-in URL registered with TCR (no redirect)
     api/lead/route.ts    lead endpoint: validate → webhook and/or Resend email
     services/ about-us/ case-studies/ blog/ careers/ contact-us/ legal pages
-  components/            Header, Footer, Button, CTASection, ContactForm, OfferCard,
+  components/            Header, Footer, Button, CTASection, ContactForm, ConsultationPage, OfferCard,
                          OfferCTA, Reveal, TestimonialCarousel, VerticalPage, CallTracking
   lib/
     constants.ts         COMPANY, OFFERS, NAV_LINKS, TESTIMONIALS — single source of truth
@@ -50,6 +51,7 @@ src/
 - **A `breadcrumbSchema()` trail must match the visual breadcrumb on the same page.** Markup that disagrees with the page is worse than none.
 - `logo.png` (96KB, 783x506) is for OG images and `organizationSchema` only. The DOM uses `logo-mark.webp` (3.7KB) — don't point an `<img>` back at the PNG to render a 32px mark.
 - Verticals are Law Firms and Medical Practices only. Home Services was deliberately removed; don't reintroduce it.
+- **SMS opt-in wording is registered with the carriers (A2P 10DLC / TCR).** `SMS_CONSENT_LABEL` (checkbox label) and `SMS_OPT_IN_CONFIRMATION` (text sent after an opted-in submit) in `constants.ts` must stay word for word; the checkbox stays optional and unchecked by default, with Privacy Policy and Terms links beside the form. `/get-started` is the registered opt-in URL and must answer 200, not redirect. The SMS sections of the privacy policy and terms are part of the same review.
 - Mystery-shop language in the Intake Gap Audit must not promise recordings (Florida all-party consent). Keep "scored", not "recorded".
 - `.context/` is gitignored reference material. `.claude/settings.local.json` is personal.
 

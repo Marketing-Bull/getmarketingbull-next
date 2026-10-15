@@ -1,0 +1,96 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import ContactForm from '@/components/ContactForm';
+import { COMPANY, OFFERS, type Offer } from '@/lib/constants';
+import { pageMeta } from '@/lib/metadata';
+
+/**
+ * The consultation request page. Rendered at /free-consultation (canonical, reads ?product=)
+ * and at /get-started, the opt-in URL registered with the A2P 10DLC campaign. /get-started
+ * must stay a live page that shows the form; a redirect there can fail carrier review.
+ */
+export const consultationMetadata: Metadata = pageMeta({
+  path: '/free-consultation',
+  title: 'Start a Conversation',
+  description:
+    'Twenty minutes with Marketing Bull about your firm or practice. We tell you where we would look first, and whether we are the right fit.',
+});
+
+const WHAT_TO_EXPECT = [
+  { step: '01', title: 'Where the leak is', desc: 'Five minutes on where you\'re losing cases or patients today: search, the site, or the phone.' },
+  { step: '02', title: 'Which engagement, if any', desc: 'We match it to one of four fixed-scope engagements. If none fits, we say so and point you somewhere useful.' },
+  { step: '03', title: 'No surprises afterward', desc: 'You leave the call with the scope, the deliverable, and the fee — in writing, before anything begins. Nothing moves after that.' },
+];
+
+export default function ConsultationPage({ offer, source }: { offer?: Offer; source: string }) {
+  return (
+    <>
+      <section className="relative bg-slate-950 text-white overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+        <div className="container-md relative py-20 md:py-24 max-w-4xl text-center">
+          <p className="inline-flex items-center gap-2 text-red-400 font-semibold text-xs uppercase tracking-[0.2em] mb-6 border border-red-500/20 bg-red-500/5 px-4 py-1.5 rounded-full">
+            A conversation, not a pitch
+          </p>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-5">
+            {offer ? `Ask about ${offer.name}` : 'Twenty minutes about your firm.'}
+          </h1>
+          <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            {offer
+              ? `${offer.timeline}. Tell us about your firm and we'll scope it, price it, and confirm it's the right fit before anything begins.`
+              : 'Where you are, what has been tried, and where we would look first. We will say plainly whether we are the right fit — and if not, where to go instead.'}
+          </p>
+        </div>
+      </section>
+
+      <section className="py-20 bg-white">
+        <div className="container-md max-w-6xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
+            <div>
+              <h2 className="text-3xl font-black tracking-tight text-slate-900 mb-8">What happens on the call</h2>
+              <div className="space-y-7 mb-12">
+                {WHAT_TO_EXPECT.map((item) => (
+                  <div key={item.step} className="flex gap-5">
+                    <div className="text-3xl font-black text-slate-500 min-w-[44px]" aria-hidden="true">{item.step}</div>
+                    <div>
+                      <h3 className="text-lg font-bold text-slate-900 mb-1.5">{item.title}</h3>
+                      <p className="text-slate-600 leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="bg-slate-50 rounded-2xl border border-slate-200 p-7 mb-8">
+                <h3 className="text-base font-bold text-slate-900 mb-3">Prefer to call?</h3>
+                <a href={`tel:${COMPANY.phoneE164}`} className="text-red-600 font-black text-2xl tracking-tight hover:underline">{COMPANY.phone}</a>
+                <p className="text-slate-500 text-sm mt-1">Mon–Fri, 9am–6pm ET</p>
+                <a href={`mailto:${COMPANY.email}`} className="mt-4 block text-slate-600 hover:text-slate-900 text-sm">{COMPANY.email}</a>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">Already know what you want?</p>
+                <ul className="space-y-2">
+                  {OFFERS.map((o) => (
+                    <li key={o.slug}>
+                      <Link href={`/products/${o.slug}`} className="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm hover:border-slate-900 transition">
+                        <span className="font-semibold text-slate-900">{o.name}</span>
+                        <span className="text-slate-500">{o.timeline} →</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div>
+              <div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-8 lg:sticky lg:top-24">
+                <h2 className="text-2xl font-black tracking-tight text-slate-900 mb-1">Request the call</h2>
+                <p className="text-slate-500 mb-7 text-sm">We reply within one business day with two times to pick from.</p>
+                <ContactForm product={offer?.name} source={source} submitLabel="Request a conversation" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

@@ -19,7 +19,7 @@ const SECTIONS = [
   },
   {
     title: '3. SMS Communications',
-    body: `If you opt in to SMS communications, you consent to receive text messages from Marketing Bull related to your inquiry or our services. Message and data rates may apply. You may opt out at any time by replying STOP to any message we send.`,
+    body: `If you check the SMS consent box on one of our forms, you agree to receive SMS notifications and promotional messages from ${COMPANY.legalName} about your inquiry and our services. Messages are sent by ${COMPANY.legalName}. Consent is optional and not a condition of purchase. Message frequency varies. Message & data rates may apply. Reply STOP to unsubscribe at any time, or HELP for help. No mobile information will be shared with third parties or affiliates for marketing or promotional purposes. Text messaging opt-in data and consent are excluded from every other category of sharing described in this policy and will not be shared with any third parties.`,
   },
   {
     title: '4. Cookies and Tracking',
@@ -27,7 +27,7 @@ const SECTIONS = [
   },
   {
     title: '5. Third-Party Services',
-    body: `We use Vercel Analytics, which measures site traffic in aggregate and does not use cookies or track visitors across sites. We also use Google Tag Manager to load measurement tags, currently Google Analytics, and GoHighLevel as our CRM, which receives the details you submit through our forms. If we run advertising campaigns we may add conversion tags from platforms such as Google Ads or Meta through the same tag manager. Each of these services has its own privacy policy, and we encourage you to review them. We are not responsible for the privacy practices of third parties.`,
+    body: `We use Vercel Analytics, which measures site traffic in aggregate and does not use cookies or track visitors across sites. We also use Google Analytics to measure how visitors use the site, and GoHighLevel as our CRM, which receives the details you submit through our forms. If we run advertising campaigns we may add conversion tags from platforms such as Google Ads or Meta. Each of these services has its own privacy policy, and we encourage you to review them. We are not responsible for the privacy practices of third parties.`,
   },
   {
     title: '6. Data Retention',
@@ -58,7 +58,7 @@ export default function PrivacyPolicyPage() {
         <div className="container-md max-w-3xl">
           <p className="text-red-400 text-xs font-semibold uppercase tracking-[0.2em] mb-4">Legal</p>
           <h1 className="text-4xl font-black tracking-tight mb-4">Privacy Policy</h1>
-          <p className="text-slate-400">Effective date: January 1, 2025 · Last updated: April 2026</p>
+          <p className="text-slate-400">Effective date: January 1, 2025 · Last updated: October 2026</p>
         </div>
       </section>
 

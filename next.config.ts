@@ -8,7 +8,7 @@ import type { NextConfig } from "next";
 const LEGACY_REDIRECTS: { source: string; destination: string }[] = [
   // Core pages
   { source: '/pricing', destination: '/engagements' },
-  { source: '/get-started', destination: '/free-consultation' },
+  // /get-started is not redirected: it is the live SMS opt-in page (src/app/get-started).
   { source: '/get-more-customers', destination: '/free-consultation' },
   { source: '/tos', destination: '/terms-of-service' },
   { source: '/accessibility-statement', destination: '/accessibility' },

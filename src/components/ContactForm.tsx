@@ -1,8 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { track } from '@/lib/analytics';
-import { COMPANY } from '@/lib/constants';
+import { COMPANY, SMS_CONSENT_LABEL } from '@/lib/constants';
 import Button from './Button';
 
 const FALLBACK_ERROR = `Sorry — that didn't go through. Please call ${COMPANY.phone} (${COMPANY.phoneFormatted}) or email ${COMPANY.email}.`;
@@ -146,10 +147,11 @@ export default function ContactForm({ product, source = 'website', submitLabel =
         <label htmlFor="cf-hp">Leave blank</label>
         <input id="cf-hp" type="text" name="hp" tabIndex={-1} autoComplete="off" value={formData.hp} onChange={handleChange} />
       </div>
+      {/* SMS opt-in: optional, never pre-checked, and the label must match SMS_CONSENT_LABEL exactly (A2P/TCR). */}
       <div className="flex items-start gap-3">
         <input type="checkbox" name="smsConsent" id="smsConsent" checked={formData.smsConsent} onChange={handleChange} className="mt-0.5 accent-red-600" />
-        <label htmlFor="smsConsent" className="text-xs text-slate-500 leading-relaxed">
-          I consent to receive SMS messages from Marketing Bull about my inquiry. Message &amp; data rates may apply. Reply STOP to opt out.
+        <label htmlFor="smsConsent" className="text-xs text-slate-600 leading-relaxed">
+          {SMS_CONSENT_LABEL}
         </label>
       </div>
       {status === 'error' && (
@@ -158,7 +160,11 @@ export default function ContactForm({ product, source = 'website', submitLabel =
       <Button type="submit" variant="primary" size="md" className="w-full" disabled={status === 'sending'}>
         {status === 'sending' ? 'Sending…' : submitLabel}
       </Button>
-      <p className="text-xs text-slate-500 text-center">No newsletters, no automated sequences. A person replies.</p>
+      <p className="text-xs text-slate-600 text-center leading-relaxed">
+        SMS consent is optional and not a condition of purchase. {COMPANY.legalName} ·{' '}
+        <Link href="/privacy-policy" className="underline hover:text-slate-900">Privacy Policy</Link> ·{' '}
+        <Link href="/terms-of-service" className="underline hover:text-slate-900">Terms of Service</Link>
+      </p>
     </form>
   );
 }
