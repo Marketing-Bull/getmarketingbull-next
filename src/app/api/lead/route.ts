@@ -160,17 +160,34 @@ export async function POST(req: Request) {
   const channels: { name: string; deliver: () => Promise<string> }[] = [];
 
   if (ghlKey) {
-    const ghl = (path: string, payload: unknown, version = '2021-07-28') =>
+    const ghl = (path: string, payload?: unknown, version = '2021-07-28', method = 'POST') =>
       fetch(`https://services.leadconnectorhq.com${path}`, {
-        method: 'POST',
+        method,
         headers: {
           Authorization: `Bearer ${ghlKey}`,
           'Content-Type': 'application/json',
           Version: version,
         },
-        body: JSON.stringify(payload),
+        body: payload === undefined ? undefined : JSON.stringify(payload),
         signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
       });
+
+    // A repeat visitor's existing contact can be missing fields this submission supplies (seen in
+    // production: a contact with no name or phone, so GHL had nowhere to send the opt-in SMS).
+    // Fill only the blanks — never overwrite a value someone set by hand.
+    const fillBlanks = async (id: string) => {
+      const r = await ghl(`/contacts/${id}`, undefined, '2021-07-28', 'GET');
+      if (!r.ok) throw new Error(`read ${r.status} ${(await r.text().catch(() => '')).slice(0, 300)}`);
+      const { contact = {} } = (await r.json()) as { contact?: { phone?: string; firstName?: string; lastName?: string } };
+      const patch: Record<string, string> = {};
+      if (!contact.phone) patch.phone = phone;
+      if (!contact.firstName && firstName) patch.firstName = firstName;
+      if (!contact.lastName && lastName) patch.lastName = lastName;
+      if (Object.keys(patch).length === 0) return 'nothing-blank';
+      const u = await ghl(`/contacts/${id}`, patch, '2021-07-28', 'PUT');
+      if (!u.ok) throw new Error(`update ${u.status} ${(await u.text().catch(() => '')).slice(0, 300)}`);
+      return `filled ${Object.keys(patch).join('+')}`;
+    };
 
     const tags = lead.smsConsent ? ['mb-site-lead', 'sms-opt-in'] : ['mb-site-lead'];
 
@@ -203,12 +220,24 @@ export async function POST(req: Request) {
         );
       }
 
+      if (repeat) {
+        // Before the SMS: GHL sends to the contact's stored phone, so it has to exist first.
+        try {
+          console.log('[lead] ghl fill blanks:', await fillBlanks(id));
+        } catch (e) {
+          console.error('[lead] ghl fill blanks failed', contactId, e);
+          followUpProblems.push(`GHL contact update failed (contact ${contactId}): ${String(e)}`);
+        }
+      }
+
       const tasks: [string, Promise<Response>][] = [];
       if (note.length) tasks.push(['note', ghl(`/contacts/${id}/notes`, { body: note.join('\n\n---\n\n') })]);
       // New contacts got their tags on create; a repeat contact needs them added.
       if (repeat) tasks.push(['tag', ghl(`/contacts/${id}/tags`, { tags })]);
       if (lead.smsConsent) {
-        tasks.push(['sms', ghl('/conversations/messages', { type: 'SMS', contactId, message: SMS_OPT_IN_CONFIRMATION }, '2021-04-15')]);
+        // toNumber: the number that was just consented, even if the CRM holds a different one.
+        const toNumber = e164(phone);
+        tasks.push(['sms', ghl('/conversations/messages', { type: 'SMS', contactId, message: SMS_OPT_IN_CONFIRMATION, ...(toNumber && { toNumber }) }, '2021-04-15')]);
       }
 
       const settled = await Promise.allSettled(tasks.map(([, task]) => task));
@@ -393,6 +422,15 @@ async function verifyTurnstile(secret: string, token: string, ip: string): Promi
 function alertBody(lead: Record<string, string | boolean>, problem: string): string {
   const fields = ['name', 'email', 'phone', 'website', 'product', 'source', 'smsConsent', 'page', 'submittedAt', 'message'];
   return `${problem}\n\n${fields.map((f) => `${f}: ${String(lead[f] ?? '')}`).join('\n')}`;
+}
+
+/** +1XXXXXXXXXX for US/Canada numbers or anything typed with a leading +; undefined when unsure. */
+function e164(raw: string): string | undefined {
+  const digits = raw.replace(/\D/g, '');
+  if (raw.trim().startsWith('+') && digits.length >= 8 && digits.length <= 15) return `+${digits}`;
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith('1')) return `+${digits}`;
+  return undefined;
 }
 
 function esc(s: string) {
