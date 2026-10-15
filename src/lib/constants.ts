@@ -36,6 +36,16 @@ export const COMPANY = {
   bookingUrl: '/free-consultation',
 };
 
+/**
+ * A2P 10DLC (TCR) opt-in language. Both strings are registered with the carrier campaign
+ * word for word — the checkbox label on every lead form and the confirmation text sent
+ * after a submission with the box checked. Changing either means re-submitting the campaign.
+ */
+export const SMS_CONSENT_LABEL =
+  'By checking this box, I agree to receive SMS notifications and promotional messages from Marketing Bull, LLC. Message & data rates may apply. Reply STOP to unsubscribe, HELP for help.';
+export const SMS_OPT_IN_CONFIRMATION =
+  'You have successfully opted in to receive SMS notifications and promotional messages from Marketing Bull, LLC. Msg & data rates may apply. Reply STOP to unsubscribe, HELP for help.';
+
 export type OfferSlug = 'website-in-14-days' | 'intake-gap-audit' | 'ai-content-engine' | 'lead-generation';
 
 export interface Offer {

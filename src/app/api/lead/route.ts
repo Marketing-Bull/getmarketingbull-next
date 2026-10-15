@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { COMPANY, OFFERS } from '@/lib/constants';
+import { COMPANY, OFFERS, SMS_CONSENT_LABEL, SMS_OPT_IN_CONFIRMATION } from '@/lib/constants';
 
 /**
  * Lead intake endpoint.
@@ -9,6 +9,8 @@ import { COMPANY, OFFERS } from '@/lib/constants';
  *                          (LEAD_GHL_LOCATION_ID, default TpaL2rALzbFCdbM1sxmH) with tag
  *                          `mb-site-lead` and 4 custom fields. A repeat visitor (duplicate
  *                          contact) gets the new inquiry as a note on their existing record.
+ *                          With SMS consent: tag `sms-opt-in`, a consent-record note, and the
+ *                          A2P opt-in confirmation text sent through GHL Conversations.
  *   LEAD_WEBHOOK_URL   → POSTs the JSON payload (legacy: Zapier, Make, n8n…)
  *   RESEND_API_KEY     → emails the lead to LEAD_NOTIFY_EMAIL (default hello@getmarketingbull.com)
  *
@@ -54,6 +56,18 @@ function rateLimited(ip: string): boolean {
 
 function str(v: unknown, max: number): string {
   return typeof v === 'string' ? v.trim().slice(0, max) : '';
+}
+
+class ChannelError extends Error {
+  constructor(readonly status: number, body: string) {
+    super(`${status} ${body.slice(0, 1000)}`);
+  }
+}
+
+async function expectOk(res: Promise<Response>): Promise<string> {
+  const r = await res;
+  if (r.ok) return String(r.status);
+  throw new ChannelError(r.status, await r.text().catch(() => ''));
 }
 
 export async function POST(req: Request) {
@@ -123,30 +137,81 @@ export async function POST(req: Request) {
   const notifyEmail = process.env.LEAD_NOTIFY_EMAIL || COMPANY.email;
   const fromEmail = process.env.LEAD_FROM_EMAIL || 'leads@getmarketingbull.com';
 
-  // `accept` lets a channel treat a specific non-2xx as delivered.
-  const channels: {
-    name: string;
-    send: () => Promise<Response>;
-    accept?: (status: number, body: string) => boolean | Promise<boolean>;
-  }[] = [];
+  // Each channel resolves with a short status for the log line, or throws when the lead
+  // did not get through.
+  const channels: { name: string; deliver: () => Promise<string> }[] = [];
 
   if (ghlKey) {
-    const ghl = (path: string, payload: unknown) =>
+    const ghl = (path: string, payload: unknown, version = '2021-07-28') =>
       fetch(`https://services.leadconnectorhq.com${path}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${ghlKey}`,
           'Content-Type': 'application/json',
-          Version: '2021-07-28',
+          Version: version,
         },
         body: JSON.stringify(payload),
         signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
       });
 
+    const tags = lead.smsConsent ? ['mb-site-lead', 'sms-opt-in'] : ['mb-site-lead'];
+
+    // Runs once the contact exists (new or repeat). All calls are additive — unlike
+    // /contacts/upsert they can't overwrite tags or fields someone set by hand — and a failure
+    // here is logged, not surfaced: the person is already in the CRM.
+    const followUps = async (contactId: string, repeat: boolean) => {
+      const id = encodeURIComponent(contactId);
+      const note: string[] = [];
+      if (repeat) {
+        note.push(
+          [
+            `New website inquiry (${lead.submittedAt})`,
+            `Source: ${lead.source}`,
+            lead.product && `Product: ${lead.product}`,
+            `Phone: ${lead.phone}`,
+            lead.website && `Website: ${lead.website}`,
+            `SMS consent: ${lead.smsConsent ? 'yes' : 'no'}`,
+            lead.page && `Page: ${lead.page}`,
+          ]
+            .filter(Boolean)
+            .join('\n')
+            .concat('\n\n', lead.message || '(no message)'),
+        );
+      }
+      if (lead.smsConsent) {
+        // Proof of consent for the A2P campaign: what was agreed to, where, when, and from where.
+        note.push(
+          `SMS opt-in recorded ${lead.submittedAt}\nPage: ${lead.page || '(unknown)'}\nIP: ${ip}\nPhone: ${lead.phone}\nConsent text: "${SMS_CONSENT_LABEL}"`,
+        );
+      }
+
+      const tasks: [string, Promise<Response>][] = [];
+      if (note.length) tasks.push(['note', ghl(`/contacts/${id}/notes`, { body: note.join('\n\n---\n\n') })]);
+      // New contacts got their tags on create; a repeat contact needs them added.
+      if (repeat) tasks.push(['tag', ghl(`/contacts/${id}/tags`, { tags })]);
+      if (lead.smsConsent) {
+        tasks.push(['sms', ghl('/conversations/messages', { type: 'SMS', contactId, message: SMS_OPT_IN_CONFIRMATION }, '2021-04-15')]);
+      }
+
+      const settled = await Promise.allSettled(tasks.map(([, task]) => task));
+      const outcome: string[] = [];
+      for (const [i, r] of settled.entries()) {
+        const what = tasks[i][0];
+        if (r.status === 'rejected') {
+          console.error(`[lead] ghl ${what} failed`, contactId, r.reason);
+          outcome.push(`${what}:error`);
+        } else {
+          if (!r.value.ok) console.error(`[lead] ghl ${what} non-2xx`, contactId, r.value.status, (await r.value.text().catch(() => '')).slice(0, 500));
+          outcome.push(`${what}:${r.value.status}`);
+        }
+      }
+      if (outcome.length) console.log('[lead] ghl follow-ups:', outcome.join(' '));
+    };
+
     channels.push({
       name: 'ghl',
-      send: () =>
-        ghl('/contacts/', {
+      deliver: async () => {
+        const r = await ghl('/contacts/', {
           locationId: ghlLocationId,
           firstName,
           lastName,
@@ -155,51 +220,30 @@ export async function POST(req: Request) {
           phone,
           website: lead.website || undefined,
           source: 'Marketing Bull Site',
-          tags: ['mb-site-lead'],
+          tags,
           customFields: [
             { id: 'n3Ur3Tm4gLb7BfhPFJt5', value: lead.source },
             { id: 'ssDT5kiOUvt30YA6vX15', value: lead.message },
             { id: 'nOLB2wsnl4T71In4ybss', value: lead.website },
             { id: 'PqYofPTdo3wZf6li9v9I', value: lead.smsConsent ? 'yes' : 'no' },
           ],
-        }),
-      // A repeat visitor already exists as a contact, so GHL answers 400 "does not allow duplicated
-      // contacts" with the existing contactId in `meta`. The person is in the CRM either way; attach
-      // this inquiry to their record as a note and re-add the tag. Both calls are additive — unlike
-      // /contacts/upsert, they can't overwrite tags or fields someone set by hand.
-      accept: async (status, body) => {
-        if (status !== 400 || !body.includes('duplicated contacts')) return false;
+        });
+        const text = await r.text().catch(() => '');
+        // A repeat visitor already exists as a contact, so GHL answers 400 "does not allow
+        // duplicated contacts" with the existing contactId in `meta`. That is still a delivery.
+        const repeat = r.status === 400 && text.includes('duplicated contacts');
+        if (!r.ok && !repeat) throw new ChannelError(r.status, text);
+        if (repeat) console.warn(`[lead] ghl accepted ${r.status}`, text.slice(0, 1000), JSON.stringify(lead));
+
         let contactId: unknown;
         try {
-          contactId = (JSON.parse(body) as { meta?: { contactId?: unknown } }).meta?.contactId;
+          const parsed = JSON.parse(text) as { contact?: { id?: unknown }; meta?: { contactId?: unknown } };
+          contactId = repeat ? parsed.meta?.contactId : parsed.contact?.id;
         } catch {}
-        if (typeof contactId !== 'string' || !contactId) {
-          console.warn('[lead] ghl duplicate without contactId; message is only in this log');
-          return true;
-        }
-        const id = encodeURIComponent(contactId);
-        const note = [
-          `New website inquiry (${lead.submittedAt})`,
-          `Source: ${lead.source}`,
-          lead.product && `Product: ${lead.product}`,
-          `Phone: ${lead.phone}`,
-          lead.website && `Website: ${lead.website}`,
-          `SMS consent: ${lead.smsConsent ? 'yes' : 'no'}`,
-          lead.page && `Page: ${lead.page}`,
-        ]
-          .filter(Boolean)
-          .join('\n')
-          .concat('\n\n', lead.message || '(no message)');
-        const followUps = await Promise.allSettled([
-          ghl(`/contacts/${id}/notes`, { body: note }),
-          ghl(`/contacts/${id}/tags`, { tags: ['mb-site-lead'] }),
-        ]);
-        for (const [i, r] of followUps.entries()) {
-          const what = i === 0 ? 'note' : 'tag';
-          if (r.status === 'rejected') console.error(`[lead] ghl ${what} failed`, contactId, r.reason);
-          else if (!r.value.ok) console.error(`[lead] ghl ${what} non-2xx`, contactId, r.value.status, (await r.value.text().catch(() => '')).slice(0, 500));
-        }
-        return true;
+        if (typeof contactId === 'string' && contactId) await followUps(contactId, repeat);
+        else if (repeat || lead.smsConsent) console.warn('[lead] ghl returned no contactId; note/tag/SMS skipped');
+
+        return repeat ? `${r.status}-accepted` : String(r.status);
       },
     });
   }
@@ -207,13 +251,13 @@ export async function POST(req: Request) {
   if (webhook) {
     channels.push({
       name: 'webhook',
-      send: () =>
-        fetch(webhook, {
+      deliver: () =>
+        expectOk(fetch(webhook, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(lead),
           signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
-        }),
+        })),
     });
   }
 
@@ -232,8 +276,8 @@ export async function POST(req: Request) {
         </table>`;
     channels.push({
       name: 'email',
-      send: () =>
-        fetch('https://api.resend.com/emails', {
+      deliver: () =>
+        expectOk(fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: { Authorization: `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -244,7 +288,7 @@ export async function POST(req: Request) {
             html,
           }),
           signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
-        }),
+        })),
     });
   }
 
@@ -257,18 +301,14 @@ export async function POST(req: Request) {
   }
 
   const results = await Promise.all(
-    channels.map(async ({ name: channel, send, accept }) => {
+    channels.map(async ({ name: channel, deliver }) => {
       try {
-        const r = await send();
-        if (r.ok) return { channel, ok: true, detail: String(r.status) };
-        const text = await r.text().catch(() => '');
-        if (await accept?.(r.status, text)) {
-          console.warn(`[lead] ${channel} accepted ${r.status}`, text.slice(0, 1000), JSON.stringify(lead));
-          return { channel, ok: true, detail: `${r.status}-accepted` };
-        }
-        console.error(`[lead] ${channel} non-2xx`, r.status, text.slice(0, 1000));
-        return { channel, ok: false, detail: String(r.status) };
+        return { channel, ok: true, detail: await deliver() };
       } catch (e) {
+        if (e instanceof ChannelError) {
+          console.error(`[lead] ${channel} non-2xx`, e.message);
+          return { channel, ok: false, detail: String(e.status) };
+        }
         console.error(`[lead] ${channel} failed`, e);
         return { channel, ok: false, detail: 'error' };
       }
