@@ -52,6 +52,7 @@ src/
 - `logo.png` (96KB, 783x506) is for OG images and `organizationSchema` only. The DOM uses `logo-mark.webp` (3.7KB) — don't point an `<img>` back at the PNG to render a 32px mark.
 - Verticals are Law Firms and Medical Practices only. Home Services was deliberately removed; don't reintroduce it.
 - **SMS opt-in wording is registered with the carriers (A2P 10DLC / TCR).** `SMS_CONSENT_LABEL` (checkbox label) and `SMS_OPT_IN_CONFIRMATION` (text sent after an opted-in submit) in `constants.ts` must stay word for word; the checkbox stays optional and unchecked by default, with Privacy Policy and Terms links beside the form. `/get-started` is the registered opt-in URL and must answer 200, not redirect. The SMS sections of the privacy policy and terms are part of the same review.
+- **A Content-Security-Policy is enforced (`next.config.ts`).** Any new third-party script, iframe, image host or API the browser calls (an ad tag, a chat widget, an embed, a tag added inside a future GTM container) must have its origins added to `CSP` in the same change, or it is silently blocked in production. `script-src` keeps `'unsafe-inline'` on purpose: nonces would force every page to render dynamically.
 - Mystery-shop language in the Intake Gap Audit must not promise recordings (Florida all-party consent). Keep "scored", not "recorded".
 - `.context/` is gitignored reference material. `.claude/settings.local.json` is personal.
 
@@ -62,6 +63,7 @@ GA4 loads from Google's canonical gtag snippet, server-rendered into `<head>` in
 `NEXT_PUBLIC_GTM_ID` is the switch between the two paths. Unset (today): the gtag snippet renders and GTM does not. Set: `layout.tsx` renders GTM and drops the gtag snippet, so GA4 must be configured as a tag inside the container. `NEXT_PUBLIC_GA_ID` only picks the property for the direct snippet (empty falls back to the hardcoded id); it does not switch GA off.
 
 - **Keep the gtag snippet server-rendered. Do not replace it with `<GoogleAnalytics>` from `@next/third-parties`.** That component uses `next/script` with `afterInteractive`, so the served HTML carries only a `<link rel="preload">` and the tag is injected after hydration — GA silently collected nothing until this was found. The two `<script>` tags in `<head>` are deliberate, not an oversight to tidy up.
+- GA4's origins are in the CSP (`GOOGLE_ANALYTICS` in `next.config.ts`). Tags added through a GTM container (Google Ads, Meta…) need their origins added there too.
 - **Never run GA4 twice.** The snippet plus `<GoogleAnalytics>`, or the snippet plus a GA4 tag inside a GTM container, doubles every pageview and event. If a container is adopted, move GA4 into it; setting `NEXT_PUBLIC_GTM_ID` removes the snippet.
 - `track()` in `src/lib/analytics.ts` sends both a `dataLayer` push (for GTM) and a `gtag('event')` call (for GA4 direct). A bare `dataLayer` push is **not** a GA4 event — dropping the gtag call silently breaks conversion tracking.
 - Conversions: `lead_submit` on form success, `phone_click` from the delegated listener in `CallTracking`.
