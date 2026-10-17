@@ -33,8 +33,8 @@ export const POSTS: BlogPost[] = [
   {
     slug: 'why-pi-clients-hire-the-first-firm-that-answers',
     category: 'Intake Optimization',
-    title: 'Why 78% of PI Clients Hire the First Firm That Answers — And What To Do About It',
-    seoTitle: { absolute: 'Why 78% of PI Clients Hire the First Firm That Answers' },
+    title: 'Why 72%–78% of PI Clients Hire the First Firm That Answers — And What To Do About It',
+    seoTitle: { absolute: 'Why 72%–78% of PI Clients Hire the First Firm That Answers' },
     excerpt: 'Speed-to-lead is the single most important factor in converting a PI prospect into a signed client. Here\'s the data, and here\'s how to fix your intake.',
     date: 'April 2026',
     dateISO: '2026-04-10',
@@ -42,10 +42,10 @@ export const POSTS: BlogPost[] = [
     content: [
       { type: 'p', text: 'A personal injury prospect doesn\'t comparison-shop the way someone buying a car does. They\'re hurt, stressed, often scared — and they call multiple firms in rapid succession. Whoever answers first, speaks with authority, and captures their information wins the client. The data on this is unambiguous.' },
       { type: 'h2', text: 'The Research Is Clear' },
-      { type: 'p', text: 'A widely cited study from the Legal Marketing Association found that 78% of clients hire the first attorney who meaningfully engages with them. "Meaningfully" is doing a lot of work in that sentence — a voicemail doesn\'t count. A hold queue that rings for 4 minutes doesn\'t count. A callback 3 hours later definitely doesn\'t count.' },
+      { type: 'p', text: 'Two widely cited benchmarks put the share of clients who hire the first firm at 72%–78%: the ABA\'s intake benchmark found that about 72% of potential clients hire the first attorney they speak with, and a Legal Marketing Association–cited figure puts it at about 78% for the first attorney who meaningfully engages with them: one 72%–78% range, not competing numbers. "Meaningfully" is doing a lot of work in that sentence — a voicemail doesn\'t count. A hold queue that rings for 4 minutes doesn\'t count. A callback 3 hours later definitely doesn\'t count.' },
       { type: 'p', text: 'The Harvard Business Review found that companies responding to web leads within 5 minutes are 21x more likely to qualify that lead than those that wait 30 minutes. For PI firms, the stakes are higher — your competitors are running the same ads, targeting the same keywords, and fighting for the same clients. The differentiator is almost never the ad itself. It\'s what happens after the click.' },
       { type: 'stat-row', stats: [
-        { value: '78%', label: 'of PI clients hire the first firm that meaningfully engages' },
+        { value: '72%–78%', label: 'of PI clients hire the first firm that meaningfully engages (ABA ~72%, LMA-cited ~78%)' },
         { value: '21x', label: 'more likely to qualify a lead when responding within 5 minutes' },
         { value: '<5 min', label: 'target speed-to-lead for competitive PI markets' },
       ]},
@@ -253,10 +253,10 @@ export const POSTS: BlogPost[] = [
     content: [
       { type: 'h2', text: 'Why intake deserves more attention than your ad budget' },
       { type: 'p', text: 'A lot goes into running a successful personal injury practice. Many of the lawyers and firms we work with are not focused on — or even aware of — the new-client experience. A firm can be losing potential clients every week without anyone inside it noticing.' },
-      { type: 'p', text: 'The ABA\'s benchmark study on law firm intake found that 72% of potential clients hire the first attorney they speak with, while 42% of the time, firms take three days or more to respond to a voicemail or web inquiry from a prospective client.' },
+      { type: 'p', text: 'The ABA\'s benchmark study on law firm intake found that about 72% of potential clients hire the first attorney they speak with (a Legal Marketing Association–cited figure puts it at about 78%, so a 72%–78% range), while 42% of the time, firms take three days or more to respond to a voicemail or web inquiry from a prospective client.' },
       { type: 'p', text: 'That combination is astounding. Firms spend 5% to 10% of annual revenue on marketing, and then, when the marketing works and potential clients start calling, nobody picks up the phone or answers the inquiry. Firms with sound intake practices end up with the lion\'s share of cases because they attract, respond, and retain better than the majority of their competitors.' },
       { type: 'stat-row', stats: [
-        { value: '72%', label: 'of potential clients hire the first attorney they speak with' },
+        { value: '72%–78%', label: 'of potential clients hire the first attorney they speak with (ABA ~72%, LMA-cited ~78%)' },
         { value: '42%', label: 'of the time, firms take 3+ days to respond to a voicemail or web inquiry' },
         { value: '<10%', label: 'of prospective clients ever speak with a lawyer' },
         { value: '80%', label: 'of clients expect a response to texts or emails within 1–2 hours' },
@@ -337,7 +337,7 @@ export const POSTS: BlogPost[] = [
         { value: '22x', label: 'higher conversion when leads are contacted within five minutes (MIT / InsideSales study)' },
         { value: '7x', label: 'more likely to qualify a lead when responding within an hour (Harvard Business Review)' },
         { value: '27%', label: 'of leads ever receive a response at all (HBR)' },
-        { value: '78%', label: 'of customers go with the first responder' },
+        { value: '72%–78%', label: 'of clients hire the first firm that responds (ABA ~72%, LMA-cited ~78%)' },
       ]},
       { type: 'h2', text: 'What the research says' },
       { type: 'ul', items: [
