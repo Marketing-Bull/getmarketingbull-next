@@ -127,7 +127,7 @@ html, body {
   flex: none; color: var(--bright); letter-spacing: .28em;
   margin-bottom: 15px;
 }
-.front .headline { font-size: 50px; flex: none; }
+.front .headline { font-size: 45px; flex: none; }  /* 45, not 50: "is a client your" is wider than the old "is a case your" and reached the bull's tail at 50 */
 .front .headline .hot { color: var(--bright); }
 .front .lede {
   flex: none; font-size: 12.6pt; line-height: 1.34; color: var(--bone-dim);
@@ -182,7 +182,10 @@ html, body {
 }
 .svc p { font-size: 10.4pt; line-height: 1.34; color: var(--ink-dim); margin-top: 7px; }
 
-/* one proof point, attributed */
+/* Two proof points, one per vertical, each labelled as a client. The old
+   lone attribution ("1-800-HURT-511") read as a number to dial, sitting right
+   above our own — "Client ·" and "law firm" make it unmistakably a source. */
+.proofs { flex: none; display: grid; grid-template-columns: 1.55fr 1fr; column-gap: 0.42in; align-items: center; }
 .proof { flex: none; display: flex; align-items: center; gap: 15px; }
 .proof .n {
   font-family: 'Archivo'; font-weight: 900; font-size: 40px;
@@ -221,6 +224,13 @@ html, body {
   font-size: 8.6pt; color: var(--bone-dim); margin-top: 6px; letter-spacing: .02em;
 }
 .contact .grow { flex: 1 1 auto; }
+/* The ask that used to be missing from the band: what calling gets you. */
+.contact .ask { text-align: right; max-width: 2.6in; }
+.contact .ask-h {
+  font-family: 'Archivo'; font-weight: 800; font-size: 13pt; line-height: 1.05;
+  letter-spacing: -.02em; text-transform: uppercase; color: #fff;
+}
+.contact .ask-s { font-size: 8.6pt; line-height: 1.35; color: var(--bone-dim); margin-top: 5px; }
 /* 1.05in inside a 1.25in band — 0.1in of ink above and below it. The padding is
    the printed quiet zone (the PNG itself carries only a 1-module margin) and is
    scaled with the box, so the white surround grows rather than getting cropped. */
@@ -247,7 +257,7 @@ html, body {
     <div class="kicker audience">For Law Firms &amp; Medical Practices</div>
 
     <h1 class="display headline">
-      Every<br>missed call<br>is a case your<br><span class="hot">rival signs.</span>
+      Every<br>missed call<br>is a client your<br><span class="hot">rival wins.</span>
     </h1>
 
     <p class="lede" style="margin-top:20px;">
@@ -291,7 +301,7 @@ html, body {
         <div class="n">02</div>
         <div>
           <h3>Intake Gap Audit</h3>
-          <p>We find the cases your phone is losing.</p>
+          <p>We find the clients your phone is losing.</p>
         </div>
       </div>
       <div class="svc">
@@ -305,19 +315,28 @@ html, body {
         <div class="n">04</div>
         <div>
           <h3>Lead Generation</h3>
-          <p>Google and Meta ads, tracked to signed cases.</p>
+          <p>Google and Meta ads, tracked to clients, not clicks.</p>
         </div>
       </div>
     </div>
 
     <div class="grow" style="flex-grow:1.15;"></div>
 
-    <div class="proof">
-      <div class="n">0<svg class="arw" viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7h19M15.5 1.5 21.5 7l-6 5.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg>20</div>
-      <p>
-        personal injury cases a month, from a standing start.
-        <span class="src">1-800-HURT-511</span>
-      </p>
+    <div class="proofs">
+      <div class="proof">
+        <div class="n">0<svg class="arw" viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7h19M15.5 1.5 21.5 7l-6 5.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg>20</div>
+        <p>
+          personal injury cases a month, from a standing start.
+          <span class="src">Client &middot; 1-800-HURT-511 law firm</span>
+        </p>
+      </div>
+      <div class="proof">
+        <div class="n">+40%</div>
+        <p>
+          new patient volume.
+          <span class="src">Client &middot; 3D Dental</span>
+        </p>
+      </div>
     </div>
 
     <div class="grow" style="flex-grow:.55;"></div>
@@ -325,9 +344,13 @@ html, body {
     <div class="contact">
       <div>
         <div class="phone">1-833-<span>GET-BULL</span></div>
-        <div class="meta">1-833-438-2855 &nbsp;&middot;&nbsp; getmarketingbull.com &nbsp;&middot;&nbsp; hello@getmarketingbull.com</div>
+        <div class="meta">1-833-438-2855 &nbsp;&middot;&nbsp; hello@getmarketingbull.com</div>
       </div>
       <div class="grow"></div>
+      <div class="ask">
+        <div class="ask-h">Book a free consultation.</div>
+        <div class="ask-s">Twenty minutes. Call, or scan to visit getmarketingbull.com</div>
+      </div>
       <div class="qbox"><img src="qr.png" alt="getmarketingbull.com"></div>
     </div>
   </div>

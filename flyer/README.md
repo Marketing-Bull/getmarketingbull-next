@@ -1,4 +1,4 @@
-# Marketing Bull — half-Letter flyer
+# Marketing Bull — flyers (half-Letter 2-sided, Letter 1-sided)
 
 Two-sided 8.5 × 5.5 in **landscape** flyer, authored as HTML/CSS and rendered to
 PDF with Playwright so it reuses the site's own palette and type rather than a
@@ -19,6 +19,10 @@ that did not earn its place has been cut rather than set smaller.
 | `marketing-bull-flyer-print.pdf` | **Send this to the printer.** 8.75 × 5.75 in (trim + bleed). |
 | `marketing-bull-flyer-digital.pdf` | 8.5 × 5.5 in exactly, no bleed. Email / screen. |
 | `preview-front.png`, `preview-back.png` | 300 DPI previews at trim size (2550 × 1650). |
+| `flyer-letter.html` | One-sided US Letter, portrait. Same copy, stacked: ink hero, paper offers, ink contact band. |
+| `marketing-bull-flyer-letter-print.pdf` | **Send this to the printer** for Letter. 8.75 × 11.25 in (trim + bleed). |
+| `marketing-bull-flyer-letter-digital.pdf` | 8.5 × 11 in exactly, no bleed. Email / screen / office printer. |
+| `preview-letter.png` | 300 DPI preview at trim size (2550 × 3300). |
 
 ## Build
 
@@ -31,7 +35,7 @@ node flyer/build.mjs        # writes both PDFs and both previews
 
 ## Specs for the printer
 
-- **Trim:** 8.5 in × 5.5 in, landscape, 2 sides.
+- **Trim:** 8.5 in × 5.5 in, landscape, 2 sides — or 8.5 in × 11 in, portrait, 1 side (Letter).
 - **Bleed:** 0.125 in on all four sides. The print PDF is 8.75 × 5.75 in with the
   trim centred — art runs to the page edge on every side.
 - **Safe margin:** 0.25 in from trim. No text or critical content crosses it
@@ -100,6 +104,9 @@ Things that are load-bearing and easy to get wrong:
   The URL is the `URL` constant at the top of `qr.mjs`; change it there, re-run
   `qr.mjs`, then `build.mjs`. The white box around it in the layout is the printed
   quiet zone — do not tighten it to gain size.
+- Copy speaks to **both** verticals: "client", not "case" (headline, offer 02,
+  offer 04). Each vertical gets one proof point, and each attribution is labelled
+  "Client ·" so "1-800-HURT-511" never reads as a number to dial.
 - The free thing is the **consultation**. The Intake Gap Audit is paid (credited
   toward other work), so it must never be described as free.
 - The front kicker reads **FOR LAW FIRMS & MEDICAL PRACTICES**. Those are the
