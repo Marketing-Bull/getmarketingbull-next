@@ -27,6 +27,8 @@ export interface PortfolioSite {
   stack: string;
   /** Path under /public. 1200x750. */
   image: string;
+  /** Slug of the case study on /case-studies that covers this engagement. */
+  caseStudy?: string;
   featured?: boolean;
 }
 
@@ -49,6 +51,28 @@ export const AUDITED = '2026-10-21';
 
 export const PORTFOLIO: PortfolioSite[] = [
   {
+    slug: '1-800-hurt-511',
+    name: '1-800-HURT-511',
+    url: 'https://hurt511.com/',
+    domain: 'hurt511.com',
+    category: 'Law',
+    location: 'New York City',
+    launched: '2021',
+    what: 'A personal injury referral brand for all five boroughs: free case evaluation, then the right lawyer and the right doctors for the injury.',
+    job: 'Launch a brand into the most competitive PI market in the country and give every borough, precinct and language a page to land on.',
+    facts: [
+      { label: 'Found', text: 'English, Spanish and Russian editions with hreflang on every page, so each audience the offline media reached lands on its own language.' },
+      { label: 'Local', text: '547 indexed URLs: 56 location pages, 164 NYPD precinct pages (a crash is reported to a precinct, so the precinct is the search), 45 service pages and 227 articles.' },
+      { label: 'Rich results', text: 'Organization markup plus structured site navigation, so the brand entity and its sections are legible to Google.' },
+      { label: 'Converts', text: 'Five tap-to-call points and three forms, with the free case evaluation as the single call to action; the site fed a dedicated intake call center.' },
+      { label: 'Measured', text: 'Google Tag Manager container, wired to the CRM and call center built in the same engagement.' },
+    ],
+    stack: 'WordPress (WPML) on Cloudflare · 547 pages',
+    image: '/work/hurt511.webp',
+    caseStudy: '1-800-hurt-511',
+    featured: true,
+  },
+  {
     slug: 'hbotq',
     name: 'HBOTQ · Queens Hyperbaric',
     url: 'https://www.hbotq.com/',
@@ -68,6 +92,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Next.js on Vercel · 41 pages',
     image: '/work/hbotq.webp',
+    caseStudy: 'queens-hyperbaric',
     featured: true,
   },
   {

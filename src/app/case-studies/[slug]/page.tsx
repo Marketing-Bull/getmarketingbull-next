@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import CTASection from '@/components/CTASection';
 import { CASE_STUDIES, getCaseStudy } from '@/lib/caseStudies';
+import { PORTFOLIO } from '@/lib/portfolio';
 import { caseStudySchema, breadcrumbSchema } from '@/lib/schema';
 import { pageMeta } from '@/lib/metadata';
 
@@ -28,6 +29,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
   const cs = getCaseStudy(slug);
   if (!cs) notFound();
   const others = CASE_STUDIES.filter((c) => c.slug !== cs.slug);
+  const site = PORTFOLIO.find((p) => p.caseStudy === cs.slug);
 
   return (
     <>
@@ -49,6 +51,13 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-5">{cs.industry} · {cs.location}</p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">{cs.client}</h1>
           <p className="text-xl md:text-2xl text-slate-300 leading-snug">{cs.summary}</p>
+          {site && (
+            <p className="mt-6 text-sm text-slate-400">
+              The website: <a href={site.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-white hover:text-red-400 transition">{site.domain} ↗</a>
+              <span className="mx-2">·</span>
+              <Link href={`/websites#${site.slug}`} className="font-semibold text-white hover:text-red-400 transition">What is under the hood</Link>
+            </p>
+          )}
         </div>
       </section>
 

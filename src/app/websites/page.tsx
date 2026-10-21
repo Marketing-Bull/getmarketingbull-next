@@ -120,6 +120,9 @@ export default function WebsitesPage() {
                       <a href={s.url} target="_blank" rel="noopener noreferrer" className="inline-block mt-1 text-sm font-semibold text-blue-700 hover:underline">{s.domain} ↗</a>
                       <p className="mt-4 text-slate-700 leading-relaxed">{s.what}</p>
                       <p className="mt-3 text-sm text-slate-600 leading-relaxed"><span className="font-semibold text-slate-900">Built to:</span> {s.job}</p>
+                      {s.caseStudy && (
+                        <Link href={`/case-studies/${s.caseStudy}`} className="mt-3 inline-block text-sm font-semibold text-slate-900 hover:text-red-600 transition">Read the case study →</Link>
+                      )}
                       <ul className="mt-5 space-y-3">
                         {s.facts.map((f) => (
                           <li key={f.label + f.text.slice(0, 24)} className="flex gap-3 items-start">
