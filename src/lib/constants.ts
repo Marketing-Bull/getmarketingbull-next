@@ -287,6 +287,7 @@ export const NAV_LINKS = [
     submenu: [
       { label: 'Our Team', href: '/about-us' },
       { label: 'Case Studies', href: '/case-studies' },
+      { label: "Websites We've Built", href: '/websites' },
       { label: 'Blog', href: '/blog' },
     ],
   },
