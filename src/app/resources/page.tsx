@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMeta({
   path: '/resources',
   title: 'Resources',
   description:
-    'Free tools from Marketing Bull: a Claude skill that audits law firm advertising against the Florida Bar rules, and a private, offline-first Markdown editor.',
+    'Free tools from Marketing Bull: a Claude skill that audits law firm ads against the Florida Bar rules, an offline-first Markdown editor, and the source for our Recoup and KeyVault apps.',
 });
 
 const updatedLabel = (iso: string) =>
@@ -40,7 +40,7 @@ export default function ResourcesPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-6">Resources</p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight mb-6 leading-[1.05]">Free tools we use ourselves.</h1>
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl leading-relaxed">
-            The checklists and AI skills behind our own client work, free to download and use on your own firm or practice.
+            The checklists, AI skills and apps behind our own work. Download them, read the code, and use what helps your firm or practice.
           </p>
         </div>
       </section>

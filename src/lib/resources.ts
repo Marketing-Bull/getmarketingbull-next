@@ -87,4 +87,85 @@ export const RESOURCES: Resource[] = [
     ],
     updated: '2026-03-18',
   },
+  {
+    slug: 'recoup',
+    name: 'Recoup for iPhone, iPad and Mac',
+    kind: 'App source on GitHub',
+    summary:
+      'Track every billable hour, mile and dollar on client projects, and recoup it. One native SwiftUI app runs on iPhone, iPad and Mac, synced through your own iCloud, with no server to host.',
+    audience: 'Freelancers, consultants and small agencies who bill by the hour and drive to clients.',
+    coversLabel: 'What it does',
+    covers: [
+      'Time entries with preset chips; the hourly rate resolves from project to client and locks when you save',
+      'Mileage with round-trip doubling, one-tap repeat of a recent trip, and a configurable per-mile rate',
+      'Expenses with a category grid, recurring items and receipt photos',
+      'A dashboard of six summary cards with per-client and per-project breakdowns',
+      'Forms that prefill your last client and project, so logging takes seconds',
+    ],
+    output:
+      'Everything syncs between your devices through iCloud (CloudKit), and exports to CSV for invoicing or your accountant. Your data never touches a server of ours.',
+    howTo: [
+      'Clone the repository on a Mac with Xcode 16 or later and install XcodeGen.',
+      'Set your Apple developer team in project.yml, run xcodegen generate, and build to your iPhone and Mac.',
+      'No paid developer account? One setting switches iCloud sync off and the app runs fully local.',
+    ],
+    links: [
+      { label: 'View the source', href: 'https://github.com/Marketing-Bull/amb-recoup', note: 'github.com/Marketing-Bull/amb-recoup' },
+    ],
+    updated: '2026-09-16',
+  },
+  {
+    slug: 'recoup-web',
+    name: 'Recoup Web',
+    kind: 'App source on GitHub',
+    summary:
+      'The web version of Recoup for teams: time, mileage, expenses, clients and projects in the browser, with organizations, roles and an admin panel.',
+    audience: 'Small agencies and teams who want shared time and expense tracking that they host themselves.',
+    coversLabel: 'What it does',
+    covers: [
+      'Time tracking by date, client and project, with project rates overriding client rates',
+      'Mileage with start and end addresses, purpose, round trips and a per-organization rate',
+      'Expenses by category with receipt uploads, vendors, recurring schedules and a billable flag',
+      'Organizations with admin, member and viewer roles, plus a superuser admin panel',
+      'CSV export of clients, projects, time, expenses and mileage',
+    ],
+    output:
+      'A server-rendered FastAPI app (Jinja2 and HTMX, minimal JavaScript) on Supabase for the database, sign-in and receipt storage. It ships with a Dockerfile.',
+    howTo: [
+      'Clone the repository and create a Supabase project.',
+      'Copy .env.example to .env with your Supabase keys, and apply the schema in supabase/migrations.',
+      'Run it locally with uvicorn, or deploy the Dockerfile to Railway or any container host.',
+    ],
+    links: [
+      { label: 'View the source', href: 'https://github.com/Marketing-Bull/amb-recoup-web', note: 'github.com/Marketing-Bull/amb-recoup-web' },
+    ],
+    updated: '2026-07-23',
+  },
+  {
+    slug: 'keyvault',
+    name: 'KeyVault',
+    kind: 'App source on GitHub',
+    summary:
+      'A native Mac app for API keys, OAuth credentials and multi-field developer secrets, stored entirely on your Mac with strong encryption. A password manager that understands developer credentials.',
+    audience: 'Developers, agencies and anyone juggling API keys for clients and tools.',
+    coversLabel: 'What it does',
+    covers: [
+      'Templates for API keys, OAuth clients, service accounts and AWS IAM, plus custom entries with any fields',
+      'AES-256-GCM encryption per field, with the key in the macOS Keychain and Touch ID to unlock',
+      'Auto-lock on idle and screen sleep, and copied values that clear after 30 seconds',
+      'Expiry dates that warn you before a credential lapses, plus tags and notes',
+      'Scoped read or read-write grants so a named script or agent can use one entry, not the whole vault',
+    ],
+    output:
+      'An encrypted vault on your own machine, with encrypted export and import for backups. Nothing is sent to a cloud service.',
+    howTo: [
+      'Clone the repository on a Mac running macOS 14 or later, with Xcode 15+ and XcodeGen.',
+      'Run ./setup.sh to generate the project and open it in Xcode.',
+      'Set your signing team and build to your Mac; a free Apple ID works for personal use.',
+    ],
+    links: [
+      { label: 'View the source', href: 'https://github.com/Marketing-Bull/KeyVault', note: 'github.com/Marketing-Bull/KeyVault' },
+    ],
+    updated: '2026-07-29',
+  },
 ];
