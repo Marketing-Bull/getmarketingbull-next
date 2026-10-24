@@ -27,7 +27,7 @@ export interface PortfolioSite {
   stack: string;
   /** Path under /public. 1200x750. */
   image: string;
-  /** Slug of the case study on /case-studies that covers this engagement. */
+  /** Slug of the case study on /case-studies that covers this site or the engagement behind it. */
   caseStudy?: string;
   featured?: boolean;
 }
@@ -115,6 +115,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Static site on Cloudflare · 52 pages (EN/ES)',
     image: '/work/linderdiazlaw.webp',
+    caseStudy: 'linder-diaz-law',
     featured: true,
   },
   {
@@ -136,6 +137,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Static site on Cloudflare · auto-updating data',
     image: '/work/i-95accidents.webp',
+    caseStudy: 'i-95-accidents',
   },
   {
     slug: 'claims-match',
@@ -156,6 +158,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Next.js on Vercel · 216 pages',
     image: '/work/claimsmatch.webp',
+    caseStudy: 'claims-match',
   },
   {
     slug: 'ems-south-florida',
@@ -176,6 +179,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Next.js on Vercel · 29 pages',
     image: '/work/emssouthflorida.webp',
+    caseStudy: 'ems-south-florida',
   },
   {
     slug: 'cash4home-fl',
@@ -196,6 +200,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Next.js on Vercel · 82 pages',
     image: '/work/cash4homefl.webp',
+    caseStudy: 'cash4home-fl',
   },
   {
     slug: 'west-palm-beach-florida-real-estate',
@@ -215,6 +220,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Static site on Cloudflare',
     image: '/work/westpalmbeachfloridarealestate.webp',
+    caseStudy: 'west-palm-beach-florida-real-estate',
   },
   {
     slug: 'south-florida-real-estate-voice',
@@ -234,6 +240,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Static site on Vercel · 74 pages',
     image: '/work/southfloridarealestatevoice.webp',
+    caseStudy: 'south-florida-real-estate-voice',
   },
   {
     slug: 'zippy-title',
@@ -253,6 +260,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Static site on Cloudflare',
     image: '/work/zippytitle.webp',
+    caseStudy: 'zippy-title',
   },
   {
     slug: 'zippy-title-loans',
@@ -272,6 +280,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Static site on Cloudflare',
     image: '/work/zippytitleloans.webp',
+    caseStudy: 'zippy-title-loans',
   },
   {
     slug: 'splendid-limo',
@@ -291,6 +300,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Static site on Vercel · 8 pages',
     image: '/work/splendidlimo.webp',
+    caseStudy: 'splendid-limo',
   },
   {
     slug: 'junk-removal-service-usa',
@@ -310,6 +320,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Next.js on Vercel · 106 pages',
     image: '/work/junkremovalserviceusa.webp',
+    caseStudy: 'junk-removal-service-usa',
   },
   {
     slug: 'millers-marketing-group',
@@ -329,6 +340,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Static site on Vercel',
     image: '/work/millersmarketinggroup.webp',
+    caseStudy: 'millers-marketing-group',
   },
   {
     slug: 'kiss-selfcare',
@@ -347,6 +359,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Static site on Cloudflare · 11 pages',
     image: '/work/kiss.care.webp',
+    caseStudy: 'kiss-selfcare',
   },
   {
     slug: 'hello-viki',
@@ -366,6 +379,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Static site on Cloudflare · 15 pages',
     image: '/work/helloviki.webp',
+    caseStudy: 'hello-viki',
   },
   {
     slug: 'rock-the-treatment-mobile',
@@ -384,6 +398,7 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Static minisite on Vercel',
     image: '/work/m.rockthetreatment.webp',
+    caseStudy: 'rock-the-treatment-mobile',
   },
 ];
 
