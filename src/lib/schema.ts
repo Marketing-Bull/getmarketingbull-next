@@ -122,3 +122,35 @@ export function personSchema(person: { name: string; role: string; bio: string; 
     url: `${COMPANY.website}/about-us`,
   };
 }
+
+/**
+ * The /websites gallery: a CollectionPage whose main entity is an ItemList of the
+ * client sites. Each item is a WebSite we built (creator), not one we own, so no
+ * publisher or sameAs is claimed for the client.
+ */
+export function portfolioSchema(sites: { name: string; url: string; what: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${COMPANY.website}/websites`,
+    url: `${COMPANY.website}/websites`,
+    name: 'Websites built by Marketing Bull',
+    isPartOf: { '@id': `${COMPANY.website}/#organization` },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListOrder: 'https://schema.org/ItemListUnordered',
+      numberOfItems: sites.length,
+      itemListElement: sites.map((s, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@type': 'WebSite',
+          name: s.name,
+          url: s.url,
+          description: s.what,
+          creator: { '@id': `${COMPANY.website}/#organization` },
+        },
+      })),
+    },
+  };
+}
