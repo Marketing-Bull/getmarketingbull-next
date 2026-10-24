@@ -14,7 +14,6 @@ const LEGACY_REDIRECTS: { source: string; destination: string }[] = [
   { source: '/accessibility-statement', destination: '/accessibility' },
   { source: '/thank-you-event', destination: '/thank-you' },
   { source: '/newsletter-signup', destination: '/blog' },
-  { source: '/resources', destination: '/blog' },
   { source: '/webinars', destination: '/contact-us' },
   { source: '/services/medical-services', destination: '/services/medical' },
   { source: '/services/services-law-firms', destination: '/services/law-firms' },
