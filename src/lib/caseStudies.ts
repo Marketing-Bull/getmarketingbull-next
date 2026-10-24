@@ -29,6 +29,7 @@ export interface CaseStudy {
 }
 
 const WEBSITE_SOURCE = 'Audit of the live site, 2026-10-21 (src/lib/portfolio.ts). Website build; no outcome metrics published.';
+const WEBSITE_SOURCE_REAUDIT = 'Re-audit of the live site after its redesign or update, 2026-10-24 (src/lib/portfolio.ts). Website build; no outcome metrics published.';
 
 export const CASE_STUDIES: CaseStudy[] = [
   {
@@ -137,21 +138,21 @@ export const CASE_STUDIES: CaseStudy[] = [
     vertical: 'Law',
     industry: 'Crash-report referral site',
     location: 'I-95, Florida to Maine',
-    summary: 'Live crash reports for all fifteen I-95 states, refreshed every fifteen minutes, built as a referral asset that routes injured drivers to counsel.',
+    summary: 'Live crash reports for all fifteen I-95 states and 105 towns along the corridor, refreshed every fifteen minutes, built as a referral asset that routes injured drivers to counsel.',
     constraint:
       'After a highway crash, people search for what happened, often from a phone on the shoulder. A referral asset has to be the page that answers that search: fresh data, a page for every state, and a load time that holds up on a weak connection.',
     action:
-      'We built a static site on Cloudflare fed by an automated data pipeline: crash reports with date, time, exit and map, refreshed every fifteen minutes and kept for thirty days. Each of the fifteen I-95 states has its own page, titles, a sitemap and robots rules were in place from day one so new reports are crawled as they publish, and two tap-to-call paths for injured drivers sit at the top of every report. The code and the pipeline live in the client\'s own repository.',
+      'We built a static site on Cloudflare fed by an automated data pipeline: crash reports with date, time, exit and map, refreshed every fifteen minutes and kept for thirty days, each on its own page. Each of the fifteen I-95 states and 105 towns along the corridor has a page, CollectionPage, ItemList and FAQ markup structure the live list, and titles, a sitemap and robots rules mean new reports are crawled as they publish. Two tap-to-call paths for injured drivers sit at the top of the page beside a link to live traffic cameras, and GA4 runs on every page. The code and the pipeline live in the client\'s own repository.',
     result:
-      'i-95accidents.com is live and updates itself every fifteen minutes, with a homepage under 6 KB of HTML.',
+      'i-95accidents.com is live with 216 pages, updating itself every fifteen minutes from a static, image-free homepage.',
     proof: [
-      '15 state pages plus live accident pages',
-      'Data refreshed every 15 minutes, kept 30 days',
-      'Homepage under 6 KB of HTML',
+      '15 state pages and 105 town pages',
+      'A page for every crash, refreshed every 15 minutes, kept 30 days',
+      'CollectionPage, ItemList and FAQ markup',
       'Code and data pipeline owned by the client',
     ],
-    services: ['Website design and build', 'Automated data pipeline', 'State pages', 'Technical SEO', 'Tap-to-call intake paths'],
-    source: WEBSITE_SOURCE,
+    services: ['Website design and build', 'Automated data pipeline', 'State and town pages', 'Technical SEO', 'Structured data', 'GA4 setup', 'Tap-to-call intake paths'],
+    source: WEBSITE_SOURCE_REAUDIT,
     published: '2026-10-24',
   },
   {
@@ -185,21 +186,21 @@ export const CASE_STUDIES: CaseStudy[] = [
     vertical: 'Wellness',
     industry: 'EMS training studio',
     location: 'Palm Beach County, Florida',
-    summary: 'A site that explains whole-body EMS training without hype, including who should skip it, and books a 20-minute intro session.',
+    summary: 'A 57-page site that explains whole-body EMS training without hype, including who should skip it, lists 22 studios across South Florida, and routes people to a supervised intro session.',
     constraint:
       'Whole-body electro-muscle stimulation is new to most people and easy to oversell. The studio needed a site that answered the safety and suitability questions honestly, screened out people with contraindications, and still moved the right visitors to book.',
     action:
-      'We built a 29-page Next.js site on Vercel: eleven training pages, five equipment pages and a guides section that answer the "is EMS right for me" questions directly, a medical disclaimer page, and copy that leads with who should not train. A dedicated "try EMS" booking path publishes SMS terms, so text follow-up is compliant from the first lead. Organization and WebSite markup, canonical URLs, a sitemap and GA4 were in place at launch.',
+      'We built a Next.js site on Vercel, since grown to 57 pages: eleven training pages, a home-suits section (FDA status, reviews and a quiz) and eight guides that answer the "is EMS right for me" questions directly, and a studio finder with a page for each of 22 studios across Palm Beach, Broward and Miami-Dade, listed without ranking. The copy leads with who should not train, behind dated editorial bylines, an editorial policy and a medical disclaimer. A safety check and a "try EMS" intro-session path publish SMS terms, so text follow-up is compliant from the first lead. Organization, WebSite and FAQ markup, canonical URLs, a sitemap and GA4 are in place.',
     result:
-      'emssouthflorida.com is live with 29 pages, a compliant SMS opt-in on the booking path, and GA4 from day one.',
+      'emssouthflorida.com is live with 57 pages, a 22-studio directory, a compliant SMS opt-in on the intro-session path, and GA4 on every page.',
     proof: [
-      '29 pages: training, equipment and guides',
+      '57 pages: training, home suits, guides and studios',
+      '22 studios across three counties, a page for each',
       'A "who should skip it" position, backed by a medical disclaimer',
-      'SMS terms published on the booking path',
-      'GA4 at launch',
+      'SMS terms published on the intro-session path',
     ],
-    services: ['Website design and build', 'Guides section', 'SMS opt-in compliance', 'Structured data', 'GA4 setup'],
-    source: WEBSITE_SOURCE,
+    services: ['Website design and build', 'Studio directory', 'Guides section', 'SMS opt-in compliance', 'Structured data', 'GA4 setup'],
+    source: WEBSITE_SOURCE_REAUDIT,
     published: '2026-10-24',
   },
   {
@@ -213,17 +214,17 @@ export const CASE_STUDIES: CaseStudy[] = [
     constraint:
       'Cash home buyers compete on two searches, "we buy houses" and "sell my house fast", city by city. One homepage cannot rank in thirty cities, and a seller in a hard situation (probate, foreclosure, divorce) wants to see that situation named before they call.',
     action:
-      'We built an 82-page Next.js site on Vercel with thirty "we buy houses" city pages, twenty-six "sell my house fast" city pages, and situation pages for probate, foreclosure, divorce, liens and rentals. RealEstateAgent, FAQ and HowTo markup describe the offer process the way the page does. The first screen asks for the address and nothing else, beside four tap-to-call points, and a ten-post blog covers the questions sellers ask before they call.',
+      'We built an 82-page Next.js site on Vercel with thirty "we buy houses" city pages, twenty-six "sell my house fast" city pages, a page per county, and situation pages for probate, foreclosure, divorce, liens, rentals, damaged and as-is houses. RealEstateAgent, FAQ and HowTo markup describe the offer process the way the page does. The offer form sits in the first screen and asks for three things (address, phone, email), with five tap-to-call points around it, and a ten-post blog covers the questions sellers ask before they call.',
     result:
-      'cash4homefl.com is live with 56 city pages across Palm Beach and Broward, and an offer that starts with one field.',
+      'cash4homefl.com is live with 56 city pages across Palm Beach and Broward, and a three-field offer form in the first screen.',
     proof: [
       '30 "we buy houses" city pages',
       '26 "sell my house fast" city pages',
-      'Situation pages: probate, foreclosure, divorce, liens, rentals',
+      'Situation pages: probate, foreclosure, divorce, liens, rentals, damaged, as-is',
       'RealEstateAgent, FAQ and HowTo markup',
     ],
-    services: ['Website design and build', 'City pages', 'Situation pages', 'Structured data', 'Blog'],
-    source: WEBSITE_SOURCE,
+    services: ['Website design and build', 'City and county pages', 'Situation pages', 'Structured data', 'Blog'],
+    source: WEBSITE_SOURCE_REAUDIT,
     published: '2026-10-24',
   },
   {
@@ -233,21 +234,21 @@ export const CASE_STUDIES: CaseStudy[] = [
     vertical: 'Real Estate & Finance',
     industry: 'Residential real estate agent',
     location: 'West Palm Beach, Florida',
-    summary: 'An exact-match-domain site that turns West Palm Beach neighborhood research, from El Cid to Northwood, into home-valuation requests.',
+    summary: 'An exact-match-domain site with eleven neighborhood guides and fifty-nine condo building profiles, built to turn West Palm Beach research into a conversation with the agent.',
     constraint:
-      'Buyers and sellers research West Palm Beach by neighborhood long before they pick an agent. The site had to rank for the city name and give each neighborhood search a page that ends in a reason to get in touch.',
+      'Buyers and sellers research West Palm Beach by neighborhood, and condo buyers by building, long before they pick an agent. The site had to rank for the city name and give each of those searches a page that ends in a reason to get in touch.',
     action:
-      'We built a static site on Cloudflare on the exact-match domain, with neighborhood guides written for the people who search them and a home-valuation request on each. RealEstateAgent markup names the agent, the service area and the contact details, and four tap-to-call points sit alongside the valuation form. The homepage carries one image and loads instantly.',
+      'We built an 81-page static site on Cloudflare on the exact-match domain: eleven neighborhood guides from El Cid to Northwood and fifty-nine condo building profiles, each written for the people who search that name, with an inquiry form on every guide. RealEstateAgent and Person markup name the agent and service area, and each condo profile is marked up as an ApartmentComplex with its address and coordinates. A property search leads the homepage, sellers get a free market analysis, and five tap-to-call points and GA4 are in place.',
     result:
-      'westpalmbeachfloridarealestate.com is live, with neighborhood guides that each end in a valuation request.',
+      'westpalmbeachfloridarealestate.com is live with 81 pages: 11 neighborhood guides and 59 condo profiles, each with a way to reach the agent.',
     proof: [
-      'Neighborhood guides, El Cid to Northwood',
-      'A valuation request on every guide',
-      'RealEstateAgent markup',
-      'Static on Cloudflare, one image on the homepage',
+      '11 neighborhood guides, El Cid to Northwood',
+      '59 condo building profiles',
+      'RealEstateAgent, Person and ApartmentComplex markup',
+      'An inquiry form on every guide',
     ],
-    services: ['Website design and build', 'Neighborhood guides', 'Structured data', 'Valuation lead capture'],
-    source: WEBSITE_SOURCE,
+    services: ['Website design and build', 'Neighborhood guides', 'Condo building profiles', 'Structured data', 'Lead capture', 'GA4 setup'],
+    source: WEBSITE_SOURCE_REAUDIT,
     published: '2026-10-24',
   },
   {
@@ -261,17 +262,17 @@ export const CASE_STUDIES: CaseStudy[] = [
     constraint:
       'Pre-construction buyers usually start at the developer\'s sales gallery. To offer independent buyer representation, the site had to be where buyers research developments first, which means a credible page for every project across three counties.',
     action:
-      'We built a 74-page static site on Vercel with a page per development, each with its own WebP imagery and share card. CollectionPage, RealEstateAgent and Person markup describe the directory, the agent and the author. All 131 images lazy-load, so the directory stays fast, and GA4 runs on every page alongside four tap-to-call points and an inquiry form.',
+      'We built a 74-page static site on Vercel with a page per development and area pages for nine cities and counties, each with its own WebP imagery and share card. CollectionPage (with an ItemList of all 56 developments), RealEstateAgent and Person markup describe the directory, the agent and the author. Images below the first screen lazy-load, so the directory stays fast, and GA4 runs on every page alongside four tap-to-call points and an inquiry form.',
     result:
       'southfloridarealestatevoice.com is live with 56 developments across three counties, each on its own page.',
     proof: [
       '56 developments, a page for each',
-      '74 pages, 131 lazy-loaded WebP images',
+      '74 pages, including 9 city and county area pages',
       'CollectionPage, RealEstateAgent and Person markup',
       'GA4 on every page',
     ],
     services: ['Website design and build', 'Development directory', 'Structured data', 'GA4 setup'],
-    source: WEBSITE_SOURCE,
+    source: WEBSITE_SOURCE_REAUDIT,
     published: '2026-10-24',
   },
   {
@@ -377,21 +378,21 @@ export const CASE_STUDIES: CaseStudy[] = [
     vertical: 'Consumer & Technology',
     industry: 'Business networking events',
     location: 'Florida',
-    summary: 'A site that sells the room: Florida business networking events made findable and bookable, with event markup Google can list.',
+    summary: 'A site that sells the room: networking events for Florida\'s personal injury professionals made findable and bookable, with event markup Google can list.',
     constraint:
-      'Miller\'s Marketing Group sells curated networking events, so the site has two jobs: make each upcoming event easy to find and register for, and make the brand feel the way the events do.',
+      'Miller\'s Marketing Group runs curated networking events for Florida\'s personal injury attorneys, medical providers and partners, so the site has two jobs: make each upcoming event easy to find and register for, and make the brand feel the way the events do.',
     action:
-      'We built a static site on Vercel with ProfessionalService and BusinessEvent markup, so upcoming events are structured the way Google lists events. Thirty-eight WebP images, every one with alt text, and a dedicated social card carry the brand. Register and inquire forms, three tap-to-call points and GA4 are in place, and a Content-Security-Policy is enforced.',
+      'We built a static site on Vercel with ProfessionalService and BusinessEvent markup, so upcoming events are structured the way Google lists events. Thirty-eight images, each described for screen readers or marked decorative, and a dedicated social card carry the brand. Register and inquire forms, three tap-to-call points and GA4 are in place, and a Content-Security-Policy is enforced.',
     result:
       'millersmarketinggroup.com is live with event markup on its upcoming events and GA4 in place.',
     proof: [
       'BusinessEvent markup on upcoming events',
-      '38 images, every one with alt text',
+      '38 images, each described or marked decorative',
       'Register and inquire forms',
       'Content-Security-Policy enforced',
     ],
     services: ['Website design and build', 'Event markup', 'Registration forms', 'GA4 setup', 'Security headers'],
-    source: WEBSITE_SOURCE,
+    source: WEBSITE_SOURCE_REAUDIT,
     published: '2026-10-24',
   },
   {
@@ -405,17 +406,17 @@ export const CASE_STUDIES: CaseStudy[] = [
     constraint:
       'Kiss Selfcare\'s pitch is more actives and fewer steps. The site needed the same restraint: product imagery that does the selling, and nothing that slows the first screen.',
     action:
-      'We built an eleven-page static site on Cloudflare at kiss.care, with thirty lazy-loaded WebP product images, a custom share image, Organization markup, canonical URLs and an eleven-URL sitemap.',
+      'We built a static site on Cloudflare at kiss.care, now fifteen pages: a page per product (five), an ingredients page and an FAQ, with thirty lazy-loaded WebP product images, a custom share image, Organization markup, canonical URLs and a sitemap. A Content-Security-Policy is enforced and GA4 runs on every page.',
     result:
-      'kiss.care is live at 18 KB of HTML.',
+      'kiss.care is live with 15 pages at 21 KB of HTML for the homepage.',
     proof: [
-      '11 pages on kiss.care',
+      '15 pages, including 5 product pages',
       '30 lazy-loaded WebP product images',
-      'Organization markup and sitemap',
-      '18 KB of HTML',
+      'Content-Security-Policy enforced',
+      '21 KB of HTML',
     ],
-    services: ['Website design and build', 'Product imagery', 'Technical SEO'],
-    source: WEBSITE_SOURCE,
+    services: ['Website design and build', 'Product pages', 'Product imagery', 'Technical SEO', 'Security headers', 'GA4 setup'],
+    source: WEBSITE_SOURCE_REAUDIT,
     published: '2026-10-24',
   },
   {
@@ -451,19 +452,19 @@ export const CASE_STUDIES: CaseStudy[] = [
     location: 'USA',
     summary: 'A 10 KB mobile storefront built beside an existing WooCommerce store, so phone shoppers get a page that opens instantly.',
     constraint:
-      'Rock The Treatment sells curated chemo and radiation care packages from a WooCommerce store whose homepage weighs about 570 KB. The brief was not to rebuild the store; it was to give phone shoppers a fast way in.',
+      'Rock The Treatment sells curated chemo and radiation care packages from a WooCommerce store whose homepage weighs about 556 KB. The brief was not to rebuild the store; it was to give phone shoppers a fast way in.',
     action:
-      'We built a static, mobile-first storefront on Vercel at m.rockthetreatment.com with WebP product imagery served from the edge. Its canonicals point back at the main shop, so it adds speed without creating duplicate content, and it shares the store\'s Tag Manager container, so purchases are attributed in one place.',
+      'We built a static, mobile-first storefront on Vercel at m.rockthetreatment.com, served from the edge with lazy-loaded product images. Its canonicals point back at the main shop, so it adds speed without creating duplicate content, and Google Tag Manager is installed so its visits are measured.',
     result:
-      'm.rockthetreatment.com is live at about 10 KB of HTML, beside the 570 KB WordPress homepage it complements.',
+      'm.rockthetreatment.com is live at about 10 KB of HTML, beside the 556 KB WordPress homepage it complements.',
     proof: [
-      '10 KB page beside a 570 KB store homepage',
+      '10 KB page beside a 556 KB store homepage',
       'Canonicals point at the main shop',
-      'Shares the store\'s Tag Manager container',
+      'Google Tag Manager installed',
       'No rebuild of the existing store',
     ],
-    services: ['Mobile storefront design and build', 'Technical SEO', 'Tag Manager integration'],
-    source: WEBSITE_SOURCE,
+    services: ['Mobile storefront design and build', 'Technical SEO', 'Tag Manager setup'],
+    source: WEBSITE_SOURCE_REAUDIT,
     published: '2026-10-24',
   },
 ];
