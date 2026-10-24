@@ -36,6 +36,16 @@ export const COMPANY = {
   bookingUrl: '/free-consultation',
 };
 
+/**
+ * A2P 10DLC (TCR) opt-in language. Both strings are registered with the carrier campaign
+ * word for word — the checkbox label on every lead form and the confirmation text sent
+ * after a submission with the box checked. Changing either means re-submitting the campaign.
+ */
+export const SMS_CONSENT_LABEL =
+  'By checking this box, I agree to receive SMS notifications and promotional messages from Marketing Bull, LLC. Message & data rates may apply. Reply STOP to unsubscribe, HELP for help.';
+export const SMS_OPT_IN_CONFIRMATION =
+  'You have successfully opted in to receive SMS notifications and promotional messages from Marketing Bull, LLC. Msg & data rates may apply. Reply STOP to unsubscribe, HELP for help.';
+
 export type OfferSlug = 'website-in-14-days' | 'intake-gap-audit' | 'ai-content-engine' | 'lead-generation';
 
 export interface Offer {
@@ -120,15 +130,15 @@ export const OFFERS: Offer[] = [
     timeline: '7–10 business days',
     bestFor: 'Firms spending on lead generation who suspect the problem isn\'t the leads.',
     problem:
-      'Only a quarter of law firms reply to a web lead within five minutes, and 26% never reply at all.¹ After 5pm it gets worse: when one study called 1,000 personal injury firms in the evening, 41% never picked up.² You\'re paying for leads and losing them at the front desk, and nobody inside the firm can see it happening.',
+      'Only a quarter of law firms reply to a web lead within five minutes, and 26% never reply at all.¹ And about 17.5% of calls to law firms come in outside weekday 9 to 5.² You\'re paying for leads and losing them at the front desk, and nobody inside the firm can see it happening.',
     problemSources: [
       {
         label: 'Hennessey Digital, 2025 Lead Form Response Time Study (1,333 U.S. law firms, Q1 2025)',
         url: 'https://hennessey.com/2025-lead-form-response-time-study',
       },
       {
-        label: 'ClaireAI, Measuring After-Hours Legal Intake at 1,000 Law Firms (2026; after-5pm calls to 1,000 PI firms)',
-        url: 'https://theclaireai.com/blog/2026-legal-intake-benchmark-report',
+        label: 'Market My Market, "What Does Your Firm Lose by Being \'9 to 5\'?" (30,000 calls to its law-firm clients over six months)',
+        url: 'https://www.marketmymarket.com/legal-marketing/what-does-your-firm-lose-by-being-9-to-5/',
       },
     ],
     includes: [
@@ -292,6 +302,7 @@ export const NAV_LINKS = [
     submenu: [
       { label: 'Our Team', href: '/about-us' },
       { label: 'Case Studies', href: '/case-studies' },
+      { label: "Websites We've Built", href: '/websites' },
       { label: 'Blog', href: '/blog' },
     ],
   },
@@ -301,7 +312,7 @@ export const NAV_LINKS = [
 export const TESTIMONIALS = [
   { name: 'Todd D. Muhlstock, Esq.', company: 'WeSueThem.com', quote: "I have personally referred this team to colleagues and clients because I knew I could trust the results. They don't just generate leads — they make sure you close them.", rating: 5 },
   { name: 'Dr. Manoj Sadhnani', company: 'Queens Hyperbaric', quote: 'We went from struggling to fill slots to seeing 30 new faces every month.', rating: 5 },
-  { name: 'Angela McMullin', company: '3D Dental', quote: 'Alexander is the best! He goes above and beyond to make sure his clients are happy and getting results. Our new patient volume is up 40%.', rating: 5 },
+  { name: 'Angela McMullin', company: '3D Dental', quote: 'Alexander is the best! He goes above and beyond to make sure his clients are happy and getting results.', rating: 5 },
   { name: 'Isak Yuhan', company: '1-800-HURT-511', quote: 'They delivered results beyond expectations.', rating: 5 },
   { name: 'Laura Cole, Esq.', company: 'Attorney at Law', quote: 'Marketing Bull is excellent!!', rating: 5 },
   { name: 'Vinay Gaonkar', company: 'GreenBills', quote: 'Excellent results on leads and client conversions.', rating: 5 },

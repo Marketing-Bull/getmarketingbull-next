@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Marketing Bull — Letter Flyer</title>
+<style>
+/* One-sided US Letter, portrait: 8.5 x 11in trim. Same tokens, fonts and copy
+   as the half-Letter flyer (flyer.html); the front and back are stacked into
+   three bands — ink hero, paper offers, ink contact.
+   build.mjs swaps the block between the markers for the no-bleed variant. */
+/* @PAGE_SIZE_START */
+@page { size: 8.75in 11.25in; margin: 0; }
+:root { --bleed: 0.125in; }
+/* @PAGE_SIZE_END */
+
+@font-face { font-family:'Archivo'; src:url('fonts/Archivo-600.woff2') format('woff2'); font-weight:600; font-style:normal; font-display:block; }
+@font-face { font-family:'Archivo'; src:url('fonts/Archivo-800.woff2') format('woff2'); font-weight:800; font-style:normal; font-display:block; }
+@font-face { font-family:'Archivo'; src:url('fonts/Archivo-900.woff2') format('woff2'); font-weight:900; font-style:normal; font-display:block; }
+@font-face { font-family:'IBM Plex Sans'; src:url('fonts/IBMPlexSans-400.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:block; }
+@font-face { font-family:'IBM Plex Sans'; src:url('fonts/IBMPlexSans-500.woff2') format('woff2'); font-weight:500; font-style:normal; font-display:block; }
+@font-face { font-family:'IBM Plex Sans'; src:url('fonts/IBMPlexSans-600.woff2') format('woff2'); font-weight:600; font-style:normal; font-display:block; }
+@font-face { font-family:'IBM Plex Sans'; src:url('fonts/IBMPlexSans-700.woff2') format('woff2'); font-weight:700; font-style:normal; font-display:block; }
+
+:root {
+  --ink:      #0c0c0e;
+  --bull:     #e11d2a;
+  --bright:   #ff2a36;
+  --paper:    #f4f1ea;
+  --muted:    #8a8578;
+  --bone-dim: #cdc8bd;
+  --ink-dim:  #3b3830;
+
+  --trim-w: 8.5in;
+  --trim-h: 11in;
+  --safe:   0.25in;
+  --inset:  calc(var(--bleed) + var(--safe));
+
+  /* Band boundaries, measured from TRIM top. */
+  --hero-h: 4.85in;      /* ink hero: trim top -> 4.85in */
+  --band-h: 1.6in;       /* ink contact band: last 1.6in of trim */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-variant-ligatures: none; text-rendering: geometricPrecision;
+}
+
+.page {
+  position: relative;
+  width:  calc(var(--trim-w) + 2 * var(--bleed));
+  height: calc(var(--trim-h) + 2 * var(--bleed));
+  overflow: hidden;
+  background: var(--paper); color: var(--ink);
+}
+
+/* Ink fields are page-level so they bleed off three edges; the copy lives in
+   .safe and is what check.mjs measures. Flat colour only — no gradients. */
+.hero-bg { position: absolute; left: 0; right: 0; top: 0; height: calc(var(--bleed) + var(--hero-h)); background: var(--ink); }
+.band-bg { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--bleed) + var(--band-h)); background: var(--ink); }
+
+.bull {
+  position: absolute; z-index: 2;
+  right: calc(-0.2in + var(--bleed));
+  top: calc(var(--bleed) + 2.7in); transform: translateY(-50%);
+  width: 3.7in;
+}
+
+.safe { position: absolute; inset: var(--inset); display: flex; flex-direction: column; z-index: 5; }
+.grow { flex: 1 1 auto; min-height: 0; }
+
+.kicker { font-size: 8pt; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; line-height: 1; }
+.display { font-family: 'Archivo'; font-weight: 900; text-transform: uppercase; line-height: .88; letter-spacing: -.035em; }
+
+.wordmark { display: flex; align-items: center; gap: 9px; }
+.wordmark img { width: 36px; display: block; }
+.wordmark .wm { font-family: 'Archivo'; font-weight: 800; font-size: 15pt; letter-spacing: -.035em; text-transform: uppercase; line-height: 1; }
+.wordmark .wm em { font-style: normal; color: var(--bull); }
+
+/* ── HERO (ink) ─────────────────────────────────────────────────────────── */
+/* Height = hero field minus the top safe margin, so its bottom edge is the
+   ink/paper boundary; padding-bottom keeps copy off that edge. */
+.hero {
+  flex: none; height: calc(var(--hero-h) - var(--safe));
+  display: flex; flex-direction: column; padding-bottom: 0.38in;
+  color: var(--paper); width: 5.15in;
+}
+.hero .audience { color: var(--bright); margin-bottom: 15px; }
+.hero .headline { font-size: 52px; }
+.hero .headline .hot { color: var(--bright); }
+.hero .lede { font-size: 13pt; line-height: 1.34; color: var(--bone-dim); margin-top: 18px; }
+
+/* ── OFFERS (paper) ────────────────────────────────────────────────────── */
+.mid { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; padding: 0.5in 0 0.45in; }
+.rule-lbl { display: flex; align-items: center; gap: 14px; color: var(--bull); }
+.rule-lbl::after { content: ''; flex: 1; height: 2.5px; background: var(--bull); }
+
+.svcs { flex: none; display: grid; grid-template-columns: 1fr 1fr; column-gap: 0.42in; row-gap: 0.36in; }
+.svc { display: flex; gap: 13px; }
+.svc .n { font-family: 'Archivo'; font-weight: 900; font-size: 17pt; line-height: .95; letter-spacing: -.05em; color: var(--bull); width: 28px; flex: none; }
+.svc h3 { font-family: 'Archivo'; font-weight: 800; font-size: 17pt; line-height: 1; letter-spacing: -.03em; text-transform: uppercase; }
+.svc p { font-size: 10.6pt; line-height: 1.34; color: var(--ink-dim); margin-top: 7px; }
+
+.proofs { flex: none; display: grid; grid-template-columns: 1.55fr 1fr; column-gap: 0.42in; align-items: center;
+  border-top: 1px solid #d8d1c1; padding-top: 0.3in; }
+.proof { display: flex; align-items: center; gap: 15px; }
+.proof .n { font-family: 'Archivo'; font-weight: 900; font-size: 40px; letter-spacing: -.04em; line-height: 1.1; color: var(--bull); flex: none; }
+.proof .n .arw { width: 29px; height: 15px; margin: 0 4px; vertical-align: 3px; }
+.proof p { font-size: 11.4pt; line-height: 1.3; font-weight: 500; }
+.proof p .src { display: block; font-size: 7pt; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-top: 4px; }
+
+/* ── CONTACT (ink) ─────────────────────────────────────────────────────── */
+/* Height = band field minus the bottom safe margin, so its top edge is the
+   paper/ink boundary. */
+.contact {
+  flex: none; height: calc(var(--band-h) - var(--safe));
+  display: flex; align-items: center; gap: 22px; color: var(--paper);
+  padding-top: 0.12in;
+}
+.contact .phone { font-family: 'Archivo'; font-weight: 900; font-size: 32px; letter-spacing: -.035em; line-height: 1; color: #fff; }
+.contact .phone span { color: var(--bright); }
+.contact .meta { font-size: 9pt; color: var(--bone-dim); margin-top: 7px; letter-spacing: .02em; line-height: 1.5; }
+.contact .grow { flex: 1 1 auto; }
+.contact .ask { text-align: right; max-width: 2.3in; }
+.contact .ask-h { font-family: 'Archivo'; font-weight: 800; font-size: 13.5pt; line-height: 1.05; letter-spacing: -.02em; text-transform: uppercase; color: #fff; }
+.contact .ask-s { font-size: 9pt; line-height: 1.35; color: var(--bone-dim); margin-top: 5px; }
+.contact .qbox { background: #fff; padding: 7px; width: 1.1in; height: 1.1in; flex: none; }
+.contact .qbox img { width: 100%; height: 100%; display: block; }
+</style>
+</head>
+<body>
+
+<section class="page">
+  <div class="hero-bg"></div>
+  <div class="band-bg"></div>
+  <img class="bull" src="../public/logo.png" alt="">
+
+  <div class="safe">
+
+    <div class="hero">
+      <div class="wordmark">
+        <img src="../public/logo.png" alt="Marketing Bull">
+        <div class="wm">Marketing<em>Bull</em></div>
+      </div>
+      <div class="grow"></div>
+      <div class="kicker audience">For Law Firms &amp; Medical Practices</div>
+      <h1 class="display headline">
+        Every<br>missed call<br>is a client your<br><span class="hot">rival wins.</span>
+      </h1>
+      <p class="lede">We fix the intake systems that lose you clients.</p>
+    </div>
+
+    <div class="mid">
+      <div class="kicker rule-lbl">What we do</div>
+      <div class="grow" style="flex-grow:.8;"></div>
+
+      <div class="svcs">
+        <div class="svc"><div class="n">01</div><div>
+          <h3>Website in 14 Days</h3>
+          <p>A conversion-built site, live in two weeks.</p>
+        </div></div>
+        <div class="svc"><div class="n">02</div><div>
+          <h3>Intake Gap Audit</h3>
+          <p>We find the clients your phone is losing.</p>
+        </div></div>
+        <div class="svc"><div class="n">03</div><div>
+          <h3>AI Content &amp; Search</h3>
+          <p>Rank in Google and in AI answers.</p>
+        </div></div>
+        <div class="svc"><div class="n">04</div><div>
+          <h3>Lead Generation</h3>
+          <p>Google and Meta ads, tracked to clients, not clicks.</p>
+        </div></div>
+      </div>
+
+      <div class="grow"></div>
+
+      <div class="proofs">
+        <div class="proof">
+          <div class="n">0<svg class="arw" viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7h19M15.5 1.5 21.5 7l-6 5.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg>20</div>
+          <p>personal injury cases a month, from a standing start.
+            <span class="src">Client &middot; 1-800-HURT-511 law firm</span></p>
+        </div>
+        <div class="proof">
+          <div class="n">30+</div>
+          <p>new patients a month at a specialty clinic.
+            <span class="src">Client &middot; medical practice</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact">
+      <div>
+        <div class="phone">1-833-<span>GET-BULL</span></div>
+        <div class="meta">1-833-438-2855<br>getmarketingbull.com &nbsp;&middot;&nbsp; hello@getmarketingbull.com</div>
+      </div>
+      <div class="grow"></div>
+      <div class="ask">
+        <div class="ask-h">Book a free consultation.</div>
+        <div class="ask-s">Twenty minutes. Call, or scan to start.</div>
+      </div>
+      <div class="qbox"><img src="qr.png" alt="getmarketingbull.com"></div>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>

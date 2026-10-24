@@ -1,9 +1,11 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { track } from '@/lib/analytics';
-import { COMPANY } from '@/lib/constants';
+import { COMPANY, SMS_CONSENT_LABEL } from '@/lib/constants';
 import Button from './Button';
+import Turnstile, { TURNSTILE_SITE_KEY } from './Turnstile';
 
 const FALLBACK_ERROR = `Sorry — that didn't go through. Please call ${COMPANY.phone} (${COMPANY.phoneFormatted}) or email ${COMPANY.email}.`;
 
@@ -35,6 +37,8 @@ export default function ContactForm({ product, source = 'website', submitLabel =
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string>('');
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileReset, setTurnstileReset] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
 
@@ -66,13 +70,18 @@ export default function ContactForm({ product, source = 'website', submitLabel =
       formRef.current?.querySelector<HTMLInputElement>(`[name="${firstInvalid}"]`)?.focus();
       return;
     }
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      setStatus('error');
+      setError(`Please complete the verification check above the button. If it doesn't appear, call ${COMPANY.phone}.`);
+      return;
+    }
     setStatus('sending');
     setError('');
     try {
       const r = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, product, source }),
+        body: JSON.stringify({ ...formData, product, source, turnstileToken }),
       });
       // A platform error page (e.g. a 504) isn't JSON — don't surface a parser message to the visitor.
       const data = (await r.json().catch(() => ({ ok: false }))) as { ok: boolean; dropped?: boolean; error?: string };
@@ -81,6 +90,7 @@ export default function ContactForm({ product, source = 'website', submitLabel =
       if (!data.dropped) track('lead_submit', { product: product ?? '', source: source ?? '' });
       setStatus('sent');
     } catch (err) {
+      setTurnstileReset((n) => n + 1); // the token was spent on this attempt
       setStatus('error');
       setError(err instanceof Error && !(err instanceof TypeError) ? err.message : FALLBACK_ERROR);
     }
@@ -146,19 +156,25 @@ export default function ContactForm({ product, source = 'website', submitLabel =
         <label htmlFor="cf-hp">Leave blank</label>
         <input id="cf-hp" type="text" name="hp" tabIndex={-1} autoComplete="off" value={formData.hp} onChange={handleChange} />
       </div>
+      {/* SMS opt-in: optional, never pre-checked, and the label must match SMS_CONSENT_LABEL exactly (A2P/TCR). */}
       <div className="flex items-start gap-3">
         <input type="checkbox" name="smsConsent" id="smsConsent" checked={formData.smsConsent} onChange={handleChange} className="mt-0.5 accent-red-600" />
-        <label htmlFor="smsConsent" className="text-xs text-slate-500 leading-relaxed">
-          I consent to receive SMS messages from Marketing Bull about my inquiry. Message &amp; data rates may apply. Reply STOP to opt out.
+        <label htmlFor="smsConsent" className="text-xs text-slate-600 leading-relaxed">
+          {SMS_CONSENT_LABEL}
         </label>
       </div>
+      <Turnstile onToken={setTurnstileToken} resetKey={turnstileReset} />
       {status === 'error' && (
         <p className="text-sm text-red-600 font-medium" role="alert">{error}</p>
       )}
       <Button type="submit" variant="primary" size="md" className="w-full" disabled={status === 'sending'}>
         {status === 'sending' ? 'Sending…' : submitLabel}
       </Button>
-      <p className="text-xs text-slate-500 text-center">No newsletters, no automated sequences. A person replies.</p>
+      <p className="text-xs text-slate-600 text-center leading-relaxed">
+        SMS consent is optional and not a condition of purchase. {COMPANY.legalName} ·{' '}
+        <Link href="/privacy-policy" className="underline hover:text-slate-900">Privacy Policy</Link> ·{' '}
+        <Link href="/terms-of-service" className="underline hover:text-slate-900">Terms of Service</Link>
+      </p>
     </form>
   );
 }
