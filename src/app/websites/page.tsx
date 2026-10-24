@@ -203,11 +203,11 @@ export default function WebsitesPage() {
         <div className="container-md grid grid-cols-1 lg:grid-cols-12 gap-10">
           <div className="lg:col-span-4">
             <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">What they have in common</p>
-            <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900">The same foundation under every one.</h2>
+            <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900">The same foundation under every new build.</h2>
           </div>
           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[
-              { t: 'Built on code, not a page builder', b: 'Every site is a static or server-rendered build (Next.js or plain HTML) deployed to Vercel or Cloudflare. No plugins to update, no database to hack, no theme licence to renew.' },
+              { t: 'Built on code, not a page builder', b: 'Every site we launched in 2026 is a static or server-rendered build (Next.js or plain HTML) deployed to Vercel or Cloudflare. No plugins to update, no database to hack, no theme licence to renew. Earlier builds, such as James Brown Law and 1-800-HURT-511, run on WordPress.' },
               { t: 'Search foundations on day one', b: 'Titles and descriptions written per page, canonical URLs, an XML sitemap, robots rules and share images, so the first crawl indexes the right pages.' },
               { t: 'Structured data that matches the page', b: 'Schema.org markup for the business type, services, events, FAQs and people, and only for what the page actually says. Markup that disagrees with the page is worse than none.' },
               { t: 'A page for every place and service', b: 'Where the business serves a territory, the site has a page per city or neighborhood and per service, written for that search, not stamped from a template.' },
