@@ -30,6 +30,7 @@ src/
     get-started/         same page, static: the A2P SMS opt-in URL registered with TCR (no redirect)
     api/lead/route.ts    lead endpoint: validate → webhook and/or Resend email
     websites/            gallery of every site we have built, from PORTFOLIO in lib/portfolio.ts
+    resources/           free downloads from RESOURCES in lib/resources.ts; files in public/resources/
     services/ about-us/ case-studies/ blog/ careers/ contact-us/ legal pages
   components/            Header, Footer, Button, CTASection, ContactForm, ConsultationPage, Turnstile, OfferCard,
                          OfferCTA, Reveal, TestimonialCarousel, VerticalPage, CallTracking
@@ -41,6 +42,7 @@ src/
     alert.ts             sendAlert(): email/Slack alert when a lead is lost or partly delivered
     blog.ts              POSTS (hardcoded)
     portfolio.ts         PORTFOLIO: the client sites on /websites, facts read from each live site (no traffic or rankings)
+    resources.ts         RESOURCES: /resources entries; skills are copied from the private claude-skills repo
 ```
 
 ## Rules

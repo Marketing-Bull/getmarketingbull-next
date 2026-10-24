@@ -303,6 +303,7 @@ export const NAV_LINKS = [
       { label: 'Our Team', href: '/about-us' },
       { label: 'Case Studies', href: '/case-studies' },
       { label: "Websites We've Built", href: '/websites' },
+      { label: 'Resources', href: '/resources' },
       { label: 'Blog', href: '/blog' },
     ],
   },
