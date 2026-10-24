@@ -56,13 +56,16 @@ const GOOGLE_ANALYTICS = [
   'https://*.google.com',
 ];
 
+// Ahrefs Web Analytics: the script and its /api/event and /api/error beacons share one origin.
+const AHREFS = 'https://analytics.ahrefs.com';
+
 const CSP = [
   ["default-src", "'self'"],
-  ['script-src', "'self'", "'unsafe-inline'", ...(isDev ? ["'unsafe-eval'"] : []), 'https://*.googletagmanager.com', 'https://challenges.cloudflare.com', 'https://va.vercel-scripts.com', ...toolbar()],
+  ['script-src', "'self'", "'unsafe-inline'", ...(isDev ? ["'unsafe-eval'"] : []), 'https://*.googletagmanager.com', 'https://challenges.cloudflare.com', 'https://va.vercel-scripts.com', AHREFS, ...toolbar()],
   ['style-src', "'self'", "'unsafe-inline'", ...toolbar()],
   ['img-src', "'self'", 'data:', 'blob:', ...GOOGLE_ANALYTICS, ...toolbar('https://vercel.com')],
   ['font-src', "'self'", 'data:', ...toolbar('https://assets.vercel.com')],
-  ['connect-src', "'self'", ...GOOGLE_ANALYTICS, 'https://challenges.cloudflare.com', 'https://va.vercel-scripts.com', ...toolbar('wss://ws-us3.pusher.com')],
+  ['connect-src', "'self'", ...GOOGLE_ANALYTICS, 'https://challenges.cloudflare.com', 'https://va.vercel-scripts.com', AHREFS, ...toolbar('wss://ws-us3.pusher.com')],
   // Contact page map, Turnstile, and GTM's <noscript> iframe if a container is ever set.
   ['frame-src', 'https://maps.google.com', 'https://www.google.com', 'https://challenges.cloudflare.com', 'https://www.googletagmanager.com', ...toolbar()],
   ['object-src', "'none'"],

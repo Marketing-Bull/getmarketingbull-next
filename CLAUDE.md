@@ -72,6 +72,7 @@ GA4 loads from Google's canonical gtag snippet, server-rendered into `<head>` in
 - **Never run GA4 twice.** The snippet plus `<GoogleAnalytics>`, or the snippet plus a GA4 tag inside a GTM container, doubles every pageview and event. If a container is adopted, move GA4 into it; setting `NEXT_PUBLIC_GTM_ID` removes the snippet.
 - `track()` in `src/lib/analytics.ts` sends both a `dataLayer` push (for GTM) and a `gtag('event')` call (for GA4 direct). A bare `dataLayer` push is **not** a GA4 event — dropping the gtag call silently breaks conversion tracking.
 - Conversions: `lead_submit` on form success, `phone_click` from the delegated listener in `CallTracking`.
+- **Ahrefs Web Analytics** loads late on purpose: an inline loader in `layout.tsx` injects `analytics.js` after `load` and browser idle, using `AHREFS_ANALYTICS_KEY` in `constants.ts`. Don't move it to a plain `<script async>` in `<head>`; that puts it back in the critical path. Its origin is `AHREFS` in the CSP.
 
 ## Env
 

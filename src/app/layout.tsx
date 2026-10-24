@@ -6,7 +6,7 @@ import './globals.css';
 import CallTracking from '@/components/CallTracking';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { COMPANY, GA_MEASUREMENT_ID } from '@/lib/constants';
+import { AHREFS_ANALYTICS_KEY, COMPANY, GA_MEASUREMENT_ID } from '@/lib/constants';
 import { organizationSchema } from '@/lib/schema';
 import { OG_BASE } from '@/lib/metadata';
 
@@ -88,6 +88,19 @@ gtag('config', '${GA_MEASUREMENT_ID}');`,
             />
           </>
         )}
+        {/*
+          Ahrefs Web Analytics, deliberately late. The tag is not in the HTML: this inline
+          loader waits for the load event, then for the browser to go idle (2s at most),
+          and only then injects analytics.js. It never competes with the page's own
+          resources or the main thread during load, so it cannot move LCP or TBT.
+          The script tracks client-side navigations itself (pushState/popstate).
+          Its origin is in the CSP (AHREFS in next.config.ts).
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d){function a(){var s=d.createElement('script');s.src='https://analytics.ahrefs.com/analytics.js';s.async=true;s.setAttribute('data-key','${AHREFS_ANALYTICS_KEY}');d.head.appendChild(s)}function i(){'requestIdleCallback' in w?w.requestIdleCallback(a,{timeout:2000}):setTimeout(a,1)}d.readyState==='complete'?i():w.addEventListener('load',i,{once:true})})(window,document);`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}

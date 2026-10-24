@@ -10,6 +10,9 @@
  */
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-D5G7PCS5K0';
 
+/** Ahrefs Web Analytics site key. Public: it ships in every page, like the GA id. */
+export const AHREFS_ANALYTICS_KEY = '6woMTP64U6laeFae0BJsHQ';
+
 export const COMPANY = {
   name: 'Marketing Bull',
   legalName: 'Marketing Bull, LLC',
