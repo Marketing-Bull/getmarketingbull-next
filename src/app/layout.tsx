@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { GoogleTagManager } from '@next/third-parties/google';
-import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 import CallTracking from '@/components/CallTracking';
+import DeferredAnalytics from '@/components/DeferredAnalytics';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { AHREFS_ANALYTICS_KEY, COMPANY, GA_MEASUREMENT_ID } from '@/lib/constants';
@@ -117,7 +117,7 @@ gtag('config', '${GA_MEASUREMENT_ID}');`,
         <main id="main" tabIndex={-1} className="pt-16 focus:outline-none">{children}</main>
         <Footer />
         <CallTracking />
-        <Analytics />
+        <DeferredAnalytics />
       </body>
       {GTM_ID ? <GoogleTagManager gtmId={GTM_ID} /> : null}
     </html>

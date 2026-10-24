@@ -33,7 +33,7 @@ src/
     resources/           free downloads from RESOURCES in lib/resources.ts; files in public/resources/
     services/ about-us/ case-studies/ blog/ careers/ contact-us/ legal pages
   components/            Header, Footer, Button, CTASection, ContactForm, ConsultationPage, Turnstile, OfferCard,
-                         OfferCTA, Reveal, TestimonialCarousel, VerticalPage, CallTracking
+                         OfferCTA, Reveal, TestimonialCarousel, VerticalPage, CallTracking, DeferredAnalytics
   lib/
     constants.ts         COMPANY, OFFERS, NAV_LINKS, TESTIMONIALS — single source of truth
     schema.ts            organizationSchema, offerSchema(), faqSchema(),
@@ -63,7 +63,7 @@ src/
 
 ## Analytics
 
-GA4 loads from Google's canonical gtag snippet, server-rendered into `<head>` in `layout.tsx`, using `GA_MEASUREMENT_ID` in `constants.ts` (a measurement id is public, not a secret). Vercel Analytics runs alongside it for cookieless traffic. GTM is supported but unset.
+GA4 loads from Google's canonical gtag snippet, server-rendered into `<head>` in `layout.tsx`, using `GA_MEASUREMENT_ID` in `constants.ts` (a measurement id is public, not a secret). Vercel Analytics runs alongside it for cookieless traffic, mounted after load and browser idle by `DeferredAnalytics`. GTM is supported but unset.
 
 `NEXT_PUBLIC_GTM_ID` is the switch between the two paths. Unset (today): the gtag snippet renders and GTM does not. Set: `layout.tsx` renders GTM and drops the gtag snippet, so GA4 must be configured as a tag inside the container. `NEXT_PUBLIC_GA_ID` only picks the property for the direct snippet (empty falls back to the hardcoded id); it does not switch GA off.
 
