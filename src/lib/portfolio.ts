@@ -403,3 +403,102 @@ export const PORTFOLIO: PortfolioSite[] = [
 ];
 
 export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = ['Law', 'Medical & Wellness', 'Real Estate & Finance', 'Local Service', 'Consumer & Technology'];
+
+/**
+ * Apps we have built, shown under "Apps we've built" on /websites. Facts come from each
+ * repository's README and code as of 2026-10-24; native apps that
+ * are not in a public store link to their source instead of a live URL.
+ */
+export interface AppProject {
+  slug: string;
+  name: string;
+  /** Where to use it. Omitted for apps with no public build. */
+  url?: string;
+  /** Public source repository. */
+  repo: string;
+  platform: string;
+  /** How it ships today, shown as a badge. */
+  status: string;
+  launched: string;
+  what: string;
+  job: string;
+  facts: string[];
+  stack: string;
+  /** Path under /public. Phone captures are 540x1169, desktop captures 1200x750. */
+  image?: { src: string; width: number; height: number; frame: 'phone' | 'desktop' };
+}
+
+export const APPS: AppProject[] = [
+  {
+    slug: 'mmg-app',
+    name: "Miller's Marketing Group app",
+    url: 'https://mmg-app-pwa.vercel.app/',
+    repo: 'https://github.com/Marketing-Bull/mmg-app-pwa',
+    platform: 'Installable web app (iPhone, Android)',
+    status: 'Live',
+    launched: '2026',
+    what: "A mobile-first app for Miller's Marketing Group: events, 30-second RSVPs, sponsorship and community discussion for Florida's personal injury professionals.",
+    job: 'Give the community one place on their phone to find the next event, RSVP and talk between mixers, without an app-store download.',
+    facts: [
+      'Installs to the home screen with shortcuts straight to Events, Discuss and Sponsor, and shows an offline page when there is no signal.',
+      "Events and recaps come from the marketing site's live feed, so the team updates one place and both stay in step.",
+      'Every form relays through a single API route to email; interaction state stays in the visitor’s own browser, so there is no database to run.',
+      'CI boots the production build and checks every route returns and still shows its key copy, so a release cannot quietly drop a button.',
+    ],
+    stack: 'Next.js on Vercel · PWA',
+    image: { src: '/work/apps/mmg-app.webp', width: 540, height: 1169, frame: 'phone' },
+  },
+  {
+    slug: 'markdown-editor',
+    name: 'Markdown Editor',
+    url: 'https://md.getmarketingbull.com/',
+    repo: 'https://github.com/Marketing-Bull/md-preview-pwa',
+    platform: 'Browser app, installable',
+    status: 'Live',
+    launched: '2026',
+    what: 'A fast, offline-first Markdown, HTML and Mermaid editor. No accounts, no cloud, no tracking.',
+    job: 'Write, preview and export documents and diagrams in one tool that never sends your text anywhere.',
+    facts: [
+      'Live preview as you type, Mermaid diagrams (flowcharts, sequence, ER, Gantt), JSON validation with the error line and column, and syntax-highlighted code.',
+      'Export to PDF or standalone HTML, share a document as a link, and work in several tabs at once.',
+      'Auto-saves to the browser only; nothing is sent to a server, ever.',
+      'Installs as an app and works offline.',
+    ],
+    stack: 'React + Vite on Cloudflare · PWA',
+    image: { src: '/work/apps/md-editor.webp', width: 1200, height: 750, frame: 'desktop' },
+  },
+  {
+    slug: 'recoup',
+    name: 'Recoup',
+    repo: 'https://github.com/Marketing-Bull/amb-recoup',
+    platform: 'iPhone, iPad and Mac',
+    status: 'TestFlight beta',
+    launched: '2026',
+    what: 'Track every billable hour, mile and dollar on client projects, and recoup it.',
+    job: 'Make logging time, mileage and expenses fast enough that it actually happens, on whichever device is in hand.',
+    facts: [
+      'One SwiftUI codebase runs natively on iPhone, iPad and Mac, synced through the user’s own iCloud. No server to host or maintain.',
+      'Hourly rates resolve from project to client and lock when an entry is saved; trips double for round trips; expenses take receipt photos.',
+      'A dashboard of six summary cards with per-client and per-project breakdowns, and CSV export of everything.',
+      'Forms prefill the last client and project, with preset chips instead of typing.',
+    ],
+    stack: 'Swift · SwiftUI, SwiftData, CloudKit',
+  },
+  {
+    slug: 'keyvault',
+    name: 'KeyVault',
+    repo: 'https://github.com/Marketing-Bull/KeyVault',
+    platform: 'Mac',
+    status: 'Source available',
+    launched: '2026',
+    what: 'A native Mac app for API keys, OAuth credentials and multi-field developer secrets, stored entirely on-device.',
+    job: 'A password manager that understands developer credentials: an AWS key has a Region, an OAuth client has a token URL and two tokens.',
+    facts: [
+      'Each field is encrypted with AES-256-GCM; the key lives in the macOS Keychain and unlocks with Touch ID.',
+      'Templates for API keys, OAuth, service accounts and AWS IAM, plus custom entries with any fields.',
+      'Locks on idle and screen sleep, clears copied values after 30 seconds, and warns when a credential is about to expire.',
+      'Scoped read or read-write grants let named scripts and agents use a single entry, not the whole vault.',
+    ],
+    stack: 'Swift · SwiftUI, SwiftData, CryptoKit',
+  },
+];
