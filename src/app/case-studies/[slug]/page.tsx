@@ -28,7 +28,12 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
   const { slug } = await params;
   const cs = getCaseStudy(slug);
   if (!cs) notFound();
-  const others = CASE_STUDIES.filter((c) => c.slug !== cs.slug);
+  // Same kind first (engagements beside engagements, builds beside builds), then the same vertical.
+  const others = CASE_STUDIES.filter((c) => c.slug !== cs.slug)
+    .map((c) => ({ c, rank: (c.kind === cs.kind ? 0 : 2) + (c.vertical === cs.vertical ? 0 : 1) }))
+    .sort((a, b) => a.rank - b.rank)
+    .slice(0, 4)
+    .map((x) => x.c);
   const site = PORTFOLIO.find((p) => p.caseStudy === cs.slug);
 
   return (
@@ -63,6 +68,19 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
 
       <section className="py-16 md:py-20 bg-white">
         <div className="container-md max-w-4xl">
+          {site && (
+            <a href={site.url} target="_blank" rel="noopener noreferrer" className="group block mb-12 rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-sm">
+              <img
+                src={site.image}
+                alt={`${cs.client} homepage`}
+                width={1200}
+                height={750}
+                decoding="async"
+                className="w-full h-auto group-hover:scale-[1.01] transition-transform duration-500"
+              />
+            </a>
+          )}
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
             {cs.proof.map((p) => (
               <div key={p} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
@@ -105,7 +123,10 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
       {others.length > 0 && (
         <section className="py-14 bg-slate-50 border-t border-slate-100">
           <div className="container-md max-w-4xl">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">More case studies</h2>
+            <div className="flex items-baseline justify-between gap-4 mb-4">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-slate-500">More case studies</h2>
+              <Link href="/case-studies" className="text-sm font-semibold text-slate-900 hover:text-red-600 transition">All case studies →</Link>
+            </div>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {others.map((o) => (
                 <li key={o.slug}>
@@ -125,7 +146,9 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         title="Start with a conversation."
         description="Twenty minutes about your firm or practice. We'll tell you where we'd look first."
         primaryCTA={{ text: 'Book a conversation', href: '/free-consultation' }}
-        secondaryCTA={{ text: 'See how engagements are scoped', href: '/engagements' }}
+        secondaryCTA={cs.kind === 'Website build'
+          ? { text: 'See Website in 14 Days', href: '/products/website-in-14-days' }
+          : { text: 'See how engagements are scoped', href: '/engagements' }}
       />
     </>
   );
