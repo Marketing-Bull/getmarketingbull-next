@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import CTASection from '@/components/CTASection';
 import { COMPANY } from '@/lib/constants';
-import { AUDITED, FACT_LABELS, PORTFOLIO, PORTFOLIO_CATEGORIES, type FactLabel } from '@/lib/portfolio';
+import { APPS, AUDITED, FACT_LABELS, PORTFOLIO, PORTFOLIO_CATEGORIES, type FactLabel } from '@/lib/portfolio';
 import { pageMeta } from '@/lib/metadata';
 import { breadcrumbSchema, portfolioSchema } from '@/lib/schema';
 
@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMeta({
   path: '/websites',
   title: "Websites We've Built",
   description:
-    'Every website Marketing Bull has built, with what is under the hood of each one: brand, search, local pages, structured data, speed, conversion and measurement, explained as what it does for the owner.',
+    'Every website and app Marketing Bull has built, with what is under the hood of each one: brand, search, local pages, structured data, speed, conversion and measurement, explained as what it does for the owner.',
 });
 
 const LABEL_STYLE: Record<FactLabel, string> = {
@@ -59,7 +59,9 @@ export default function WebsitesPage() {
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl leading-relaxed">
             {PORTFOLIO.length} live sites, {totalPages}+ pages. For each one: what the business does, what the site was built to do, and what is under the hood, explained as what it does for the owner rather than what it is called.
           </p>
-          <p className="mt-6 text-sm text-slate-500">Every site below is live. Click through; it is the fastest way to judge the work.</p>
+          <p className="mt-6 text-sm text-slate-500">
+            Every site below is live. Click through; it is the fastest way to judge the work. Then see the <a href="#apps" className="font-semibold text-slate-300 hover:text-white transition">{APPS.length} apps we&apos;ve built ↓</a>
+          </p>
         </div>
       </section>
 
@@ -86,6 +88,9 @@ export default function WebsitesPage() {
               {c} <span className="text-slate-400 font-normal">({PORTFOLIO.filter((s) => s.category === c).length})</span>
             </a>
           ))}
+          <a href="#apps" className="text-sm font-semibold text-slate-700 hover:text-red-600 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 transition">
+            Apps <span className="text-slate-400 font-normal">({APPS.length})</span>
+          </a>
         </div>
       </section>
 
@@ -139,6 +144,60 @@ export default function WebsitesPage() {
           </section>
         );
       })}
+
+      <section id="apps" className="py-16 md:py-20 bg-slate-950 text-white scroll-mt-32">
+        <div className="container-md">
+          <p className="text-xs font-bold uppercase tracking-widest text-red-400 mb-3">Apps</p>
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-4">Apps we&apos;ve built.</h2>
+          <p className="text-slate-400 max-w-2xl leading-relaxed mb-10">
+            Installable web apps and native apps for iPhone, iPad and Mac. The source for each one is public, so the work can be read as well as used.
+          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {APPS.map((a) => (
+              <article key={a.slug} id={a.slug} className="flex flex-col rounded-3xl border border-slate-800 bg-slate-900 overflow-hidden scroll-mt-32">
+                <div className="aspect-[16/10] bg-slate-800/60 border-b border-slate-800 flex items-center justify-center overflow-hidden">
+                  {a.image ? (
+                    a.image.frame === 'phone' ? (
+                      <img src={a.image.src} alt={`${a.name} on a phone`} width={a.image.width} height={a.image.height} loading="lazy" decoding="async" className="h-[88%] w-auto mt-[12%] rounded-t-[1.75rem] border-[6px] border-b-0 border-slate-950 shadow-2xl" />
+                    ) : (
+                      <img src={a.image.src} alt={`${a.name} screenshot`} width={a.image.width} height={a.image.height} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
+                    )
+                  ) : (
+                    <div className="text-center px-6">
+                      <p className="text-3xl md:text-4xl font-black tracking-tight">{a.name}</p>
+                      <p className="mt-2 text-sm text-slate-400">{a.platform}</p>
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col flex-1 p-6 md:p-8">
+                  <div className="flex flex-wrap items-center gap-2 text-xs">
+                    <span className="rounded-full border border-slate-700 px-2.5 py-0.5 font-semibold text-slate-300">{a.platform}</span>
+                    <span className={`rounded-full px-2.5 py-0.5 font-semibold ${a.status === 'Live' ? 'bg-emerald-500/15 text-emerald-300' : 'bg-amber-500/15 text-amber-300'}`}>{a.status}</span>
+                  </div>
+                  <h3 className="mt-4 text-2xl font-black tracking-tight">{a.name}</h3>
+                  <p className="mt-3 text-slate-300 leading-relaxed">{a.what}</p>
+                  <p className="mt-3 text-sm text-slate-400 leading-relaxed"><span className="font-semibold text-white">Built to:</span> {a.job}</p>
+                  <ul className="mt-5 space-y-2.5">
+                    {a.facts.map((f) => (
+                      <li key={f.slice(0, 32)} className="flex gap-3 text-sm text-slate-300 leading-relaxed">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-red-500" aria-hidden="true" />
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-auto pt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+                    {a.url && (
+                      <a href={a.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-white hover:text-red-400 transition">Open the app ↗</a>
+                    )}
+                    <a href={a.repo} target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-300 hover:text-red-400 transition">Source on GitHub ↗</a>
+                    <span className="text-xs text-slate-500">{a.stack} · {a.launched}</span>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="py-16 md:py-20 bg-slate-50 border-t border-slate-100">
         <div className="container-md grid grid-cols-1 lg:grid-cols-12 gap-10">
