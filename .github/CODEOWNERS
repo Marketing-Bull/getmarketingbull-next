@@ -1,0 +1,6 @@
+# Changes to CI, security config and the lead endpoint need owner review
+# (takes effect once "Require review from Code Owners" is on for main).
+*                         @ababen
+/.github/                 @ababen
+/next.config.ts           @ababen
+/src/app/api/             @ababen

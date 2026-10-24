@@ -42,3 +42,8 @@ node_modules.nosync/
 
 # redesign handoff bundle (local only)
 /_redesign/
+
+# never commit real env files (only .env.example is tracked)
+.env
+.env.*
+!.env.example
