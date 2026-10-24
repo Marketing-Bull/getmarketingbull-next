@@ -61,6 +61,11 @@ export interface Offer {
   timeline: string;
   bestFor: string;
   problem: string;
+  /**
+   * Citations for figures in `problem`, in footnote order: `problem` marks them ¹ ², and the
+   * product page lists them under the paragraph. Every figure in `problem` needs one.
+   */
+  problemSources?: { label: string; url: string }[];
   includes: string[];
   notIncluded: string[];
   process: { title: string; desc: string }[];
@@ -125,7 +130,17 @@ export const OFFERS: Offer[] = [
     timeline: '7–10 business days',
     bestFor: 'Firms spending on lead generation who suspect the problem isn\'t the leads.',
     problem:
-      'The average firm takes 78 minutes to respond to a new lead. The prospect has called three other firms in the first 10. 42% of PI leads come in after 5pm and most go to voicemail. You\'re paying for leads and losing them at the front desk — and nobody inside the firm can see it happening.',
+      'Only a quarter of law firms reply to a web lead within five minutes, and 26% never reply at all.¹ And about 17.5% of calls to law firms come in outside weekday 9 to 5.² You\'re paying for leads and losing them at the front desk, and nobody inside the firm can see it happening.',
+    problemSources: [
+      {
+        label: 'Hennessey Digital, 2025 Lead Form Response Time Study (1,333 U.S. law firms, Q1 2025)',
+        url: 'https://hennessey.com/2025-lead-form-response-time-study',
+      },
+      {
+        label: 'Market My Market, "What Does Your Firm Lose by Being \'9 to 5\'?" (30,000 calls to its law-firm clients over six months)',
+        url: 'https://www.marketmymarket.com/legal-marketing/what-does-your-firm-lose-by-being-9-to-5/',
+      },
+    ],
     includes: [
       'Two mystery-shop calls scored on a timestamped scorecard: one during business hours, one after hours',
       'Web form and chat response test with timestamps',

@@ -54,7 +54,7 @@ export const POSTS: BlogPost[] = [
       { type: 'p', text: 'The honest answer: intake is treated as an afterthought. Firms spend $15,000–$30,000 per month on Google Ads and then route inbound calls to a paralegal who also handles case management, scheduling, and a dozen other things. When that paralegal is in court prep or on another call, the $200 click you just paid for hits voicemail.' },
       { type: 'ul', items: [
         'Single-point-of-failure intake: one person handling calls, one number, no coverage plan',
-        'No after-hours response — 40%+ of PI inquiries come outside 9-5',
+        'No after-hours response — about 17.5% of calls to law firms come in outside weekday 9–5 (Market My Market, 30,000 calls)',
         'No missed-call automation — a prospect who hits voicemail is gone in 90 seconds',
         'CRM not connected to the phone system — leads fall out of the pipeline entirely',
         'No follow-up sequence — a lead that doesn\'t answer on the callback is abandoned',
@@ -129,7 +129,7 @@ export const POSTS: BlogPost[] = [
       { type: 'h2', text: 'What Firms Are Saving' },
       { type: 'p', text: 'A realistic breakdown for a firm handling 300 inbound leads per month with a human-only intake team:' },
       { type: 'ul', items: [
-        'Cost of missed after-hours leads (assuming $3,000 case value, 40% after-hours, 20% close rate): ~$72,000/year in lost revenue',
+        'Cost of missed after-hours leads (assuming $3,000 case value, 20% close rate, and ~18% of leads arriving outside weekday 9–5, the share Market My Market measured across 30,000 law-firm calls): up to ~$389,000/year in lost revenue if none are answered',
         'Cost of a second intake coordinator to cover after-hours: $75,000–$90,000/year',
         'Cost of AI voice agent deployment and GHL configuration: significantly less than either of the above',
       ]},
