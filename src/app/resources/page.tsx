@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMeta({
   path: '/resources',
   title: 'Resources',
   description:
-    'Free tools from Marketing Bull for law firms and medical practices, starting with a Claude skill that audits law firm advertising against the Florida Bar rules.',
+    'Free tools from Marketing Bull: a Claude skill that audits law firm advertising against the Florida Bar rules, and a private, offline-first Markdown editor.',
 });
 
 const updatedLabel = (iso: string) =>
@@ -58,7 +58,7 @@ export default function ResourcesPage() {
               <p className="mt-3 text-sm text-slate-600"><span className="font-semibold text-slate-900">For:</span> {r.audience}</p>
 
               <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
-                {r.downloads.map((d, i) => (
+                {r.links.map((d, i) => (
                   <a
                     key={d.href}
                     href={d.href}
@@ -73,7 +73,7 @@ export default function ResourcesPage() {
 
               <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-red-600 mb-4">What it checks</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-red-600 mb-4">{r.coversLabel}</h3>
                   <ul className="space-y-2.5">
                     {r.covers.map((c) => (
                       <li key={c} className="flex gap-3 text-sm text-slate-700 leading-relaxed">

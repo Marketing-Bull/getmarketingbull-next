@@ -33,7 +33,7 @@ src/
     resources/           free downloads from RESOURCES in lib/resources.ts; files in public/resources/
     services/ about-us/ case-studies/ blog/ careers/ contact-us/ legal pages
   components/            Header, Footer, Button, CTASection, ContactForm, ConsultationPage, Turnstile, OfferCard,
-                         OfferCTA, Reveal, TestimonialCarousel, VerticalPage, CallTracking
+                         OfferCTA, Reveal, TestimonialCarousel, VerticalPage, CallTracking, DeferredAnalytics
   lib/
     constants.ts         COMPANY, OFFERS, NAV_LINKS, TESTIMONIALS — single source of truth
     schema.ts            organizationSchema, offerSchema(), faqSchema(),
@@ -63,7 +63,7 @@ src/
 
 ## Analytics
 
-GA4 loads from Google's canonical gtag snippet, server-rendered into `<head>` in `layout.tsx`, using `GA_MEASUREMENT_ID` in `constants.ts` (a measurement id is public, not a secret). Vercel Analytics runs alongside it for cookieless traffic. GTM is supported but unset.
+GA4 loads from Google's canonical gtag snippet, server-rendered into `<head>` in `layout.tsx`, using `GA_MEASUREMENT_ID` in `constants.ts` (a measurement id is public, not a secret). Vercel Analytics runs alongside it for cookieless traffic, mounted after load and browser idle by `DeferredAnalytics`. GTM is supported but unset.
 
 `NEXT_PUBLIC_GTM_ID` is the switch between the two paths. Unset (today): the gtag snippet renders and GTM does not. Set: `layout.tsx` renders GTM and drops the gtag snippet, so GA4 must be configured as a tag inside the container. `NEXT_PUBLIC_GA_ID` only picks the property for the direct snippet (empty falls back to the hardcoded id); it does not switch GA off.
 
@@ -72,6 +72,7 @@ GA4 loads from Google's canonical gtag snippet, server-rendered into `<head>` in
 - **Never run GA4 twice.** The snippet plus `<GoogleAnalytics>`, or the snippet plus a GA4 tag inside a GTM container, doubles every pageview and event. If a container is adopted, move GA4 into it; setting `NEXT_PUBLIC_GTM_ID` removes the snippet.
 - `track()` in `src/lib/analytics.ts` sends both a `dataLayer` push (for GTM) and a `gtag('event')` call (for GA4 direct). A bare `dataLayer` push is **not** a GA4 event — dropping the gtag call silently breaks conversion tracking.
 - Conversions: `lead_submit` on form success, `phone_click` from the delegated listener in `CallTracking`.
+- **Ahrefs Web Analytics** loads late on purpose: an inline loader in `layout.tsx` injects `analytics.js` after `load` and browser idle, using `AHREFS_ANALYTICS_KEY` in `constants.ts`. Don't move it to a plain `<script async>` in `<head>`; that puts it back in the critical path. Its origin is `AHREFS` in the CSP.
 
 ## Env
 
