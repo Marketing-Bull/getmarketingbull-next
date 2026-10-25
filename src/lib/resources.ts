@@ -88,6 +88,35 @@ export const RESOURCES: Resource[] = [
     updated: '2026-03-18',
   },
   {
+    slug: 'ringdash',
+    name: 'RingDash',
+    kind: 'Our call-tracking app',
+    summary:
+      'Call tracking and intake alerts we built for our personal injury law firm clients. Every call to a tracking number rings your team at once, and the ones that go unanswered turn into a callback queue instead of a lost lead.',
+    audience: 'Personal injury firms that pay for leads and need to know which calls were answered, missed or spam.',
+    coversLabel: 'What it does',
+    covers: [
+      'Tracking numbers per client or campaign, with ring groups that ring every phone at once and a voicemail fallback',
+      'An email for each call with one-click triage, so spam and real leads are sorted from your inbox',
+      'A callback queue for missed calls, with a push alert to every subscribed phone when one comes in and a reminder when a callback is overdue',
+      'Spam triage and a blocklist, so repeat nuisance callers never ring your team',
+      'Dated reports: call volume, answer rate, spam share, callback speed and top callers, per client and per line, with CSV export',
+    ],
+    output:
+      'A dashboard that works as an installable app on your phone, so the callback queue and missed-call alerts are always in your pocket.',
+    howTo: [
+      'Ask us about RingDash on a free consultation.',
+      'We provision your tracking numbers and route them to your team.',
+      'Missed calls start landing in your callback queue, and your reports start filling in.',
+    ],
+    links: [
+      { label: 'Talk to us about RingDash', href: '/free-consultation', note: 'Twenty minutes, no obligation' },
+    ],
+    caveat:
+      'RingDash is in active development and its source is private, so there is nothing to download. Ask us how it would work for your firm.',
+    updated: '2026-10-24',
+  },
+  {
     slug: 'recoup',
     name: 'Recoup for iPhone, iPad and Mac',
     kind: 'App source on GitHub',
