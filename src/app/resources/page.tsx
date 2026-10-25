@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMeta({
   path: '/resources',
   title: 'Resources',
   description:
-    'Free tools from Marketing Bull: a Claude skill that audits law firm advertising against the Florida Bar rules, and a private, offline-first Markdown editor.',
+    'Free tools from Marketing Bull: a Claude skill that audits law firm ads against the Florida Bar rules, an offline-first Markdown editor, our RingDash call-tracking app, and the source for Recoup and KeyVault.',
 });
 
 const updatedLabel = (iso: string) =>
@@ -40,7 +40,7 @@ export default function ResourcesPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-6">Resources</p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight mb-6 leading-[1.05]">Free tools we use ourselves.</h1>
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl leading-relaxed">
-            The checklists and AI skills behind our own client work, free to download and use on your own firm or practice.
+            The checklists, AI skills and apps behind our own work. Download them, read the code, and use what helps your firm or practice.
           </p>
         </div>
       </section>
@@ -58,17 +58,28 @@ export default function ResourcesPage() {
               <p className="mt-3 text-sm text-slate-600"><span className="font-semibold text-slate-900">For:</span> {r.audience}</p>
 
               <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
-                {r.links.map((d, i) => (
-                  <a
-                    key={d.href}
-                    href={d.href}
-                    {...(d.href.endsWith('.zip') ? { download: true } : { target: '_blank', rel: 'noopener noreferrer' })}
-                    className={`inline-flex flex-col rounded-2xl px-5 py-3 transition ${i === 0 ? 'bg-slate-900 text-white hover:bg-red-600' : 'border border-slate-300 text-slate-900 hover:border-slate-900'}`}
-                  >
-                    <span className="font-semibold">{d.label}</span>
-                    <span className={`text-xs ${i === 0 ? 'text-slate-300' : 'text-slate-500'}`}>{d.note}</span>
-                  </a>
-                ))}
+                {r.links.map((d, i) => {
+                  const cls = `inline-flex flex-col rounded-2xl px-5 py-3 transition ${i === 0 ? 'bg-slate-900 text-white hover:bg-red-600' : 'border border-slate-300 text-slate-900 hover:border-slate-900'}`;
+                  const inner = (
+                    <>
+                      <span className="font-semibold">{d.label}</span>
+                      <span className={`text-xs ${i === 0 ? 'text-slate-300' : 'text-slate-500'}`}>{d.note}</span>
+                    </>
+                  );
+                  // Same-site paths navigate in place; files download; everything else opens in a new tab.
+                  return d.href.startsWith('/') && !d.href.endsWith('.zip') && !d.href.endsWith('.md') ? (
+                    <Link key={d.href} href={d.href} className={cls}>{inner}</Link>
+                  ) : (
+                    <a
+                      key={d.href}
+                      href={d.href}
+                      {...(d.href.endsWith('.zip') ? { download: true } : { target: '_blank', rel: 'noopener noreferrer' })}
+                      className={cls}
+                    >
+                      {inner}
+                    </a>
+                  );
+                })}
               </div>
 
               <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
