@@ -62,7 +62,7 @@ export const RESOURCES: Resource[] = [
   {
     slug: 'markdown-editor',
     name: 'Markdown Editor',
-    kind: 'Free web app',
+    kind: 'Open source (MIT)',
     summary:
       'A fast, offline-first Markdown, HTML and Mermaid editor that runs entirely in your browser. No accounts, no cloud, no tracking: your text never leaves your device.',
     audience: 'Anyone who writes in Markdown: marketers, developers, and teams drafting docs, briefs and diagrams.',
@@ -84,8 +84,9 @@ export const RESOURCES: Resource[] = [
     ],
     links: [
       { label: 'Open the editor', href: 'https://md.getmarketingbull.com', note: 'md.getmarketingbull.com' },
+      { label: 'View the source', href: 'https://github.com/Marketing-Bull/md-preview-pwa', note: 'github.com/Marketing-Bull/md-preview-pwa' },
     ],
-    updated: '2026-03-18',
+    updated: '2026-10-26',
   },
   {
     slug: 'ringdash',
