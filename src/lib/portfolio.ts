@@ -532,6 +532,11 @@ export interface AppProject {
   url?: string;
   /** Public source repository. */
   repo: string;
+  /** Public TestFlight invite (testflight.apple.com/join/…), when one exists. */
+  testflight?: string;
+  /** For apps with no public build: what a visitor can ask for, e.g. "the Recoup TestFlight beta".
+   *  Renders a "Request access" link to /contact-us?app=<slug>, which prefills the message. */
+  requestAccess?: string;
   platform: string;
   /** How it ships today, shown as a badge. */
   status: string;
@@ -587,6 +592,7 @@ export const APPS: AppProject[] = [
     slug: 'recoup',
     name: 'Recoup',
     repo: 'https://github.com/Marketing-Bull/amb-recoup',
+    requestAccess: 'the Recoup TestFlight beta',
     platform: 'iPhone, iPad and Mac',
     status: 'TestFlight beta',
     launched: '2026',
@@ -599,11 +605,13 @@ export const APPS: AppProject[] = [
       'Forms prefill the last client and project, with preset chips instead of typing.',
     ],
     stack: 'Swift · SwiftUI, SwiftData, CloudKit',
+    image: { src: '/work/apps/recoup.webp', width: 540, height: 1169, frame: 'phone' },
   },
   {
     slug: 'keyvault',
     name: 'KeyVault',
     repo: 'https://github.com/Marketing-Bull/KeyVault',
+    requestAccess: 'a KeyVault build for Mac',
     platform: 'Mac',
     status: 'Source available',
     launched: '2026',
@@ -616,5 +624,11 @@ export const APPS: AppProject[] = [
       'Scoped read or read-write grants let named scripts and agents use a single entry, not the whole vault.',
     ],
     stack: 'Swift · SwiftUI, SwiftData, CryptoKit',
+    image: { src: '/work/apps/keyvault.webp', width: 1200, height: 750, frame: 'desktop' },
   },
 ];
+
+/** Prefilled contact-form messages for "Request access" links, keyed by app slug. */
+export const APP_ACCESS_REQUESTS: Record<string, string> = Object.fromEntries(
+  APPS.filter((a) => a.requestAccess && !a.testflight).map((a) => [a.slug, `I'd like access to ${a.requestAccess}.`]),
+);

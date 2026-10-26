@@ -14,6 +14,8 @@ interface ContactFormProps {
   product?: string;
   source?: string;
   submitLabel?: string;
+  /** Prefilled messages keyed by app slug; a matching ?app=<slug> fills the message and tags the lead's source. */
+  appRequests?: Record<string, string>;
 }
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
@@ -32,8 +34,10 @@ function validateField(field: Field, value: string): string | undefined {
   return undefined;
 }
 
-export default function ContactForm({ product, source = 'website', submitLabel = 'Send Message' }: ContactFormProps) {
+export default function ContactForm({ product, source: sourceProp = 'website', submitLabel = 'Send Message', appRequests }: ContactFormProps) {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', website: '', message: '', smsConsent: false, hp: '' });
+  const [appSlug, setAppSlug] = useState<string>('');
+  const source = appSlug ? `app-access:${appSlug}` : sourceProp;
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string>('');
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
@@ -41,6 +45,16 @@ export default function ContactForm({ product, source = 'website', submitLabel =
   const [turnstileReset, setTurnstileReset] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
+
+  // "Request access" links on /websites arrive as ?app=<slug>. Read it on the client so the page stays static.
+  useEffect(() => {
+    if (!appRequests) return;
+    const slug = new URLSearchParams(window.location.search).get('app') ?? '';
+    const request = Object.prototype.hasOwnProperty.call(appRequests, slug) ? appRequests[slug] : undefined;
+    if (!request) return;
+    setAppSlug(slug);
+    setFormData((prev) => (prev.message ? prev : { ...prev, message: request }));
+  }, [appRequests]);
 
   // The form is replaced by the confirmation; move focus there so keyboard and
   // screen reader users aren't left on a node that no longer exists.

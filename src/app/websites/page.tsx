@@ -189,6 +189,11 @@ export default function WebsitesPage() {
                     {a.url && (
                       <a href={a.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-white hover:text-red-400 transition">Open the app ↗</a>
                     )}
+                    {a.testflight ? (
+                      <a href={a.testflight} target="_blank" rel="noopener noreferrer" className="font-semibold text-white hover:text-red-400 transition">Join the TestFlight beta ↗</a>
+                    ) : a.requestAccess ? (
+                      <Link href={`/contact-us?app=${a.slug}#send-message`} className="font-semibold text-white hover:text-red-400 transition">Request access →</Link>
+                    ) : null}
                     <a href={a.repo} target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-300 hover:text-red-400 transition">Source on GitHub ↗</a>
                     <span className="text-xs text-slate-500">{a.stack} · {a.launched}</span>
                   </div>

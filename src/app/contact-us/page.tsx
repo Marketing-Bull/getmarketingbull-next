@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import ContactForm from '@/components/ContactForm';
 import { COMPANY } from '@/lib/constants';
+import { APP_ACCESS_REQUESTS } from '@/lib/portfolio';
 import { pageMeta } from '@/lib/metadata';
 
 export const metadata: Metadata = pageMeta({
@@ -60,10 +61,10 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-lg p-8">
+            <div id="send-message" className="bg-white rounded-2xl border border-slate-200 shadow-lg p-8 scroll-mt-28">
               <h2 className="text-2xl font-bold text-slate-900 mb-2">Send a Message</h2>
               <p className="text-slate-500 mb-8">We&apos;ll get back to you within one business day.</p>
-              <ContactForm />
+              <ContactForm appRequests={APP_ACCESS_REQUESTS} />
             </div>
           </div>
         </div>
