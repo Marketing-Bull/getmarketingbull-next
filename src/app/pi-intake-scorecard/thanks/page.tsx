@@ -61,6 +61,9 @@ export default function PiIntakeScorecardThanksPage() {
           Prefer to call?{' '}
           <a href={`tel:${COMPANY.phoneE164}`} className="font-semibold text-white underline decoration-red-500 underline-offset-4">{COMPANY.phone}</a>, Mon to Fri, 9am to 6pm ET.
         </p>
+        <p className="mt-3 text-center text-xs text-slate-500">
+          The scorecard is released under the MIT License. Copyright &copy; 2026 {COMPANY.legalName}. All rights reserved.
+        </p>
       </div>
     </section>
   );

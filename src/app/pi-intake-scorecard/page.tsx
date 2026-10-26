@@ -131,6 +131,9 @@ export default function PiIntakeScorecardPage() {
           {COMPANY.name} · {COMPANY.address} ·{' '}
           <a href={`tel:${COMPANY.phoneE164}`} className="font-semibold text-slate-700 hover:text-red-600">{COMPANY.phone}</a>
         </p>
+        <p className="container-md mt-3 text-center text-xs text-slate-500">
+          The scorecard is released under the MIT License. Copyright &copy; 2026 {COMPANY.legalName}. All rights reserved.
+        </p>
       </section>
     </>
   );
