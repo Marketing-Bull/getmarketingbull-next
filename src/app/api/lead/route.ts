@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { COMPANY, OFFERS } from '@/lib/constants';
+import { sendAlert } from '@/lib/alert';
+import { COMPANY, OFFERS, SMS_CONSENT_LABEL, SMS_OPT_IN_CONFIRMATION } from '@/lib/constants';
 
 /**
  * Lead intake endpoint.
@@ -7,17 +8,23 @@ import { COMPANY, OFFERS } from '@/lib/constants';
  * Delivery — set whichever env vars you have on Vercel; all configured channels run in parallel:
  *   LEAD_GHL_API_KEY    → POSTs the lead to GoHighLevel as a Contact in the MB sub-account
  *                          (LEAD_GHL_LOCATION_ID, default TpaL2rALzbFCdbM1sxmH) with tag
- *                          `mb-site-lead` and 4 custom fields.
+ *                          `mb-site-lead` and 4 custom fields. A repeat visitor (duplicate
+ *                          contact) gets the new inquiry as a note on their existing record.
+ *                          With SMS consent: tag `sms-opt-in`, a consent-record note, and the
+ *                          A2P opt-in confirmation text sent through GHL Conversations.
  *   LEAD_WEBHOOK_URL   → POSTs the JSON payload (legacy: Zapier, Make, n8n…)
  *   RESEND_API_KEY     → emails the lead to LEAD_NOTIFY_EMAIL (default hello@getmarketingbull.com)
+ *
+ * The visitor is told "sent" only when at least one channel returned 2xx. If every channel fails,
+ * the route returns 502 so the form shows the phone number instead of firing a false conversion.
+ * With no channel configured, production returns 503; other environments log the lead and succeed.
  *
  * Lead-magnet sources (LEAD_MAGNET_SOURCES, e.g. the PI Intake Scorecard) differ in three ways:
  * phone is optional, firm name and attorney count are required, and the source is added as a
  * GHL tag so a GHL workflow can email the asset and the follow-ups.
  *
- * The visitor is told "sent" only when at least one channel returned 2xx. If every channel fails,
- * the route returns 502 so the form shows the phone number instead of firing a false conversion.
- * With no channel configured, production returns 503; other environments log the lead and succeed.
+ * Anything short of full delivery (a lost lead, a failed channel, a failed GHL note/tag/SMS) also
+ * sends an operational alert with the lead's details — see src/lib/alert.ts.
  */
 
 interface LeadPayload {
@@ -33,6 +40,7 @@ interface LeadPayload {
   attorneys?: unknown;
   attribution?: unknown; // utm_* / click ids from the landing URL, as a query string
   hp?: unknown; // honeypot
+  turnstileToken?: unknown;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -64,6 +72,18 @@ function rateLimited(ip: string): boolean {
 
 function str(v: unknown, max: number): string {
   return typeof v === 'string' ? v.trim().slice(0, max) : '';
+}
+
+class ChannelError extends Error {
+  constructor(readonly status: number, body: string) {
+    super(`${status} ${body.slice(0, 1000)}`);
+  }
+}
+
+async function expectOk(res: Promise<Response>): Promise<string> {
+  const r = await res;
+  if (r.ok) return String(r.status);
+  throw new ChannelError(r.status, await r.text().catch(() => ''));
 }
 
 export async function POST(req: Request) {
@@ -128,6 +148,16 @@ export async function POST(req: Request) {
     .filter(Boolean)
     .join('\n');
 
+  // Cloudflare Turnstile, enforced only when both keys are set (a secret without the public site
+  // key would reject every lead, since the form never renders the widget).
+  const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+  if (turnstileSecret && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
+    const verdict = await verifyTurnstile(turnstileSecret, str(body.turnstileToken, 2048), ip);
+    if (verdict === 'fail') {
+      return NextResponse.json({ ok: false, error: `We couldn't verify the form. Please try again, or call ${COMPANY.phone}.` }, { status: 403 });
+    }
+  }
+
   const product = str(body.product, 200);
   const lead = {
     name,
@@ -155,57 +185,166 @@ export async function POST(req: Request) {
   const notifyEmail = process.env.LEAD_NOTIFY_EMAIL || COMPANY.email;
   const fromEmail = process.env.LEAD_FROM_EMAIL || 'leads@getmarketingbull.com';
 
-  // `accept` lets a channel treat a specific non-2xx as delivered.
-  const channels: { name: string; send: () => Promise<Response>; accept?: (status: number, body: string) => boolean }[] = [];
+  // Partial failures that didn't stop delivery (a GHL note, tag or SMS); reported in the alert below.
+  const followUpProblems: string[] = [];
+
+  // Each channel resolves with a short status for the log line, or throws when the lead
+  // did not get through.
+  const channels: { name: string; deliver: () => Promise<string> }[] = [];
 
   if (ghlKey) {
+    const ghl = (path: string, payload?: unknown, version = '2021-07-28', method = 'POST') =>
+      fetch(`https://services.leadconnectorhq.com${path}`, {
+        method,
+        headers: {
+          Authorization: `Bearer ${ghlKey}`,
+          'Content-Type': 'application/json',
+          Version: version,
+        },
+        body: payload === undefined ? undefined : JSON.stringify(payload),
+        signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
+      });
+
+    // A repeat visitor's existing contact can be missing fields this submission supplies (seen in
+    // production: a contact with no name or phone, so GHL had nowhere to send the opt-in SMS).
+    // Fill only the blanks — never overwrite a value someone set by hand.
+    const fillBlanks = async (id: string) => {
+      const r = await ghl(`/contacts/${id}`, undefined, '2021-07-28', 'GET');
+      if (!r.ok) throw new Error(`read ${r.status} ${(await r.text().catch(() => '')).slice(0, 300)}`);
+      const { contact = {} } = (await r.json()) as { contact?: { phone?: string; firstName?: string; lastName?: string } };
+      const patch: Record<string, string> = {};
+      if (!contact.phone && phone) patch.phone = phone;
+      if (!contact.firstName && firstName) patch.firstName = firstName;
+      if (!contact.lastName && lastName) patch.lastName = lastName;
+      if (Object.keys(patch).length === 0) return 'nothing-blank';
+      const u = await ghl(`/contacts/${id}`, patch, '2021-07-28', 'PUT');
+      if (!u.ok) throw new Error(`update ${u.status} ${(await u.text().catch(() => '')).slice(0, 300)}`);
+      return `filled ${Object.keys(patch).join('+')}`;
+    };
+
+    // The lead-magnet tag is what a GHL workflow triggers on to send the asset.
+    const tags = ['mb-site-lead', ...(leadMagnet ? [lead.source] : []), ...(lead.smsConsent ? ['sms-opt-in'] : [])];
+
+    // Runs once the contact exists (new or repeat). All calls are additive — unlike
+    // /contacts/upsert they can't overwrite tags or fields someone set by hand — and a failure
+    // here is logged, not surfaced: the person is already in the CRM.
+    const followUps = async (contactId: string, repeat: boolean) => {
+      const id = encodeURIComponent(contactId);
+      const note: string[] = [];
+      if (repeat) {
+        note.push(
+          [
+            `New website inquiry (${lead.submittedAt})`,
+            `Source: ${lead.source}`,
+            lead.product && `Product: ${lead.product}`,
+            lead.phone && `Phone: ${lead.phone}`,
+            lead.website && `Website: ${lead.website}`,
+            `SMS consent: ${lead.smsConsent ? 'yes' : 'no'}`,
+            lead.page && `Page: ${lead.page}`,
+          ]
+            .filter(Boolean)
+            .join('\n')
+            .concat('\n\n', lead.message || '(no message)'),
+        );
+      }
+      if (lead.smsConsent) {
+        // Proof of consent for the A2P campaign: what was agreed to, where, when, and from where.
+        note.push(
+          `SMS opt-in recorded ${lead.submittedAt}\nPage: ${lead.page || '(unknown)'}\nIP: ${ip}\nPhone: ${lead.phone}\nConsent text: "${SMS_CONSENT_LABEL}"`,
+        );
+      }
+
+      if (repeat) {
+        // Before the SMS: GHL sends to the contact's stored phone, so it has to exist first.
+        try {
+          console.log('[lead] ghl fill blanks:', await fillBlanks(id));
+        } catch (e) {
+          console.error('[lead] ghl fill blanks failed', contactId, e);
+          followUpProblems.push(`GHL contact update failed (contact ${contactId}): ${String(e)}`);
+        }
+      }
+
+      const tasks: [string, Promise<Response>][] = [];
+      if (note.length) tasks.push(['note', ghl(`/contacts/${id}/notes`, { body: note.join('\n\n---\n\n') })]);
+      // New contacts got their tags on create; a repeat contact needs them added.
+      if (repeat) tasks.push(['tag', ghl(`/contacts/${id}/tags`, { tags })]);
+      if (lead.smsConsent) {
+        // toNumber: the number that was just consented, even if the CRM holds a different one.
+        const toNumber = e164(phone);
+        tasks.push(['sms', ghl('/conversations/messages', { type: 'SMS', contactId, message: SMS_OPT_IN_CONFIRMATION, ...(toNumber && { toNumber }) }, '2021-04-15')]);
+      }
+
+      const settled = await Promise.allSettled(tasks.map(([, task]) => task));
+      const outcome: string[] = [];
+      for (const [i, r] of settled.entries()) {
+        const what = tasks[i][0];
+        if (r.status === 'rejected') {
+          console.error(`[lead] ghl ${what} failed`, contactId, r.reason);
+          outcome.push(`${what}:error`);
+          followUpProblems.push(`GHL ${what} failed (contact ${contactId}): ${String(r.reason)}`);
+        } else {
+          if (!r.value.ok) {
+            const detail = (await r.value.text().catch(() => '')).slice(0, 500);
+            console.error(`[lead] ghl ${what} non-2xx`, contactId, r.value.status, detail);
+            followUpProblems.push(`GHL ${what} returned ${r.value.status} (contact ${contactId}): ${detail}`);
+          }
+          outcome.push(`${what}:${r.value.status}`);
+        }
+      }
+      if (outcome.length) console.log('[lead] ghl follow-ups:', outcome.join(' '));
+    };
+
     channels.push({
       name: 'ghl',
-      send: () =>
-        fetch('https://services.leadconnectorhq.com/contacts/', {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${ghlKey}`,
-            'Content-Type': 'application/json',
-            Version: '2021-07-28',
-          },
-          body: JSON.stringify({
-            locationId: ghlLocationId,
-            firstName,
-            lastName,
-            name,
-            email,
-            phone: phone || undefined,
-            companyName: firm || undefined,
-            website: lead.website || undefined,
-            source: 'Marketing Bull Site',
-            // The lead-magnet tag is what a GHL workflow triggers on to send the asset.
-            tags: leadMagnet ? ['mb-site-lead', lead.source] : ['mb-site-lead'],
-            customFields: [
-              { id: 'n3Ur3Tm4gLb7BfhPFJt5', value: lead.source },
-              { id: 'ssDT5kiOUvt30YA6vX15', value: lead.message },
-              { id: 'nOLB2wsnl4T71In4ybss', value: lead.website },
-              { id: 'PqYofPTdo3wZf6li9v9I', value: lead.smsConsent ? 'yes' : 'no' },
-            ],
-          }),
-          signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
-        }),
-      // A repeat visitor already exists as a contact, so GHL answers 400 "does not allow duplicated
-      // contacts". The person is in the CRM; the new message is only in the log below.
-      accept: (status, body) => status === 400 && body.includes('duplicated contacts'),
+      deliver: async () => {
+        const r = await ghl('/contacts/', {
+          locationId: ghlLocationId,
+          firstName,
+          lastName,
+          name,
+          email,
+          phone: phone || undefined,
+          companyName: firm || undefined,
+          website: lead.website || undefined,
+          source: 'Marketing Bull Site',
+          tags,
+          customFields: [
+            { id: 'n3Ur3Tm4gLb7BfhPFJt5', value: lead.source },
+            { id: 'ssDT5kiOUvt30YA6vX15', value: lead.message },
+            { id: 'nOLB2wsnl4T71In4ybss', value: lead.website },
+            { id: 'PqYofPTdo3wZf6li9v9I', value: lead.smsConsent ? 'yes' : 'no' },
+          ],
+        });
+        const text = await r.text().catch(() => '');
+        // A repeat visitor already exists as a contact, so GHL answers 400 "does not allow
+        // duplicated contacts" with the existing contactId in `meta`. That is still a delivery.
+        const repeat = r.status === 400 && text.includes('duplicated contacts');
+        if (!r.ok && !repeat) throw new ChannelError(r.status, text);
+        if (repeat) console.warn(`[lead] ghl accepted ${r.status}`, text.slice(0, 1000), JSON.stringify(lead));
+
+        let contactId: unknown;
+        try {
+          const parsed = JSON.parse(text) as { contact?: { id?: unknown }; meta?: { contactId?: unknown } };
+          contactId = repeat ? parsed.meta?.contactId : parsed.contact?.id;
+        } catch {}
+        if (typeof contactId === 'string' && contactId) await followUps(contactId, repeat);
+        else if (repeat || lead.smsConsent) console.warn('[lead] ghl returned no contactId; note/tag/SMS skipped');
+
+        return repeat ? `${r.status}-accepted` : String(r.status);
+      },
     });
   }
 
   if (webhook) {
     channels.push({
       name: 'webhook',
-      send: () =>
-        fetch(webhook, {
+      deliver: () =>
+        expectOk(fetch(webhook, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(lead),
           signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
-        }),
+        })),
     });
   }
 
@@ -227,8 +366,8 @@ export async function POST(req: Request) {
         </table>`;
     channels.push({
       name: 'email',
-      send: () =>
-        fetch('https://api.resend.com/emails', {
+      deliver: () =>
+        expectOk(fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: { Authorization: `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -239,31 +378,28 @@ export async function POST(req: Request) {
             html,
           }),
           signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
-        }),
+        })),
     });
   }
 
   if (channels.length === 0) {
     console.error('[lead] no delivery configured', JSON.stringify(lead));
     if (process.env.VERCEL_ENV === 'production') {
+      await sendAlert(`LEAD LOST: no delivery channel configured — ${lead.name}`, alertBody(lead, 'No lead delivery env var is set in production.'));
       return NextResponse.json({ ok: false, error: FAIL_MESSAGE }, { status: 503 });
     }
     return NextResponse.json({ ok: true });
   }
 
   const results = await Promise.all(
-    channels.map(async ({ name: channel, send, accept }) => {
+    channels.map(async ({ name: channel, deliver }) => {
       try {
-        const r = await send();
-        if (r.ok) return { channel, ok: true, detail: String(r.status) };
-        const text = await r.text().catch(() => '');
-        if (accept?.(r.status, text)) {
-          console.warn(`[lead] ${channel} accepted ${r.status}`, text.slice(0, 1000), JSON.stringify(lead));
-          return { channel, ok: true, detail: `${r.status}-accepted` };
-        }
-        console.error(`[lead] ${channel} non-2xx`, r.status, text.slice(0, 1000));
-        return { channel, ok: false, detail: String(r.status) };
+        return { channel, ok: true, detail: await deliver() };
       } catch (e) {
+        if (e instanceof ChannelError) {
+          console.error(`[lead] ${channel} non-2xx`, e.message);
+          return { channel, ok: false, detail: String(e.status) };
+        }
         console.error(`[lead] ${channel} failed`, e);
         return { channel, ok: false, detail: 'error' };
       }
@@ -274,11 +410,65 @@ export async function POST(req: Request) {
   if (!results.some((r) => r.ok)) {
     // Every channel failed: keep the full lead in the log so it can be recovered by hand.
     console.error('[lead] ALL CHANNELS FAILED', summary, JSON.stringify(lead));
+    await sendAlert(
+      `LEAD LOST: every delivery channel failed — ${lead.name}`,
+      alertBody(lead, `Delivery results: ${summary}\nThe visitor was shown the phone number. Enter this lead by hand.`),
+    );
     return NextResponse.json({ ok: false, error: FAIL_MESSAGE }, { status: 502 });
   }
 
   console.log('[lead] delivery results:', summary);
+  const failed = results.filter((r) => !r.ok).map((r) => r.channel);
+  if (failed.length || followUpProblems.length) {
+    const what = [...failed, ...followUpProblems.map((p) => p.split(' ').slice(0, 2).join(' '))].join(', ');
+    await sendAlert(
+      `Lead partly delivered (${what}) — ${lead.name}`,
+      alertBody(lead, [`Delivery results: ${summary}`, ...followUpProblems].join('\n')),
+    );
+  }
   return NextResponse.json({ ok: true });
+}
+
+/**
+ * 'unavailable' (Cloudflare unreachable or erroring) lets the lead through: a spam lead costs
+ * less than a lost one, and the honeypot and rate limits still apply.
+ */
+async function verifyTurnstile(secret: string, token: string, ip: string): Promise<'pass' | 'fail' | 'unavailable'> {
+  if (!token) return 'fail';
+  try {
+    const form = new URLSearchParams({ secret, response: token });
+    if (ip !== 'unknown') form.set('remoteip', ip);
+    const r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      body: form,
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!r.ok) {
+      console.warn('[lead] turnstile siteverify non-2xx', r.status);
+      return 'unavailable';
+    }
+    const result = (await r.json()) as { success?: boolean; 'error-codes'?: string[] };
+    if (result.success) return 'pass';
+    console.warn('[lead] turnstile rejected', result['error-codes']);
+    return 'fail';
+  } catch (e) {
+    console.warn('[lead] turnstile siteverify failed', e);
+    return 'unavailable';
+  }
+}
+
+function alertBody(lead: Record<string, string | boolean>, problem: string): string {
+  const fields = ['name', 'email', 'phone', 'website', 'firm', 'attorneys', 'product', 'source', 'smsConsent', 'page', 'submittedAt', 'message'];
+  return `${problem}\n\n${fields.map((f) => `${f}: ${String(lead[f] ?? '')}`).join('\n')}`;
+}
+
+/** +1XXXXXXXXXX for US/Canada numbers or anything typed with a leading +; undefined when unsure. */
+function e164(raw: string): string | undefined {
+  const digits = raw.replace(/\D/g, '');
+  if (raw.trim().startsWith('+') && digits.length >= 8 && digits.length <= 15) return `+${digits}`;
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith('1')) return `+${digits}`;
+  return undefined;
 }
 
 function esc(s: string) {

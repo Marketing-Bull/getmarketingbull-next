@@ -1,11 +1,13 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { track } from '@/lib/analytics';
 import { reportLeadConversion } from '@/lib/conversions';
-import { COMPANY } from '@/lib/constants';
+import { COMPANY, SMS_CONSENT_LABEL } from '@/lib/constants';
 import Button from './Button';
+import Turnstile, { TURNSTILE_SITE_KEY } from './Turnstile';
 
 /**
  * Lead form for the PI Intake Scorecard (/pi-intake-scorecard).
@@ -51,6 +53,8 @@ export default function ScorecardForm() {
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string>('');
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileReset, setTurnstileReset] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
   const attributionRef = useRef('');
 
@@ -92,6 +96,11 @@ export default function ScorecardForm() {
       formRef.current?.querySelector<HTMLElement>(`[name="${firstInvalid}"]`)?.focus();
       return;
     }
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      setStatus('error');
+      setError(`Please complete the verification check above the button. If it doesn't appear, call ${COMPANY.phone}.`);
+      return;
+    }
     setStatus('sending');
     setError('');
     try {
@@ -104,6 +113,7 @@ export default function ScorecardForm() {
           smsConsent: hasPhone && formData.smsConsent,
           source: SOURCE,
           attribution: attributionRef.current,
+          turnstileToken,
         }),
       });
       // A platform error page (e.g. a 504) isn't JSON — don't surface a parser message to the visitor.
@@ -119,6 +129,7 @@ export default function ScorecardForm() {
       // Client-side navigation: the page is not unloaded, so the events above still send.
       router.push(THANKS_PATH);
     } catch (err) {
+      setTurnstileReset((n) => n + 1); // the token was spent on this attempt
       setStatus('error');
       setError(err instanceof Error && !(err instanceof TypeError) ? err.message : FALLBACK_ERROR);
     }
@@ -133,7 +144,6 @@ export default function ScorecardForm() {
   const fieldError = (f: Field) =>
     fieldErrors[f] ? <p id={`sf-${f}-error`} className={errorClass}>{fieldErrors[f]}</p> : null;
   const labelClass = 'block text-sm font-semibold text-slate-700 mb-1.5';
-  const hasPhone = formData.phone.trim() !== '';
 
   return (
     <form ref={formRef} onSubmit={handleSubmit} className="space-y-5" noValidate>
@@ -177,14 +187,14 @@ export default function ScorecardForm() {
       <p className="text-xs text-slate-500 leading-relaxed">
         We&apos;ll email you the scorecard and up to three short follow-ups from Alex. Unsubscribe anytime.
       </p>
-      {hasPhone && (
-        <div className="flex items-start gap-3">
-          <input type="checkbox" name="smsConsent" id="sf-smsConsent" checked={formData.smsConsent} onChange={handleChange} className="mt-0.5 accent-red-600" />
-          <label htmlFor="sf-smsConsent" className="text-xs text-slate-500 leading-relaxed">
-            I consent to receive SMS messages from Marketing Bull about my inquiry. Message &amp; data rates may apply. Reply STOP to opt out.
-          </label>
-        </div>
-      )}
+      {/* SMS opt-in: optional, never pre-checked, and the label must match SMS_CONSENT_LABEL exactly (A2P/TCR). */}
+      <div className="flex items-start gap-3">
+        <input type="checkbox" name="smsConsent" id="sf-smsConsent" checked={formData.smsConsent} onChange={handleChange} className="mt-0.5 accent-red-600" />
+        <label htmlFor="sf-smsConsent" className="text-xs text-slate-600 leading-relaxed">
+          {SMS_CONSENT_LABEL}
+        </label>
+      </div>
+      <Turnstile onToken={setTurnstileToken} resetKey={turnstileReset} />
       {status === 'error' && (
         <p className="text-sm text-red-600 font-medium" role="alert">{error}</p>
       )}
@@ -192,6 +202,11 @@ export default function ScorecardForm() {
         {status === 'sending' || status === 'sent' ? 'Sending…' : 'Send me the scorecard'}
       </Button>
       <p className="text-xs text-slate-500 text-center">A PDF, in your inbox in a minute. No newsletter.</p>
+      <p className="text-xs text-slate-600 text-center leading-relaxed">
+        SMS consent is optional and not a condition of purchase. {COMPANY.legalName} ·{' '}
+        <Link href="/privacy-policy" className="underline hover:text-slate-900">Privacy Policy</Link> ·{' '}
+        <Link href="/terms-of-service" className="underline hover:text-slate-900">Terms of Service</Link>
+      </p>
     </form>
   );
 }

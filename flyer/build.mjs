@@ -3,10 +3,12 @@
  *
  *   node flyer/build.mjs
  *
- * Outputs (all into flyer/):
- *   marketing-bull-flyer-print.pdf     8.75in x 5.75in — 8.5x5.5 trim + 0.125in bleed
- *   marketing-bull-flyer-digital.pdf   8.5in  x 5.5in  — exact trim, no bleed
- *   preview-front.png / preview-back.png   300 DPI, trim size, no bleed
+ * Outputs (all into flyer/), for each variant in VARIANTS:
+ *   half-Letter (flyer.html, 2-sided, 8.5x5.5 landscape)
+ *     marketing-bull-flyer-print.pdf / -digital.pdf, preview-front.png / preview-back.png
+ *   Letter (flyer-letter.html, 1-sided, 8.5x11 portrait)
+ *     marketing-bull-flyer-letter-print.pdf / -digital.pdf, preview-letter.png
+ *   Print PDFs carry 0.125in bleed per side; digital PDFs are exact trim.
  *
  * The page size lives in flyer.html between the @PAGE_SIZE_START / _END markers so
  * the file still opens standalone in a browser. For the no-bleed variant we swap
@@ -19,9 +21,18 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const DIR = dirname(fileURLToPath(import.meta.url));
-const SRC = join(DIR, 'flyer.html');
-
-const TRIM = { w: 8.5, h: 5.5 };     // inches, landscape
+export const VARIANTS = [
+  {
+    src: 'flyer.html', trim: { w: 8.5, h: 5.5 },
+    print: 'marketing-bull-flyer-print.pdf', digital: 'marketing-bull-flyer-digital.pdf',
+    previews: ['preview-front.png', 'preview-back.png'],
+  },
+  {
+    src: 'flyer-letter.html', trim: { w: 8.5, h: 11 },
+    print: 'marketing-bull-flyer-letter-print.pdf', digital: 'marketing-bull-flyer-letter-digital.pdf',
+    previews: ['preview-letter.png'],
+  },
+];
 const BLEED = 0.125;                  // inches, per side
 const DPI = 300;
 
@@ -29,13 +40,13 @@ const START = '/* @PAGE_SIZE_START */';
 const END = '/* @PAGE_SIZE_END */';
 
 /** Swap the @page block for a given bleed amount and write a derived file. */
-async function derive(html, bleedIn, name) {
+async function derive(html, TRIM, bleedIn, name) {
   const w = (TRIM.w + 2 * bleedIn).toFixed(3);
   const h = (TRIM.h + 2 * bleedIn).toFixed(3);
   const block = `${START}\n@page { size: ${w}in ${h}in; margin: 0; }\n:root { --bleed: ${bleedIn}in; }\n${END}`;
   const a = html.indexOf(START);
   const b = html.indexOf(END);
-  if (a === -1 || b === -1) throw new Error('page-size markers not found in flyer.html');
+  if (a === -1 || b === -1) throw new Error('page-size markers not found');
   const out = html.slice(0, a) + block + html.slice(b + END.length);
   const path = join(DIR, name);
   await writeFile(path, out, 'utf8');
@@ -55,55 +66,58 @@ async function open(browser, path) {
   return page;
 }
 
-const html = await readFile(SRC, 'utf8');
-const bleedPath = await derive(html, BLEED, '.render-bleed.html');
-const trimPath = await derive(html, 0, '.render-trim.html');
-
 const browser = await chromium.launch();
 const results = [];
+const temps = [];
 
 try {
-  // ── 1. Print PDF, with bleed ──────────────────────────────────────────────
-  {
-    const page = await open(browser, bleedPath);
-    const out = join(DIR, 'marketing-bull-flyer-print.pdf');
-    await page.pdf({ path: out, printBackground: true, preferCSSPageSize: true });
-    results.push(out);
-    await page.close();
-  }
+  for (const V of VARIANTS) {
+    const TRIM = V.trim;
+    const html = await readFile(join(DIR, V.src), 'utf8');
+    const stem = V.src.replace(/\.html$/, '');
+    const bleedPath = await derive(html, TRIM, BLEED, `.render-${stem}-bleed.html`);
+    const trimPath = await derive(html, TRIM, 0, `.render-${stem}-trim.html`);
+    temps.push(bleedPath, trimPath);
 
-  // ── 2. Digital PDF, exact trim ────────────────────────────────────────────
-  {
-    const page = await open(browser, trimPath);
-    const out = join(DIR, 'marketing-bull-flyer-digital.pdf');
-    await page.pdf({ path: out, printBackground: true, preferCSSPageSize: true });
-    results.push(out);
-    await page.close();
-  }
-
-  // ── 3. 300 DPI PNG previews, trim size ────────────────────────────────────
-  {
-    const page = await browser.newPage({
-      viewport: { width: Math.round(TRIM.w * 96), height: Math.round(TRIM.h * 96) },
-      deviceScaleFactor: DPI / 96,
-    });
-    await page.goto('file://' + trimPath, { waitUntil: 'load' });
-    await page.evaluate(() => document.fonts.ready);
-    // Screenshots take the screen cascade, so force the print-only colour keep.
-    await page.emulateMedia({ media: 'print' });
-    const names = ['preview-front.png', 'preview-back.png'];
-    const pages = await page.locator('.page').all();
-    for (let i = 0; i < pages.length; i++) {
-      const out = join(DIR, names[i]);
-      await pages[i].screenshot({ path: out });
+    // 1. Print PDF, with bleed
+    {
+      const page = await open(browser, bleedPath);
+      const out = join(DIR, V.print);
+      await page.pdf({ path: out, printBackground: true, preferCSSPageSize: true });
       results.push(out);
+      await page.close();
     }
-    await page.close();
+    // 2. Digital PDF, exact trim
+    {
+      const page = await open(browser, trimPath);
+      const out = join(DIR, V.digital);
+      await page.pdf({ path: out, printBackground: true, preferCSSPageSize: true });
+      results.push(out);
+      await page.close();
+    }
+    // 3. 300 DPI PNG previews, trim size
+    {
+      const page = await browser.newPage({
+        viewport: { width: Math.round(TRIM.w * 96), height: Math.round(TRIM.h * 96) },
+        deviceScaleFactor: DPI / 96,
+      });
+      await page.goto('file://' + trimPath, { waitUntil: 'load' });
+      await page.evaluate(() => document.fonts.ready);
+      // Screenshots take the screen cascade, so force the print-only colour keep.
+      await page.emulateMedia({ media: 'print' });
+      const pages = await page.locator('.page').all();
+      if (pages.length !== V.previews.length) throw new Error(`${V.src}: ${pages.length} pages, expected ${V.previews.length}`);
+      for (let i = 0; i < pages.length; i++) {
+        const out = join(DIR, V.previews[i]);
+        await pages[i].screenshot({ path: out });
+        results.push(out);
+      }
+      await page.close();
+    }
   }
 } finally {
   await browser.close();
-  await unlink(bleedPath).catch(() => {});
-  await unlink(trimPath).catch(() => {});
+  for (const t of temps) await unlink(t).catch(() => {});
 }
 
 for (const r of results) console.log('wrote', r);

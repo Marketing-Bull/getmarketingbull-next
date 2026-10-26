@@ -10,6 +10,9 @@
  */
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-D5G7PCS5K0';
 
+/** Ahrefs Web Analytics site key. Public: it ships in every page, like the GA id. */
+export const AHREFS_ANALYTICS_KEY = '6woMTP64U6laeFae0BJsHQ';
+
 export const COMPANY = {
   name: 'Marketing Bull',
   legalName: 'Marketing Bull, LLC',
@@ -36,6 +39,16 @@ export const COMPANY = {
   bookingUrl: '/free-consultation',
 };
 
+/**
+ * A2P 10DLC (TCR) opt-in language. Both strings are registered with the carrier campaign
+ * word for word — the checkbox label on every lead form and the confirmation text sent
+ * after a submission with the box checked. Changing either means re-submitting the campaign.
+ */
+export const SMS_CONSENT_LABEL =
+  'By checking this box, I agree to receive SMS notifications and promotional messages from Marketing Bull, LLC. Message & data rates may apply. Reply STOP to unsubscribe, HELP for help.';
+export const SMS_OPT_IN_CONFIRMATION =
+  'You have successfully opted in to receive SMS notifications and promotional messages from Marketing Bull, LLC. Msg & data rates may apply. Reply STOP to unsubscribe, HELP for help.';
+
 export type OfferSlug = 'website-in-14-days' | 'intake-gap-audit' | 'ai-content-engine' | 'lead-generation';
 
 export interface Offer {
@@ -51,6 +64,11 @@ export interface Offer {
   timeline: string;
   bestFor: string;
   problem: string;
+  /**
+   * Citations for figures in `problem`, in footnote order: `problem` marks them ¹ ², and the
+   * product page lists them under the paragraph. Every figure in `problem` needs one.
+   */
+  problemSources?: { label: string; url: string }[];
   includes: string[];
   notIncluded: string[];
   process: { title: string; desc: string }[];
@@ -115,7 +133,17 @@ export const OFFERS: Offer[] = [
     timeline: '7–10 business days',
     bestFor: 'Firms spending on lead generation who suspect the problem isn\'t the leads.',
     problem:
-      'The average firm takes 78 minutes to respond to a new lead. The prospect has called three other firms in the first 10. 42% of PI leads come in after 5pm and most go to voicemail. You\'re paying for leads and losing them at the front desk — and nobody inside the firm can see it happening.',
+      'Only a quarter of law firms reply to a web lead within five minutes, and 26% never reply at all.¹ And about 17.5% of calls to law firms come in outside weekday 9 to 5.² You\'re paying for leads and losing them at the front desk, and nobody inside the firm can see it happening.',
+    problemSources: [
+      {
+        label: 'Hennessey Digital, 2025 Lead Form Response Time Study (1,333 U.S. law firms, Q1 2025)',
+        url: 'https://hennessey.com/2025-lead-form-response-time-study',
+      },
+      {
+        label: 'Market My Market, "What Does Your Firm Lose by Being \'9 to 5\'?" (30,000 calls to its law-firm clients over six months)',
+        url: 'https://www.marketmymarket.com/legal-marketing/what-does-your-firm-lose-by-being-9-to-5/',
+      },
+    ],
     includes: [
       'Two mystery-shop calls scored on a timestamped scorecard: one during business hours, one after hours',
       'Web form and chat response test with timestamps',
@@ -277,6 +305,8 @@ export const NAV_LINKS = [
     submenu: [
       { label: 'Our Team', href: '/about-us' },
       { label: 'Case Studies', href: '/case-studies' },
+      { label: "Websites We've Built", href: '/websites' },
+      { label: 'Resources', href: '/resources' },
       { label: 'Blog', href: '/blog' },
     ],
   },
@@ -286,7 +316,7 @@ export const NAV_LINKS = [
 export const TESTIMONIALS = [
   { name: 'Todd D. Muhlstock, Esq.', company: 'WeSueThem.com', quote: "I have personally referred this team to colleagues and clients because I knew I could trust the results. They don't just generate leads — they make sure you close them.", rating: 5 },
   { name: 'Dr. Manoj Sadhnani', company: 'Queens Hyperbaric', quote: 'We went from struggling to fill slots to seeing 30 new faces every month.', rating: 5 },
-  { name: 'Angela McMullin', company: '3D Dental', quote: 'Alexander is the best! He goes above and beyond to make sure his clients are happy and getting results. Our new patient volume is up 40%.', rating: 5 },
+  { name: 'Angela McMullin', company: '3D Dental', quote: 'Alexander is the best! He goes above and beyond to make sure his clients are happy and getting results.', rating: 5 },
   { name: 'Isak Yuhan', company: '1-800-HURT-511', quote: 'They delivered results beyond expectations.', rating: 5 },
   { name: 'Laura Cole, Esq.', company: 'Attorney at Law', quote: 'Marketing Bull is excellent!!', rating: 5 },
   { name: 'Vinay Gaonkar', company: 'GreenBills', quote: 'Excellent results on leads and client conversions.', rating: 5 },

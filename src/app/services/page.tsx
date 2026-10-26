@@ -26,7 +26,7 @@ export default function ServicesPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-6">How we help</p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">Diagnose first. Then build one thing, well.</h1>
           <p className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl mb-10">
-            Every engagement starts with the same question — where, specifically, is this firm losing cases or patients? — and ends in one of four fixed-scope builds. No open-ended retainers.
+            Every engagement starts with the same question — where, specifically, is this firm losing cases or patients? — and ends in one of four fixed-scope builds. No long-term contracts.
           </p>
           <div className="flex flex-row flex-wrap gap-3">
             <Button variant="primary" size="lg" href="/free-consultation">Start a conversation</Button>

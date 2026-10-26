@@ -81,7 +81,7 @@ const OUTCOMES = [
 const ENGAGEMENT = [
   { step: 'Conversation', desc: 'Twenty minutes. Where you are, what\'s been tried, what a good year looks like. We\'ll say whether we\'re the right fit.' },
   { step: 'Diagnosis', desc: 'A scored audit of where cases or patients are being lost, with a dollar figure on it. You get the findings whether or not you continue.' },
-  { step: 'Build', desc: 'A fixed-scope engagement with a defined deliverable and delivery date. No open-ended retainers, no scope drift.' },
+  { step: 'Build', desc: 'A fixed-scope engagement with a defined deliverable and delivery date. No long-term contracts, no scope drift.' },
   { step: 'Compound', desc: 'Ongoing work — content, visibility, optimization — reported monthly against the numbers that matter: calls, consults, signed cases, booked patients.' },
 ];
 
