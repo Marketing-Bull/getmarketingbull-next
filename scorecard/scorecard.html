@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The PI Intake Scorecard — Marketing Bull</title>
+<style>
+/* US Letter portrait, digital only (screen, email, office printer). Same tokens and
+   static fonts as the flyer (../flyer). build.mjs renders it to
+   ../public/pi-intake-scorecard.pdf; check.mjs fails if any page overflows. */
+@page { size: 8.5in 11in; margin: 0; }
+
+@font-face { font-family:'Archivo'; src:url('../flyer/fonts/Archivo-600.woff2') format('woff2'); font-weight:600; font-display:block; }
+@font-face { font-family:'Archivo'; src:url('../flyer/fonts/Archivo-800.woff2') format('woff2'); font-weight:800; font-display:block; }
+@font-face { font-family:'Archivo'; src:url('../flyer/fonts/Archivo-900.woff2') format('woff2'); font-weight:900; font-display:block; }
+@font-face { font-family:'IBM Plex Sans'; src:url('../flyer/fonts/IBMPlexSans-400.woff2') format('woff2'); font-weight:400; font-display:block; }
+@font-face { font-family:'IBM Plex Sans'; src:url('../flyer/fonts/IBMPlexSans-500.woff2') format('woff2'); font-weight:500; font-display:block; }
+@font-face { font-family:'IBM Plex Sans'; src:url('../flyer/fonts/IBMPlexSans-600.woff2') format('woff2'); font-weight:600; font-display:block; }
+@font-face { font-family:'IBM Plex Sans'; src:url('../flyer/fonts/IBMPlexSans-700.woff2') format('woff2'); font-weight:700; font-display:block; }
+
+:root {
+  --ink: #0c0c0e;
+  --bull: #e11d2a;
+  --bright: #ff2a36;
+  --paper: #f4f1ea;
+  --card: #fbfaf6;
+  --line: #d8d1c1;
+  --muted: #6f6a5e;
+  --bone-dim: #cdc8bd;
+  --ink-dim: #3b3830;
+  --m: 0.6in;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif; color: var(--ink);
+  font-variant-ligatures: none; text-rendering: geometricPrecision;
+  font-size: 9.6pt; line-height: 1.42;
+}
+
+.page {
+  position: relative; width: 8.5in; height: 11in; overflow: hidden;
+  background: var(--paper); page-break-after: always; break-after: page;
+}
+.page:last-child { page-break-after: auto; break-after: auto; }
+.page.ink { background: var(--ink); color: var(--paper); }
+.body { position: absolute; inset: var(--m) var(--m) 0.85in; display: flex; flex-direction: column; }
+
+/* Running footer on content pages */
+.foot { position: absolute; left: var(--m); right: var(--m); bottom: 0.42in; display: flex; justify-content: space-between;
+  font-size: 7.4pt; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.foot .pg { color: var(--bull); }
+
+.kicker { font-size: 7.8pt; font-weight: 600; letter-spacing: .26em; text-transform: uppercase; line-height: 1; color: var(--bull); }
+.display { font-family: 'Archivo'; font-weight: 900; text-transform: uppercase; line-height: .9; letter-spacing: -.03em; }
+h2.display { font-size: 30pt; margin-top: 10px; }
+h3 { font-family: 'Archivo'; font-weight: 800; font-size: 12.5pt; letter-spacing: -.01em; text-transform: uppercase; line-height: 1.1; }
+.lede { font-size: 11pt; line-height: 1.45; color: var(--ink-dim); margin-top: 12px; max-width: 6.2in; }
+p + p { margin-top: 8px; }
+.rule { height: 2.5px; background: var(--bull); margin: 16px 0 18px; }
+.muted { color: var(--muted); }
+sup { font-size: 6.5pt; line-height: 0; font-weight: 600; color: var(--bull); }
+
+.wordmark { display: flex; align-items: center; gap: 9px; }
+.wordmark img { width: 34px; display: block; }
+.wordmark .wm { font-family: 'Archivo'; font-weight: 800; font-size: 13pt; letter-spacing: -.035em; text-transform: uppercase; line-height: 1; }
+.wordmark .wm em { font-style: normal; color: var(--bull); }
+
+/* ── Cover ─────────────────────────────────────────────────────────────── */
+.cover .body { inset: 0.7in 0.7in 0.6in; }
+.cover .bull { position: absolute; right: -0.55in; top: 3.0in; width: 4.6in; opacity: .95; }
+.cover .audience { color: var(--bright); margin-top: 1.25in; }
+.cover h1 { font-size: 58pt; margin-top: 16px; color: #fff; max-width: 5.6in; }
+.cover h1 .hot { color: var(--bright); }
+.cover .sub { font-size: 13.5pt; line-height: 1.38; color: var(--bone-dim); margin-top: 22px; max-width: 4.6in; }
+.cover .toc { margin-top: auto; border-top: 1px solid #2c2a26; padding-top: 18px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 0.5in; row-gap: 7px; font-size: 9.6pt; color: var(--bone-dim); }
+.cover .toc span { color: var(--bright); font-family: 'Archivo'; font-weight: 800; display: inline-block; width: 26px; }
+.cover .meta { margin-top: 18px; font-size: 8.4pt; color: var(--muted); letter-spacing: .04em; display: flex; justify-content: space-between; }
+
+/* ── Stats ─────────────────────────────────────────────────────────────── */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+.stat { background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--bull); padding: 14px 14px 13px; }
+.stat .n { font-family: 'Archivo'; font-weight: 900; font-size: 26pt; letter-spacing: -.04em; line-height: 1; color: var(--bull); }
+.stat p { font-size: 9pt; line-height: 1.38; margin-top: 8px; color: var(--ink-dim); }
+.sources { margin-top: auto; font-size: 7.4pt; color: var(--muted); line-height: 1.45; border-top: 1px solid var(--line); padding-top: 10px; }
+.sources li { list-style: none; }
+
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35in; }
+.box { background: var(--card); border: 1px solid var(--line); padding: 14px 16px; }
+.box h3 { margin-bottom: 8px; }
+ul.ticks, ol.steps { padding-left: 0; }
+ul.ticks li { list-style: none; position: relative; padding-left: 15px; margin-top: 5px; }
+ul.ticks li::before { content: ''; position: absolute; left: 0; top: .55em; width: 6px; height: 6px; background: var(--bull); }
+ol.steps { counter-reset: s; }
+ol.steps > li { list-style: none; counter-increment: s; position: relative; padding-left: 30px; margin-top: 9px; }
+ol.steps > li::before { content: counter(s, decimal-leading-zero); position: absolute; left: 0; top: -1px; font-family: 'Archivo'; font-weight: 900; color: var(--bull); font-size: 11pt; }
+
+.scale { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+.scale div { border: 1px solid var(--line); background: #fff; padding: 9px 11px; font-size: 8.8pt; line-height: 1.35; }
+.scale b { font-family: 'Archivo'; font-weight: 900; font-size: 15pt; color: var(--bull); display: block; line-height: 1; margin-bottom: 4px; }
+
+/* ── Question tables ───────────────────────────────────────────────────── */
+.sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
+.sec-head .letter { font-family: 'Archivo'; font-weight: 900; font-size: 64pt; line-height: .8; color: var(--bull); letter-spacing: -.05em; }
+.why { font-size: 9.4pt; line-height: 1.45; color: var(--ink-dim); margin-top: 10px; }
+table.q { width: 100%; border-collapse: collapse; margin-top: 14px; table-layout: fixed; }
+table.q th { font-size: 6.9pt; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--muted); text-align: left; padding: 0 7px 6px; border-bottom: 2px solid var(--ink); }
+table.q th.c { text-align: center; }
+table.q td { vertical-align: top; padding: 9px 7px; border-bottom: 1px solid var(--line); font-size: 8.4pt; line-height: 1.36; color: var(--ink-dim); }
+table.q td.num { font-family: 'Archivo'; font-weight: 900; font-size: 12pt; color: var(--bull); padding-top: 8px; }
+table.q td.qtext { font-size: 9pt; font-weight: 500; color: var(--ink); }
+table.q td.sc { padding: 9px 4px; }
+.sbox { width: 0.36in; height: 0.36in; border: 1.5px solid var(--ink); background: #fff; margin: 0 auto; }
+table.q tr.total td { border-bottom: 0; padding-top: 11px; font-family: 'Archivo'; font-weight: 800; text-transform: uppercase; font-size: 9pt; color: var(--ink); }
+table.q tr.total td.r { text-align: right; }
+.flag { display: inline-block; font-size: 6.6pt; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #fff; background: var(--bull); padding: 1px 5px 0; margin-left: 4px; vertical-align: 1px; }
+.note { margin-top: 12px; font-size: 8.4pt; color: var(--muted); line-height: 1.4; }
+.sec + .sec { margin-top: 0.2in; }
+.sec table.q { margin-top: 10px; }
+.sec table.q td { padding-top: 7px; padding-bottom: 7px; }
+
+table.q.big td { font-size: 9pt; padding-top: 11px; padding-bottom: 11px; }
+table.q.big td.qtext { font-size: 9.8pt; }
+.good { margin-top: auto; background: var(--ink); color: var(--paper); padding: 15px 18px; display: grid; grid-template-columns: 1.35in 1fr; gap: 16px; }
+.good .lbl { font-family: 'Archivo'; font-weight: 900; text-transform: uppercase; font-size: 13pt; line-height: 1; color: #fff; }
+.good .lbl span { display: block; font-size: 7.4pt; letter-spacing: .2em; color: var(--bright); margin-bottom: 6px; font-weight: 800; }
+.good p { font-size: 9.3pt; line-height: 1.5; color: var(--bone-dim); }
+.good p b { color: #fff; font-weight: 600; }
+.walk { margin-top: 22px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.walk div { border-top: 2px solid var(--ink); padding-top: 8px; font-size: 8.8pt; line-height: 1.38; color: var(--ink-dim); }
+.walk b { display: block; font-family: 'Archivo'; font-weight: 800; text-transform: uppercase; color: var(--ink); font-size: 9.4pt; margin-bottom: 3px; }
+.panel { margin-top: auto; background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--bull); padding: 13px 16px; }
+.panel h3 { margin-bottom: 6px; }
+.panel .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 0.3in; }
+.panel .cols li { font-size: 8.7pt; }
+
+/* ── Score page ────────────────────────────────────────────────────────── */
+table.tally { width: 100%; border-collapse: collapse; margin-top: 14px; }
+table.tally th { font-size: 6.9pt; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--muted); text-align: left; padding: 0 8px 6px; border-bottom: 2px solid var(--ink); }
+table.tally th.c, table.tally td.c { text-align: center; }
+table.tally td { padding: 7px 8px; border-bottom: 1px solid var(--line); font-size: 9.4pt; vertical-align: middle; }
+table.tally td .sbox { width: 0.5in; height: 0.3in; }
+table.tally tr.sum td { font-family: 'Archivo'; font-weight: 900; text-transform: uppercase; border-bottom: 0; font-size: 10.5pt; }
+.bands { display: grid; grid-template-columns: 1fr; gap: 9px; margin-top: 12px; }
+.band { display: grid; grid-template-columns: 1.15in 1fr; gap: 14px; background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--bull); padding: 11px 14px; }
+.band .rng { font-family: 'Archivo'; font-weight: 900; font-size: 16pt; line-height: 1; letter-spacing: -.03em; }
+.band .nm { font-family: 'Archivo'; font-weight: 800; font-size: 8.4pt; text-transform: uppercase; letter-spacing: .06em; color: var(--bull); margin-top: 5px; }
+.band p { font-size: 8.9pt; line-height: 1.4; color: var(--ink-dim); }
+.band p b { color: var(--ink); }
+.band.t { border-left-color: #2f6b45; } .band.t .nm { color: #2f6b45; }
+.band.l { border-left-color: #b7791f; } .band.l .nm { color: #9a6416; }
+.redflags { margin-top: 14px; background: var(--ink); color: var(--paper); padding: 13px 16px; font-size: 9pt; line-height: 1.45; }
+.redflags h3 { color: #fff; margin-bottom: 5px; }
+.redflags b { color: var(--bright); }
+
+/* ── Fix page ──────────────────────────────────────────────────────────── */
+.fixes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 0.3in; margin-top: 4px; }
+.fix { border-top: 2px solid var(--ink); padding-top: 9px; }
+.fix h3 { font-size: 10.5pt; display: flex; gap: 8px; align-items: baseline; }
+.fix h3 span { color: var(--bull); font-weight: 900; }
+.fix ul.ticks li { font-size: 8.6pt; line-height: 1.38; margin-top: 5px; }
+.fix.wide { grid-column: 1 / -1; }
+
+/* ── Worksheet ─────────────────────────────────────────────────────────── */
+table.log { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
+table.log th { font-size: 6.9pt; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--muted); text-align: left; padding: 0 8px 5px; border-bottom: 2px solid var(--ink); }
+table.log td { border-bottom: 1px solid var(--line); padding: 6px 8px; font-size: 8.5pt; height: 0.29in; vertical-align: middle; }
+table.log td.k { color: var(--ink); font-weight: 500; }
+table.log td.w { background: #fff; border-left: 1px solid var(--line); }
+.consent { margin-top: 12px; border: 1.5px solid var(--bull); background: #fff; padding: 9px 12px; font-size: 8.6pt; line-height: 1.4; }
+.consent b { color: var(--bull); }
+
+/* ── Plan ──────────────────────────────────────────────────────────────── */
+.weeks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 6px; }
+.week { background: var(--card); border: 1px solid var(--line); padding: 13px 15px 12px; }
+.week .wk { font-family: 'Archivo'; font-weight: 900; font-size: 9pt; letter-spacing: .14em; text-transform: uppercase; color: var(--bull); }
+.week h3 { margin-top: 4px; font-size: 11.5pt; }
+.week ul.ticks li { font-size: 8.7pt; line-height: 1.38; }
+.check li { list-style: none; position: relative; padding-left: 20px; margin-top: 6px; font-size: 8.7pt; line-height: 1.38; }
+.check li::before { content: ''; position: absolute; left: 0; top: 2px; width: 10px; height: 10px; border: 1.4px solid var(--ink); background: #fff; }
+
+/* ── Back page ─────────────────────────────────────────────────────────── */
+.back .body { inset: 0.7in 0.7in 0.6in; }
+.back h2 { font-size: 40pt; color: #fff; margin-top: 14px; max-width: 6.4in; }
+.back h2 .hot { color: var(--bright); }
+.back .lede { color: var(--bone-dim); font-size: 11.5pt; max-width: 5.9in; }
+.back .incl { margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 0.35in; }
+.back .incl li { list-style: none; position: relative; padding-left: 16px; font-size: 9.6pt; line-height: 1.4; color: var(--paper); }
+.back .incl li::before { content: ''; position: absolute; left: 0; top: .5em; width: 6px; height: 6px; background: var(--bright); }
+.back .terms { margin-top: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.back .terms div { border-top: 2px solid var(--bright); padding-top: 8px; font-size: 9pt; color: var(--bone-dim); line-height: 1.38; }
+.back .terms b { display: block; font-family: 'Archivo'; font-weight: 800; text-transform: uppercase; color: #fff; font-size: 10pt; margin-bottom: 3px; }
+.back blockquote { margin-top: 26px; border-left: 4px solid var(--bright); padding-left: 16px; font-size: 12pt; line-height: 1.42; color: #fff; font-weight: 500; max-width: 5.9in; }
+.back blockquote cite { display: block; font-style: normal; font-size: 7.6pt; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-top: 8px; }
+.back .cta { margin-top: auto; background: var(--bull); color: #fff; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.back .cta .phone { font-family: 'Archivo'; font-weight: 900; font-size: 26pt; letter-spacing: -.03em; line-height: 1; }
+.back .cta .url { font-size: 9.6pt; font-weight: 600; line-height: 1.4; text-align: right; }
+.back .cta .url a { color: #fff; text-decoration: none; }
+.back .legal { margin-top: 14px; font-size: 7.6pt; color: var(--muted); line-height: 1.5; display: flex; justify-content: space-between; gap: 20px; }
+</style>
+</head>
+<body>
+
+<!-- ═════════════ 1. COVER ═════════════ -->
+<section class="page ink cover">
+  <img class="bull" src="../public/logo.png" alt="">
+  <div class="body">
+    <div class="wordmark"><img src="../public/logo.png" alt=""><span class="wm">Marketing <em>Bull</em></span></div>
+    <p class="kicker audience">For personal injury firm owners</p>
+    <h1 class="display">The PI Intake <span class="hot">Scorecard</span></h1>
+    <p class="sub">19 questions that show where your firm loses cases between the first ring and the signed retainer. Score it with whoever runs intake. It takes about 20 minutes.</p>
+    <div class="toc">
+      <div><span>02</span>Before you score</div>
+      <div><span>08</span>What to fix first</div>
+      <div><span>03</span>A. Coverage</div>
+      <div><span>09</span>Self mystery-shop worksheet</div>
+      <div><span>04</span>B. Speed to lead</div>
+      <div><span>10</span>Your 30-day plan</div>
+      <div><span>05</span>C. Qualification</div>
+      <div><span>11</span>Have it measured for you</div>
+      <div><span>06</span>D. Follow-up · E. Attribution</div>
+      <div></div>
+      <div><span>07</span>Your score</div>
+      <div></div>
+    </div>
+    <div class="meta"><span>getmarketingbull.com · 1-833-GET-BULL</span><span>West Palm Beach, Florida</span></div>
+  </div>
+</section>
+
+<!-- ═════════════ 2. BEFORE YOU SCORE ═════════════ -->
+<section class="page">
+  <div class="body">
+    <p class="kicker">Before you score</p>
+    <h2 class="display">The case usually goes to whoever answers first.</h2>
+    <p class="lede">Most firms judge intake by what the policy says. Prospects judge it by what happens when they call. This scorecard measures the second thing.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">72%</div><p>of people contacted only one attorney before hiring one.<sup>1</sup> If you are not the firm that answers, you may never get the call back.</p></div>
+      <div class="stat"><div class="n">1 in 4</div><p>law firms replied to a web lead within five minutes, and 26% never replied at all.<sup>2</sup></p></div>
+      <div class="stat"><div class="n">17.5%</div><p>of calls to law firms came in outside weekday 9 to 5.<sup>3</sup> Evenings and weekends are part of the job.</p></div>
+    </div>
+
+    <div class="rule"></div>
+
+    <div class="two">
+      <div>
+        <h3>How to score</h3>
+        <p style="margin-top:8px">Every question is worth 0, 1 or 2 points. Use the descriptions in each row.</p>
+        <div class="scale">
+          <div><b>2</b>True today, and you can show it.</div>
+          <div><b>1</b>Partly true, or true only some of the time.</div>
+          <div><b>0</b>Not true, or you don't know.</div>
+        </div>
+        <p style="margin-top:10px">Score what actually happens, not what the policy says. If your honest answer is "I think so," score it 0. Not knowing is the finding.</p>
+      </div>
+      <div>
+        <h3>Score it twice</h3>
+        <p style="margin-top:8px">Each row has two boxes: one for the owner or managing partner, one for whoever runs intake. Score separately, then compare. Where your answers differ by a point or more, that gap is worth a conversation on its own.</p>
+        <h3 style="margin-top:16px">Have these to hand</h3>
+        <ul class="ticks">
+          <li>Last month's call report (answered, missed, abandoned, hold time)</li>
+          <li>Your CRM or lead log</li>
+          <li>Last quarter's marketing spend by source</li>
+          <li>Your intake script, if there is one</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:24px">What you'll walk away with</h3>
+    <div class="walk" style="margin-top:10px">
+      <div><b>A score and a band</b>Out of 38, with a plain read on what it means for your firm.</div>
+      <div><b>Where cases slip</b>The section and the questions where you lose the most.</div>
+      <div><b>Two points of view</b>How the owner's answers compare with intake's.</div>
+      <div><b>A 30-day plan</b>One section a week, and a worksheet to test your own firm.</div>
+    </div>
+
+    <ol class="sources">
+      <li>1. FindLaw, 2016 Consumer Legal Needs Survey.</li>
+      <li>2. Hennessey Digital, 2025 Lead Form Response Time Study (1,333 U.S. law firms, Q1 2025). hennessey.com/2025-lead-form-response-time-study</li>
+      <li>3. Market My Market, "What Does Your Firm Lose by Being '9 to 5'?" (30,000 calls to its law-firm clients over six months). marketmymarket.com</li>
+    </ol>
+  </div>
+  <div class="foot"><span>The PI Intake Scorecard</span><span class="pg">02</span></div>
+</section>
+
+<!-- ═════════════ 3. A. COVERAGE ═════════════ -->
+<section class="page">
+  <div class="body">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Section A · 5 questions · 10 points</p>
+        <h2 class="display">Coverage: who answers, and when</h2>
+      </div>
+      <div class="letter">A</div>
+    </div>
+    <p class="why">A prospect who reaches voicemail rarely waits for you. They call the next firm on the list. Coverage is about whether a trained person picks up every new-case call, at any hour, in the caller's language, without being bounced around first.</p>
+    <table class="q big">
+      <colgroup><col style="width:0.32in"><col style="width:2.05in"><col><col><col><col style="width:0.55in"><col style="width:0.55in"></colgroup>
+      <tr><th>#</th><th>Question</th><th>2 points</th><th>1 point</th><th>0 points</th><th class="c">Owner</th><th class="c">Intake</th></tr>
+      <tr><td class="num">1</td><td class="qtext">During business hours, a live person answers a new-case call within three rings.</td><td>Always, and call reports confirm it</td><td>Usually; no report to check</td><td>Often voicemail, or you don't know</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      <tr><td class="num">2</td><td class="qtext">A new-case call at 9pm on a Saturday is answered live by someone trained to take a PI intake (staff, an on-call attorney, or an answering service using your script). <span class="flag">Red flag</span></td><td>Live, trained, using your script</td><td>A service takes a message only</td><td>Voicemail, or you don't know</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      <tr><td class="num">3</td><td class="qtext">A new-case caller gets their name and number taken before any hold or transfer, and is transferred no more than once.</td><td>Always</td><td>Sometimes</td><td>Hold or multiple transfers are common</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      <tr><td class="num">4</td><td class="qtext">A Spanish-speaking caller can complete a full intake in Spanish.</td><td>Yes, live, including after hours</td><td>Business hours only, or by callback</td><td>No</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      <tr><td class="num">5</td><td class="qtext">New clients have a dedicated number or phone route, separate from existing-client and general calls.</td><td>Yes, routed straight to intake</td><td>Separate number, same front desk</td><td>No</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      <tr class="total"><td></td><td colspan="4" class="r">Section A total (out of 10)</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+    </table>
+    <p class="note">Tip: if you don't know the answer to question 2, that is the call to make first. The worksheet on page 9 walks you through it.</p>
+    <div class="good"><div class="lbl"><span>Example</span>What good looks like</div><p>The phone is answered within three rings with the firm's name. The intake specialist asks whether the caller is somewhere safe and whether they're hurt, takes a name and number "in case we get cut off," then says <b>"Let me get some information about what happened."</b> No hold before a name, no transfer to someone who asks the same questions again, and the same answer at 9pm on a Saturday, in English or Spanish.</p></div>
+  </div>
+  <div class="foot"><span>The PI Intake Scorecard</span><span class="pg">03</span></div>
+</section>
+
+<!-- ═════════════ 4. B. SPEED ═════════════ -->
+<section class="page">
+  <div class="body">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Section B · 4 questions · 8 points</p>
+        <h2 class="display">Speed to lead</h2>
+      </div>
+      <div class="letter">B</div>
+    </div>
+    <p class="why">Web forms, chats and missed calls are leads that already raised their hand. Every minute between that moment and a personal reply is a minute in which another firm can answer them first. Speed only counts if it is measured, so the last question asks whether you actually know your number.</p>
+    <table class="q big">
+      <colgroup><col style="width:0.32in"><col style="width:2.05in"><col><col><col><col style="width:0.55in"><col style="width:0.55in"></colgroup>
+      <tr><th>#</th><th>Question</th><th>2 points</th><th>1 point</th><th>0 points</th><th class="c">Owner</th><th class="c">Intake</th></tr>
+      <tr><td class="num">6</td><td class="qtext">Web-form and chat inquiries get a personal call or text from a person within five minutes during business hours.</td><td>Yes, and it is measured</td><td>Same day</td><td>Next day or later, or unknown</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      <tr><td class="num">7</td><td class="qtext">Missed and abandoned calls are called back within five minutes. <span class="flag">Red flag</span></td><td>Yes, and someone owns it</td><td>Within the hour, or by end of day</td><td>Only if they leave a voicemail</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      <tr><td class="num">8</td><td class="qtext">A missed call triggers an automatic text-back telling the caller a person will call right away.</td><td>Yes, with consent-appropriate wording</td><td>Set up but not monitored</td><td>No</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      <tr><td class="num">9</td><td class="qtext">You know your firm's actual response time to new leads because it comes from a report, not an estimate.</td><td>Yes, reviewed monthly</td><td>We could pull it</td><td>No</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      <tr class="total"><td></td><td colspan="4" class="r">Section B total (out of 8)</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+    </table>
+    <p class="note">Tip: for question 9, compare the time each lead was created with the time of the first contact attempt in your CRM. Most firms find the real number is slower than the one they assumed.</p>
+    <div class="good"><div class="lbl"><span>Example</span>What good looks like</div><p>A web form arrives mid-afternoon and <b>the intake coordinator's phone buzzes with a text alert</b>, not just an email. She calls within a few minutes. A call missed at 6:40pm triggers an automatic text within a minute saying a person will call right back, and someone does. At month end, a report shows the median time from lead to first contact, by channel.</p></div>
+  </div>
+  <div class="foot"><span>The PI Intake Scorecard</span><span class="pg">04</span></div>
+</section>
+
+<!-- ═════════════ 5. C. QUALIFICATION ═════════════ -->
+<section class="page">
+  <div class="body">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Section C · 4 questions · 8 points</p>
+        <h2 class="display">Qualification</h2>
+      </div>
+      <div class="letter">C</div>
+    </div>
+    <p class="why">Answering fast only helps if the call ends with the right next step. A consistent script protects the caller and the case: it gets contact details before the line can drop, gathers what an attorney needs to evaluate the case, and leaves a qualified caller with a booked consult or a retainer, not a promise of a callback.</p>
+    <table class="q big">
+      <colgroup><col style="width:0.32in"><col style="width:2.05in"><col><col><col><col style="width:0.55in"><col style="width:0.55in"></colgroup>
+      <tr><th>#</th><th>Question</th><th>2 points</th><th>1 point</th><th>0 points</th><th class="c">Owner</th><th class="c">Intake</th></tr>
+      <tr><td class="num">10</td><td class="qtext">Intake follows a written script: safety and injury check, contact details first, then accident, injuries, treatment, insurance and prior representation.</td><td>Written and followed</td><td>Written, loosely followed</td><td>No script</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      <tr><td class="num">11</td><td class="qtext">Contact details and permission to text are captured in the first minute, in case the call drops.</td><td>Always</td><td>Sometimes</td><td>Rarely</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      <tr><td class="num">12</td><td class="qtext">A qualified caller leaves the call with a next step: a booked consult or an e-sign retainer sent the same day.</td><td>Always</td><td>Sometimes</td><td>They wait for a callback from an attorney</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      <tr><td class="num">13</td><td class="qtext">Cases you don't take are referred out and logged, not dropped.</td><td>Referred and logged</td><td>Referred informally</td><td>Dropped</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      <tr class="total"><td></td><td colspan="4" class="r">Section C total (out of 8)</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+    </table>
+    <p class="note">Tip: listen to how your intake team opens a call. "Are you somewhere safe? Are you hurt?" followed by "Let me take your name and number in case we get cut off" covers questions 10 and 11 in the first minute.</p>
+    <div class="good"><div class="lbl"><span>Example</span>What good looks like</div><p>Every call follows the same order, and every call ends with something concrete. <b>A qualified caller leaves with a consult on the calendar or an e-sign retainer in their inbox</b> the same day. A caller you can't help is referred to a firm that can, and the referral is logged, so the lead is not simply lost.</p></div>
+  </div>
+  <div class="foot"><span>The PI Intake Scorecard</span><span class="pg">05</span></div>
+</section>
+
+<!-- ═════════════ 6. D + E ═════════════ -->
+<section class="page">
+  <div class="body">
+    <div class="sec">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">Section D · 3 questions · 6 points</p>
+          <h2 class="display">Follow-up</h2>
+        </div>
+        <div class="letter">D</div>
+      </div>
+      <p class="why">Many signable cases are lost after the first call: the prospect who didn't pick up, the one waiting on a police report, the one who said "let me think about it." Follow-up is what turns those into retainers.</p>
+      <table class="q">
+        <colgroup><col style="width:0.32in"><col style="width:2.05in"><col><col><col><col style="width:0.55in"><col style="width:0.55in"></colgroup>
+        <tr><th>#</th><th>Question</th><th>2 points</th><th>1 point</th><th>0 points</th><th class="c">Owner</th><th class="c">Intake</th></tr>
+        <tr><td class="num">14</td><td class="qtext">Every lead has a status in a CRM or lead log (New, Attempted Contact, Unable to Contact, Qualified, Rejected, Retained).</td><td>Every lead</td><td>Most leads</td><td>Only signed clients are logged</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+        <tr><td class="num">15</td><td class="qtext">Leads you can't reach get a defined multi-day cadence of calls, texts and emails.</td><td>Written cadence, tracked</td><td>A few attempts, no set cadence</td><td>One call and one voicemail</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+        <tr><td class="num">16</td><td class="qtext">Leads waiting on documents (police report, medical records) have assigned tasks with due dates.</td><td>Yes</td><td>Sometimes</td><td>No</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+        <tr class="total"><td></td><td colspan="4" class="r">Section D total (out of 6)</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      </table>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">Section E · 3 questions · 6 points</p>
+          <h2 class="display">Attribution and oversight</h2>
+        </div>
+        <div class="letter">E</div>
+      </div>
+      <p class="why">If you can't trace a signed case back to the ad, keyword or referrer that produced it, you can't tell which marketing is working, and nobody notices when intake starts slipping.</p>
+      <table class="q">
+        <colgroup><col style="width:0.32in"><col style="width:2.05in"><col><col><col><col style="width:0.55in"><col style="width:0.55in"></colgroup>
+        <tr><th>#</th><th>Question</th><th>2 points</th><th>1 point</th><th>0 points</th><th class="c">Owner</th><th class="c">Intake</th></tr>
+        <tr><td class="num">17</td><td class="qtext">Every lead is tagged with its source: campaign, keyword, tracking number or referrer. <span class="flag">Red flag</span></td><td>Every lead</td><td>Some channels</td><td>No</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+        <tr><td class="num">18</td><td class="qtext">You can state last quarter's cost per signed case, by source.</td><td>Yes, by source</td><td>Blended total only</td><td>No</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+        <tr><td class="num">19</td><td class="qtext">Someone reviews call reports monthly, and intake is mystery-shopped at least quarterly and whenever a new intake hire starts.</td><td>Both</td><td>One of the two</td><td>Neither</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+        <tr class="total"><td></td><td colspan="4" class="r">Section E total (out of 6)</td><td class="sc"><div class="sbox"></div></td><td class="sc"><div class="sbox"></div></td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="foot"><span>The PI Intake Scorecard</span><span class="pg">06</span></div>
+</section>
+
+<!-- ═════════════ 7. YOUR SCORE ═════════════ -->
+<section class="page">
+  <div class="body">
+    <p class="kicker">Your score</p>
+    <h2 class="display">Add it up</h2>
+    <table class="tally">
+      <tr><th>Section</th><th class="c">Max</th><th class="c">Owner</th><th class="c">Intake</th><th class="c">Gap</th></tr>
+      <tr><td>A. Coverage</td><td class="c">10</td><td class="c"><div class="sbox" style="margin:0 auto"></div></td><td class="c"><div class="sbox" style="margin:0 auto"></div></td><td class="c"><div class="sbox" style="margin:0 auto"></div></td></tr>
+      <tr><td>B. Speed to lead</td><td class="c">8</td><td class="c"><div class="sbox" style="margin:0 auto"></div></td><td class="c"><div class="sbox" style="margin:0 auto"></div></td><td class="c"><div class="sbox" style="margin:0 auto"></div></td></tr>
+      <tr><td>C. Qualification</td><td class="c">8</td><td class="c"><div class="sbox" style="margin:0 auto"></div></td><td class="c"><div class="sbox" style="margin:0 auto"></div></td><td class="c"><div class="sbox" style="margin:0 auto"></div></td></tr>
+      <tr><td>D. Follow-up</td><td class="c">6</td><td class="c"><div class="sbox" style="margin:0 auto"></div></td><td class="c"><div class="sbox" style="margin:0 auto"></div></td><td class="c"><div class="sbox" style="margin:0 auto"></div></td></tr>
+      <tr><td>E. Attribution and oversight</td><td class="c">6</td><td class="c"><div class="sbox" style="margin:0 auto"></div></td><td class="c"><div class="sbox" style="margin:0 auto"></div></td><td class="c"><div class="sbox" style="margin:0 auto"></div></td></tr>
+      <tr class="sum"><td>Total</td><td class="c">38</td><td class="c"><div class="sbox" style="margin:0 auto"></div></td><td class="c"><div class="sbox" style="margin:0 auto"></div></td><td class="c"><div class="sbox" style="margin:0 auto"></div></td></tr>
+    </table>
+    <p class="note">Use the lower of the two totals to find your band. The section with the lowest score as a share of its maximum is where to start.</p>
+
+    <div class="bands">
+      <div class="band t"><div><div class="rng">30–38</div><div class="nm">Tight</div></div><p>Your intake answers, moves fast and tracks where cases come from, so you are probably not losing leads at the phone in large numbers. <b>Next:</b> re-score every quarter and whenever intake staff change. Growth money is safer spent on getting found and getting in front of more prospects.</p></div>
+      <div class="band l"><div><div class="rng">18–29</div><div class="nm">Leaking</div></div><p>The basics exist, but cases are likely slipping in specific places: after hours, in the callback queue, or in follow-up that stops too early. <b>Next:</b> fix the lowest-scoring section first using page 8, and run the self mystery-shop on page 9 this week, including one call after hours.</p></div>
+      <div class="band"><div><div class="rng">0–17</div><div class="nm">Losing cases you paid for</div></div><p>More leads won't fix this. Some of what you spend on marketing is likely going to calls nobody answers or follows up. <b>Next:</b> get an outside measurement before you spend more on leads (page 11), and start the 30-day plan on page 10.</p></div>
+    </div>
+
+    <div class="redflags">
+      <h3>Red flags, whatever your total</h3>
+      A 0 on <b>question 2</b> (the Saturday 9pm call), <b>question 7</b> (missed-call callback) or <b>question 17</b> (lead source) is worth fixing first, even if you scored in the Tight band. Each one means paid-for leads can disappear without anyone noticing.
+    </div>
+
+    <table class="log" style="margin-top:18px">
+      <colgroup><col style="width:1.3in"><col><col style="width:1.3in"><col style="width:1.1in"></colgroup>
+      <tr><th>Your top 3 fixes</th><th>What will change</th><th>Owner</th><th>By when</th></tr>
+      <tr><td class="k">1. Section ___</td><td class="w"></td><td class="w"></td><td class="w"></td></tr>
+      <tr><td class="k">2. Section ___</td><td class="w"></td><td class="w"></td><td class="w"></td></tr>
+      <tr><td class="k">3. Section ___</td><td class="w"></td><td class="w"></td><td class="w"></td></tr>
+    </table>
+  </div>
+  <div class="foot"><span>The PI Intake Scorecard</span><span class="pg">07</span></div>
+</section>
+
+<!-- ═════════════ 8. WHAT TO FIX FIRST ═════════════ -->
+<section class="page">
+  <div class="body">
+    <p class="kicker">What to fix first</p>
+    <h2 class="display">Start with your lowest section</h2>
+    <p class="lede" style="margin-bottom:16px">You don't need new software to fix most of these. Start where you scored lowest, and pick the changes your team can make this month.</p>
+    <div class="fixes">
+      <div class="fix">
+        <h3><span>A</span>Coverage</h3>
+        <ul class="ticks">
+          <li>Give new clients a dedicated number that rings straight to intake, not the front desk.</li>
+          <li>Cover nights and weekends with a live, trained answer that follows your script: staff on call, an on-call attorney, or an answering service or voice agent that takes the intake and books the callback.</li>
+          <li>Rule for everyone who answers: take the name and number before any hold or transfer.</li>
+          <li>Arrange Spanish-language intake, including after hours.</li>
+        </ul>
+      </div>
+      <div class="fix">
+        <h3><span>B</span>Speed to lead</h3>
+        <ul class="ticks">
+          <li>Send web-form and chat alerts to a phone as a text, not only to an inbox.</li>
+          <li>Name one person who owns the missed-call queue, with a five-minute callback target.</li>
+          <li>Turn on a missed-call text-back that tells the caller a person is calling them back.</li>
+          <li>Report response time from timestamps every month, not from memory.</li>
+        </ul>
+      </div>
+      <div class="fix">
+        <h3><span>C</span>Qualification</h3>
+        <ul class="ticks">
+          <li>Write the script down in order: safety and injury, contact details and permission to text, accident, injuries, treatment, insurance, prior representation.</li>
+          <li>Let intake send an e-sign retainer or book the consult on the call, without waiting for an attorney.</li>
+          <li>Keep a referral list for cases you don't take, and log every referral.</li>
+        </ul>
+      </div>
+      <div class="fix">
+        <h3><span>D</span>Follow-up</h3>
+        <ul class="ticks">
+          <li>Log every lead, not just signed clients, with one of six statuses: New, Attempted Contact, Unable to Contact, Qualified, Rejected, Retained.</li>
+          <li>Write an "unable to reach" cadence of calls, texts and emails over several days, and template the messages.</li>
+          <li>Create a task with a due date for every lead waiting on documents.</li>
+        </ul>
+      </div>
+      <div class="fix wide">
+        <h3><span>E</span>Attribution and oversight</h3>
+        <ul class="ticks" style="columns:2; column-gap:0.3in">
+          <li>Use tracking numbers per campaign and carry campaign tags on web forms, so every lead arrives with its source.</li>
+          <li>Each quarter, divide spend by signed cases for each source.</li>
+          <li>Review call reports monthly against simple benchmarks: no missed new-case calls, no hold over 30 seconds.</li>
+          <li>Mystery-shop intake every quarter and whenever you hire someone new for intake.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Templates worth writing once</h3>
+      <p style="font-size:8.8pt; color:var(--ink-dim); margin-bottom:6px">Set these up in your CRM or email tool so nobody writes them from scratch at 9pm.</p>
+      <ul class="ticks cols">
+        <li>"Thank you for your inquiry": a short series that introduces the firm and reassures the lead</li>
+        <li>The e-sign retainer email</li>
+        <li>"Unable to reach you": an email sequence and a text asking the lead to call</li>
+        <li>The welcome email after the retainer is signed</li>
+        <li>After-hours web-form reply: when they'll hear from a person</li>
+        <li>Missed-call text-back</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>The PI Intake Scorecard</span><span class="pg">08</span></div>
+</section>
+
+<!-- ═════════════ 9. SELF MYSTERY-SHOP ═════════════ -->
+<section class="page">
+  <div class="body">
+    <p class="kicker">Self mystery-shop</p>
+    <h2 class="display">Call your own firm</h2>
+    <ol class="steps" style="margin-top:6px">
+      <li>Have someone outside the firm call your main number as a new PI prospect, once during business hours and once after hours. Log both calls below.</li>
+      <li>If a callback was promised, time how long it took and note the channel (call, text or email).</li>
+      <li>Submit your own website form and start a chat. Time the first personal response.</li>
+      <li>Pull last month's call report. Count missed and abandoned calls, and check whether each one got a callback.</li>
+      <li>Pick five leads from last month that didn't sign. Check their status, how many follow-up attempts they got, and whether you know their source.</li>
+    </ol>
+
+    <table class="log" style="margin-top:14px">
+      <colgroup><col style="width:2.5in"><col><col></colgroup>
+      <tr><th>Call log</th><th>Business hours</th><th>After hours</th></tr>
+      <tr><td class="k">Date and time dialed</td><td class="w"></td><td class="w"></td></tr>
+      <tr><td class="k">Rings before answer</td><td class="w"></td><td class="w"></td></tr>
+      <tr><td class="k">Who answered (person, service, voicemail)</td><td class="w"></td><td class="w"></td></tr>
+      <tr><td class="k">Name and number taken first?</td><td class="w"></td><td class="w"></td></tr>
+      <tr><td class="k">Hold time and number of transfers</td><td class="w"></td><td class="w"></td></tr>
+      <tr><td class="k">Script followed? Case questions asked?</td><td class="w"></td><td class="w"></td></tr>
+      <tr><td class="k">Next step offered (consult, retainer)</td><td class="w"></td><td class="w"></td></tr>
+      <tr><td class="k">Callback promised? Time received, channel</td><td class="w"></td><td class="w"></td></tr>
+    </table>
+
+    <table class="log" style="margin-top:14px">
+      <colgroup><col style="width:2.5in"><col><col></colgroup>
+      <tr><th>Online test</th><th>Website form</th><th>Chat</th></tr>
+      <tr><td class="k">Submitted at</td><td class="w"></td><td class="w"></td></tr>
+      <tr><td class="k">First personal response at, and channel</td><td class="w"></td><td class="w"></td></tr>
+    </table>
+
+    <table class="log" style="margin-top:14px">
+      <colgroup><col style="width:2.5in"><col><col></colgroup>
+      <tr><th>Last month</th><th>Count</th><th>Called back within 5 min</th></tr>
+      <tr><td class="k">Missed new-case calls</td><td class="w"></td><td class="w"></td></tr>
+      <tr><td class="k">Abandoned calls (hung up before answer)</td><td class="w"></td><td class="w"></td></tr>
+    </table>
+
+    <div class="consent"><b>Take notes, don't record.</b> Florida is an all-party consent state for recording phone calls. Don't record a test call unless everyone on it consents, and check the rules in your own state.</div>
+  </div>
+  <div class="foot"><span>The PI Intake Scorecard</span><span class="pg">09</span></div>
+</section>
+
+<!-- ═════════════ 10. 30-DAY PLAN ═════════════ -->
+<section class="page">
+  <div class="body">
+    <p class="kicker">Your 30-day plan</p>
+    <h2 class="display">One section a week</h2>
+    <p class="lede" style="margin-bottom:16px">Work through one section a week, starting with your lowest. Tick each item off as it's done, then re-score at the end of week 4.</p>
+    <div class="weeks">
+      <div class="week">
+        <div class="wk">Week 1</div><h3>Measure</h3>
+        <ul class="check">
+          <li>Owner and intake lead score the scorecard separately</li>
+          <li>Run both mystery-shop calls and the online test (page 9)</li>
+          <li>Pull last month's call report and lead log</li>
+          <li>Agree on the lowest-scoring section and any red flags</li>
+        </ul>
+      </div>
+      <div class="week">
+        <div class="wk">Week 2</div><h3>Close the gaps at the phone</h3>
+        <ul class="check">
+          <li>Fix after-hours and weekend coverage (question 2)</li>
+          <li>Name an owner for missed calls, with a five-minute target (question 7)</li>
+          <li>Route web-form and chat alerts to a phone</li>
+          <li>Set the "name and number first" rule for everyone who answers</li>
+        </ul>
+      </div>
+      <div class="week">
+        <div class="wk">Week 3</div><h3>Script and follow-up</h3>
+        <ul class="check">
+          <li>Write or update the intake script, in order</li>
+          <li>Let intake book consults or send e-sign retainers on the call</li>
+          <li>Give every lead a status in the CRM or lead log</li>
+          <li>Write the "unable to reach" cadence and templates</li>
+        </ul>
+      </div>
+      <div class="week">
+        <div class="wk">Week 4</div><h3>Track and re-score</h3>
+        <ul class="check">
+          <li>Make sure every lead arrives with its source (question 17)</li>
+          <li>Work out last quarter's cost per signed case by source</li>
+          <li>Put a monthly call-report review on the calendar</li>
+          <li>Re-score and compare with week 1</li>
+        </ul>
+      </div>
+    </div>
+
+    <table class="log" style="margin-top:22px">
+      <colgroup><col style="width:2.5in"><col><col><col></colgroup>
+      <tr><th>Score history</th><th>Date</th><th>Total (out of 38)</th><th>Lowest section</th></tr>
+      <tr><td class="k">First score</td><td class="w"></td><td class="w"></td><td class="w"></td></tr>
+      <tr><td class="k">After 30 days</td><td class="w"></td><td class="w"></td><td class="w"></td></tr>
+      <tr><td class="k">Next quarter</td><td class="w"></td><td class="w"></td><td class="w"></td></tr>
+      <tr><td class="k">After a new intake hire</td><td class="w"></td><td class="w"></td><td class="w"></td></tr>
+    </table>
+
+    <div class="panel">
+      <h3>The benchmarks to hold</h3>
+      <ul class="ticks cols">
+        <li>New-case calls answered live within three rings, day or night</li>
+        <li>A name and number taken before any hold or transfer</li>
+        <li>Missed calls, web forms and chats get a personal reply within five minutes</li>
+        <li>No missed new-case calls left without a callback</li>
+        <li>Every lead logged with a status and a source</li>
+        <li>Call reports reviewed monthly; intake mystery-shopped quarterly</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>The PI Intake Scorecard</span><span class="pg">10</span></div>
+</section>
+
+<!-- ═════════════ 11. BACK ═════════════ -->
+<section class="page ink back">
+  <div class="body">
+    <div class="wordmark"><img src="../public/logo.png" alt=""><span class="wm">Marketing <em>Bull</em></span></div>
+    <p class="kicker" style="color:var(--bright); margin-top:0.55in">The Intake Gap Audit</p>
+    <h2 class="display">Rather have it <span class="hot">measured</span> from the outside?</h2>
+    <p class="lede">It's hard to mystery-shop your own team. We do it for you, without your staff knowing when, and score every touchpoint against the same five areas as this scorecard.</p>
+    <ul class="incl">
+      <li>Two mystery-shop calls scored on a timestamped scorecard: one during business hours, one after hours</li>
+      <li>A timed web-form and chat response test</li>
+      <li>A full audit against our intake checklist: speed to lead, coverage, follow-up, qualification and attribution</li>
+      <li>An ROI report that puts a dollar figure on the leak, using your lead volume and average case value</li>
+      <li>A prioritized fix list: what to change first</li>
+      <li>A CRM and intake workflow review, if you give us read-only access</li>
+    </ul>
+    <div class="terms">
+      <div><b>7–10 business days</b>From kickoff to the report.</div>
+      <div><b>Fixed fee, in writing</b>Quoted before anything begins.</div>
+      <div><b>Credited in full</b>Toward any engagement you start within 60 days.</div>
+    </div>
+    <blockquote>"I have personally referred this team to colleagues and clients because I knew I could trust the results. They don't just generate leads — they make sure you close them."<cite>Todd D. Muhlstock, Esq. · WeSueThem.com</cite></blockquote>
+    <div class="cta">
+      <div class="phone">1-833-GET-BULL</div>
+      <div class="url"><a href="https://www.getmarketingbull.com/free-consultation?product=intake-gap-audit&amp;utm_source=scorecard&amp;utm_medium=pdf&amp;utm_campaign=pi-intake-scorecard">getmarketingbull.com/free-consultation</a><br>Book the audit, or a 20-minute conversation</div>
+    </div>
+    <div class="legal">
+      <span>Marketing Bull, LLC · 319 Clematis Street, Suite 300, West Palm Beach, FL 33401 · 1-833-438-2855</span>
+      <span>General business guidance, not legal advice. © 2026 Marketing Bull, LLC</span>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

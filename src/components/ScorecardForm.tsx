@@ -185,7 +185,7 @@ export default function ScorecardForm() {
         <input id="sf-hp" type="text" name="hp" tabIndex={-1} autoComplete="off" value={formData.hp} onChange={handleChange} />
       </div>
       <p className="text-xs text-slate-500 leading-relaxed">
-        We&apos;ll email you the scorecard and up to three short follow-ups from Alex. Unsubscribe anytime.
+        You&apos;ll get the PDF right away, plus up to three short follow-up emails from Alex. Unsubscribe anytime.
       </p>
       {/* SMS opt-in: optional, never pre-checked, and the label must match SMS_CONSENT_LABEL exactly (A2P/TCR). */}
       <div className="flex items-start gap-3">
@@ -201,7 +201,7 @@ export default function ScorecardForm() {
       <Button type="submit" variant="primary" size="md" className="w-full" disabled={status === 'sending' || status === 'sent'}>
         {status === 'sending' || status === 'sent' ? 'Sending…' : 'Send me the scorecard'}
       </Button>
-      <p className="text-xs text-slate-500 text-center">A PDF, in your inbox in a minute. No newsletter.</p>
+      <p className="text-xs text-slate-500 text-center">A PDF, ready to download as soon as you submit. No newsletter.</p>
       <p className="text-xs text-slate-600 text-center leading-relaxed">
         SMS consent is optional and not a condition of purchase. {COMPANY.legalName} ·{' '}
         <Link href="/privacy-policy" className="underline hover:text-slate-900">Privacy Policy</Link> ·{' '}
