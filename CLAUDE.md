@@ -31,8 +31,9 @@ src/
     api/lead/route.ts    lead endpoint: validate → webhook and/or Resend email
     websites/            gallery of every site we have built, from PORTFOLIO in lib/portfolio.ts
     resources/           free downloads from RESOURCES in lib/resources.ts; files in public/resources/
+    recoup/ keyvault/    pages for our open-source apps, from APP_PAGES in lib/appPages.ts via AppDetailPage
     services/ about-us/ case-studies/ blog/ careers/ contact-us/ legal pages
-  components/            Header, Footer, Button, CTASection, ContactForm, ConsultationPage, Turnstile, OfferCard,
+  components/            Header, Footer, Button, CTASection, ContactForm, ConsultationPage, Turnstile, OfferCard, AppDetailPage,
                          OfferCTA, Reveal, TestimonialCarousel, VerticalPage, CallTracking, DeferredAnalytics
   lib/
     constants.ts         COMPANY, OFFERS, NAV_LINKS, TESTIMONIALS — single source of truth
@@ -43,6 +44,7 @@ src/
     blog.ts              POSTS (hardcoded)
     portfolio.ts         PORTFOLIO: the client sites on /websites, facts read from each live site (no traffic or rankings)
     resources.ts         RESOURCES: /resources entries; skills are copied from the private claude-skills repo
+    appPages.ts          APP_PAGES: /recoup and /keyvault content, read from each app's README and source
 ```
 
 ## Rules

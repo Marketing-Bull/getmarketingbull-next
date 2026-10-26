@@ -540,6 +540,8 @@ export interface AppProject {
   job: string;
   facts: string[];
   stack: string;
+  /** Its own page on this site (/recoup, /keyvault), when it has one. */
+  page?: string;
   /** Path under /public. Phone captures are 540x1169, desktop captures 1200x750. */
   image?: { src: string; width: number; height: number; frame: 'phone' | 'desktop' };
 }
@@ -587,6 +589,7 @@ export const APPS: AppProject[] = [
     slug: 'recoup',
     name: 'Recoup',
     repo: 'https://github.com/Marketing-Bull/amb-recoup',
+    page: '/recoup',
     platform: 'iPhone, iPad and Mac',
     status: 'TestFlight beta',
     launched: '2026',
@@ -604,6 +607,7 @@ export const APPS: AppProject[] = [
     slug: 'keyvault',
     name: 'KeyVault',
     repo: 'https://github.com/Marketing-Bull/KeyVault',
+    page: '/keyvault',
     platform: 'Mac',
     status: 'Source available',
     launched: '2026',
@@ -613,7 +617,7 @@ export const APPS: AppProject[] = [
       'Each field is encrypted with AES-256-GCM; the key lives in the macOS Keychain and unlocks with Touch ID.',
       'Templates for API keys, OAuth, service accounts and AWS IAM, plus custom entries with any fields.',
       'Locks on idle and screen sleep, clears copied values after 30 seconds, and warns when a credential is about to expire.',
-      'Scoped read or read-write grants let named scripts and agents use a single entry, not the whole vault.',
+      'Each entry records which named scripts or agents may read or update it, and the grant can be revoked.',
     ],
     stack: 'Swift · SwiftUI, SwiftData, CryptoKit',
   },

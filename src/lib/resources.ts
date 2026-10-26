@@ -141,6 +141,7 @@ export const RESOURCES: Resource[] = [
     ],
     links: [
       { label: 'View the source', href: 'https://github.com/Marketing-Bull/amb-recoup', note: 'github.com/Marketing-Bull/amb-recoup' },
+      { label: 'About Recoup', href: '/recoup', note: 'Features, privacy and how to get it' },
     ],
     updated: '2026-09-16',
   },
@@ -168,6 +169,7 @@ export const RESOURCES: Resource[] = [
     ],
     links: [
       { label: 'View the source', href: 'https://github.com/Marketing-Bull/amb-recoup-web', note: 'github.com/Marketing-Bull/amb-recoup-web' },
+      { label: 'About Recoup', href: '/recoup', note: 'Both versions side by side' },
     ],
     updated: '2026-07-23',
   },
@@ -184,7 +186,7 @@ export const RESOURCES: Resource[] = [
       'AES-256-GCM encryption per field, with the key in the macOS Keychain and Touch ID to unlock',
       'Auto-lock on idle and screen sleep, and copied values that clear after 30 seconds',
       'Expiry dates that warn you before a credential lapses, plus tags and notes',
-      'Scoped read or read-write grants so a named script or agent can use one entry, not the whole vault',
+      'A per-entry record of which named scripts or agents may read or update it, revocable at any time',
     ],
     output:
       'An encrypted vault on your own machine, with encrypted export and import for backups. Nothing is sent to a cloud service.',
@@ -195,6 +197,7 @@ export const RESOURCES: Resource[] = [
     ],
     links: [
       { label: 'View the source', href: 'https://github.com/Marketing-Bull/KeyVault', note: 'github.com/Marketing-Bull/KeyVault' },
+      { label: 'About KeyVault', href: '/keyvault', note: 'Features, security and how to get it' },
     ],
     updated: '2026-07-29',
   },
