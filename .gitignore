@@ -47,3 +47,6 @@ node_modules.nosync/
 .env
 .env.*
 !.env.example
+
+# Scorecard page previews (scorecard/build.mjs)
+scorecard/previews/

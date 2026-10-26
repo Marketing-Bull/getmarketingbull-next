@@ -3,16 +3,16 @@ import Button from '@/components/Button';
 import { COMPANY } from '@/lib/constants';
 
 /**
- * TODO(launch): the public URL of the scorecard PDF. For a file in /public, use a
- * site-relative path such as '/pi-intake-scorecard.pdf'. Until this is a real URL the
- * page shows a visible TODO box instead of a broken download link.
+ * The scorecard PDF, built from scorecard/scorecard.html by scorecard/build.mjs. Should it
+ * ever be set to something that isn't a URL, the page shows a visible TODO box instead of
+ * a broken download link.
  */
-const SCORECARD_PDF_URL = '[LINK TO PDF]';
+const SCORECARD_PDF_URL = '/pi-intake-scorecard.pdf';
 const PDF_READY = SCORECARD_PDF_URL.startsWith('/') || SCORECARD_PDF_URL.startsWith('https://');
 
 export const metadata: Metadata = {
-  title: 'Your scorecard is on its way',
-  description: 'Check your inbox for the PDF (and your spam folder, just in case).',
+  title: 'Your scorecard is ready',
+  description: 'Download the PI Intake Scorecard PDF.',
   // Same as /thank-you: noindex, and no canonical (a canonical asks Google to index
   // this URL, which contradicts the noindex). Deliberately not in the sitemap.
   robots: { index: false, follow: true },
@@ -25,9 +25,9 @@ export default function PiIntakeScorecardThanksPage() {
       <div className="container-md relative py-24 max-w-5xl">
         <div className="max-w-2xl mx-auto text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-6">PI Intake Scorecard</p>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">Your scorecard is on its way.</h1>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">Your scorecard is ready.</h1>
           <p className="text-lg text-slate-300 leading-relaxed mb-8">
-            Check your inbox for the PDF (and your spam folder, just in case). Score it with whoever runs intake, and make the Saturday-night call yourself if you can.
+            Download it below. Score it with whoever runs intake, and make the Saturday-night call yourself if you can.
           </p>
           {PDF_READY ? (
             <Button variant="secondary" size="md" href={SCORECARD_PDF_URL} external>Download the scorecard (PDF)</Button>
@@ -60,9 +60,6 @@ export default function PiIntakeScorecardThanksPage() {
         <p className="mt-10 text-center text-sm text-slate-400">
           Prefer to call?{' '}
           <a href={`tel:${COMPANY.phoneE164}`} className="font-semibold text-white underline decoration-red-500 underline-offset-4">{COMPANY.phone}</a>, Mon to Fri, 9am to 6pm ET.
-        </p>
-        <p className="mt-3 text-center text-xs text-slate-500">
-          The scorecard is released under the MIT License. Copyright &copy; 2026 {COMPANY.legalName}. All rights reserved.
         </p>
       </div>
     </section>

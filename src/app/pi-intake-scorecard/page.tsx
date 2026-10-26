@@ -34,10 +34,11 @@ const BENEFITS = [
 ];
 
 const INSIDE = [
-  '19 scored questions in five sections: Coverage, Speed to lead, Qualification, Follow-up, Attribution and oversight',
-  'A scoring key with three bands and what each one means',
-  'A five-step self mystery-shop you can run on your own firm this week',
-  'Red-flag questions to fix first, whatever your total',
+  '19 scored questions in five sections: Coverage, Speed to lead, Qualification, Follow-up, Attribution and oversight, with room to score it twice: owner and intake lead',
+  'A scoring key with three bands, and the red-flag questions to fix first, whatever your total',
+  'What to fix first in each section, with an example of what good looks like',
+  'A self mystery-shop worksheet for calling your own firm this week',
+  'A 30-day plan, one section a week, and the benchmarks to hold',
 ];
 
 // Testimonials are data in constants.ts. The strip quotes the last sentence of this one.
@@ -130,9 +131,6 @@ export default function PiIntakeScorecardPage() {
         <p className="container-md text-center text-sm text-slate-500">
           {COMPANY.name} · {COMPANY.address} ·{' '}
           <a href={`tel:${COMPANY.phoneE164}`} className="font-semibold text-slate-700 hover:text-red-600">{COMPANY.phone}</a>
-        </p>
-        <p className="container-md mt-3 text-center text-xs text-slate-500">
-          The scorecard is released under the MIT License. Copyright &copy; 2026 {COMPANY.legalName}. All rights reserved.
         </p>
       </section>
     </>
