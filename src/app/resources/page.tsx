@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMeta({
   path: '/resources',
   title: 'Resources',
   description:
-    'Free tools from Marketing Bull: a Claude skill that audits law firm ads against the Florida Bar rules, an offline-first Markdown editor, our RingDash call-tracking app, and the open-source Recoup and KeyVault apps.',
+    'Free tools from Marketing Bull: a Claude skill that audits law firm ads against the Florida Bar rules, our RingDash call-tracking app, and the open-source Markdown editor, Recoup and KeyVault apps.',
 });
 
 const updatedLabel = (iso: string) =>
