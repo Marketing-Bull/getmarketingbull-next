@@ -189,6 +189,9 @@ export default function WebsitesPage() {
                     {a.url && (
                       <a href={a.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-white hover:text-red-400 transition">Open the app ↗</a>
                     )}
+                    {a.page && (
+                      <Link href={a.page} className="font-semibold text-white hover:text-red-400 transition">About {a.name} →</Link>
+                    )}
                     <a href={a.repo} target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-300 hover:text-red-400 transition">Source on GitHub ↗</a>
                     <span className="text-xs text-slate-500">{a.stack} · {a.launched}</span>
                   </div>
