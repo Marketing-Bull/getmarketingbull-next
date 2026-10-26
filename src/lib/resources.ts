@@ -119,7 +119,7 @@ export const RESOURCES: Resource[] = [
   {
     slug: 'recoup',
     name: 'Recoup for iPhone, iPad and Mac',
-    kind: 'App source on GitHub',
+    kind: 'Open source (MIT)',
     summary:
       'Track every billable hour, mile and dollar on client projects, and recoup it. One native SwiftUI app runs on iPhone, iPad and Mac, synced through your own iCloud, with no server to host.',
     audience: 'Freelancers, consultants and small agencies who bill by the hour and drive to clients.',
@@ -146,7 +146,7 @@ export const RESOURCES: Resource[] = [
   {
     slug: 'recoup-web',
     name: 'Recoup Web',
-    kind: 'App source on GitHub',
+    kind: 'Open source (MIT)',
     summary:
       'The web version of Recoup for teams: time, mileage, expenses, clients and projects in the browser, with organizations, roles and an admin panel.',
     audience: 'Small agencies and teams who want shared time and expense tracking that they host themselves.',
@@ -173,7 +173,7 @@ export const RESOURCES: Resource[] = [
   {
     slug: 'keyvault',
     name: 'KeyVault',
-    kind: 'App source on GitHub',
+    kind: 'Open source (MIT)',
     summary:
       'A native Mac app for API keys, OAuth credentials and multi-field developer secrets, stored entirely on your Mac with strong encryption. A password manager that understands developer credentials.',
     audience: 'Developers, agencies and anyone juggling API keys for clients and tools.',
