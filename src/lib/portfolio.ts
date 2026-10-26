@@ -592,7 +592,7 @@ export const APPS: AppProject[] = [
     slug: 'recoup',
     name: 'Recoup',
     repo: 'https://github.com/Marketing-Bull/amb-recoup',
-    requestAccess: 'the Recoup TestFlight beta',
+    testflight: 'https://testflight.apple.com/join/QGcGHjQe',
     platform: 'iPhone, iPad and Mac',
     status: 'TestFlight beta',
     launched: '2026',
