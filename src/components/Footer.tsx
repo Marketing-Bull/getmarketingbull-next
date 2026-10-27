@@ -52,6 +52,8 @@ export default function Footer() {
               <li><Link href="/websites" className="hover:text-white transition">Websites We&apos;ve Built</Link></li>
               <li><Link href="/resources" className="hover:text-white transition">Resources</Link></li>
               <li><a href="https://md.getmarketingbull.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">Markdown Editor</a></li>
+              <li><Link href="/recoup" className="hover:text-white transition">Recoup</Link></li>
+              <li><Link href="/keyvault" className="hover:text-white transition">KeyVault</Link></li>
               <li><Link href="/careers" className="hover:text-white transition">Careers</Link></li>
               <li><Link href="/blog" className="hover:text-white transition">Blog</Link></li>
               <li><Link href="/contact-us" className="hover:text-white transition">Contact</Link></li>
@@ -62,12 +64,7 @@ export default function Footer() {
             <ul className="text-sm space-y-2">
               <li><a href={`tel:${COMPANY.phoneE164}`} className="text-blue-400 hover:text-blue-300">{COMPANY.phone}</a></li>
               <li><a href={`mailto:${COMPANY.email}`} className="text-blue-400 hover:text-blue-300">{COMPANY.email}</a></li>
-              <li>{COMPANY.address}</li>
-              <li className="pt-2">
-                <a href={COMPANY.goleadsUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs border border-slate-700 hover:border-slate-500 text-slate-400 hover:text-white px-3 py-1.5 rounded-full transition">
-                  GoLeads Connect →
-                </a>
-              </li>
+              <li>{COMPANY.street}<br />{COMPANY.city}, {COMPANY.state} {COMPANY.zip}</li>
             </ul>
           </div>
         </div>
