@@ -35,6 +35,7 @@ export const COMPANY = {
     facebook: 'https://www.facebook.com/getmarketingbull',
     twitter: 'https://x.com/getmarketingbull',
   },
+  /** Not linked anywhere while the app is down; the footer button was removed in Oct 2026. */
   goleadsUrl: 'https://app.goleadsconnect.com',
   bookingUrl: '/free-consultation',
 };
