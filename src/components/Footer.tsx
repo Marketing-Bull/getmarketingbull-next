@@ -64,7 +64,7 @@ export default function Footer() {
             <ul className="text-sm space-y-2">
               <li><a href={`tel:${COMPANY.phoneE164}`} className="text-blue-400 hover:text-blue-300">{COMPANY.phone}</a></li>
               <li><a href={`mailto:${COMPANY.email}`} className="text-blue-400 hover:text-blue-300">{COMPANY.email}</a></li>
-              <li>{COMPANY.address}</li>
+              <li>{COMPANY.street}<br />{COMPANY.city}, {COMPANY.state} {COMPANY.zip}</li>
               <li className="pt-2">
                 <a href={COMPANY.goleadsUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs border border-slate-700 hover:border-slate-500 text-slate-400 hover:text-white px-3 py-1.5 rounded-full transition">
                   GoLeads Connect →
