@@ -111,6 +111,7 @@ export const RESOURCES: Resource[] = [
       'Missed calls start landing in your callback queue, and your reports start filling in.',
     ],
     links: [
+      { label: 'See the RingDash screens', href: '/ringdash', note: 'Desktop and phone' },
       { label: 'Talk to us about RingDash', href: '/free-consultation', note: 'Twenty minutes, no obligation' },
     ],
     caveat:
