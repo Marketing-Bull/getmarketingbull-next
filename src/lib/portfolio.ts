@@ -530,8 +530,8 @@ export interface AppProject {
   name: string;
   /** Where to use it. Omitted for apps with no public build. */
   url?: string;
-  /** Public source repository. */
-  repo: string;
+  /** Public source repository. Omitted when the source is private (RingDash). */
+  repo?: string;
   platform: string;
   /** How it ships today, shown as a badge. */
   status: string;
@@ -544,9 +544,34 @@ export interface AppProject {
   page?: string;
   /** Path under /public. Phone captures are 540x1169, desktop captures 1200x750. */
   image?: { src: string; width: number; height: number; frame: 'phone' | 'desktop' };
+  /** Up to 3 extra screenshots, shown as thumbnails under the main image on /websites. */
+  gallery?: { src: string; width: number; height: number; alt: string; caption?: string }[];
 }
 
 export const APPS: AppProject[] = [
+  {
+    slug: 'ringdash',
+    name: 'RingDash',
+    page: '/ringdash',
+    platform: 'Web app, installable',
+    status: 'In development',
+    launched: '2026',
+    what: 'Call tracking and a callback queue for personal injury law firms: every call rings the team at once, and missed calls become callbacks instead of lost leads.',
+    job: 'Show a firm which calls were answered, missed or spam, and get a missed call called back fast.',
+    facts: [
+      'Tracking numbers per client or campaign, with ring groups that ring every phone at once and a voicemail fallback.',
+      'A callback queue for missed calls, with a push alert to subscribed phones and spam triage with a blocklist.',
+      'Dated reports on call volume, answer rate, spam share and callback speed, per client and per line, with CSV export.',
+      'Installs as an app on a phone. The source is private; ask us how it would work for your firm.',
+    ],
+    stack: 'Python · FastAPI, Postgres, Twilio',
+    image: { src: '/work/apps/ringdash/overview.webp', width: 1054, height: 749, frame: 'desktop' },
+    gallery: [
+      { src: '/work/apps/ringdash/calls.webp', width: 1054, height: 689, alt: 'RingDash All Calls table with filters' },
+      { src: '/work/apps/ringdash/clients.webp', width: 1054, height: 689, alt: 'RingDash clients and tracking numbers' },
+      { src: '/work/apps/ringdash/mobile-overview.webp', width: 406, height: 636, alt: 'RingDash overview on a phone' },
+    ],
+  },
   {
     slug: 'markdown-editor',
     name: 'Markdown Editor',
@@ -583,6 +608,14 @@ export const APPS: AppProject[] = [
       'Forms prefill the last client and project, with preset chips instead of typing.',
     ],
     stack: 'Swift · SwiftUI, SwiftData, CloudKit',
+    image: { src: '/work/apps/recoup/dashboard.webp', width: 540, height: 1169, frame: 'phone' },
+    gallery: [
+      { src: '/work/apps/recoup/time.webp', width: 540, height: 1169, caption: 'Time', alt: 'Recoup Time list with hours and billable amounts per entry' },
+      { src: '/work/apps/recoup/mileage.webp', width: 540, height: 1169, caption: 'Mileage', alt: 'Recoup Mileage list with trips, miles and deductible value' },
+      { src: '/work/apps/recoup/expenses.webp', width: 540, height: 1169, caption: 'Expenses', alt: 'Recoup Expenses list with categories, amounts and billable flags' },
+      { src: '/work/apps/recoup/clients.webp', width: 540, height: 1169, caption: 'Clients', alt: 'Recoup Clients list with hourly rates' },
+      { src: '/work/apps/recoup/log-trip.webp', width: 540, height: 1169, caption: 'Log a trip', alt: 'Recoup Log Trip form with repeat-a-recent-trip shortcut and round-trip toggle' },
+    ],
   },
   {
     slug: 'keyvault',
@@ -601,5 +634,6 @@ export const APPS: AppProject[] = [
       'Each entry records which named scripts or agents may read or update it, and the grant can be revoked.',
     ],
     stack: 'Swift · SwiftUI, SwiftData, CryptoKit',
+    image: { src: '/work/apps/keyvault.webp', width: 1200, height: 750, frame: 'desktop' },
   },
 ];
