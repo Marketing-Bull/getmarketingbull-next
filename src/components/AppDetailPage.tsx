@@ -71,9 +71,9 @@ export default function AppDetailPage({ app }: { app: AppPageData }) {
             <p className="text-xs font-bold uppercase tracking-widest text-red-400 mb-3">The screens</p>
             <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-3">{app.name}, in use.</h2>
             <p className="text-slate-400 max-w-2xl leading-relaxed mb-10">Captured with the app&apos;s built-in sample data: the clients, projects and amounts are fictional.</p>
-            <div className="flex gap-8 overflow-x-auto pb-4 snap-x lg:justify-center">
+            <div className="flex gap-8 overflow-x-auto pb-4 snap-x">
               {gallery.map((g) => (
-                <figure key={g.src} className="shrink-0 snap-center text-center">
+                <figure key={g.src} className="shrink-0 snap-center text-center first:ml-auto last:mr-auto">
                   <img src={g.src} alt={g.alt} width={g.width} height={g.height} loading="lazy" decoding="async" className="w-56 h-auto rounded-[2rem] border-[7px] border-slate-800 shadow-2xl" />
                   {g.caption && <figcaption className="mt-4 text-sm font-semibold text-slate-300">{g.caption}</figcaption>}
                 </figure>
