@@ -548,25 +548,6 @@ export interface AppProject {
 
 export const APPS: AppProject[] = [
   {
-    slug: 'mmg-app',
-    name: "Miller's Marketing Group app",
-    url: 'https://mmg-app-pwa.vercel.app/',
-    repo: 'https://github.com/Marketing-Bull/mmg-app-pwa',
-    platform: 'Installable web app (iPhone, Android)',
-    status: 'Live',
-    launched: '2026',
-    what: "A mobile-first app for Miller's Marketing Group: events, 30-second RSVPs, sponsorship and community discussion for Florida's personal injury professionals.",
-    job: 'Give the community one place on their phone to find the next event, RSVP and talk between mixers, without an app-store download.',
-    facts: [
-      'Installs to the home screen with shortcuts straight to Events, Discuss and Sponsor, and shows an offline page when there is no signal.',
-      "Events and recaps come from the marketing site's live feed, so the team updates one place and both stay in step.",
-      'Every form relays through a single API route to email; interaction state stays in the visitor’s own browser, so there is no database to run.',
-      'CI boots the production build and checks every route returns and still shows its key copy, so a release cannot quietly drop a button.',
-    ],
-    stack: 'Next.js on Vercel · PWA',
-    image: { src: '/work/apps/mmg-app.webp', width: 540, height: 1169, frame: 'phone' },
-  },
-  {
     slug: 'markdown-editor',
     name: 'Markdown Editor',
     url: 'https://md.getmarketingbull.com/',
