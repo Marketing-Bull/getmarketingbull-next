@@ -545,7 +545,7 @@ export interface AppProject {
   /** Path under /public. Phone captures are 540x1169, desktop captures 1200x750. */
   image?: { src: string; width: number; height: number; frame: 'phone' | 'desktop' };
   /** Up to 3 extra screenshots, shown as thumbnails under the main image on /websites. */
-  gallery?: { src: string; width: number; height: number; alt: string }[];
+  gallery?: { src: string; width: number; height: number; alt: string; caption?: string }[];
 }
 
 export const APPS: AppProject[] = [
@@ -608,6 +608,14 @@ export const APPS: AppProject[] = [
       'Forms prefill the last client and project, with preset chips instead of typing.',
     ],
     stack: 'Swift · SwiftUI, SwiftData, CloudKit',
+    image: { src: '/work/apps/recoup/dashboard.webp', width: 540, height: 1169, frame: 'phone' },
+    gallery: [
+      { src: '/work/apps/recoup/time.webp', width: 540, height: 1169, caption: 'Time', alt: 'Recoup Time list with hours and billable amounts per entry' },
+      { src: '/work/apps/recoup/mileage.webp', width: 540, height: 1169, caption: 'Mileage', alt: 'Recoup Mileage list with trips, miles and deductible value' },
+      { src: '/work/apps/recoup/expenses.webp', width: 540, height: 1169, caption: 'Expenses', alt: 'Recoup Expenses list with categories, amounts and billable flags' },
+      { src: '/work/apps/recoup/clients.webp', width: 540, height: 1169, caption: 'Clients', alt: 'Recoup Clients list with hourly rates' },
+      { src: '/work/apps/recoup/log-trip.webp', width: 540, height: 1169, caption: 'Log a trip', alt: 'Recoup Log Trip form with repeat-a-recent-trip shortcut and round-trip toggle' },
+    ],
   },
   {
     slug: 'keyvault',
@@ -626,5 +634,6 @@ export const APPS: AppProject[] = [
       'Each entry records which named scripts or agents may read or update it, and the grant can be revoked.',
     ],
     stack: 'Swift · SwiftUI, SwiftData, CryptoKit',
+    image: { src: '/work/apps/keyvault.webp', width: 1200, height: 750, frame: 'desktop' },
   },
 ];

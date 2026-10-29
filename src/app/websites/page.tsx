@@ -171,7 +171,7 @@ export default function WebsitesPage() {
                 </div>
                 {a.gallery && a.page && (
                   <div className="grid grid-cols-3 gap-px bg-slate-800 border-b border-slate-800">
-                    {a.gallery.map((g) => (
+                    {a.gallery.slice(0, 3).map((g) => (
                       <Link key={g.src} href={a.page!} className="block h-24 sm:h-28 overflow-hidden bg-slate-900">
                         <img src={g.src} alt={g.alt} width={g.width} height={g.height} loading="lazy" decoding="async" className="w-full h-full object-cover object-top hover:opacity-90 transition" />
                       </Link>
