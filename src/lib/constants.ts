@@ -316,7 +316,6 @@ export const NAV_LINKS = [
 
 export const TESTIMONIALS = [
   { name: 'Todd D. Muhlstock, Esq.', company: 'WeSueThem.com', quote: "I have personally referred this team to colleagues and clients because I knew I could trust the results. They don't just generate leads — they make sure you close them.", rating: 5 },
-  { name: 'Dr. Manoj Sadhnani', company: 'Queens Hyperbaric', quote: 'We went from struggling to fill slots to seeing 30 new faces every month.', rating: 5 },
   { name: 'Angela McMullin', company: '3D Dental', quote: 'Alexander is the best! He goes above and beyond to make sure his clients are happy and getting results.', rating: 5 },
   { name: 'Isak Yuhan', company: '1-800-HURT-511', quote: 'They delivered results beyond expectations.', rating: 5 },
   { name: 'Laura Cole, Esq.', company: 'Attorney at Law', quote: 'Marketing Bull is excellent!!', rating: 5 },
