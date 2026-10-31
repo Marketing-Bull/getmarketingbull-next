@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Button from '@/components/Button';
 import CTASection from '@/components/CTASection';
+import ZoomImage from '@/components/ZoomImage';
 import { COMPANY } from '@/lib/constants';
 import type { AppPageData } from '@/lib/appPages';
 import { APPS } from '@/lib/portfolio';
@@ -55,9 +56,9 @@ export default function AppDetailPage({ app }: { app: AppPageData }) {
           {image && (
             <div className="lg:col-span-5 flex justify-center">
               {image.frame === 'phone' ? (
-                <img src={image.src} alt={`${app.name} on a phone`} width={image.width} height={image.height} className="w-64 h-auto rounded-[2rem] border-[7px] border-slate-800 shadow-2xl" />
+                <ZoomImage src={image.src} alt={`${app.name} on a phone`} width={image.width} height={image.height} loading="eager" className="w-64 h-auto rounded-[2rem] border-[7px] border-slate-800 shadow-2xl" />
               ) : (
-                <img src={image.src} alt={`${app.name} screenshot`} width={image.width} height={image.height} className="w-full h-auto rounded-2xl border border-slate-800 shadow-2xl" />
+                <ZoomImage src={image.src} alt={`${app.name} screenshot`} width={image.width} height={image.height} loading="eager" buttonClassName="w-full" className="w-full h-auto rounded-2xl border border-slate-800 shadow-2xl" />
               )}
             </div>
           )}
@@ -74,7 +75,7 @@ export default function AppDetailPage({ app }: { app: AppPageData }) {
             <div className="flex gap-8 overflow-x-auto pb-4 snap-x">
               {gallery.map((g) => (
                 <figure key={g.src} className="shrink-0 snap-center text-center first:ml-auto last:mr-auto">
-                  <img src={g.src} alt={g.alt} width={g.width} height={g.height} loading="lazy" decoding="async" className="w-56 h-auto rounded-[2rem] border-[7px] border-slate-800 shadow-2xl" />
+                  <ZoomImage src={g.src} alt={g.alt} width={g.width} height={g.height} caption={g.caption} className="w-56 h-auto rounded-[2rem] border-[7px] border-slate-800 shadow-2xl" />
                   {g.caption && <figcaption className="mt-4 text-sm font-semibold text-slate-300">{g.caption}</figcaption>}
                 </figure>
               ))}
