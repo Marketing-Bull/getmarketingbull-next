@@ -73,9 +73,9 @@ const WHO = [
 ];
 
 const OUTCOMES = [
-  { n: '0 → 20', l: 'personal injury cases per month in twelve months, from a standing start', src: '1-800-HURT-511' },
-  { n: '30 days', l: 'to bring missed intake calls to zero after the call center and CRM went live', src: '1-800-HURT-511' },
-  { n: '30+', l: 'new patients per month for a specialty clinic that had an empty schedule', src: 'Queens Hyperbaric' },
+  { n: 'From zero', l: 'Brand, multilingual site, media buying, CRM and an intake call center for a new personal injury brand', src: '1-800-HURT-511' },
+  { n: 'Full stack', l: 'Brand, website, local search, Google Ads and reviews for a specialty clinic patients had never searched for', src: 'Queens Hyperbaric' },
+  { n: '2 languages', l: 'A 52-page personal injury site with every page in English and Spanish, call and form tracking from launch', src: 'Linder Diaz Law' },
 ];
 
 const ENGAGEMENT = [
@@ -217,8 +217,8 @@ export default function HomePage() {
       <section className="py-20 md:py-28 bg-slate-50 border-y border-slate-100">
         <div className="container-md">
           <Reveal>
-            <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">Selected outcomes</p>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-12">Measured in cases and patients, not impressions.</h2>
+            <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">Selected work</p>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-12">Systems built end to end, not campaigns rented.</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {OUTCOMES.map((o, i) => (
