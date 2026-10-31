@@ -4,6 +4,7 @@ import CTASection from '@/components/CTASection';
 import { COMPANY } from '@/lib/constants';
 import { APPS, AUDITED, FACT_LABELS, PORTFOLIO, PORTFOLIO_CATEGORIES, type FactLabel } from '@/lib/portfolio';
 import { pageMeta } from '@/lib/metadata';
+import ZoomImage from '@/components/ZoomImage';
 import { breadcrumbSchema, portfolioSchema } from '@/lib/schema';
 
 export const metadata: Metadata = pageMeta({
@@ -156,13 +157,22 @@ export default function WebsitesPage() {
             {APPS.map((a) => (
               <article key={a.slug} id={a.slug} className="flex flex-col rounded-3xl border border-slate-800 bg-slate-900 overflow-hidden scroll-mt-32">
                 <div className="aspect-[16/10] bg-slate-800/60 border-b border-slate-800 flex items-center justify-center overflow-hidden">
-                  {a.image ? (
-                    a.image.frame === 'phone' ? (
-                      <img src={a.image.src} alt={`${a.name} on a phone`} width={a.image.width} height={a.image.height} loading="lazy" decoding="async" className="h-[88%] w-auto mt-[12%] rounded-t-[1.75rem] border-[6px] border-b-0 border-slate-950 shadow-2xl" />
+                  {a.image ? (() => {
+                    const phone = a.image.frame === 'phone';
+                    const cls = phone
+                      ? 'h-full w-auto rounded-t-[1.75rem] border-[6px] border-b-0 border-slate-950 shadow-2xl'
+                      : 'w-full h-full object-cover object-top';
+                    const box = phone ? 'h-[88%] mt-[12%]' : 'w-full h-full';
+                    const alt = phone ? `${a.name} on a phone` : `${a.name} screenshot`;
+                    // With a details page, the picture goes there; without one, it opens full size.
+                    return a.page ? (
+                      <Link href={a.page} className={`block ${box} hover:opacity-90 transition`} aria-label={`About ${a.name}`}>
+                        <img src={a.image.src} alt={alt} width={a.image.width} height={a.image.height} loading="lazy" decoding="async" className={cls} />
+                      </Link>
                     ) : (
-                      <img src={a.image.src} alt={`${a.name} screenshot`} width={a.image.width} height={a.image.height} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
-                    )
-                  ) : (
+                      <ZoomImage src={a.image.src} alt={alt} width={a.image.width} height={a.image.height} className={cls} buttonClassName={box} />
+                    );
+                  })() : (
                     <div className="text-center px-6">
                       <p className="text-3xl md:text-4xl font-black tracking-tight">{a.name}</p>
                       <p className="mt-2 text-sm text-slate-400">{a.platform}</p>
@@ -172,11 +182,13 @@ export default function WebsitesPage() {
                 {a.gallery && (
                   <div className="grid grid-cols-3 gap-px bg-slate-800 border-b border-slate-800">
                     {a.gallery.slice(0, 3).map((g) => {
-                      const img = <img src={g.src} alt={g.alt} width={g.width} height={g.height} loading="lazy" decoding="async" className="w-full h-full object-cover object-top hover:opacity-90 transition" />;
+                      const cls = 'w-full h-full object-cover object-top hover:opacity-90 transition';
                       return a.page ? (
-                        <Link key={g.src} href={a.page} className="block h-24 sm:h-28 overflow-hidden bg-slate-900">{img}</Link>
+                        <Link key={g.src} href={a.page} className="block h-24 sm:h-28 overflow-hidden bg-slate-900">
+                          <img src={g.src} alt={g.alt} width={g.width} height={g.height} loading="lazy" decoding="async" className={cls} />
+                        </Link>
                       ) : (
-                        <div key={g.src} className="h-24 sm:h-28 overflow-hidden bg-slate-900">{img}</div>
+                        <ZoomImage key={g.src} src={g.src} alt={g.alt} width={g.width} height={g.height} caption={g.caption} className={cls} buttonClassName="h-24 sm:h-28 w-full overflow-hidden bg-slate-900" />
                       );
                     })}
                   </div>
@@ -186,7 +198,15 @@ export default function WebsitesPage() {
                     <span className="rounded-full border border-slate-700 px-2.5 py-0.5 font-semibold text-slate-300">{a.platform}</span>
                     <span className={`rounded-full px-2.5 py-0.5 font-semibold ${a.status === 'Live' ? 'bg-emerald-500/15 text-emerald-300' : 'bg-amber-500/15 text-amber-300'}`}>{a.status}</span>
                   </div>
-                  <h3 className="mt-4 text-2xl font-black tracking-tight">{a.name}</h3>
+                  <h3 className="mt-4 text-2xl font-black tracking-tight">
+                    {a.page ? (
+                      <Link href={a.page} className="hover:text-red-400 transition">{a.name}</Link>
+                    ) : a.url ? (
+                      <a href={a.url} target="_blank" rel="noopener noreferrer" className="hover:text-red-400 transition">{a.name}</a>
+                    ) : (
+                      a.name
+                    )}
+                  </h3>
                   <p className="mt-3 text-slate-300 leading-relaxed">{a.what}</p>
                   <p className="mt-3 text-sm text-slate-400 leading-relaxed"><span className="font-semibold text-white">Built to:</span> {a.job}</p>
                   <ul className="mt-5 space-y-2.5">
