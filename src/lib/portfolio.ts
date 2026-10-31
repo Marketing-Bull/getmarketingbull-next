@@ -663,8 +663,9 @@ export const APPS: AppProject[] = [
   {
     slug: 'dino-defenders',
     name: 'Dino Defenders',
+    url: 'https://dino-defenders.vercel.app/',
     platform: 'Browser game, desktop and phone',
-    status: 'Private beta',
+    status: 'Live',
     launched: '2026',
     what: 'A tower-defense game for children learning multiplication and division: build a dinosaur squad, protect the egg nest and earn gems by solving times-table questions.',
     job: 'Make times-table practice something kids ask to play, without timers or penalties for wrong answers.',
