@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import CTASection from '@/components/CTASection';
 import { COMPANY } from '@/lib/constants';
-import { APPS, AUDITED, FACT_LABELS, PORTFOLIO, PORTFOLIO_CATEGORIES, type FactLabel } from '@/lib/portfolio';
+import { APPS, ARCHIVE, AUDITED, FACT_LABELS, PORTFOLIO, PORTFOLIO_CATEGORIES, type FactLabel } from '@/lib/portfolio';
 import { pageMeta } from '@/lib/metadata';
 import ZoomImage from '@/components/ZoomImage';
 import { breadcrumbSchema, portfolioSchema } from '@/lib/schema';
@@ -61,7 +61,7 @@ export default function WebsitesPage() {
             {PORTFOLIO.length} live sites, {totalPages}+ pages. For each one: what the business does, what the site was built to do, and what is under the hood, explained as what it does for the owner rather than what it is called.
           </p>
           <p className="mt-6 text-sm text-slate-500">
-            Every site below is live. Click through; it is the fastest way to judge the work. Then see the <a href="#apps" className="font-semibold text-slate-300 hover:text-white transition">{APPS.length} apps we&apos;ve built ↓</a>
+            Every site in the five sections below is live. Click through; it is the fastest way to judge the work. Then see <a href="#earlier-work" className="font-semibold text-slate-300 hover:text-white transition">{ARCHIVE.length} earlier sites</a> that are no longer online as we built them, and the <a href="#apps" className="font-semibold text-slate-300 hover:text-white transition">{APPS.length} apps we&apos;ve built ↓</a>
           </p>
         </div>
       </section>
@@ -89,6 +89,9 @@ export default function WebsitesPage() {
               {c} <span className="text-slate-400 font-normal">({PORTFOLIO.filter((s) => s.category === c).length})</span>
             </a>
           ))}
+          <a href="#earlier-work" className="text-sm font-semibold text-slate-700 hover:text-red-600 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 transition">
+            Earlier work <span className="text-slate-400 font-normal">({ARCHIVE.length})</span>
+          </a>
           <a href="#apps" className="text-sm font-semibold text-slate-700 hover:text-red-600 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 transition">
             Apps <span className="text-slate-400 font-normal">({APPS.length})</span>
           </a>
@@ -116,7 +119,7 @@ export default function WebsitesPage() {
                           className="w-full h-auto group-hover:scale-[1.02] transition-transform duration-500"
                         />
                       </a>
-                      <p className="mt-3 text-xs text-slate-500">{s.stack} · launched {s.launched}</p>
+                      <p className="mt-3 text-xs text-slate-500">{s.stack}{s.launched && ` · launched ${s.launched}`}</p>
                     </div>
                     <div className="lg:col-span-7">
                       <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">{s.category} · {s.location}</p>
@@ -145,6 +148,46 @@ export default function WebsitesPage() {
           </section>
         );
       })}
+
+      <section id="earlier-work" className="py-16 md:py-20 bg-slate-50 border-t border-slate-100 scroll-mt-32">
+        <div className="container-md">
+          <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">Earlier work</p>
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-4">Sites we built that are no longer online as we built them.</h2>
+          <p className="text-slate-600 max-w-2xl leading-relaxed mb-10">
+            Businesses close, move on, or hand their site to a new team. These are shown from our own screenshots of the site we delivered, with what we did for each one. There is no link, because the address no longer shows our work.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {ARCHIVE.map((s) => (
+              <article key={s.slug} id={s.slug} className="flex flex-col rounded-3xl border border-slate-200 bg-white overflow-hidden scroll-mt-32">
+                <ZoomImage
+                  src={s.image}
+                  alt={`${s.name} homepage as we delivered it`}
+                  width={1200}
+                  height={750}
+                  caption={`${s.name}, as we delivered it`}
+                  className="w-full h-auto"
+                  buttonClassName="w-full border-b border-slate-200 bg-slate-100"
+                />
+                <div className="flex flex-col flex-1 p-6">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">{s.category}{s.location && ` · ${s.location}`}</p>
+                  <h3 className="mt-2 text-xl font-black tracking-tight text-slate-900">{s.name}</h3>
+                  <p className="mt-3 text-sm text-slate-700 leading-relaxed">{s.what}</p>
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-slate-500">What we did</p>
+                  <ul className="mt-2 space-y-1.5">
+                    {s.services.map((x) => (
+                      <li key={x} className="flex gap-2.5 text-sm text-slate-700 leading-relaxed">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-red-500" aria-hidden="true" />
+                        <span>{x}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-auto pt-5 text-xs text-slate-500">{s.status}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section id="apps" className="py-16 md:py-20 bg-slate-950 text-white scroll-mt-32">
         <div className="container-md">

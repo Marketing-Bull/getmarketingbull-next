@@ -15,8 +15,8 @@ export interface PortfolioSite {
   domain: string;
   category: PortfolioCategory;
   location: string;
-  /** Year the current build went live. */
-  launched: string;
+  /** Year the current build went live, when known. */
+  launched?: string;
   /** Date this entry's facts were last read from the live site, when later than AUDITED. */
   audited?: string;
   /** One line on what the business does, in the client's words where possible. */
@@ -516,9 +516,186 @@ export const PORTFOLIO: PortfolioSite[] = [
     image: '/work/m.rockthetreatment.webp',
     caseStudy: 'rock-the-treatment-mobile',
   },
+  {
+    slug: 'moreland-mendez',
+    name: 'Moreland & Mendez, P.A.',
+    url: 'https://mandmpa.com/',
+    domain: 'mandmpa.com',
+    category: 'Law',
+    location: 'Maitland, FL',
+    launched: '2024',
+    audited: '2026-10-31',
+    what: 'An Orlando-area firm handling real estate closings and title, workers\u2019 compensation, mediation, foreclosure defense, business and corporate matters, and uncontested divorce.',
+    job: 'Give a multi-practice firm one site where a client can find the right attorney, and where agents and buyers can order title and price a closing without a phone call.',
+    facts: [
+      { label: 'Converts', text: 'Order title, submit a contract and estimate closing costs straight from the homepage, through a TitleLeap portal built for the firm; mediation can be scheduled from the same page.' },
+      { label: 'Converts', text: 'Office hours, phone and documents email in a bar on every page, with two tap-to-call links.' },
+      { label: 'Rich results', text: 'Organization markup with the Maitland office address and a contact point.' },
+      { label: 'Found', text: 'An XML sitemap listed in robots.txt and a canonical URL on every page.' },
+      { label: 'Measured', text: 'GA4 is installed, so visits and title orders can be traced to their source.' },
+    ],
+    stack: 'WordPress on Cloudflare · 7 pages',
+    image: '/work/mandmpa.webp',
+  },
+  {
+    slug: 'mosaic-diagnostic-imaging',
+    name: 'Mosaic Diagnostic Imaging',
+    url: 'https://mosaicdiagnostics.com/',
+    domain: 'mosaicdiagnostics.com',
+    category: 'Medical & Wellness',
+    location: 'New York City & Long Island',
+    launched: '2025',
+    audited: '2026-10-31',
+    what: 'Open MRI and diagnostic imaging at seven centers across New York City and Long Island, read by board-certified radiologists.',
+    job: 'Put seven imaging centers, two audiences (patients and referring doctors) and five languages behind one booking button.',
+    facts: [
+      { label: 'Local', text: 'A page for each of the seven locations, from the Bronx and Brooklyn to Howard Beach and Deer Park, plus a KML locations file that maps them all.' },
+      { label: 'Found', text: 'A full Spanish edition, with hreflang for English, Spanish, Russian, Chinese and Georgian, so each patient lands on their own language.' },
+      { label: 'Converts', text: 'Book MRI Appointment in the first screen, three tap-to-call points, and a separate path for providers with a referral order form and portal.' },
+      { label: 'Converts', text: 'Cash-pay and insurance pages answer the cost question before a patient has to call.' },
+      { label: 'Rich results', text: 'Organization markup with the business address and a contact point.' },
+    ],
+    stack: 'WordPress',
+    image: '/work/mosaicdiagnostics.webp',
+  },
+  {
+    slug: 'mosaic-open-mri',
+    name: 'Mosaic Open MRI',
+    url: 'https://mosaicopenmri.com/',
+    domain: 'mosaicopenmri.com',
+    category: 'Medical & Wellness',
+    location: 'Delaware',
+    launched: '2025',
+    audited: '2026-10-31',
+    what: 'Open MRI, MRI, ultrasound and X-ray at four Delaware centers: Dover, Milford, Newark and Seaford.',
+    job: 'Bring the Mosaic brand to Delaware with a page for every town and service and an appointment form a patient can finish on a phone.',
+    facts: [
+      { label: 'Local', text: 'A page for each of the four locations and each of five services, with a KML locations file for maps.' },
+      { label: 'Converts', text: 'A dedicated book-an-appointment page, linked from the first screen, plus three tap-to-call points.' },
+      { label: 'Converts', text: 'Cash-pay and insurance pages among four written for patients, so the questions that stall a booking are answered on the site.' },
+      { label: 'Rich results', text: 'Organization markup with the business address and a contact point.' },
+      { label: 'Found', text: 'An XML sitemap in robots.txt and a canonical URL on every page; every image carries alt text and loads lazily.' },
+    ],
+    stack: 'WordPress · 26 pages',
+    image: '/work/mosaicopenmri.webp',
+  },
+  {
+    slug: 'clear-kayaking-adventures',
+    name: 'Clear Kayaking Adventures',
+    url: 'https://www.clearkayakingadventures.com/',
+    domain: 'clearkayakingadventures.com',
+    category: 'Local Service',
+    location: 'Jupiter, FL',
+    audited: '2026-10-31',
+    what: 'Guided tours in 100% clear kayaks through the mangroves and coastal waters of Jupiter, Florida, plus private tours and gift cards.',
+    job: 'Turn visitors planning a trip to Jupiter into booked tours, at the lowest rate, without a phone call.',
+    facts: [
+      { label: 'Converts', text: 'FareHarbor booking built into the page, with Book Now in the first screen and a direct-booking banner for the best rate.' },
+      { label: 'Converts', text: 'Separate paths for group tours, private tours and gift cards, with tap-to-call for questions.' },
+      { label: 'Local', text: 'A location page and an FAQ, so the meeting point and what to bring are answered before the trip.' },
+      { label: 'Measured', text: 'GA4 is installed, so bookings can be traced to their source.' },
+    ],
+    stack: 'Google Sites',
+    image: '/work/clearkayakingadventures.webp',
+  },
 ];
 
 export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = ['Law', 'Medical & Wellness', 'Real Estate & Finance', 'Local Service', 'Consumer & Technology'];
+
+/**
+ * Earlier sites we built that are no longer live in the form we delivered: the business
+ * closed, moved on, or another team has since rebuilt the site. Shown from our own
+ * screenshots, with only the services listed in our project records. No outbound link and
+ * no ItemList markup, because the URL no longer shows our work.
+ */
+export interface ArchivedSite {
+  slug: string;
+  name: string;
+  category: PortfolioCategory;
+  location?: string;
+  what: string;
+  /** What we delivered, from the project record. */
+  services: string[];
+  /** Path under /public. 1200x750, taken from our own screenshot of the delivered site. */
+  image: string;
+  /** Why the live URL is not linked. */
+  status: string;
+}
+
+export const ARCHIVE: ArchivedSite[] = [
+  {
+    slug: 'metropolitan-orthopedics',
+    name: 'Metropolitan Orthopedics',
+    category: 'Medical & Wellness',
+    location: 'New York City',
+    what: 'An orthopedic practice for spine, sports and joint pain. We created the brand from scratch, then a site built to bring in new patients.',
+    services: ['Brand identity: logo and color palette', 'Website design', 'Social media setup and content, including Reels'],
+    image: '/work/archive/metropolitanortho.webp',
+    status: 'No longer online',
+  },
+  {
+    slug: 'blue-star-urgent-care',
+    name: 'Blue Star Urgent Care',
+    category: 'Medical & Wellness',
+    what: 'An urgent care center treating injuries, illnesses and allergies, with vaccinations, physical exams and occupational medicine.',
+    services: ['Website design', 'Integration with the Athena EMR and online scheduling', 'Marketing materials, including the brochure'],
+    image: '/work/archive/bluestarurgentcare.webp',
+    status: 'Since rebuilt by another team',
+  },
+  {
+    slug: 'sanders-law-group',
+    name: 'Sanders Law Group',
+    category: 'Law',
+    what: 'A law firm with a free-consultation offer up front and a page for each practice area and attorney.',
+    services: ['Website design', 'Search engine optimization and content marketing'],
+    image: '/work/archive/sanderslawgroup.webp',
+    status: 'Since rebuilt by another team',
+  },
+  {
+    slug: 'greenbills',
+    name: 'GreenBills',
+    category: 'Consumer & Technology',
+    what: 'Billing and collections software and services for PIP, no-fault and workers\u2019 compensation providers.',
+    services: ['Website design', 'Sales brochure'],
+    image: '/work/archive/greenbills.webp',
+    status: 'No longer online',
+  },
+  {
+    slug: '1-guy-with-a-vac',
+    name: '1 Guy With A Vac',
+    category: 'Local Service',
+    location: 'Gainesville, FL',
+    what: 'Fabric steam cleaning for sofas, chairs, rugs and carpets, booked online.',
+    services: ['Website design', 'Social media management', 'Google Maps optimization', 'Reputation management', 'Lead generation and management'],
+    image: '/work/archive/1guywithavac.webp',
+    status: 'No longer online',
+  },
+  {
+    slug: 'lady-lee-salon',
+    name: 'Lady Lee Salon',
+    category: 'Local Service',
+    what: 'A hair salon with a looks gallery, tap-to-call and appointment booking, in English and Spanish.',
+    services: ['Website design', 'Accounting outsourcing'],
+    image: '/work/archive/ladyleesalon.webp',
+    status: 'No longer online',
+  },
+  {
+    slug: 'el-cafe-mediterraneo',
+    name: 'El Café Mediterráneo',
+    category: 'Local Service',
+    location: 'Puerto Rico',
+    what: 'A modern Mediterranean restaurant serving food fresh off a charcoal grill, with pickup and delivery ordering online.',
+    services: [
+      'Website and menu design',
+      'Online ordering through DoorDash, and pickup through Orderspoon and Clover',
+      'Google Maps listing with menu and photos, reviews, and submission to map aggregators',
+      'Social media management',
+      'Staff hiring',
+    ],
+    image: '/work/archive/elcafepr.webp',
+    status: 'No longer online',
+  },
+];
 
 /**
  * Apps we have built, shown under "Apps we've built" on /websites. Facts come from each
