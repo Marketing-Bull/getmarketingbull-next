@@ -150,7 +150,7 @@ export default function WebsitesPage() {
           <p className="text-xs font-bold uppercase tracking-widest text-red-400 mb-3">Apps</p>
           <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-4">Apps we&apos;ve built.</h2>
           <p className="text-slate-400 max-w-2xl leading-relaxed mb-10">
-            Installable web apps and native apps for iPhone, iPad and Mac. The source is public for every app except RingDash, so the work can be read as well as used.
+            Installable web apps and native apps for iPhone, iPad and Mac. The source is public for most of them, so the work can be read as well as used.
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {APPS.map((a) => (
@@ -169,13 +169,16 @@ export default function WebsitesPage() {
                     </div>
                   )}
                 </div>
-                {a.gallery && a.page && (
+                {a.gallery && (
                   <div className="grid grid-cols-3 gap-px bg-slate-800 border-b border-slate-800">
-                    {a.gallery.slice(0, 3).map((g) => (
-                      <Link key={g.src} href={a.page!} className="block h-24 sm:h-28 overflow-hidden bg-slate-900">
-                        <img src={g.src} alt={g.alt} width={g.width} height={g.height} loading="lazy" decoding="async" className="w-full h-full object-cover object-top hover:opacity-90 transition" />
-                      </Link>
-                    ))}
+                    {a.gallery.slice(0, 3).map((g) => {
+                      const img = <img src={g.src} alt={g.alt} width={g.width} height={g.height} loading="lazy" decoding="async" className="w-full h-full object-cover object-top hover:opacity-90 transition" />;
+                      return a.page ? (
+                        <Link key={g.src} href={a.page} className="block h-24 sm:h-28 overflow-hidden bg-slate-900">{img}</Link>
+                      ) : (
+                        <div key={g.src} className="h-24 sm:h-28 overflow-hidden bg-slate-900">{img}</div>
+                      );
+                    })}
                   </div>
                 )}
                 <div className="flex flex-col flex-1 p-6 md:p-8">
