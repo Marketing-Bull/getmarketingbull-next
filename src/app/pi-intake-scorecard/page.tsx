@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import Button from '@/components/Button';
 import Reveal from '@/components/Reveal';
 import ScorecardForm from '@/components/ScorecardForm';
@@ -94,10 +95,11 @@ export default function PiIntakeScorecardPage() {
                 <figcaption className="mt-1 text-sm text-slate-500">{PROOF.name}, {PROOF.company}</figcaption>
               </figure>
             )}
-            {/* TODO(copy): replace with a real, attributable Florida client result before launch. Do not invent one. */}
-            <p className="md:max-w-xs rounded-xl border-2 border-dashed border-amber-400 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
-              [ADD: Florida client result]
-            </p>
+            {/* A real Florida PI client, stated as built. No outcome numbers were published, so none are claimed. */}
+            <Link href="/case-studies/linder-diaz-law" className="group md:max-w-xs rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 hover:border-red-300 transition">
+              <span className="block font-semibold text-slate-900">Linder Diaz Law, Hollywood, FL</span>
+              A bilingual PI site with tracked calls and intake forms from launch. <span className="font-semibold text-red-600 group-hover:underline">Case study →</span>
+            </Link>
           </div>
         </div>
       </section>
