@@ -19,9 +19,14 @@ import { COMPANY, OFFERS, SMS_CONSENT_LABEL, SMS_OPT_IN_CONFIRMATION } from '@/l
  * the route returns 502 so the form shows the phone number instead of firing a false conversion.
  * With no channel configured, production returns 503; other environments log the lead and succeed.
  *
- * Lead-magnet sources (LEAD_MAGNET_SOURCES, e.g. the PI Intake Scorecard) differ in three ways:
- * phone is optional, firm name and attorney count are required, and the source is added as a
- * GHL tag so a GHL workflow can email the asset and the follow-ups.
+ * Lead-magnet sources (LEAD_MAGNET_SOURCES, e.g. the PI Intake Scorecard) differ in four ways:
+ * phone is optional, firm name and attorney count are required, the source is added as a GHL
+ * tag (for a follow-up workflow), and the site itself emails the asset to the visitor through
+ * Resend (LEAD_MAGNET_ASSETS), so delivery never depends on GHL. A GHL workflow on that tag
+ * should send the follow-ups only, not the asset again.
+ *
+ * The visitor's success depends on the lead reaching us, not on the asset email: the thanks page
+ * links the download directly, so a failed asset email is reported in the alert, not to them.
  *
  * Anything short of full delivery (a lost lead, a failed channel, a failed GHL note/tag/SMS) also
  * sends an operational alert with the lead's details — see src/lib/alert.ts.
@@ -49,6 +54,16 @@ const MAX_BODY_BYTES = 20_000;
 const LIMITS = { name: 100, email: 254, phone: 30, website: 300, message: 5000, firm: 150, attribution: 1000 } as const;
 /** Sources whose form collects firm + attorney count, makes phone optional, and tags the GHL contact. */
 const LEAD_MAGNET_SOURCES = new Set(['pi-intake-scorecard']);
+
+/** What the site emails a visitor who asks for a lead magnet. The file lives under /public. */
+const LEAD_MAGNET_ASSETS: Record<string, { subject: string; title: string; url: string; intro: string }> = {
+  'pi-intake-scorecard': {
+    subject: 'Your PI Intake Scorecard',
+    title: 'PI Intake Scorecard',
+    url: `${COMPANY.website}/pi-intake-scorecard.pdf`,
+    intro: 'Score it with whoever runs intake, and make the Saturday-night call yourself if you can.',
+  },
+};
 /** Must match ATTORNEY_OPTIONS in ScorecardForm. */
 const ATTORNEY_OPTIONS = ['1', '2 to 5', '6 to 15', '16+'];
 const UPSTREAM_TIMEOUT_MS = 8000;
@@ -418,6 +433,33 @@ export async function POST(req: Request) {
   }
 
   console.log('[lead] delivery results:', summary);
+
+  const asset = LEAD_MAGNET_ASSETS[lead.source];
+  if (leadMagnet && asset) {
+    if (!resendKey) {
+      followUpProblems.push(`Asset email not sent: RESEND_API_KEY is not set, so ${lead.email} did not get the ${asset.title}.`);
+    } else {
+      try {
+        await expectOk(fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            from: `${COMPANY.name} <${fromEmail}>`,
+            to: [lead.email],
+            reply_to: notifyEmail,
+            subject: asset.subject,
+            html: assetEmailHtml(firstName, asset),
+            text: `Hi ${firstName},\n\nHere is your ${asset.title}: ${asset.url}\n\n${asset.intro}\n\nQuestions? Reply to this email or call ${COMPANY.phone}.\n\n${COMPANY.name}`,
+          }),
+          signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
+        }));
+        console.log('[lead] asset email sent:', lead.source);
+      } catch (e) {
+        console.error('[lead] asset email failed', e);
+        followUpProblems.push(`Asset email failed for ${lead.email} (${asset.title}): ${String(e)}. Send them ${asset.url} by hand.`);
+      }
+    }
+  }
   const failed = results.filter((r) => !r.ok).map((r) => r.channel);
   if (failed.length || followUpProblems.length) {
     const what = [...failed, ...followUpProblems.map((p) => p.split(' ').slice(0, 2).join(' '))].join(', ');
@@ -469,6 +511,18 @@ function e164(raw: string): string | undefined {
   if (digits.length === 10) return `+1${digits}`;
   if (digits.length === 11 && digits.startsWith('1')) return `+${digits}`;
   return undefined;
+}
+
+function assetEmailHtml(firstName: string, asset: { title: string; url: string; intro: string }) {
+  return `
+    <div style="font-family:sans-serif;font-size:15px;line-height:1.6;color:#0f172a;max-width:520px">
+      <p>Hi ${esc(firstName)},</p>
+      <p>Here is your ${esc(asset.title)}.</p>
+      <p><a href="${esc(asset.url)}" style="display:inline-block;background:#dc2626;color:#fff;text-decoration:none;font-weight:bold;padding:12px 20px;border-radius:8px">Download the ${esc(asset.title)} (PDF)</a></p>
+      <p>${esc(asset.intro)}</p>
+      <p>Questions? Reply to this email or call ${esc(COMPANY.phone)}.</p>
+      <p>${esc(COMPANY.name)}</p>
+    </div>`;
 }
 
 function esc(s: string) {
