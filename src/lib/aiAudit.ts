@@ -67,9 +67,20 @@ function isPrivateIp(ip: string): boolean {
     return a === 10 || a === 127 || a === 0 || (a === 169 && b === 254) || (a === 172 && b >= 16 && b <= 31) ||
       (a === 192 && b === 168) || (a === 100 && b >= 64 && b <= 127) || a >= 224;
   }
-  const v6 = ip.toLowerCase();
-  if (v6.startsWith('::ffff:')) return isPrivateIp(v6.slice(7));
-  return v6 === '::1' || v6 === '::' || v6.startsWith('fc') || v6.startsWith('fd') || v6.startsWith('fe80');
+  // IPv6: anything that can embed or alias an IPv4 address is refused outright rather than decoded,
+  // because the URL parser rewrites [::ffff:127.0.0.1] as ::ffff:7f00:1. Public sites don't use these.
+  const v6 = ip.toLowerCase().replace(/^\[|\]$/g, '');
+  return (
+    v6.startsWith('::') || // ::, ::1, ::ffff:x (IPv4-mapped), ::x (IPv4-compatible)
+    /^0{1,4}:/.test(v6) || // the same, written with a leading zero group
+    v6.startsWith('64:ff9b:') || // NAT64
+    v6.startsWith('2002:') || // 6to4
+    /^2001:0{0,3}:/.test(v6) || // Teredo
+    /^2001:0?db8:/.test(v6) || // documentation
+    /^f[c-d]/.test(v6) || // unique local
+    /^fe[89ab]/.test(v6) || // link-local
+    v6.startsWith('ff') // multicast
+  );
 }
 
 async function assertPublicUrl(raw: string): Promise<URL> {
@@ -243,17 +254,31 @@ interface SecretHit {
   severity: Severity;
 }
 
+const SERVICE_ROLE_JWT = /eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}/g;
+
+const isServiceRole = (jwt: string) => {
+  try {
+    return (JSON.parse(Buffer.from(jwt.split('.')[1], 'base64url').toString('utf8')) as { role?: string }).role === 'service_role';
+  } catch {
+    return false;
+  }
+};
+
+/** Replace every secret-shaped value with its 7-character preview. Applied to everything that leaves the audit. */
+export function redactSecrets(text: string): string {
+  let out = text;
+  for (const p of SECRET_PATTERNS) out = out.replace(p.re, (m) => `${m.slice(0, 7)}…[redacted]`);
+  return out.replace(SERVICE_ROLE_JWT, (m) => (isServiceRole(m) ? `${m.slice(0, 7)}…[redacted]` : m));
+}
+
 function scanSecrets(text: string, where: string): SecretHit[] {
   const hits: SecretHit[] = [];
   for (const p of SECRET_PATTERNS) {
     for (const m of text.match(p.re) ?? []) hits.push({ label: p.label, where, preview: `${m.slice(0, 7)}…`, severity: p.severity });
   }
   // Supabase service_role keys are JWTs; anon keys are meant to be public, service_role never is.
-  for (const jwt of text.match(/eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}/g) ?? []) {
-    try {
-      const payload = JSON.parse(Buffer.from(jwt.split('.')[1], 'base64url').toString('utf8')) as { role?: string };
-      if (payload.role === 'service_role') hits.push({ label: 'Supabase service_role key', where, preview: `${jwt.slice(0, 7)}…`, severity: 'critical' });
-    } catch {}
+  for (const jwt of text.match(SERVICE_ROLE_JWT) ?? []) {
+    if (isServiceRole(jwt)) hits.push({ label: 'Supabase service_role key', where, preview: `${jwt.slice(0, 7)}…`, severity: 'critical' });
   }
   const seen = new Set<string>();
   return hits.filter((h) => (seen.has(h.label + h.preview) ? false : (seen.add(h.label + h.preview), true)));
@@ -528,7 +553,12 @@ export async function runChecks(url: string, vertical: string): Promise<AuditRes
   }
 
   const score = Math.max(0, 100 - checks.filter((c) => !c.pass).reduce((n, c) => n + PENALTY[c.severity], 0));
-  return { url, finalUrl: page.url, builder: detectBuilder(html), score, checks, speed, title, h1s, excerpt: trunc(text, 3000) };
+  // A key can also sit in visible text, the title or a heading; none of it leaves here unredacted.
+  for (const c of checks) c.evidence = redactSecrets(c.evidence);
+  return {
+    url, finalUrl: page.url, builder: detectBuilder(html), score, checks, speed,
+    title: redactSecrets(title), h1s: h1s.map(redactSecrets), excerpt: trunc(redactSecrets(text), 3000),
+  };
 }
 
 // ─────────────────────────── The fix document ───────────────────────────
@@ -679,6 +709,7 @@ export async function runAiSiteAudit(input: AuditInput): Promise<void> {
     result = await runChecks(input.url, input.vertical);
   } catch (e) {
     console.error('[audit] could not audit', JSON.stringify(input.url), e);
+    recent.delete(dedupeKey); // let the visitor retry once the site or our side recovers
     await sendAlert(
       `AI audit failed — ${input.url}`,
       `The site could not be fetched, so ${input.email} got no audit. Run it by hand or reply to them.\n\nError: ${String(e)}\n\nName: ${input.name}\nBusiness: ${input.business}\nVertical: ${input.vertical}`,
@@ -715,6 +746,7 @@ export async function runAiSiteAudit(input: AuditInput): Promise<void> {
     });
   } catch (e) {
     problems.push(`Visitor email FAILED (${String(e)}). Send them the attached doc by hand.`);
+    recent.delete(dedupeKey);
   }
   try {
     await sendEmail({
