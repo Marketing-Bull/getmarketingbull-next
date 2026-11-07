@@ -158,7 +158,7 @@ async function safeGet(raw: string, maxBytes: number): Promise<Fetched | null> {
       return { url: u.toString(), status: r.status, headers: r.headers, body: r.body };
     }
   } catch (e) {
-    console.warn('[audit] fetch failed', current, String(e).slice(0, 200));
+    console.warn('[audit] fetch failed', JSON.stringify(current), JSON.stringify(String(e).slice(0, 200)));
   }
   return null;
 }
@@ -663,7 +663,7 @@ export async function runAiSiteAudit(input: AuditInput): Promise<void> {
   const dedupeKey = `${input.email.toLowerCase()}|${input.url.toLowerCase()}`;
   const now = Date.now();
   if ((recent.get(dedupeKey) ?? 0) > now - 3_600_000) {
-    console.log('[audit] duplicate within the hour, skipped', input.url);
+    console.log('[audit] duplicate within the hour, skipped', JSON.stringify(input.url));
     return;
   }
   if (recent.size > 2000) recent.clear();
@@ -678,7 +678,7 @@ export async function runAiSiteAudit(input: AuditInput): Promise<void> {
   try {
     result = await runChecks(input.url, input.vertical);
   } catch (e) {
-    console.error('[audit] could not audit', input.url, e);
+    console.error('[audit] could not audit', JSON.stringify(input.url), e);
     await sendAlert(
       `AI audit failed — ${input.url}`,
       `The site could not be fetched, so ${input.email} got no audit. Run it by hand or reply to them.\n\nError: ${String(e)}\n\nName: ${input.name}\nBusiness: ${input.business}\nVertical: ${input.vertical}`,
@@ -699,7 +699,7 @@ export async function runAiSiteAudit(input: AuditInput): Promise<void> {
   const doc = ai ?? templateDoc(input, result);
   const host = new URL(result.finalUrl).hostname.replace(/^www\./, '');
   const attachment = { filename: `FIX-PROMPTS-${host}.md`, content: Buffer.from(doc, 'utf8').toString('base64') };
-  console.log('[audit] done', host, `score=${result.score}`, `writer=${ai ? 'claude' : 'template'}`, `${Date.now() - started}ms`);
+  console.log('[audit] done', JSON.stringify(host), `score=${result.score}`, `writer=${ai ? 'claude' : 'template'}`, `${Date.now() - started}ms`);
 
   const problems: string[] = [];
   if (!ai) problems.push(process.env.ANTHROPIC_API_KEY ? 'Claude failed; the templated doc was sent.' : 'ANTHROPIC_API_KEY not set; the templated doc was sent.');
