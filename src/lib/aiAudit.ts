@@ -1,5 +1,8 @@
+import { lookup as dnsLookup, type LookupAddress } from 'node:dns';
 import { lookup } from 'node:dns/promises';
-import { isIP } from 'node:net';
+import http from 'node:http';
+import https from 'node:https';
+import { isIP, type LookupFunction } from 'node:net';
 import { sendAlert } from '@/lib/alert';
 import { COMPANY } from '@/lib/constants';
 
@@ -88,23 +91,71 @@ interface Fetched {
   body: string;
 }
 
+/**
+ * DNS lookup used for every audit connection. It rejects private addresses at connect time, so a
+ * hostname that resolved to a public IP in assertPublicUrl() can't be re-pointed at an internal one
+ * before the socket opens (DNS rebinding).
+ */
+const guardedLookup = ((hostname: string, options: { all?: boolean; family?: number }, cb: (err: Error | null, address?: string | LookupAddress[], family?: number) => void) => {
+  dnsLookup(hostname, { family: options.family ?? 0, all: true }, (err, addrs) => {
+    if (err) return cb(err);
+    const list = addrs as LookupAddress[];
+    if (!list.length || list.some((a) => isPrivateIp(a.address))) return cb(new Error(`Blocked non-public address for ${hostname}`));
+    if (options.all) return cb(null, list);
+    cb(null, list[0].address, list[0].family);
+  });
+}) as unknown as LookupFunction;
+
+/** One GET over node:http(s) with the guarded lookup, a byte cap and a hard timeout. No redirects. */
+function getOnce(u: URL, maxBytes: number): Promise<{ status: number; headers: Headers; location: string; body: string }> {
+  return new Promise((resolve, reject) => {
+    const client = u.protocol === 'https:' ? https : http;
+    const req = client.request(
+      u,
+      { method: 'GET', lookup: guardedLookup, headers: { 'User-Agent': UA, Accept: 'text/html,application/xhtml+xml,text/plain,*/*' } },
+      (res) => {
+        const chunks: Buffer[] = [];
+        let total = 0;
+        const finish = () => {
+          clearTimeout(timer);
+          const headers = new Headers();
+          for (const [k, v] of Object.entries(res.headers)) if (v !== undefined) headers.set(k, Array.isArray(v) ? v.join(', ') : v);
+          resolve({ status: res.statusCode ?? 0, headers, location: headers.get('location') ?? '', body: new TextDecoder().decode(Buffer.concat(chunks).subarray(0, maxBytes)) });
+        };
+        if ((res.statusCode ?? 0) >= 300 && (res.statusCode ?? 0) < 400) {
+          res.resume();
+          return finish();
+        }
+        res.on('data', (c: Buffer) => {
+          chunks.push(c);
+          total += c.length;
+          if (total >= maxBytes) {
+            res.destroy();
+            finish();
+          }
+        });
+        res.on('end', finish);
+        res.on('error', (e) => { clearTimeout(timer); reject(e); });
+      },
+    );
+    const timer = setTimeout(() => req.destroy(new Error('timeout')), FETCH_TIMEOUT_MS);
+    req.on('error', (e) => { clearTimeout(timer); reject(e); });
+    req.end();
+  });
+}
+
 /** GET with manual redirects (each hop re-checked), a byte cap and a timeout. Returns null on any failure. */
 async function safeGet(raw: string, maxBytes: number): Promise<Fetched | null> {
   let current = raw;
   try {
     for (let hop = 0; hop <= MAX_REDIRECTS; hop++) {
       const u = await assertPublicUrl(current);
-      const r = await fetch(u, {
-        redirect: 'manual',
-        headers: { 'User-Agent': UA, Accept: 'text/html,application/xhtml+xml,text/plain,*/*' },
-        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-      });
-      if (r.status >= 300 && r.status < 400 && r.headers.get('location')) {
-        current = new URL(r.headers.get('location')!, u).toString();
-        await r.body?.cancel().catch(() => {});
+      const r = await getOnce(u, maxBytes);
+      if (r.status >= 300 && r.status < 400 && r.location) {
+        current = new URL(r.location, u).toString();
         continue;
       }
-      return { url: u.toString(), status: r.status, headers: r.headers, body: await readCapped(r, maxBytes) };
+      return { url: u.toString(), status: r.status, headers: r.headers, body: r.body };
     }
   } catch (e) {
     console.warn('[audit] fetch failed', current, String(e).slice(0, 200));
@@ -112,27 +163,17 @@ async function safeGet(raw: string, maxBytes: number): Promise<Fetched | null> {
   return null;
 }
 
-async function readCapped(r: Response, maxBytes: number): Promise<string> {
-  if (!r.body) return '';
-  const reader = r.body.getReader();
-  const chunks: Uint8Array[] = [];
-  let total = 0;
-  while (total < maxBytes) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    chunks.push(value);
-    total += value.byteLength;
-  }
-  await reader.cancel().catch(() => {});
-  return new TextDecoder().decode(Buffer.concat(chunks).subarray(0, maxBytes));
-}
-
 // ─────────────────────────── HTML helpers ───────────────────────────
 
+const NAMED_ENTITIES: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' };
+
+/** Single pass, so "&amp;lt;" becomes "&lt;" and is never decoded twice. */
 const decode = (s: string) =>
-  s.replace(/&#x([0-9a-f]+);/gi, (_, h: string) => String.fromCodePoint(parseInt(h, 16)))
-    .replace(/&#(\d+);/g, (_, d: string) => String.fromCodePoint(Number(d)))
-    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&nbsp;/g, ' ');
+  s.replace(/&(#x[0-9a-f]{1,6}|#\d{1,7}|[a-z]{2,6});/gi, (m, e: string) => {
+    if (e[0] !== '#') return NAMED_ENTITIES[e.toLowerCase()] ?? m;
+    const code = e[1] === 'x' || e[1] === 'X' ? parseInt(e.slice(2), 16) : Number(e.slice(1));
+    return code > 0 && code <= 0x10ffff ? String.fromCodePoint(code) : m;
+  });
 
 function attr(tag: string, name: string): string {
   const m = tag.match(new RegExp(`\\s${name}\\s*=\\s*("([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i'));
