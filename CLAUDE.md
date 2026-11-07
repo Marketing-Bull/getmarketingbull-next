@@ -29,6 +29,7 @@ src/
     free-consultation/   consult form; reads ?product= (dynamic)
     get-started/         same page, static: the A2P SMS opt-in URL registered with TCR (no redirect)
     api/lead/route.ts    lead endpoint: validate → webhook and/or Resend email
+    ai-site-audit/       free AI Site Audit lead magnet (AuditForm → /api/lead → lib/aiAudit.ts via after())
     websites/            gallery of every site we have built, from PORTFOLIO in lib/portfolio.ts
     resources/           free downloads from RESOURCES in lib/resources.ts; files in public/resources/
     recoup/ keyvault/    pages for our open-source apps, from APP_PAGES in lib/appPages.ts via AppDetailPage
@@ -40,6 +41,7 @@ src/
     schema.ts            organizationSchema, offerSchema(), faqSchema(),
                          breadcrumbSchema(), caseStudySchema(), personSchema(), portfolioSchema()
     metadata.ts          pageMeta(): canonical + og:url (+ og:type article) per page
+    aiAudit.ts           AI Site Audit: SSRF-guarded crawl, fixed checks + score, Claude-written FIX-PROMPTS.md, Resend delivery
     alert.ts             sendAlert(): email/Slack alert when a lead is lost or partly delivered
     blog.ts              POSTS (hardcoded)
     portfolio.ts         PORTFOLIO: the client sites on /websites, facts read from each live site (no traffic or rankings)
@@ -61,6 +63,7 @@ src/
 - **SMS opt-in wording is registered with the carriers (A2P 10DLC / TCR).** `SMS_CONSENT_LABEL` (checkbox label) and `SMS_OPT_IN_CONFIRMATION` (text sent after an opted-in submit) in `constants.ts` must stay word for word; the checkbox stays optional and unchecked by default, with Privacy Policy and Terms links beside the form. `/get-started` is the registered opt-in URL and must answer 200, not redirect. The SMS sections of the privacy policy and terms are part of the same review.
 - **A Content-Security-Policy is enforced (`next.config.ts`).** Any new third-party script, iframe, image host or API the browser calls (an ad tag, a chat widget, an embed, a tag added inside a future GTM container) must have its origins added to `CSP` in the same change, or it is silently blocked in production. `script-src` keeps `'unsafe-inline'` on purpose: nonces would force every page to render dynamically.
 - Mystery-shop language in the Intake Gap Audit must not promise recordings (Florida all-party consent). Keep "scored", not "recorded".
+- **The AI Site Audit score comes from the fixed checks in `aiAudit.ts`, never from the model.** The model only writes the fix prompts, from the failed checks. Fetched page text is untrusted: it reaches the model only inside `<untrusted_page_excerpt>`, and every fetch goes through `safeGet()` (public IPs only, capped size/time/redirects). Never print a found secret beyond its short preview.
 - `.context/` is gitignored reference material. `.claude/settings.local.json` is personal.
 
 ## Analytics
@@ -73,10 +76,10 @@ GA4 loads from Google's canonical gtag snippet, server-rendered into `<head>` in
 - GA4's origins are in the CSP (`GOOGLE_ANALYTICS` in `next.config.ts`). Tags added through a GTM container (Google Ads, Meta…) need their origins added there too.
 - **Never run GA4 twice.** The snippet plus `<GoogleAnalytics>`, or the snippet plus a GA4 tag inside a GTM container, doubles every pageview and event. If a container is adopted, move GA4 into it; setting `NEXT_PUBLIC_GTM_ID` removes the snippet.
 - `track()` in `src/lib/analytics.ts` sends both a `dataLayer` push (for GTM) and a `gtag('event')` call (for GA4 direct). A bare `dataLayer` push is **not** a GA4 event — dropping the gtag call silently breaks conversion tracking.
-- Conversions: `lead_submit` on form success, `generate_lead` (`form_name: pi_intake_scorecard`) on scorecard form success, `phone_click` from the delegated listener in `CallTracking`.
+- Conversions: `lead_submit` on form success, `generate_lead` (`form_name: pi_intake_scorecard` or `ai_site_audit`) on lead-magnet form success, `phone_click` from the delegated listener in `CallTracking`.
 - Ad-platform conversions (Google Ads, Meta, LinkedIn) live in `src/lib/conversions.ts`, off until configured and guarded so they no-op when a tag isn't loaded. Don't enable one there AND as a GTM tag.
 - **Ahrefs Web Analytics** loads late on purpose: an inline loader in `layout.tsx` injects `analytics.js` after `load` and browser idle, using `AHREFS_ANALYTICS_KEY` in `constants.ts`. Don't move it to a plain `<script async>` in `<head>`; that puts it back in the critical path. Its origin is `AHREFS` in the CSP.
 
 ## Env
 
-See `.env.example`. `LEAD_GHL_API_KEY`, `LEAD_GHL_LOCATION_ID`, `LEAD_WEBHOOK_URL`, `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`, `LEAD_FROM_EMAIL`, `LEAD_ALERT_EMAIL`, `LEAD_ALERT_WEBHOOK_URL`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_GTM_ID`.
+See `.env.example`. `LEAD_GHL_API_KEY`, `LEAD_GHL_LOCATION_ID`, `LEAD_WEBHOOK_URL`, `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`, `LEAD_FROM_EMAIL`, `LEAD_ALERT_EMAIL`, `LEAD_ALERT_WEBHOOK_URL`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_GTM_ID`, `ANTHROPIC_API_KEY`, `AUDIT_MODEL`, `PAGESPEED_API_KEY`.

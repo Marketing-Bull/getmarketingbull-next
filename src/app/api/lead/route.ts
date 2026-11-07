@@ -1,4 +1,5 @@
-import { NextResponse } from 'next/server';
+import { after, NextResponse } from 'next/server';
+import { AUDIT_SOURCE, AUDIT_VERTICALS, normalizeAuditUrl, runAiSiteAudit } from '@/lib/aiAudit';
 import { sendAlert } from '@/lib/alert';
 import { COMPANY, OFFERS, SMS_CONSENT_LABEL, SMS_OPT_IN_CONFIRMATION } from '@/lib/constants';
 
@@ -28,9 +29,16 @@ import { COMPANY, OFFERS, SMS_CONSENT_LABEL, SMS_OPT_IN_CONFIRMATION } from '@/l
  * The visitor's success depends on the lead reaching us, not on the asset email: the thanks page
  * links the download directly, so a failed asset email is reported in the alert, not to them.
  *
+ * The AI Site Audit (source `ai-site-audit`) is a lead magnet whose asset is generated: it needs a
+ * website URL, business name and vertical (not an attorney count), and once the lead is delivered
+ * the audit runs in the background via after() — see src/lib/aiAudit.ts. maxDuration covers it.
+ *
  * Anything short of full delivery (a lost lead, a failed channel, a failed GHL note/tag/SMS) also
  * sends an operational alert with the lead's details — see src/lib/alert.ts.
  */
+
+// The AI Site Audit runs after the response (crawl + PageSpeed + Claude), so allow the time for it.
+export const maxDuration = 300;
 
 interface LeadPayload {
   name?: unknown;
@@ -43,6 +51,7 @@ interface LeadPayload {
   source?: unknown;
   firm?: unknown;
   attorneys?: unknown;
+  vertical?: unknown; // ai-site-audit: Law firm | Medical practice | Other
   attribution?: unknown; // utm_* / click ids from the landing URL, as a query string
   hp?: unknown; // honeypot
   turnstileToken?: unknown;
@@ -53,7 +62,9 @@ const SOURCE_RE = /^[a-z0-9:-]{1,100}$/;
 const MAX_BODY_BYTES = 20_000;
 const LIMITS = { name: 100, email: 254, phone: 30, website: 300, message: 5000, firm: 150, attribution: 1000 } as const;
 /** Sources whose form collects firm + attorney count, makes phone optional, and tags the GHL contact. */
-const LEAD_MAGNET_SOURCES = new Set(['pi-intake-scorecard']);
+const LEAD_MAGNET_SOURCES = new Set(['pi-intake-scorecard', AUDIT_SOURCE]);
+/** Lead magnets that also require an attorney count (the rest ask other questions). */
+const ATTORNEYS_REQUIRED = new Set(['pi-intake-scorecard']);
 
 /** What the site emails a visitor who asks for a lead magnet. The file lives under /public. */
 const LEAD_MAGNET_ASSETS: Record<string, { subject: string; title: string; url: string; intro: string }> = {
@@ -153,13 +164,20 @@ export async function POST(req: Request) {
   const firm = str(body.firm, LIMITS.firm).replace(/\s+/g, ' ');
   const attorneysRaw = str(body.attorneys, 20);
   const attorneys = ATTORNEY_OPTIONS.includes(attorneysRaw) ? attorneysRaw : '';
-  if (leadMagnet && (firm.length < 2 || !attorneys)) {
+  if (leadMagnet && ATTORNEYS_REQUIRED.has(source) && (firm.length < 2 || !attorneys)) {
     return NextResponse.json({ ok: false, error: 'Please provide your firm name and the number of attorneys.' }, { status: 422 });
+  }
+  const isAudit = source === AUDIT_SOURCE;
+  const verticalRaw = str(body.vertical, 40);
+  const vertical = (AUDIT_VERTICALS as readonly string[]).includes(verticalRaw) ? verticalRaw : '';
+  const auditUrl = isAudit ? normalizeAuditUrl(str(body.website, LIMITS.website)) : '';
+  if (isAudit && (firm.length < 2 || !vertical || !auditUrl)) {
+    return NextResponse.json({ ok: false, error: 'Please provide your website address, business name and type of business.' }, { status: 422 });
   }
   const attribution = str(body.attribution, LIMITS.attribution);
   // These forms have no message box. Folding the extra fields into the message gets them to every
   // channel (GHL's message custom field, the webhook, the email) without new GHL custom fields.
-  const details = [firm && `Firm: ${firm}`, attorneys && `Attorneys: ${attorneys}`, attribution && `Attribution: ${attribution}`]
+  const details = [firm && `Firm: ${firm}`, attorneys && `Attorneys: ${attorneys}`, vertical && `Vertical: ${vertical}`, auditUrl && `Audit requested for: ${auditUrl}`, attribution && `Attribution: ${attribution}`]
     .filter(Boolean)
     .join('\n');
 
@@ -178,7 +196,7 @@ export async function POST(req: Request) {
     name,
     email,
     phone,
-    website: str(body.website, LIMITS.website),
+    website: auditUrl || str(body.website, LIMITS.website),
     message: [str(body.message, LIMITS.message), details].filter(Boolean).join('\n\n').slice(0, LIMITS.message),
     firm,
     attorneys,
@@ -460,6 +478,12 @@ export async function POST(req: Request) {
       }
     }
   }
+  // The audit is the asset for this source. It runs after the response is sent, so the visitor
+  // goes straight to the thanks page; its own failures are alerted from inside runAiSiteAudit.
+  if (isAudit) {
+    after(() => runAiSiteAudit({ url: auditUrl, name: lead.name, email: lead.email, business: firm, vertical }));
+  }
+
   const failed = results.filter((r) => !r.ok).map((r) => r.channel);
   if (failed.length || followUpProblems.length) {
     const what = [...failed, ...followUpProblems.map((p) => p.split(' ').slice(0, 2).join(' '))].join(', ');
