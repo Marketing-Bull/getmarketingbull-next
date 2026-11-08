@@ -124,6 +124,9 @@ section.block h2{font-size:24px;margin-bottom:4px}
 .kv b{color:var(--muted);font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;padding-top:2px}
 .dadnote{margin-top:12px;background:var(--surface2);border-radius:14px;padding:12px 14px}
 .dadnote .eyebrow{color:var(--sea)}
+.wonder{margin-top:12px;display:flex;gap:10px;align-items:flex-start;background:var(--surface2);border-radius:14px;padding:12px 14px;font-weight:700}
+.wonder .q{font-size:26px;line-height:1}
+.badge.when{background:var(--sea);color:var(--sea-ink)}
 .close{position:absolute;right:10px;top:10px;background:rgba(10,20,30,.7);color:#fff;width:40px;height:40px;padding:0;font-size:20px;z-index:1}
 .vidframe{aspect-ratio:16/9;width:100%;max-width:100%;border:0;display:block;background:#000}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:800;z-index:30;opacity:0;transition:opacity .2s;pointer-events:none}
@@ -157,6 +160,12 @@ section.block h2{font-size:24px;margin-bottom:4px}
     <p class="eyebrow">For Dad</p>
     <h1 style="font-size:30px;margin-top:4px">Your crew's picks and your list</h1>
     <p class="status" id="syncStatus"></p>
+
+    <section class="block">
+      <h2>Coming up</h2>
+      <p class="sub" id="comingSub">Events and fairs in the next two months.</p>
+      <div id="comingUp"></div>
+    </section>
 
     <section class="block">
       <h2>Everybody said YES</h2>
@@ -207,6 +216,11 @@ section.block h2{font-size:24px;margin-bottom:4px}
         <button type="button" data-f="quick" aria-pressed="false">1–2 hours</button>
         <button type="button" data-f="water" aria-pressed="false">Water</button>
         <button type="button" data-f="animals" aria-pressed="false">Animals</button>
+        <button type="button" data-f="skate" aria-pressed="false">Skating</button>
+        <button type="button" data-f="beach" aria-pressed="false">By the beach</button>
+        <button type="button" data-f="event" aria-pressed="false">Events &amp; fairs</button>
+        <button type="button" data-f="stem" aria-pressed="false">STEM</button>
+        <button type="button" data-f="learn" aria-pressed="false">Learn something</button>
       </div>
       <div id="dadGrid" class="grid"></div>
     </section>
@@ -221,7 +235,7 @@ section.block h2{font-size:24px;margin-bottom:4px}
 
   <!-- ALL -->
   <main id="view-all" class="view" hidden>
-    <p class="eyebrow">27 adventures near 33418</p>
+    <p class="eyebrow" id="allCount">Adventures near 33418</p>
     <h1 style="font-size:30px;margin-top:4px">Every adventure</h1>
     <p class="sub">Real places within about 40 minutes of Palm Beach Gardens, each with a video and a picture.</p>
     <div class="filters" id="allFilters">
@@ -231,6 +245,11 @@ section.block h2{font-size:24px;margin-bottom:4px}
       <button type="button" data-f="water" aria-pressed="false">Water</button>
       <button type="button" data-f="animals" aria-pressed="false">Animals</button>
       <button type="button" data-f="thrill" aria-pressed="false">Thrills</button>
+      <button type="button" data-f="skate" aria-pressed="false">Skating</button>
+      <button type="button" data-f="beach" aria-pressed="false">By the beach</button>
+      <button type="button" data-f="event" aria-pressed="false">Events &amp; fairs</button>
+      <button type="button" data-f="stem" aria-pressed="false">STEM</button>
+      <button type="button" data-f="learn" aria-pressed="false">Learn something</button>
     </div>
     <div id="allGrid" class="grid"></div>
   </main>
@@ -257,6 +276,10 @@ const STARTER_WISH = [
   {title:"Learn to ride a horse side by side",activityId:"horses",note:"Beginner lesson for all of us."},
   {title:"Manatee morning on the first cold snap",activityId:"manatee",note:"Check the count that morning."},
   {title:"Mini golf, loser buys ice cream",activityId:"minigolf",note:"After a beach morning across the street."},
+  {title:"Rollerblade the Riverwalk to the inlet and back",activityId:"riverwalk",note:"Blades for all three of us. Ice cream at Harbourside."},
+  {title:"Stargaze through a real telescope",activityId:"observatory",note:"A Saturn night. Each kid asks the astronomer one question."},
+  {title:"South Florida Fair, Ferris wheel at dusk",activityId:"sofla-fair",note:"Animal barns first, rides second."},
+  {title:"Shark teeth after the next storm",activityId:"shark-teeth",note:"Low tide, shell line by the pier. Start the jar."},
   {title:"Pancakes, then plan the next adventure together",note:"Open this app at the table and let them spin."}
 ];
 const canEmbed = !window.claude;
@@ -338,7 +361,7 @@ function ytUrl(a){ return "https://www.youtube.com/watch?v="+a.video; }
 function heroHtml(a, big){
   return `<div class="hero">
     <img src="img/${a.id}.jpg" alt="${esc(a.name)}" loading="${big?"eager":"lazy"}">
-    <div class="badges"><span class="badge ${a.cost==="free"?"free":""}">${esc(costLabel(a.cost))}</span><span class="badge">🚗 ${a.drive} min</span><span class="badge">${esc(a.time)}</span></div>
+    <div class="badges"><span class="badge ${a.cost==="free"?"free":""}">${esc(costLabel(a.cost))}</span><span class="badge">🚗 ${a.drive} min</span><span class="badge">${esc(a.time)}</span>${a.when?`<span class="badge when">📅 ${esc(a.when)}</span>`:""}</div>
     <a class="play" href="${ytUrl(a)}" target="_blank" rel="noopener" data-video="${a.id}"><span>▶ Watch the video</span></a>
   </div>`;
 }
@@ -356,6 +379,8 @@ function filterMatch(a, active){
     if (f==="rainy") return a.setting==="indoor" || a.cats.includes("rainy");
     if (f==="close") return a.drive<=15;
     if (f==="quick") return a.time==="1–2 hrs";
+    if (f==="event") return a.likes.includes("event") || a.likes.includes("fair");
+    if (["skate","beach","stem","learn"].includes(f)) return a.likes.includes(f);
     return a.cats.includes(f);
   });
 }
@@ -371,7 +396,7 @@ function wireFilters(containerId, gridId){
 }
 const drawAll = wireFilters("allFilters","allGrid");
 const drawDadGrid = wireFilters("dadFilters","dadGrid");
-function renderAll(){ drawAll(); }
+function renderAll(){ drawAll(); $("#allCount").textContent = ACTIVITIES.length+" adventures near 33418"; }
 
 /* ---------- modal ---------- */
 function openDetail(id){
@@ -384,8 +409,10 @@ function openDetail(id){
       <p class="where sub" style="font-weight:700">${esc(a.place)} · ${a.drive} min from home · ${esc(costLabel(a.cost))} · ${esc(a.time)}</p>
       <p class="blurb" style="margin-top:10px;font-size:17px">${esc(a.kid)}</p>
       ${votes?`<div class="row" style="margin-top:10px">${votes}</div>`:""}
+      <div class="wonder"><span class="q" aria-hidden="true">🤔</span><span>${esc(a.wonder)}</span></div>
       <div class="dadnote"><p class="eyebrow">Dad's angle</p><p>${esc(a.dad)}</p></div>
       <div class="kv">
+        ${a.when?`<b>When</b><span>${esc(a.when)}</span>`:""}
         <b>Tip</b><span>${esc(a.tip)}</span>
         <b>Where</b><span>${esc(a.addr)}</span>
       </div>
@@ -444,6 +471,7 @@ function renderKids(){
         <h2>${esc(a.name)}</h2>
         <p class="where">${esc(a.place)} · ${a.drive} minutes in the car</p>
         <p class="blurb">${esc(a.kid)}</p>
+        <div class="wonder"><span class="q" aria-hidden="true">🤔</span><span>${esc(a.wonder)}</span></div>
         <div class="votes">
           <button type="button" class="v-yes" data-vote="yes" data-id="${a.id}">YES! 😍</button>
           <button type="button" class="v-maybe" data-vote="maybe" data-id="${a.id}">Maybe 🤔</button>
@@ -490,6 +518,9 @@ function spinPick(pool, el, btn){
 
 /* ---------- DAD view ---------- */
 function renderDad(){
+  const m = new Date().getMonth()+1, m2 = m===12?1:m+1;
+  const coming = ACTIVITIES.filter(a => a.months && (a.months.includes(m)||a.months.includes(m2)) && a.months.length<12);
+  $("#comingUp").innerHTML = coming.length ? `<div class="grid">${coming.map(a=>tileHtml(a,`<span class="pill">📅 ${esc(a.when)}</span>`)).join("")}</div>` : `<div class="empty">Nothing seasonal in the next two months. The GreenMarket and library programs run most of the year.</div>`;
   // matches: every kid who has voted said yes
   const voters = kids.filter(k => Object.keys(votesFor(k.id)).length);
   const matches = voters.length ? ACTIVITIES.filter(a => voters.every(k => votesFor(k.id)[a.id]==="yes")) : [];

@@ -16,7 +16,13 @@
   "web": "https://marinelife.org/",
   "kid": "A real sea turtle hospital! Meet turtles getting better, see their x-rays, and find out when the next one goes back to the ocean.",
   "dad": "Pick one patient together and follow its story on the center's board. Fish feeding is Tuesdays and Thursdays.",
-  "tip": "Free (donation box). Open daily. Pair it with the pier next door."
+  "tip": "Free (donation box). Open daily. Pair it with the pier next door.",
+  "likes": [
+   "beach",
+   "stem",
+   "learn"
+  ],
+  "wonder": "Why do mother turtles come back to the exact beach where they hatched?"
  },
  {
   "id": "juno-pier",
@@ -35,7 +41,12 @@
   "web": "https://www.junobeachpier.com/",
   "kid": "Walk way out over the ocean, spot rays and fish under the water, and maybe catch one yourself. Sunrise here is unreal.",
   "dad": "Rent rods at the bait shop and teach them to bait a hook. Go for sunrise once; it will be a core memory.",
-  "tip": "Small walk-on fee, rod rentals at the shop. Early morning is calmest."
+  "tip": "Small walk-on fee, rod rentals at the shop. Early morning is calmest.",
+  "likes": [
+   "beach",
+   "learn"
+  ],
+  "wonder": "Why does the water change color as you walk farther out on the pier?"
  },
  {
   "id": "lighthouse",
@@ -54,7 +65,13 @@
   "web": "https://www.jupiterlighthouse.org/",
   "kid": "Climb 105 steps inside a giant red lighthouse from 1860 and look out over the whole inlet. You have to be 48 inches tall to climb!",
   "dad": "Measure them at home first (48 in). Count steps out loud together, then find your car from the top.",
-  "tip": "Closed-toe shoes required. Kids under 16 climb with an adult. Check climb times before you go."
+  "tip": "Closed-toe shoes required. Kids under 16 climb with an adult. Check climb times before you go.",
+  "likes": [
+   "beach",
+   "learn",
+   "stem"
+  ],
+  "wonder": "How did ships find the inlet at night before the lighthouse was built in 1860?"
  },
  {
   "id": "busch",
@@ -73,7 +90,12 @@
   "web": "https://www.buschwildlife.org/",
   "kid": "Florida panthers, black bears, bald eagles, alligators and owls, all rescued and living on shady trails you walk through.",
   "dad": "Let them pick the trail order. Ask a keeper which animal arrived most recently.",
-  "tip": "Donation-based entry. Open daily 10–4:30. Shaded, stroller-friendly paths."
+  "tip": "Donation-based entry. Open daily 10–4:30. Shaded, stroller-friendly paths.",
+  "likes": [
+   "learn",
+   "stem"
+  ],
+  "wonder": "Why can't a rescued panther just go back to the wild once it's healed?"
  },
  {
   "id": "dubois",
@@ -92,7 +114,12 @@
   "web": "https://discover.pbc.gov/parks/Locations/DuBois.aspx",
   "kid": "A calm, clear lagoon right by the lighthouse where you can snorkel with tiny fish, build sand forts and watch boats go by.",
   "dad": "First snorkel lesson: shallow water, no waves. Bring a bucket and a fish ID card.",
-  "tip": "Free parking. Go on an incoming tide for the clearest water. Grills and picnic tables."
+  "tip": "Free parking. Go on an incoming tide for the clearest water. Grills and picnic tables.",
+  "likes": [
+   "beach",
+   "learn"
+  ],
+  "wonder": "Why are the little fish in the lagoon not afraid of us?"
  },
  {
   "id": "rapids",
@@ -111,7 +138,9 @@
   "web": "https://rapidswaterpark.com/",
   "kid": "Forty-two slides, a lazy river and a huge wave pool. Splish Splash Lagoon has slides just your size, and Big Thunder is seven stories tall.",
   "dad": "Ride everything they dare you to. Lazy river at the end is where the talking happens.",
-  "tip": "Open mid-March through Labor Day, weekends in fall. Arrive at opening to beat lines."
+  "tip": "Open mid-March through Labor Day, weekends in fall. Arrive at opening to beat lines.",
+  "likes": [],
+  "wonder": "How does a slide make you go fast without any motor?"
  },
  {
   "id": "zoo",
@@ -129,7 +158,11 @@
   "web": "https://www.palmbeachzoo.org/",
   "kid": "Jaguars, koalas, otters, a carousel and a splash fountain for when it gets hot. Small enough to see everything in one visit.",
   "dad": "Give each kid a 'find it' list of five animals. Winner picks the snack.",
-  "tip": "Go early; animals are most active before 11. Splash pad means pack a towel."
+  "tip": "Go early; animals are most active before 11. Splash pad means pack a towel.",
+  "likes": [
+   "learn"
+  ],
+  "wonder": "Why do koalas sleep almost all day?"
  },
  {
   "id": "cox",
@@ -148,7 +181,12 @@
   "web": "https://www.coxsciencecenter.org/",
   "kid": "Touch tanks, a planetarium, baby alligators, dinosaur fossils and a mini golf course outside. Press every button.",
   "dad": "Best rainy-day plan in the county. Do a planetarium show together and talk about what you saw on the drive home.",
-  "tip": "Indoor, air conditioned. Planetarium shows are extra. Right next to the zoo."
+  "tip": "Indoor, air conditioned. Planetarium shows are extra. Right next to the zoo.",
+  "likes": [
+   "stem",
+   "learn"
+  ],
+  "wonder": "What do you think it feels like on Mars? Ask the planetarium host."
  },
  {
   "id": "lion-country",
@@ -167,7 +205,11 @@
   "web": "https://www.lioncountrysafari.com/",
   "kid": "Drive your own car through a safari with rhinos, giraffes and zebras walking right past your window. Then rides, a splash park and giraffe feeding.",
   "dad": "Let them be the spotters and narrate from the back seat. Feed a giraffe together.",
-  "tip": "Windows up in the lion area. Half the day is the drive-through, half is the walk-through park."
+  "tip": "Windows up in the lion area. Half the day is the drive-through, half is the walk-through park.",
+  "likes": [
+   "learn"
+  ],
+  "wonder": "Why do giraffes have such long tongues?"
  },
  {
   "id": "manatee",
@@ -186,7 +228,12 @@
   "web": "https://www.visitmanateelagoon.com/",
   "kid": "On cold winter days, dozens of manatees float right under the deck to stay warm. Count how many noses pop up!",
   "dad": "Check the manatee cam the morning of a cold snap and go when the count is high.",
-  "tip": "Free. Manatee season is Nov 15 to Mar 31; closed Mondays the rest of the year."
+  "tip": "Free. Manatee season is Nov 15 to Mar 31; closed Mondays the rest of the year.",
+  "likes": [
+   "stem",
+   "learn"
+  ],
+  "wonder": "Why do manatees come to this exact spot when it gets cold?"
  },
  {
   "id": "peanut",
@@ -206,7 +253,12 @@
   "web": "https://discover.pbc.gov/parks/Locations/Peanut-Island.aspx",
   "kid": "Take a shuttle boat to a tiny island with a snorkel lagoon full of parrotfish, a walking trail all the way around, and a real Cold War bunker.",
   "dad": "Pack a picnic; there are no stores on the island. Snorkel the lagoon together, then walk the loop.",
-  "tip": "Shuttle boat from the marina or water taxi from Sailfish Marina. Weekdays are far quieter."
+  "tip": "Shuttle boat from the marina or water taxi from Sailfish Marina. Weekdays are far quieter.",
+  "likes": [
+   "beach",
+   "learn"
+  ],
+  "wonder": "Why was a secret bunker built on a tiny island for a president?"
  },
  {
   "id": "riverbend",
@@ -226,7 +278,12 @@
   "web": "https://discover.pbc.gov/parks/Locations/Riverbend.aspx",
   "kid": "Ten miles of shady bike trails with deer, turtles and peacocks, plus kayaks you can paddle down a real river.",
   "dad": "Rent bikes or kayaks on site. Let them lead the ride and choose where to stop for snacks.",
-  "tip": "Free park entry; rentals from Jupiter Outdoor Center inside the park. Bring bug spray."
+  "tip": "Free park entry; rentals from Jupiter Outdoor Center inside the park. Bring bug spray.",
+  "likes": [
+   "skate",
+   "learn"
+  ],
+  "wonder": "How can a river flow in two directions depending on the tide?"
  },
  {
   "id": "jd-park",
@@ -245,7 +302,11 @@
   "web": "https://www.floridastateparks.org/parks-and-trails/jonathan-dickinson-state-park",
   "kid": "Climb Hobe Mountain tower (the tallest 'mountain' around!), ride a boat up the river to a pioneer's camp, and look for gators.",
   "dad": "Do the Loxahatchee Queen boat tour to Trapper Nelson's camp. Camp here one night when they're ready.",
-  "tip": "Park entry is per car. Boat tour runs on set days; book ahead."
+  "tip": "Park entry is per car. Boat tour runs on set days; book ahead.",
+  "likes": [
+   "learn"
+  ],
+  "wonder": "Why is the 'mountain' here only 86 feet tall, and why is that the tallest around?"
  },
  {
   "id": "blowing-rocks",
@@ -264,7 +325,13 @@
   "web": "https://www.nature.org/en-us/get-involved/how-to-help/places-we-protect/blowing-rocks-preserve/",
   "kid": "Waves crash into holes in the rocks and shoot up like geysers, sometimes 50 feet high! Then explore tide pools.",
   "dad": "Check the tide chart: high tide with east wind makes the big blows. Tide pools at low tide are the quiet version.",
-  "tip": "Small donation entry. Water shoes. Small lot fills early on weekends."
+  "tip": "Small donation entry. Water shoes. Small lot fills early on weekends.",
+  "likes": [
+   "beach",
+   "stem",
+   "learn"
+  ],
+  "wonder": "What makes the water shoot up through the rocks like a geyser?"
  },
  {
   "id": "hammerheads",
@@ -282,7 +349,11 @@
   "web": "https://www.rogerdeanchevroletstadium.com/",
   "kid": "Cheer for the Jupiter Hammerheads, chase foul balls, and eat a hot dog under the lights. Some nights end with fireworks.",
   "dad": "Teach them to keep score for a few innings. Sit on the grass berm the first time.",
-  "tip": "Minor league season runs April to September; spring training in February and March."
+  "tip": "Minor league season runs April to September; spring training in February and March.",
+  "likes": [
+   "event"
+  ],
+  "wonder": "How does a pitcher make a ball curve in the air?"
  },
  {
   "id": "downtown",
@@ -301,7 +372,11 @@
   "web": "https://downtownpbg.com/",
   "kid": "Ride the carousel, run through the dancing fountains, and get ice cream. Five minutes from home!",
   "dad": "The easy weeknight win. Carousel, fountain, ice cream, done before bedtime.",
-  "tip": "Carousel rides are a few dollars. Check the events calendar for movie and music nights."
+  "tip": "Carousel rides are a few dollars. Check the events calendar for movie and music nights.",
+  "likes": [
+   "event"
+  ],
+  "wonder": "How do the fountains know when to jump?"
  },
  {
   "id": "minigolf",
@@ -320,7 +395,11 @@
   "web": "https://lighthousecovegolf.com/",
   "kid": "Thirty-six holes of mini golf with waterfalls, caves and a pirate ship, then a burger and ice cream at the shack.",
   "dad": "Play one course each, loser buys ice cream. Perfect after a Carlin Park beach morning.",
-  "tip": "Across from the beach on A1A. Evenings are cooler and the course lights up."
+  "tip": "Across from the beach on A1A. Evenings are cooler and the course lights up.",
+  "likes": [
+   "beach"
+  ],
+  "wonder": "Why does a golf ball roll farther on short grass than on carpet?"
  },
  {
   "id": "macarthur",
@@ -340,7 +419,13 @@
   "web": "https://www.macarthurbeach.org/",
   "kid": "Cross a long boardwalk over the lagoon to a wild beach, kayak the estuary, and visit the nature center with its fish tanks.",
   "dad": "Rent a tandem kayak and let them steer. The boardwalk walk is where they'll tell you about school.",
-  "tip": "Per-car entry. Kayak rentals at the nature center. Quiet beach with no buildings in sight."
+  "tip": "Per-car entry. Kayak rentals at the nature center. Quiet beach with no buildings in sight.",
+  "likes": [
+   "beach",
+   "stem",
+   "learn"
+  ],
+  "wonder": "Why are mangrove roots sticking up out of the water?"
  },
  {
   "id": "grassy",
@@ -358,7 +443,12 @@
   "web": "https://www.wpb.org/Departments/Grassy-Waters-Preserve",
   "kid": "A boardwalk through a real Everglades swamp with gators, herons and turtles. Bring binoculars and whisper.",
   "dad": "Make a sightings tally on a card. Ask about the guided canoe trips for when they're ready.",
-  "tip": "Free. Mornings are coolest and the wildlife is out. Closed some weekdays; check."
+  "tip": "Free. Mornings are coolest and the wildlife is out. Closed some weekdays; check.",
+  "likes": [
+   "stem",
+   "learn"
+  ],
+  "wonder": "Where does the water in our kitchen tap actually come from?"
  },
  {
   "id": "river-center",
@@ -378,7 +468,12 @@
   "web": "https://www.loxahatcheeriver.org/river-center/",
   "kid": "Touch tanks with sea stars and crabs, big aquariums, and the story of how the river flows from the swamp to the ocean.",
   "dad": "A small, quiet place where they can ask a staffer a hundred questions. Combine with a picnic at Burt Reynolds Park.",
-  "tip": "Free. In Burt Reynolds Park. Check hours; closed Sundays and Mondays."
+  "tip": "Free. In Burt Reynolds Park. Check hours; closed Sundays and Mondays.",
+  "likes": [
+   "stem",
+   "learn"
+  ],
+  "wonder": "How does rain in the Everglades end up in the ocean at Jupiter?"
  },
  {
   "id": "altitude",
@@ -397,7 +492,9 @@
   "web": "https://altitudetrampolinepark.com/",
   "kid": "Wall-to-wall trampolines, dodgeball, a foam pit, ninja course and basketball dunk lanes. Jump until you can't.",
   "dad": "Buy a jump pass for yourself too. Dodgeball against dad is the whole point.",
-  "tip": "Grip socks required (buy there). Book a time slot online on weekends."
+  "tip": "Grip socks required (buy there). Book a time slot online on weekends.",
+  "likes": [],
+  "wonder": "Why do you bounce higher when you jump with someone else?"
  },
  {
   "id": "ice",
@@ -416,7 +513,11 @@
   "web": "https://www.pbiw.org/",
   "kid": "Real ice in Florida! Public skate sessions with rental skates and a snack bar. Hold the wall, then let go.",
   "dad": "Hold hands for the first lap and then let them go. Hot chocolate after.",
-  "tip": "Public skate times vary; check the schedule. Bring gloves and long pants."
+  "tip": "Public skate times vary; check the schedule. Bring gloves and long pants.",
+  "likes": [
+   "skate"
+  ],
+  "wonder": "Why is ice slippery?"
  },
  {
   "id": "carlin",
@@ -436,7 +537,11 @@
   "web": "https://discover.pbc.gov/parks/Locations/Carlin.aspx",
   "kid": "A big lifeguarded beach with gentle waves for boogie boards, plus a playground and a snack bar. Try a surf lesson one day!",
   "dad": "Boogie boards first, then book a kids' surf lesson from one of the Jupiter surf schools for a milestone day.",
-  "tip": "Free parking. Lifeguards on duty. Lighthouse Cove mini golf is across the street."
+  "tip": "Free parking. Lifeguards on duty. Lighthouse Cove mini golf is across the street.",
+  "likes": [
+   "beach"
+  ],
+  "wonder": "Where do waves come from on a day with no wind?"
  },
  {
   "id": "sailfish",
@@ -455,7 +560,12 @@
   "web": "https://www.sailfishmarina.com/",
   "kid": "Thursday night sunset party on the docks: artists, music, and giant fish and pelicans right under the pier waiting for scraps.",
   "dad": "Buy a bag of fish food, stand at the end of the dock and watch the sun go down together.",
-  "tip": "Thursday evenings. Free to walk around. The water taxi to Peanut Island leaves from here too."
+  "tip": "Thursday evenings. Free to walk around. The water taxi to Peanut Island leaves from here too.",
+  "likes": [
+   "beach",
+   "event"
+  ],
+  "wonder": "Why do pelicans dive like that and not hurt themselves?"
  },
  {
   "id": "norton",
@@ -474,7 +584,11 @@
   "web": "https://www.norton.org/",
   "kid": "A huge art museum with a giant banyan tree, a sculpture garden, and family art-making days where you make your own.",
   "dad": "Pick one painting each and tell its story to each other. Look up the free family days before you go.",
-  "tip": "Check the calendar for free days and family programs. Great on a hot or rainy afternoon."
+  "tip": "Check the calendar for free days and family programs. Great on a hot or rainy afternoon.",
+  "likes": [
+   "learn"
+  ],
+  "wonder": "What do you think the artist was feeling when they painted this?"
  },
  {
   "id": "horses",
@@ -493,7 +607,11 @@
   "web": "https://www.google.com/search?q=Desert+Rose+Ranch+Jupiter+riding+lessons",
   "kid": "Brush a horse, learn to hold the reins, and ride around a real ranch. Every horse has a name and a personality.",
   "dad": "Book a beginner lesson for both of you. Learning something new side by side is the point.",
-  "tip": "Call ahead; small stables book up. Long pants and closed shoes. Several Jupiter Farms ranches offer kids' lessons."
+  "tip": "Call ahead; small stables book up. Long pants and closed shoes. Several Jupiter Farms ranches offer kids' lessons.",
+  "likes": [
+   "learn"
+  ],
+  "wonder": "How does a horse know what you want from the reins?"
  },
  {
   "id": "turtle-release",
@@ -513,6 +631,396 @@
   "web": "https://marinelife.org/",
   "kid": "Watch a healed sea turtle crawl back into the ocean while everyone cheers. In summer there are night turtle walks to see nesting mamas.",
   "dad": "Follow the center's release announcements and drop everything when one is scheduled. Turtle walks are June–July; book early.",
-  "tip": "Releases are announced a day or two ahead on the center's channels. Turtle walks have a minimum age; check."
+  "tip": "Releases are announced a day or two ahead on the center's channels. Turtle walks have a minimum age; check.",
+  "likes": [
+   "beach",
+   "stem",
+   "learn"
+  ],
+  "wonder": "How does a turtle find its way across the ocean without a map?"
+ },
+ {
+  "id": "riverwalk",
+  "name": "Rollerblade the Jupiter Riverwalk",
+  "place": "Jupiter",
+  "addr": "Harbourside Place, 200 US-1, Jupiter, FL 33477",
+  "drive": 15,
+  "cost": "free",
+  "time": "1–2 hrs",
+  "setting": "outdoor",
+  "cats": [
+   "skate",
+   "easy",
+   "ocean"
+  ],
+  "video": "MIDI87XZbno",
+  "web": "https://jupiter.fl.us/227/Riverwalk",
+  "kid": "A smooth, wide path right along the water from Harbourside all the way toward the inlet. Blades, scooters or bikes, with boats and pelicans the whole way.",
+  "dad": "Park free at Harbourside, blade north to the inlet and back. Ice cream at Harbourside is the finish line.",
+  "tip": "Free. About 2.5 miles end to end; the inlet section was the last to open, so check how far you can go. Helmets on.",
+  "likes": [
+   "skate",
+   "beach"
+  ],
+  "wonder": "Why is the water in the Intracoastal calm when the ocean is rough?"
+ },
+ {
+  "id": "skatepark",
+  "name": "Jupiter Skate Park at Abacoa",
+  "place": "Jupiter",
+  "addr": "1501 W Frederick Small Rd, Jupiter, FL 33458",
+  "drive": 15,
+  "cost": "free",
+  "time": "1–2 hrs",
+  "setting": "outdoor",
+  "cats": [
+   "skate",
+   "thrill"
+  ],
+  "video": "9d4fGvhJqmU",
+  "web": "https://www.jupiter.fl.us/Facilities/Facility/Details/Jupiter-Skate-Park-59",
+  "kid": "A big concrete bowl for boards and scooters, plus two outdoor roller hockey rinks you can inline skate on when no league is playing.",
+  "dad": "Bring the blades for the hockey rinks and a board for the bowl edges. Watch the big kids drop in, then try the smallest ramp together.",
+  "tip": "Free, helmets required, sessions may need a reservation. Call (561) 630-5684 for open-skate hours.",
+  "likes": [
+   "skate"
+  ],
+  "wonder": "Why do you go faster coming down the bowl than you went up?"
+ },
+ {
+  "id": "artigras",
+  "name": "ArtiGras Fine Arts Festival",
+  "place": "Jupiter (Abacoa)",
+  "addr": "Abacoa Town Center, 1200 Town Center Dr, Jupiter, FL 33458",
+  "drive": 15,
+  "cost": "$",
+  "time": "half day",
+  "setting": "outdoor",
+  "cats": [
+   "event",
+   "art"
+  ],
+  "video": "gbbttvwTEyU",
+  "web": "https://www.artigras.org/",
+  "when": "Presidents' Day weekend (Feb)",
+  "months": [
+   2
+  ],
+  "kid": "Hundreds of artists in tents, a youth art competition, and a kids' zone where you make your own art to take home.",
+  "dad": "Give them a small budget to buy one real piece from a real artist and talk to them about how they made it.",
+  "tip": "Mid-February, Saturday and Sunday. Kids' tickets are cheap or free; check the site.",
+  "likes": [
+   "event",
+   "learn"
+  ],
+  "wonder": "How many tries do you think the artist needed before this one came out right?"
+ },
+ {
+  "id": "jubilee",
+  "name": "Jupiter Jubilee",
+  "place": "Jupiter",
+  "addr": "Jupiter Community Center, 200 Military Trail, Jupiter, FL 33458",
+  "drive": 15,
+  "cost": "free",
+  "time": "half day",
+  "setting": "outdoor",
+  "cats": [
+   "event",
+   "easy"
+  ],
+  "video": "rUfOhtCx7aI",
+  "web": "https://www.jupiter.fl.us/",
+  "when": "First Saturday in February",
+  "months": [
+   2
+  ],
+  "kid": "The town's own free festival: bounce houses, a touch-a-truck line of fire engines and police cars, live music and food trucks.",
+  "dad": "Climb into the fire truck with them. Find the booth with the town's old photos and spot places you know.",
+  "tip": "Free. Early February, one Saturday. Arrive early for parking.",
+  "likes": [
+   "event"
+  ],
+  "wonder": "What is the oldest thing in Jupiter? Ask at the history booth."
+ },
+ {
+  "id": "seafood-fest",
+  "name": "Jupiter Seafood Festival",
+  "place": "Jupiter",
+  "addr": "Carlin Park, 400 S State Rd A1A, Jupiter, FL 33477",
+  "drive": 20,
+  "cost": "$$",
+  "time": "half day",
+  "setting": "outdoor",
+  "cats": [
+   "event",
+   "ocean"
+  ],
+  "video": "-wG_I742WCM",
+  "web": "https://jupiterseafoodfestival.com/",
+  "when": "Late February weekend",
+  "months": [
+   2
+  ],
+  "kid": "A food festival right on the beach with crab, shrimp, music and a kids' area. Eat with sand on your feet.",
+  "dad": "Try one new sea creature each. Walk the beach after and talk about where it came from.",
+  "tip": "One weekend in late February at Carlin Park. Bring cash and a blanket.",
+  "likes": [
+   "event",
+   "beach"
+  ],
+  "wonder": "Which of these foods was swimming yesterday? Ask the cook."
+ },
+ {
+  "id": "sofla-fair",
+  "name": "South Florida Fair",
+  "place": "West Palm Beach",
+  "addr": "9067 Southern Blvd, West Palm Beach, FL 33411",
+  "drive": 35,
+  "cost": "$$$",
+  "time": "full day",
+  "setting": "both",
+  "cats": [
+   "fair",
+   "thrill",
+   "animals"
+  ],
+  "video": "D9Kq3Ygay2k",
+  "web": "https://www.southfloridafair.com/",
+  "when": "Mid-January to early February",
+  "months": [
+   1,
+   2
+  ],
+  "kid": "The biggest fair of the year: a giant Ferris wheel, rides, farm animals, pig races, fried everything and shows all day.",
+  "dad": "Ride the Ferris wheel at dusk. Visit the agriculture barns first so the animals get their turn before the rides take over.",
+  "tip": "About 17 days from mid-January. Ride passes are cheaper online. Weekday afternoons have the shortest lines.",
+  "likes": [
+   "fair",
+   "event"
+  ],
+  "wonder": "How does the Ferris wheel keep the seats level while the wheel turns?"
+ },
+ {
+  "id": "greenmarket",
+  "name": "The Gardens GreenMarket",
+  "place": "Palm Beach Gardens",
+  "addr": "City Hall, 10500 N Military Trail, Palm Beach Gardens, FL 33410",
+  "drive": 5,
+  "cost": "$",
+  "time": "1–2 hrs",
+  "setting": "outdoor",
+  "cats": [
+   "event",
+   "easy"
+  ],
+  "video": "WQxvppGIC9g",
+  "web": "https://pbgfl.gov/422/GreenMarket",
+  "when": "Sundays 8–1, October to May",
+  "months": [
+   10,
+   11,
+   12,
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "kid": "Sunday morning market with fresh fruit, honey, pastries, live music and a kids' corner. Pick what we eat for breakfast.",
+  "dad": "Give each kid five dollars and one job: find the best thing. Eat it on the lawn.",
+  "tip": "Free entry. Sundays 8 to 1, October through May, on the City Hall lawn.",
+  "likes": [
+   "event",
+   "learn"
+  ],
+  "wonder": "Why can we grow strawberries here in January?"
+ },
+ {
+  "id": "turtlefest",
+  "name": "TurtleFest at Loggerhead",
+  "place": "Juno Beach",
+  "addr": "14200 US-1, Juno Beach, FL 33408",
+  "drive": 12,
+  "cost": "free",
+  "time": "half day",
+  "setting": "outdoor",
+  "cats": [
+   "event",
+   "animals",
+   "ocean"
+  ],
+  "video": "RUkvnRz8soA",
+  "web": "https://marinelife.org/turtlefest/",
+  "when": "One weekend in late winter",
+  "months": [
+   2,
+   3
+  ],
+  "kid": "A two-day sea turtle party: music, games, a kids' zone, food trucks and the turtle hospital open the whole time.",
+  "dad": "Go on the quieter of the two days. Sign them up for the kids' activities in the morning before the crowd.",
+  "tip": "Free admission. Dates move between February and March; check the center's site.",
+  "likes": [
+   "event",
+   "beach",
+   "stem"
+  ],
+  "wonder": "Why do we turn off beach lights during nesting season?"
+ },
+ {
+  "id": "observatory",
+  "name": "Stargazing at the FAU Observatory",
+  "place": "Boca Raton",
+  "addr": "FAU Science Building SE-43, 777 Glades Rd, Boca Raton, FL 33431",
+  "drive": 50,
+  "cost": "free",
+  "time": "evening",
+  "setting": "indoor",
+  "cats": [
+   "science",
+   "special"
+  ],
+  "video": "UMV9u2EOpeA",
+  "web": "https://www.fau.edu/hometown/observatory/",
+  "when": "1st Fridays and 3rd Tuesdays, from dark",
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "kid": "Look through a real university telescope at Saturn's rings, Jupiter's moons and craters on our Moon. Real astronomers answer your questions.",
+  "dad": "Pick a night when Saturn or Jupiter is up. Let them ask the astronomer one question each; practice it in the car.",
+  "tip": "Free, no reservation. Weather permitting; check the FAU page the day of. It's a drive, so make it a late-night special.",
+  "likes": [
+   "stem",
+   "learn"
+  ],
+  "wonder": "How long did the light from Saturn travel to reach your eye tonight?"
+ },
+ {
+  "id": "library",
+  "name": "STEAM Saturday at the Gardens Library",
+  "place": "Palm Beach Gardens",
+  "addr": "Gardens Branch Library, 11303 Campus Dr, Palm Beach Gardens, FL 33410",
+  "drive": 5,
+  "cost": "free",
+  "time": "1–2 hrs",
+  "setting": "indoor",
+  "cats": [
+   "science",
+   "rainy",
+   "easy"
+  ],
+  "video": "QlFU_xHrcQ0",
+  "web": "https://www.pbclibrary.org/",
+  "when": "Check the branch calendar",
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "kid": "Robots, slime, LEGO builds and science experiments at our own library, plus a stack of books to take home.",
+  "dad": "Pull up the branch calendar together and let them circle the program. Stay after and each pick a book about what you just did.",
+  "tip": "Free with a library card. Programs are on the PBC Library calendar; the Jupiter branch runs them too.",
+  "likes": [
+   "stem",
+   "learn"
+  ],
+  "wonder": "What's one question you want answered today? Let's find the book."
+ },
+ {
+  "id": "shark-teeth",
+  "name": "Shark Tooth Hunting at Juno Beach",
+  "place": "Juno Beach",
+  "addr": "Juno Beach Park, 14775 US-1, Juno Beach, FL 33408",
+  "drive": 12,
+  "cost": "free",
+  "time": "1–2 hrs",
+  "setting": "outdoor",
+  "cats": [
+   "ocean",
+   "science",
+   "easy"
+  ],
+  "video": "0xb-vP5XJB8",
+  "web": "https://discover.pbc.gov/parks/Locations/Juno-Beach.aspx",
+  "kid": "Real fossil shark teeth wash up on our beaches, especially after a storm. Learn to spot the shiny black triangles in the shell piles.",
+  "dad": "Go at low tide after rough surf. Sift the shell line by the pier. A jar of teeth on the shelf keeps the curiosity going.",
+  "tip": "Free. Best after a storm, on a falling tide. Bring a small sieve or just sharp eyes.",
+  "likes": [
+   "beach",
+   "stem",
+   "learn"
+  ],
+  "wonder": "Why are shark teeth black when the shark's teeth are white?"
+ },
+ {
+  "id": "mounts",
+  "name": "Mounts Botanical Garden",
+  "place": "West Palm Beach",
+  "addr": "531 N Military Trail, West Palm Beach, FL 33415",
+  "drive": 30,
+  "cost": "$$",
+  "time": "1–2 hrs",
+  "setting": "outdoor",
+  "cats": [
+   "nature",
+   "science"
+  ],
+  "video": "ECRat4NAL_o",
+  "web": "https://www.mounts.org/",
+  "kid": "A garden with a walkway over the water, giant lily pads, a butterfly garden and plants that smell like chocolate and lemon.",
+  "dad": "Do the scavenger hunt from the front desk. Smell, touch and ask a gardener what grows in our own yard.",
+  "tip": "Kids under a certain age are free; check. Mornings are coolest. Special light shows some winters.",
+  "likes": [
+   "learn",
+   "stem"
+  ],
+  "wonder": "Why do some flowers only open at night?"
+ },
+ {
+  "id": "feast",
+  "name": "Feast of Little Italy",
+  "place": "Jupiter (Abacoa)",
+  "addr": "Abacoa Town Center, 1200 Town Center Dr, Jupiter, FL 33458",
+  "drive": 15,
+  "cost": "$",
+  "time": "evening",
+  "setting": "outdoor",
+  "cats": [
+   "fair",
+   "event"
+  ],
+  "video": "viKAAMzL2VI",
+  "web": "https://www.feastoflittleitaly.com/",
+  "when": "First weekend of November",
+  "months": [
+   11
+  ],
+  "kid": "Carnival rides, cannoli, pizza, music and a stretch-the-string-cheese contest, all in one weekend at Abacoa.",
+  "dad": "Friday evening is calmest. One ride each, one new food each.",
+  "tip": "Free admission; rides and food cost. Early November, Friday to Sunday.",
+  "likes": [
+   "fair",
+   "event"
+  ],
+  "wonder": "How does string cheese get its strings?"
  }
 ]
