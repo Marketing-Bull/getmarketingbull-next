@@ -1,0 +1,518 @@
+[
+ {
+  "id": "loggerhead",
+  "name": "Loggerhead Marinelife Center",
+  "place": "Juno Beach",
+  "addr": "14200 US-1, Juno Beach, FL 33408",
+  "drive": 12,
+  "cost": "free",
+  "time": "1–2 hrs",
+  "setting": "both",
+  "cats": [
+   "animals",
+   "ocean"
+  ],
+  "video": "sNOpi1CrZRU",
+  "web": "https://marinelife.org/",
+  "kid": "A real sea turtle hospital! Meet turtles getting better, see their x-rays, and find out when the next one goes back to the ocean.",
+  "dad": "Pick one patient together and follow its story on the center's board. Fish feeding is Tuesdays and Thursdays.",
+  "tip": "Free (donation box). Open daily. Pair it with the pier next door."
+ },
+ {
+  "id": "juno-pier",
+  "name": "Juno Beach Pier",
+  "place": "Juno Beach",
+  "addr": "14775 US-1, Juno Beach, FL 33408",
+  "drive": 12,
+  "cost": "$",
+  "time": "1–2 hrs",
+  "setting": "outdoor",
+  "cats": [
+   "ocean",
+   "adventure"
+  ],
+  "video": "TVJY9KrOUl0",
+  "web": "https://www.junobeachpier.com/",
+  "kid": "Walk way out over the ocean, spot rays and fish under the water, and maybe catch one yourself. Sunrise here is unreal.",
+  "dad": "Rent rods at the bait shop and teach them to bait a hook. Go for sunrise once; it will be a core memory.",
+  "tip": "Small walk-on fee, rod rentals at the shop. Early morning is calmest."
+ },
+ {
+  "id": "lighthouse",
+  "name": "Jupiter Inlet Lighthouse",
+  "place": "Jupiter",
+  "addr": "500 Captain Armour's Way, Jupiter, FL 33469",
+  "drive": 20,
+  "cost": "$$",
+  "time": "1–2 hrs",
+  "setting": "outdoor",
+  "cats": [
+   "adventure",
+   "history"
+  ],
+  "video": "noNgXiWWVUM",
+  "web": "https://www.jupiterlighthouse.org/",
+  "kid": "Climb 105 steps inside a giant red lighthouse from 1860 and look out over the whole inlet. You have to be 48 inches tall to climb!",
+  "dad": "Measure them at home first (48 in). Count steps out loud together, then find your car from the top.",
+  "tip": "Closed-toe shoes required. Kids under 16 climb with an adult. Check climb times before you go."
+ },
+ {
+  "id": "busch",
+  "name": "Busch Wildlife Sanctuary",
+  "place": "Jupiter Farms",
+  "addr": "17855 Rocky Pines Rd, Jupiter, FL 33478",
+  "drive": 25,
+  "cost": "free",
+  "time": "1–2 hrs",
+  "setting": "outdoor",
+  "cats": [
+   "animals",
+   "nature"
+  ],
+  "video": "AoJHYk_CRW4",
+  "web": "https://www.buschwildlife.org/",
+  "kid": "Florida panthers, black bears, bald eagles, alligators and owls, all rescued and living on shady trails you walk through.",
+  "dad": "Let them pick the trail order. Ask a keeper which animal arrived most recently.",
+  "tip": "Donation-based entry. Open daily 10–4:30. Shaded, stroller-friendly paths."
+ },
+ {
+  "id": "dubois",
+  "name": "DuBois Park Lagoon",
+  "place": "Jupiter",
+  "addr": "19075 DuBois Rd, Jupiter, FL 33477",
+  "drive": 20,
+  "cost": "free",
+  "time": "half day",
+  "setting": "water",
+  "cats": [
+   "ocean",
+   "water"
+  ],
+  "video": "fweAiqxxgCM",
+  "web": "https://discover.pbc.gov/parks/Locations/DuBois.aspx",
+  "kid": "A calm, clear lagoon right by the lighthouse where you can snorkel with tiny fish, build sand forts and watch boats go by.",
+  "dad": "First snorkel lesson: shallow water, no waves. Bring a bucket and a fish ID card.",
+  "tip": "Free parking. Go on an incoming tide for the clearest water. Grills and picnic tables."
+ },
+ {
+  "id": "rapids",
+  "name": "Rapids Water Park",
+  "place": "Riviera Beach",
+  "addr": "6566 N Military Trail, Riviera Beach, FL 33407",
+  "drive": 15,
+  "cost": "$$$",
+  "time": "full day",
+  "setting": "water",
+  "cats": [
+   "water",
+   "thrill"
+  ],
+  "video": "3kMQG-IkYG4",
+  "web": "https://rapidswaterpark.com/",
+  "kid": "Forty-two slides, a lazy river and a huge wave pool. Splish Splash Lagoon has slides just your size, and Big Thunder is seven stories tall.",
+  "dad": "Ride everything they dare you to. Lazy river at the end is where the talking happens.",
+  "tip": "Open mid-March through Labor Day, weekends in fall. Arrive at opening to beat lines."
+ },
+ {
+  "id": "zoo",
+  "name": "Palm Beach Zoo",
+  "place": "West Palm Beach",
+  "addr": "1301 Summit Blvd, West Palm Beach, FL 33405",
+  "drive": 25,
+  "cost": "$$",
+  "time": "half day",
+  "setting": "outdoor",
+  "cats": [
+   "animals"
+  ],
+  "video": "1DgTu5rheWg",
+  "web": "https://www.palmbeachzoo.org/",
+  "kid": "Jaguars, koalas, otters, a carousel and a splash fountain for when it gets hot. Small enough to see everything in one visit.",
+  "dad": "Give each kid a 'find it' list of five animals. Winner picks the snack.",
+  "tip": "Go early; animals are most active before 11. Splash pad means pack a towel."
+ },
+ {
+  "id": "cox",
+  "name": "Cox Science Center & Aquarium",
+  "place": "West Palm Beach",
+  "addr": "4801 Dreher Trail N, West Palm Beach, FL 33405",
+  "drive": 25,
+  "cost": "$$",
+  "time": "half day",
+  "setting": "indoor",
+  "cats": [
+   "science",
+   "rainy"
+  ],
+  "video": "fhI542Vy-m0",
+  "web": "https://www.coxsciencecenter.org/",
+  "kid": "Touch tanks, a planetarium, baby alligators, dinosaur fossils and a mini golf course outside. Press every button.",
+  "dad": "Best rainy-day plan in the county. Do a planetarium show together and talk about what you saw on the drive home.",
+  "tip": "Indoor, air conditioned. Planetarium shows are extra. Right next to the zoo."
+ },
+ {
+  "id": "lion-country",
+  "name": "Lion Country Safari",
+  "place": "Loxahatchee",
+  "addr": "2003 Lion Country Safari Rd, Loxahatchee, FL 33470",
+  "drive": 40,
+  "cost": "$$$",
+  "time": "full day",
+  "setting": "both",
+  "cats": [
+   "animals",
+   "adventure"
+  ],
+  "video": "97EhZn8FSjY",
+  "web": "https://www.lioncountrysafari.com/",
+  "kid": "Drive your own car through a safari with rhinos, giraffes and zebras walking right past your window. Then rides, a splash park and giraffe feeding.",
+  "dad": "Let them be the spotters and narrate from the back seat. Feed a giraffe together.",
+  "tip": "Windows up in the lion area. Half the day is the drive-through, half is the walk-through park."
+ },
+ {
+  "id": "manatee",
+  "name": "Manatee Lagoon",
+  "place": "Riviera Beach",
+  "addr": "6000 N Flagler Dr, West Palm Beach, FL 33407",
+  "drive": 15,
+  "cost": "free",
+  "time": "1–2 hrs",
+  "setting": "both",
+  "cats": [
+   "animals",
+   "ocean"
+  ],
+  "video": "1vYyhpjkrA4",
+  "web": "https://www.visitmanateelagoon.com/",
+  "kid": "On cold winter days, dozens of manatees float right under the deck to stay warm. Count how many noses pop up!",
+  "dad": "Check the manatee cam the morning of a cold snap and go when the count is high.",
+  "tip": "Free. Manatee season is Nov 15 to Mar 31; closed Mondays the rest of the year."
+ },
+ {
+  "id": "peanut",
+  "name": "Peanut Island by Boat",
+  "place": "Riviera Beach",
+  "addr": "Riviera Beach Marina, 200 E 13th St, Riviera Beach, FL 33404",
+  "drive": 15,
+  "cost": "$$",
+  "time": "half day",
+  "setting": "water",
+  "cats": [
+   "ocean",
+   "water",
+   "adventure"
+  ],
+  "video": "J9EEmaKMVnM",
+  "web": "https://discover.pbc.gov/parks/Locations/Peanut-Island.aspx",
+  "kid": "Take a shuttle boat to a tiny island with a snorkel lagoon full of parrotfish, a walking trail all the way around, and a real Cold War bunker.",
+  "dad": "Pack a picnic; there are no stores on the island. Snorkel the lagoon together, then walk the loop.",
+  "tip": "Shuttle boat from the marina or water taxi from Sailfish Marina. Weekdays are far quieter."
+ },
+ {
+  "id": "riverbend",
+  "name": "Riverbend Park Bikes & Kayaks",
+  "place": "Jupiter",
+  "addr": "9060 W Indiantown Rd, Jupiter, FL 33478",
+  "drive": 25,
+  "cost": "$",
+  "time": "half day",
+  "setting": "outdoor",
+  "cats": [
+   "nature",
+   "adventure",
+   "water"
+  ],
+  "video": "q2hF2tlYSBc",
+  "web": "https://discover.pbc.gov/parks/Locations/Riverbend.aspx",
+  "kid": "Ten miles of shady bike trails with deer, turtles and peacocks, plus kayaks you can paddle down a real river.",
+  "dad": "Rent bikes or kayaks on site. Let them lead the ride and choose where to stop for snacks.",
+  "tip": "Free park entry; rentals from Jupiter Outdoor Center inside the park. Bring bug spray."
+ },
+ {
+  "id": "jd-park",
+  "name": "Jonathan Dickinson State Park",
+  "place": "Hobe Sound",
+  "addr": "16450 SE Federal Hwy, Hobe Sound, FL 33455",
+  "drive": 30,
+  "cost": "$",
+  "time": "half day",
+  "setting": "outdoor",
+  "cats": [
+   "nature",
+   "adventure"
+  ],
+  "video": "RCazasm7JuI",
+  "web": "https://www.floridastateparks.org/parks-and-trails/jonathan-dickinson-state-park",
+  "kid": "Climb Hobe Mountain tower (the tallest 'mountain' around!), ride a boat up the river to a pioneer's camp, and look for gators.",
+  "dad": "Do the Loxahatchee Queen boat tour to Trapper Nelson's camp. Camp here one night when they're ready.",
+  "tip": "Park entry is per car. Boat tour runs on set days; book ahead."
+ },
+ {
+  "id": "blowing-rocks",
+  "name": "Blowing Rocks Preserve",
+  "place": "Hobe Sound",
+  "addr": "574 S Beach Rd, Hobe Sound, FL 33455",
+  "drive": 30,
+  "cost": "$",
+  "time": "1–2 hrs",
+  "setting": "outdoor",
+  "cats": [
+   "ocean",
+   "nature"
+  ],
+  "video": "CPgalfgYe4Y",
+  "web": "https://www.nature.org/en-us/get-involved/how-to-help/places-we-protect/blowing-rocks-preserve/",
+  "kid": "Waves crash into holes in the rocks and shoot up like geysers, sometimes 50 feet high! Then explore tide pools.",
+  "dad": "Check the tide chart: high tide with east wind makes the big blows. Tide pools at low tide are the quiet version.",
+  "tip": "Small donation entry. Water shoes. Small lot fills early on weekends."
+ },
+ {
+  "id": "hammerheads",
+  "name": "Baseball at Roger Dean Stadium",
+  "place": "Jupiter",
+  "addr": "4751 Main St, Jupiter, FL 33458",
+  "drive": 15,
+  "cost": "$$",
+  "time": "evening",
+  "setting": "outdoor",
+  "cats": [
+   "sports"
+  ],
+  "video": "Uc21RPdkC94",
+  "web": "https://www.rogerdeanchevroletstadium.com/",
+  "kid": "Cheer for the Jupiter Hammerheads, chase foul balls, and eat a hot dog under the lights. Some nights end with fireworks.",
+  "dad": "Teach them to keep score for a few innings. Sit on the grass berm the first time.",
+  "tip": "Minor league season runs April to September; spring training in February and March."
+ },
+ {
+  "id": "downtown",
+  "name": "Downtown Palm Beach Gardens",
+  "place": "Palm Beach Gardens",
+  "addr": "11701 Lake Victoria Gardens Ave, Palm Beach Gardens, FL 33410",
+  "drive": 5,
+  "cost": "$",
+  "time": "1–2 hrs",
+  "setting": "both",
+  "cats": [
+   "easy",
+   "rainy"
+  ],
+  "video": "9A3-HPVwQ98",
+  "web": "https://downtownpbg.com/",
+  "kid": "Ride the carousel, run through the dancing fountains, and get ice cream. Five minutes from home!",
+  "dad": "The easy weeknight win. Carousel, fountain, ice cream, done before bedtime.",
+  "tip": "Carousel rides are a few dollars. Check the events calendar for movie and music nights."
+ },
+ {
+  "id": "minigolf",
+  "name": "Lighthouse Cove Adventure Golf",
+  "place": "Jupiter",
+  "addr": "617 N Hwy A1A, Jupiter, FL 33477",
+  "drive": 20,
+  "cost": "$$",
+  "time": "1–2 hrs",
+  "setting": "outdoor",
+  "cats": [
+   "easy",
+   "sports"
+  ],
+  "video": "g8_OAylZ_lY",
+  "web": "https://lighthousecovegolf.com/",
+  "kid": "Thirty-six holes of mini golf with waterfalls, caves and a pirate ship, then a burger and ice cream at the shack.",
+  "dad": "Play one course each, loser buys ice cream. Perfect after a Carlin Park beach morning.",
+  "tip": "Across from the beach on A1A. Evenings are cooler and the course lights up."
+ },
+ {
+  "id": "macarthur",
+  "name": "MacArthur Beach State Park",
+  "place": "North Palm Beach",
+  "addr": "10900 Jack Nicklaus Dr, North Palm Beach, FL 33408",
+  "drive": 10,
+  "cost": "$",
+  "time": "half day",
+  "setting": "outdoor",
+  "cats": [
+   "ocean",
+   "nature",
+   "water"
+  ],
+  "video": "pWXGqWHirPA",
+  "web": "https://www.macarthurbeach.org/",
+  "kid": "Cross a long boardwalk over the lagoon to a wild beach, kayak the estuary, and visit the nature center with its fish tanks.",
+  "dad": "Rent a tandem kayak and let them steer. The boardwalk walk is where they'll tell you about school.",
+  "tip": "Per-car entry. Kayak rentals at the nature center. Quiet beach with no buildings in sight."
+ },
+ {
+  "id": "grassy",
+  "name": "Grassy Waters Preserve",
+  "place": "West Palm Beach",
+  "addr": "8264 Northlake Blvd, West Palm Beach, FL 33412",
+  "drive": 15,
+  "cost": "free",
+  "time": "1–2 hrs",
+  "setting": "outdoor",
+  "cats": [
+   "nature"
+  ],
+  "video": "aPjmIfqAI1M",
+  "web": "https://www.wpb.org/Departments/Grassy-Waters-Preserve",
+  "kid": "A boardwalk through a real Everglades swamp with gators, herons and turtles. Bring binoculars and whisper.",
+  "dad": "Make a sightings tally on a card. Ask about the guided canoe trips for when they're ready.",
+  "tip": "Free. Mornings are coolest and the wildlife is out. Closed some weekdays; check."
+ },
+ {
+  "id": "river-center",
+  "name": "Loxahatchee River Center",
+  "place": "Jupiter",
+  "addr": "805 N US-1, Jupiter, FL 33477",
+  "drive": 15,
+  "cost": "free",
+  "time": "1–2 hrs",
+  "setting": "indoor",
+  "cats": [
+   "science",
+   "animals",
+   "rainy"
+  ],
+  "video": "aJYdrtVe3Qg",
+  "web": "https://www.loxahatcheeriver.org/river-center/",
+  "kid": "Touch tanks with sea stars and crabs, big aquariums, and the story of how the river flows from the swamp to the ocean.",
+  "dad": "A small, quiet place where they can ask a staffer a hundred questions. Combine with a picnic at Burt Reynolds Park.",
+  "tip": "Free. In Burt Reynolds Park. Check hours; closed Sundays and Mondays."
+ },
+ {
+  "id": "altitude",
+  "name": "Altitude Trampoline Park",
+  "place": "West Palm Beach",
+  "addr": "4340 Okeechobee Blvd, West Palm Beach, FL 33409",
+  "drive": 25,
+  "cost": "$$",
+  "time": "1–2 hrs",
+  "setting": "indoor",
+  "cats": [
+   "thrill",
+   "rainy"
+  ],
+  "video": "f3yAJAVqYxQ",
+  "web": "https://altitudetrampolinepark.com/",
+  "kid": "Wall-to-wall trampolines, dodgeball, a foam pit, ninja course and basketball dunk lanes. Jump until you can't.",
+  "dad": "Buy a jump pass for yourself too. Dodgeball against dad is the whole point.",
+  "tip": "Grip socks required (buy there). Book a time slot online on weekends."
+ },
+ {
+  "id": "ice",
+  "name": "Ice Skating at Palm Beach Ice Works",
+  "place": "West Palm Beach",
+  "addr": "1590 N Florida Mango Rd, West Palm Beach, FL 33409",
+  "drive": 25,
+  "cost": "$$",
+  "time": "1–2 hrs",
+  "setting": "indoor",
+  "cats": [
+   "sports",
+   "rainy"
+  ],
+  "video": "kNDw9G3q0nA",
+  "web": "https://www.pbiw.org/",
+  "kid": "Real ice in Florida! Public skate sessions with rental skates and a snack bar. Hold the wall, then let go.",
+  "dad": "Hold hands for the first lap and then let them go. Hot chocolate after.",
+  "tip": "Public skate times vary; check the schedule. Bring gloves and long pants."
+ },
+ {
+  "id": "carlin",
+  "name": "Carlin Park Beach Day",
+  "place": "Jupiter",
+  "addr": "400 S State Rd A1A, Jupiter, FL 33477",
+  "drive": 20,
+  "cost": "free",
+  "time": "half day",
+  "setting": "water",
+  "cats": [
+   "ocean",
+   "water",
+   "easy"
+  ],
+  "video": "Bh4Uh-tIRFI",
+  "web": "https://discover.pbc.gov/parks/Locations/Carlin.aspx",
+  "kid": "A big lifeguarded beach with gentle waves for boogie boards, plus a playground and a snack bar. Try a surf lesson one day!",
+  "dad": "Boogie boards first, then book a kids' surf lesson from one of the Jupiter surf schools for a milestone day.",
+  "tip": "Free parking. Lifeguards on duty. Lighthouse Cove mini golf is across the street."
+ },
+ {
+  "id": "sailfish",
+  "name": "Sunset Celebration at Sailfish Marina",
+  "place": "Palm Beach Shores",
+  "addr": "98 Lake Dr, Palm Beach Shores, FL 33404",
+  "drive": 20,
+  "cost": "free",
+  "time": "evening",
+  "setting": "outdoor",
+  "cats": [
+   "easy",
+   "ocean"
+  ],
+  "video": "sU__vixd--0",
+  "web": "https://www.sailfishmarina.com/",
+  "kid": "Thursday night sunset party on the docks: artists, music, and giant fish and pelicans right under the pier waiting for scraps.",
+  "dad": "Buy a bag of fish food, stand at the end of the dock and watch the sun go down together.",
+  "tip": "Thursday evenings. Free to walk around. The water taxi to Peanut Island leaves from here too."
+ },
+ {
+  "id": "norton",
+  "name": "Norton Museum of Art",
+  "place": "West Palm Beach",
+  "addr": "1450 S Dixie Hwy, West Palm Beach, FL 33401",
+  "drive": 30,
+  "cost": "$$",
+  "time": "1–2 hrs",
+  "setting": "indoor",
+  "cats": [
+   "art",
+   "rainy"
+  ],
+  "video": "fpQDbzA0zoE",
+  "web": "https://www.norton.org/",
+  "kid": "A huge art museum with a giant banyan tree, a sculpture garden, and family art-making days where you make your own.",
+  "dad": "Pick one painting each and tell its story to each other. Look up the free family days before you go.",
+  "tip": "Check the calendar for free days and family programs. Great on a hot or rainy afternoon."
+ },
+ {
+  "id": "horses",
+  "name": "Horseback Riding in Jupiter Farms",
+  "place": "Jupiter Farms",
+  "addr": "Desert Rose Ranch, Ranch Colony, Jupiter, FL 33478",
+  "drive": 30,
+  "cost": "$$$",
+  "time": "1–2 hrs",
+  "setting": "outdoor",
+  "cats": [
+   "animals",
+   "adventure"
+  ],
+  "video": "6g-aNv1-pBc",
+  "web": "https://www.google.com/search?q=Desert+Rose+Ranch+Jupiter+riding+lessons",
+  "kid": "Brush a horse, learn to hold the reins, and ride around a real ranch. Every horse has a name and a personality.",
+  "dad": "Book a beginner lesson for both of you. Learning something new side by side is the point.",
+  "tip": "Call ahead; small stables book up. Long pants and closed shoes. Several Jupiter Farms ranches offer kids' lessons."
+ },
+ {
+  "id": "turtle-release",
+  "name": "Sea Turtle Release on the Beach",
+  "place": "Juno Beach",
+  "addr": "Loggerhead Marinelife Center, 14200 US-1, Juno Beach, FL 33408",
+  "drive": 12,
+  "cost": "free",
+  "time": "1–2 hrs",
+  "setting": "outdoor",
+  "cats": [
+   "animals",
+   "ocean",
+   "special"
+  ],
+  "video": "s0LnskU_254",
+  "web": "https://marinelife.org/",
+  "kid": "Watch a healed sea turtle crawl back into the ocean while everyone cheers. In summer there are night turtle walks to see nesting mamas.",
+  "dad": "Follow the center's release announcements and drop everything when one is scheduled. Turtle walks are June–July; book early.",
+  "tip": "Releases are announced a day or two ahead on the center's channels. Turtle walks have a minimum age; check."
+ }
+]

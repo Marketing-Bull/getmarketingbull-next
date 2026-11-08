@@ -1,0 +1,603 @@
+<title>Dad Days</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap">
+<style>
+/* Layout: one column, phone-first. Kids see one big card at a time; Dad sees stacked sections. */
+:root{
+  --bg:#FFF6E6; --surface:#FFFFFF; --surface2:#FFF1DA; --fg:#17344D; --muted:#5E7384; --line:#F0DFC3;
+  --accent:#FF7A3D; --accent-ink:#FFFFFF; --sea:#1FB5A8; --sea-ink:#083B38;
+  --yes:#2DB36B; --maybe:#F2B705; --no:#E85D5D; --shadow:0 10px 30px rgba(23,52,77,.12);
+  --display:"Fredoka","Nunito","Segoe UI",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E1F2E; --surface:#17304A; --surface2:#1E3A58; --fg:#F2F6FA; --muted:#A8BACB; --line:#27476A;
+  --accent:#FF8E57; --accent-ink:#1A0E07; --sea:#3BD0C1; --sea-ink:#06302D; --shadow:0 10px 30px rgba(0,0,0,.35); color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0E1F2E; --surface:#17304A; --surface2:#1E3A58; --fg:#F2F6FA; --muted:#A8BACB; --line:#27476A;
+  --accent:#FF8E57; --accent-ink:#1A0E07; --sea:#3BD0C1; --sea-ink:#06302D; --shadow:0 10px 30px rgba(0,0,0,.35); color-scheme:dark }
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 32px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:var(--sea)}
+button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:10px 16px;background:var(--surface2);color:var(--fg)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--sea);outline-offset:2px}
+input,select,textarea{font:inherit;color:var(--fg);background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0;width:100%}
+img{max-width:100%;display:block}
+.wrap{max-width:760px;margin:0 auto}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 10px}
+.logo{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
+.logo .sun{width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFD37A,var(--accent));box-shadow:0 0 0 4px rgba(255,122,61,.18)}
+.tabs{display:flex;gap:4px;background:var(--surface2);padding:4px;border-radius:999px}
+.tabs button{padding:8px 14px;background:transparent;font-weight:700;font-family:var(--display);font-size:15px}
+.tabs button[aria-selected="true"]{background:var(--fg);color:var(--bg)}
+
+.view[hidden]{display:none}
+.sub{color:var(--muted);font-size:15px}
+.eyebrow{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+section.block{margin-top:26px}
+section.block h2{font-size:24px;margin-bottom:4px}
+
+/* kid chips */
+.kids{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:var(--surface);border:2px solid var(--line);font-weight:800;font-family:var(--display);font-size:17px}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+
+/* big card */
+.card{background:var(--surface);border-radius:22px;box-shadow:var(--shadow);overflow:hidden;margin-top:14px}
+.hero{position:relative;aspect-ratio:16/9;max-width:100%;background:var(--surface2)}
+.hero img{width:100%;height:100%;object-fit:cover}
+.hero .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-decoration:none}
+.hero .play span{display:inline-flex;align-items:center;gap:8px;background:rgba(10,20,30,.72);color:#fff;padding:10px 18px;border-radius:999px;font-weight:800;font-family:var(--display);font-size:17px;backdrop-filter:blur(4px)}
+.hero .play:hover span{background:rgba(10,20,30,.9)}
+.badges{position:absolute;left:10px;top:10px;display:flex;gap:6px;flex-wrap:wrap}
+.badge{font-family:var(--display);font-weight:600;font-size:13px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.92);color:#17344D}
+.badge.free{background:#2DB36B;color:#fff}
+.cbody{padding:16px 18px 18px}
+.cbody h2{font-size:26px}
+.cbody .where{color:var(--muted);font-weight:700;margin-top:2px}
+.cbody .blurb{margin-top:10px;font-size:17px}
+.votes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:16px}
+.votes button{font-family:var(--display);font-weight:600;font-size:18px;padding:14px 6px;border-radius:16px;color:#fff;transition:transform .08s}
+.votes button:active{transform:scale(.96)}
+.v-yes{background:var(--yes)} .v-maybe{background:var(--maybe);color:#3A2A00 !important} .v-no{background:var(--no)}
+.progress{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;color:var(--muted);font-weight:700}
+.bar{flex:1;height:8px;border-radius:99px;background:var(--surface2);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--sea);width:0;transition:width .3s}
+
+/* results / lists */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:12px}
+.tile{background:var(--surface);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);text-align:left;padding:0;display:flex;flex-direction:column;min-width:0}
+.tile img{aspect-ratio:16/9;object-fit:cover;width:100%}
+.tile .t{padding:10px 12px 12px;font-weight:800;font-family:var(--display);font-size:16px;line-height:1.2}
+.tile .m{padding:0 12px 12px;color:var(--muted);font-size:13px;font-weight:700;margin-top:-6px}
+.tile .stamp{display:flex;gap:4px;padding:0 12px 10px;flex-wrap:wrap}
+.pill{font-size:12px;font-weight:800;padding:3px 8px;border-radius:999px;background:var(--surface2);color:var(--fg)}
+.pill.yes{background:var(--yes);color:#fff}.pill.maybe{background:var(--maybe);color:#3A2A00}.pill.no{background:var(--no);color:#fff}
+.empty{background:var(--surface2);border-radius:16px;padding:18px;color:var(--muted);font-weight:600;margin-top:12px}
+
+.spin{margin-top:16px;background:var(--surface);border-radius:22px;box-shadow:var(--shadow);padding:18px;text-align:center}
+.spin .pick{font-family:var(--display);font-weight:700;font-size:28px;min-height:1.3em;margin:8px 0 12px}
+.btn{background:var(--accent);color:var(--accent-ink);font-family:var(--display);font-weight:600;font-size:18px;padding:12px 22px}
+.btn.sea{background:var(--sea);color:var(--sea-ink)}
+.btn.ghost{background:transparent;border:2px solid var(--line);color:var(--fg)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* filters */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.filters button{font-weight:800;font-size:14px;border:2px solid var(--line);background:var(--surface)}
+.filters button[aria-pressed="true"]{background:var(--sea);border-color:var(--sea);color:var(--sea-ink)}
+
+/* dad list */
+.list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;background:var(--surface);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow)}
+.item .cb{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);background:var(--surface);padding:0;display:grid;place-items:center;font-size:16px}
+.item .cb[aria-checked="true"]{background:var(--yes);border-color:var(--yes);color:#fff}
+.item .ti{font-weight:800;font-family:var(--display);font-size:17px;line-height:1.2}
+.item .no{color:var(--muted);font-size:14px;margin-top:2px}
+.item .x{background:transparent;color:var(--muted);padding:4px 8px;font-size:18px;line-height:1}
+.addform{display:grid;grid-template-columns:1fr;gap:8px;margin-top:12px;background:var(--surface2);padding:14px;border-radius:16px}
+@media (min-width:560px){.addform{grid-template-columns:1fr 1fr auto}.addform .full{grid-column:1/-1}}
+.memory{border-left:4px solid var(--accent);padding:10px 14px;background:var(--surface);border-radius:0 14px 14px 0;box-shadow:var(--shadow)}
+.memory .d{color:var(--muted);font-size:13px;font-weight:800;letter-spacing:.04em}
+.settings{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
+.krow{display:grid;grid-template-columns:72px 1fr auto;gap:8px;align-items:center}
+.note{font-size:13px;color:var(--muted);margin-top:8px}
+.status{font-size:13px;color:var(--muted);font-weight:700;margin-top:6px}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(5,15,25,.55);display:flex;align-items:flex-end;justify-content:center;z-index:20;padding:0}
+.modal[hidden]{display:none}
+.sheet{background:var(--surface);width:100%;max-width:640px;max-height:92%;overflow:auto;border-radius:22px 22px 0 0;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+@media (min-width:700px){.modal{align-items:center;padding:20px}.sheet{border-radius:22px}}
+.sheet .hero{border-radius:22px 22px 0 0}
+.sheet .in{padding:16px 18px}
+.sheet h2{font-size:24px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin-top:12px;font-size:15px}
+.kv b{color:var(--muted);font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;padding-top:2px}
+.dadnote{margin-top:12px;background:var(--surface2);border-radius:14px;padding:12px 14px}
+.dadnote .eyebrow{color:var(--sea)}
+.close{position:absolute;right:10px;top:10px;background:rgba(10,20,30,.7);color:#fff;width:40px;height:40px;padding:0;font-size:20px;z-index:1}
+.vidframe{aspect-ratio:16/9;width:100%;max-width:100%;border:0;display:block;background:#000}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:800;z-index:30;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
+.confetti{font-size:40px;line-height:1;animation:pop .5s ease-out}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="logo"><span class="sun" aria-hidden="true"></span>Dad Days</div>
+    <nav class="tabs" role="tablist" aria-label="Mode">
+      <button role="tab" id="tab-kids" aria-selected="true" data-view="kids">Kids</button>
+      <button role="tab" id="tab-dad" aria-selected="false" data-view="dad">Dad</button>
+      <button role="tab" id="tab-all" aria-selected="false" data-view="all">All</button>
+    </nav>
+  </header>
+
+  <!-- KIDS -->
+  <main id="view-kids" class="view">
+    <p class="eyebrow">Palm Beach Gardens and around</p>
+    <h1 style="font-size:30px;margin-top:4px">What should we do with Dad?</h1>
+    <p class="sub">Tap who you are, then say YES, maybe or nope to each adventure. Dad sees your list.</p>
+    <div class="kids" id="kidChips" role="group" aria-label="Who is picking"></div>
+    <div id="kidStage"></div>
+  </main>
+
+  <!-- DAD -->
+  <main id="view-dad" class="view" hidden>
+    <p class="eyebrow">For Dad</p>
+    <h1 style="font-size:30px;margin-top:4px">Your crew's picks and your list</h1>
+    <p class="status" id="syncStatus"></p>
+
+    <section class="block">
+      <h2>Everybody said YES</h2>
+      <p class="sub">Book one of these this weekend.</p>
+      <div id="matches"></div>
+      <div class="spin" id="dadSpin" hidden>
+        <p class="eyebrow">Can't decide?</p>
+        <div class="pick" id="dadPick">Spin for a weekend plan</div>
+        <button class="btn" id="dadSpinBtn">Spin</button>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Each kid's YES list</h2>
+      <div id="perKid"></div>
+    </section>
+
+    <section class="block">
+      <h2>My list</h2>
+      <p class="sub">Things you want to do with them. Check one off and it becomes a memory.</p>
+      <div id="wishList" class="list"></div>
+      <form class="addform" id="addForm">
+        <input id="addTitle" placeholder="Something you want to do with them" aria-label="Title" required>
+        <select id="addPlace" aria-label="Link to a place">
+          <option value="">No place linked</option>
+        </select>
+        <button class="btn sea" type="submit">Add</button>
+        <input class="full" id="addNote" placeholder="Why it matters (optional)" aria-label="Note">
+      </form>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" id="seedBtn" type="button">Add starter ideas</button>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Memories</h2>
+      <p class="sub">What you've already done together.</p>
+      <div id="memories" class="list"></div>
+    </section>
+
+    <section class="block">
+      <h2>Quick filters</h2>
+      <p class="sub">Need a plan for today? Narrow it down.</p>
+      <div class="filters" id="dadFilters">
+        <button type="button" data-f="free" aria-pressed="false">Free</button>
+        <button type="button" data-f="rainy" aria-pressed="false">Rainy day</button>
+        <button type="button" data-f="close" aria-pressed="false">Under 15 min</button>
+        <button type="button" data-f="quick" aria-pressed="false">1–2 hours</button>
+        <button type="button" data-f="water" aria-pressed="false">Water</button>
+        <button type="button" data-f="animals" aria-pressed="false">Animals</button>
+      </div>
+      <div id="dadGrid" class="grid"></div>
+    </section>
+
+    <section class="block">
+      <h2>Kids' names</h2>
+      <div class="settings" id="kidSettings"></div>
+      <div class="row" style="margin-top:8px"><button class="btn ghost" id="addKidBtn" type="button">Add a kid</button></div>
+      <p class="note">Picks live with the app, so the kids can vote on a tablet and you see it on your phone. Hours and prices change; the tip on each card is a starting point, not a guarantee.</p>
+    </section>
+  </main>
+
+  <!-- ALL -->
+  <main id="view-all" class="view" hidden>
+    <p class="eyebrow">27 adventures near 33418</p>
+    <h1 style="font-size:30px;margin-top:4px">Every adventure</h1>
+    <p class="sub">Real places within about 40 minutes of Palm Beach Gardens, each with a video and a picture.</p>
+    <div class="filters" id="allFilters">
+      <button type="button" data-f="free" aria-pressed="false">Free</button>
+      <button type="button" data-f="rainy" aria-pressed="false">Rainy day</button>
+      <button type="button" data-f="close" aria-pressed="false">Under 15 min</button>
+      <button type="button" data-f="water" aria-pressed="false">Water</button>
+      <button type="button" data-f="animals" aria-pressed="false">Animals</button>
+      <button type="button" data-f="thrill" aria-pressed="false">Thrills</button>
+    </div>
+    <div id="allGrid" class="grid"></div>
+  </main>
+</div>
+
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="sheet" id="sheet"></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const ACTIVITIES = /*__ACTIVITIES__*/[];
+const DEFAULT_KIDS = [{id:"k1",name:"Kid 1",emoji:"🦋"},{id:"k2",name:"Kid 2",emoji:"🐬"}];
+const EMOJI = ["🦋","🐬","🦄","🐢","🌺","⭐","🦩","🐠","🌈","🦜"];
+const STARTER_WISH = [
+  {title:"Teach them to fish at Juno Pier",activityId:"juno-pier",note:"Rent rods at the bait shop. Sunrise once."},
+  {title:"Sunrise and donuts at Carlin Park",activityId:"carlin",note:"Leave the house in the dark. Towels in the car."},
+  {title:"Climb the lighthouse the week they hit 48 inches",activityId:"lighthouse",note:"Measure at home first."},
+  {title:"First snorkel in the DuBois lagoon",activityId:"dubois",note:"Incoming tide, calm day."},
+  {title:"Kayak the Loxahatchee together",activityId:"riverbend",note:"Tandem kayak, they steer."},
+  {title:"A ballgame under the lights",activityId:"hammerheads",note:"Grass berm, keep score for three innings."},
+  {title:"Watch a sea turtle go home",activityId:"turtle-release",note:"Drop everything when a release is announced."},
+  {title:"Camp one night at Jonathan Dickinson",activityId:"jd-park",note:"Book a site. Flashlight walk."},
+  {title:"Learn to ride a horse side by side",activityId:"horses",note:"Beginner lesson for all of us."},
+  {title:"Manatee morning on the first cold snap",activityId:"manatee",note:"Check the count that morning."},
+  {title:"Mini golf, loser buys ice cream",activityId:"minigolf",note:"After a beach morning across the street."},
+  {title:"Pancakes, then plan the next adventure together",note:"Open this app at the table and let them spin."}
+];
+const canEmbed = !window.claude;
+const $ = (s, el=document) => el.querySelector(s);
+const esc = s => String(s??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]||c));
+const byId = Object.fromEntries(ACTIVITIES.map(a=>[a.id,a]));
+const costLabel = c => c==="free"?"Free":c;
+const uid = () => Math.random().toString(36).slice(2,9)+Date.now().toString(36);
+
+/* ---------- storage: artifact db when available, localStorage otherwise ---------- */
+const store = {
+  mode:"local", db:null, cache:{}, listeners:{}, ready:false,
+  key(p){ return "daddays:"+p },
+  async init(){
+    try {
+      if (window.claude && window.claude.use) {
+        const db = await window.claude.use("db");
+        if (db) { this.db = db; this.mode = "db"; }
+      }
+    } catch(e) { /* fall back to local */ }
+    this.ready = true;
+  },
+  subscribe(path, cb){
+    if (this.mode === "db") {
+      let settled = false;
+      const timer = setTimeout(()=>{ if(!settled) setStatus("Still loading saved picks…"); }, 10000);
+      return this.db.doc(path).onSnapshot(snap => {
+        if (!snap.metadata.fromCache) { settled = true; clearTimeout(timer); setStatus(""); }
+        this.cache[path] = snap.exists ? snap.data() : null;
+        cb(this.cache[path]);
+      }, err => { settled = true; clearTimeout(timer); setStatus("Saved picks can't be reached right now."); cb(this.cache[path] ?? null); });
+    }
+    let v = null;
+    try { const raw = localStorage.getItem(this.key(path)); v = raw ? JSON.parse(raw) : null; } catch(e){}
+    this.cache[path] = v;
+    (this.listeners[path] ||= []).push(cb);
+    cb(v);
+    return () => { this.listeners[path] = (this.listeners[path]||[]).filter(f=>f!==cb); };
+  },
+  async set(path, data){
+    this.cache[path] = data;
+    if (this.mode === "db") {
+      try { await this.db.doc(path).set(data); }
+      catch(e){ toast(e && e.code==="invalid_argument" ? "Only Dad's account can save here." : "Couldn't save. Try again."); throw e; }
+      return;
+    }
+    try { localStorage.setItem(this.key(path), JSON.stringify(data)); } catch(e){ toast("Saving is blocked in this browser."); }
+    (this.listeners[path]||[]).forEach(f=>f(data));
+  }
+};
+function setStatus(t){ const el=$("#syncStatus"); if(el) el.textContent=t; }
+let toastT; function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("on"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("on"),2200); }
+
+/* ---------- state ---------- */
+let kids = DEFAULT_KIDS.slice();
+let picks = {};           // kidId -> {votes:{activityId:'yes'|'maybe'|'no'}}
+let plan = null;          // {wish:[], done:[]}
+let currentKid = null;
+let kidIndex = {};        // kidId -> card index
+const pickSubs = {};
+
+function kidName(k){ return k.name && k.name.trim() ? k.name.trim() : "Kid"; }
+function votesFor(id){ return (picks[id] && picks[id].votes) || {}; }
+
+/* ---------- routing ---------- */
+const VIEWS = ["kids","dad","all"];
+function showView(v){
+  if (!VIEWS.includes(v)) v = "kids";
+  VIEWS.forEach(x => { $("#view-"+x).hidden = x!==v; $("#tab-"+x).setAttribute("aria-selected", String(x===v)); });
+  if (v==="dad") renderDad(); if (v==="all") renderAll(); if (v==="kids") renderKids();
+  window.scrollTo({top:0});
+}
+document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => { location.hash = "#"+b.dataset.view; }));
+window.addEventListener("hashchange", () => showView(location.hash.replace("#","")));
+
+/* ---------- shared pieces ---------- */
+function mapsUrl(a){ return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(a.addr); }
+function ytUrl(a){ return "https://www.youtube.com/watch?v="+a.video; }
+function heroHtml(a, big){
+  return `<div class="hero">
+    <img src="img/${a.id}.jpg" alt="${esc(a.name)}" loading="${big?"eager":"lazy"}">
+    <div class="badges"><span class="badge ${a.cost==="free"?"free":""}">${esc(costLabel(a.cost))}</span><span class="badge">🚗 ${a.drive} min</span><span class="badge">${esc(a.time)}</span></div>
+    <a class="play" href="${ytUrl(a)}" target="_blank" rel="noopener" data-video="${a.id}"><span>▶ Watch the video</span></a>
+  </div>`;
+}
+function tileHtml(a, extra=""){
+  return `<button class="tile" type="button" data-open="${a.id}">
+    <img src="img/${a.id}.jpg" alt="" loading="lazy">
+    <div class="t">${esc(a.name)}</div>
+    <div class="m">${esc(a.place)} · ${a.drive} min · ${esc(costLabel(a.cost))}</div>
+    ${extra?`<div class="stamp">${extra}</div>`:""}
+  </button>`;
+}
+function filterMatch(a, active){
+  return [...active].every(f => {
+    if (f==="free") return a.cost==="free";
+    if (f==="rainy") return a.setting==="indoor" || a.cats.includes("rainy");
+    if (f==="close") return a.drive<=15;
+    if (f==="quick") return a.time==="1–2 hrs";
+    return a.cats.includes(f);
+  });
+}
+function wireFilters(containerId, gridId){
+  const active = new Set();
+  const c = $("#"+containerId);
+  const draw = () => { $("#"+gridId).innerHTML = ACTIVITIES.filter(a=>filterMatch(a,active)).map(a=>tileHtml(a)).join("") || `<div class="empty">Nothing matches all of those. Turn one off.</div>`; };
+  c.querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
+    const on = b.getAttribute("aria-pressed")==="true"; b.setAttribute("aria-pressed", String(!on));
+    on ? active.delete(b.dataset.f) : active.add(b.dataset.f); draw();
+  }));
+  return draw;
+}
+const drawAll = wireFilters("allFilters","allGrid");
+const drawDadGrid = wireFilters("dadFilters","dadGrid");
+function renderAll(){ drawAll(); }
+
+/* ---------- modal ---------- */
+function openDetail(id){
+  const a = byId[id]; if(!a) return;
+  const votes = kids.map(k => { const v = votesFor(k.id)[id]; return v ? `<span class="pill ${v}">${esc(k.emoji)} ${esc(kidName(k))}: ${v}</span>` : ""; }).join("");
+  $("#sheet").innerHTML = `
+    <div style="position:relative">${heroHtml(a,true)}<button class="close" type="button" aria-label="Close" data-close>✕</button></div>
+    <div class="in">
+      <h2 id="mTitle">${esc(a.name)}</h2>
+      <p class="where sub" style="font-weight:700">${esc(a.place)} · ${a.drive} min from home · ${esc(costLabel(a.cost))} · ${esc(a.time)}</p>
+      <p class="blurb" style="margin-top:10px;font-size:17px">${esc(a.kid)}</p>
+      ${votes?`<div class="row" style="margin-top:10px">${votes}</div>`:""}
+      <div class="dadnote"><p class="eyebrow">Dad's angle</p><p>${esc(a.dad)}</p></div>
+      <div class="kv">
+        <b>Tip</b><span>${esc(a.tip)}</span>
+        <b>Where</b><span>${esc(a.addr)}</span>
+      </div>
+      <div class="row" style="margin-top:14px">
+        <a class="btn sea" style="text-decoration:none" href="${mapsUrl(a)}" target="_blank" rel="noopener">Open in Maps</a>
+        <a class="btn ghost" style="text-decoration:none" href="${esc(a.web)}" target="_blank" rel="noopener">Website</a>
+        <a class="btn ghost" style="text-decoration:none" href="${ytUrl(a)}" target="_blank" rel="noopener">YouTube ↗</a>
+        <button class="btn ghost" type="button" data-addwish="${a.id}">Add to my list</button>
+      </div>
+    </div>`;
+  $("#modal").hidden = false;
+  document.body.style.overflow = "hidden";
+  $("#sheet").querySelector("[data-close]").focus();
+}
+function closeModal(){ $("#modal").hidden = true; $("#sheet").innerHTML=""; document.body.style.overflow=""; }
+$("#modal").addEventListener("click", e => { if (e.target.id==="modal" || e.target.closest("[data-close]")) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key==="Escape" && !$("#modal").hidden) closeModal(); });
+
+/* video: embed inline where the host allows iframes, otherwise the link opens YouTube */
+document.addEventListener("click", e => {
+  const p = e.target.closest("a.play[data-video]");
+  if (p && canEmbed) {
+    e.preventDefault();
+    const a = byId[p.dataset.video];
+    const hero = p.closest(".hero");
+    hero.innerHTML = `<iframe class="vidframe" src="https://www.youtube-nocookie.com/embed/${a.video}?autoplay=1&rel=0" title="${esc(a.name)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+    return;
+  }
+  const t = e.target.closest("[data-open]"); if (t) { e.preventDefault(); openDetail(t.dataset.open); }
+  const w = e.target.closest("[data-addwish]"); if (w) { addWish(byId[w.dataset.addwish].name, w.dataset.addwish, ""); toast("Added to your list"); }
+});
+
+/* ---------- KIDS view ---------- */
+function renderKidChips(){
+  $("#kidChips").innerHTML = kids.map(k => `<button type="button" class="chip" aria-pressed="${k.id===currentKid}" data-kid="${k.id}">${esc(k.emoji)} ${esc(kidName(k))}</button>`).join("");
+  $("#kidChips").querySelectorAll("button").forEach(b => b.addEventListener("click", () => { currentKid = b.dataset.kid; try{localStorage.setItem("daddays:kid",currentKid)}catch(e){} renderKids(); }));
+}
+function renderKids(){
+  renderKidChips();
+  const stage = $("#kidStage");
+  if (!currentKid) { stage.innerHTML = `<div class="empty">Tap your name to start picking.</div>`; return; }
+  const k = kids.find(x=>x.id===currentKid); if(!k){ currentKid=null; return renderKids(); }
+  const votes = votesFor(k.id);
+  const remaining = ACTIVITIES.filter(a => !votes[a.id]);
+  const done = ACTIVITIES.length - remaining.length;
+  if (kidIndex[k.id] == null) kidIndex[k.id] = 0;
+  if (kidIndex[k.id] >= remaining.length) kidIndex[k.id] = 0;
+  const yes = ACTIVITIES.filter(a=>votes[a.id]==="yes");
+  const maybe = ACTIVITIES.filter(a=>votes[a.id]==="maybe");
+
+  let html = "";
+  if (remaining.length) {
+    const a = remaining[kidIndex[k.id]];
+    html += `<div class="card" id="kidCard">${heroHtml(a,true)}
+      <div class="cbody">
+        <h2>${esc(a.name)}</h2>
+        <p class="where">${esc(a.place)} · ${a.drive} minutes in the car</p>
+        <p class="blurb">${esc(a.kid)}</p>
+        <div class="votes">
+          <button type="button" class="v-yes" data-vote="yes" data-id="${a.id}">YES! 😍</button>
+          <button type="button" class="v-maybe" data-vote="maybe" data-id="${a.id}">Maybe 🤔</button>
+          <button type="button" class="v-no" data-vote="no" data-id="${a.id}">Nope 🙅</button>
+        </div>
+        <div class="progress"><span>${done} of ${ACTIVITIES.length}</span><div class="bar"><i style="width:${Math.round(done/ACTIVITIES.length*100)}%"></i></div><button type="button" class="btn ghost" style="padding:6px 12px;font-size:14px" data-skip>Skip</button></div>
+      </div></div>`;
+  } else {
+    html += `<div class="card"><div class="cbody" style="text-align:center"><div class="confetti">🎉</div><h2>You picked them all!</h2><p class="sub" style="margin-top:6px">Dad can see your YES list now. Spin below to choose one for today.</p>
+      <div class="row" style="justify-content:center;margin-top:12px"><button type="button" class="btn ghost" data-reset>Start over</button></div></div></div>`;
+  }
+  if (yes.length) {
+    html += `<div class="spin"><p class="eyebrow">Spin for today</p><div class="pick" id="kidPick">Which one, ${esc(kidName(k))}?</div><button type="button" class="btn" data-spin>Spin!</button></div>`;
+    html += `<section class="block"><h2>${esc(k.emoji)} ${esc(kidName(k))}'s YES list</h2><div class="grid">${yes.map(a=>tileHtml(a,`<span class="pill yes">YES</span>`)).join("")}</div></section>`;
+  }
+  if (maybe.length) html += `<section class="block"><h2>Maybe</h2><div class="grid">${maybe.map(a=>tileHtml(a,`<span class="pill maybe">maybe</span>`)).join("")}</div></section>`;
+  stage.innerHTML = html;
+
+  stage.querySelectorAll("[data-vote]").forEach(b => b.addEventListener("click", async () => {
+    const v = {...votesFor(k.id)}; v[b.dataset.id] = b.dataset.vote;
+    picks[k.id] = {votes:v, updatedAt:new Date().toISOString()};
+    renderKids();
+    if (b.dataset.vote==="yes") toast("Added to your YES list");
+    try { await store.set("picks/"+k.id, picks[k.id]); } catch(e){}
+  }));
+  const skip = stage.querySelector("[data-skip]"); if (skip) skip.addEventListener("click", () => { kidIndex[k.id] = (kidIndex[k.id]+1) % Math.max(1,remaining.length); renderKids(); });
+  const reset = stage.querySelector("[data-reset]"); if (reset) reset.addEventListener("click", async () => { picks[k.id]={votes:{},updatedAt:new Date().toISOString()}; renderKids(); try{await store.set("picks/"+k.id,picks[k.id]);}catch(e){} });
+  const spin = stage.querySelector("[data-spin]"); if (spin) spin.addEventListener("click", () => spinPick(yes, $("#kidPick"), spin));
+}
+function spinPick(pool, el, btn){
+  if (!pool.length) return;
+  btn.disabled = true;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const final = pool[Math.floor(Math.random()*pool.length)];
+  if (reduced || pool.length===1) { el.textContent = final.name; btn.disabled=false; el.insertAdjacentHTML("beforeend",` <button type="button" class="btn ghost" style="padding:6px 12px;font-size:14px" data-open="${final.id}">See it</button>`); return; }
+  let n = 0, steps = 14 + Math.floor(Math.random()*8);
+  const tick = () => {
+    el.textContent = pool[n % pool.length].name; n++;
+    if (n < steps) setTimeout(tick, 60 + n*18);
+    else { el.textContent = final.name; el.insertAdjacentHTML("beforeend",` <button type="button" class="btn ghost" style="padding:6px 12px;font-size:14px" data-open="${final.id}">See it</button>`); btn.disabled=false; }
+  };
+  tick();
+}
+
+/* ---------- DAD view ---------- */
+function renderDad(){
+  // matches: every kid who has voted said yes
+  const voters = kids.filter(k => Object.keys(votesFor(k.id)).length);
+  const matches = voters.length ? ACTIVITIES.filter(a => voters.every(k => votesFor(k.id)[a.id]==="yes")) : [];
+  const anyYes = ACTIVITIES.filter(a => voters.some(k => votesFor(k.id)[a.id]==="yes"));
+  $("#matches").innerHTML = !voters.length ? `<div class="empty">No picks yet. Hand them the Kids tab.</div>`
+    : matches.length ? `<div class="grid">${matches.map(a=>tileHtml(a, voters.map(k=>`<span class="pill yes">${esc(k.emoji)}</span>`).join(""))).join("")}</div>`
+    : `<div class="empty">No overlap yet. ${anyYes.length} place${anyYes.length===1?"":"s"} got at least one YES; see below.</div>`;
+  const pool = matches.length ? matches : anyYes;
+  $("#dadSpin").hidden = !pool.length;
+  $("#dadSpinBtn").onclick = () => spinPick(pool, $("#dadPick"), $("#dadSpinBtn"));
+
+  $("#perKid").innerHTML = kids.map(k => {
+    const yes = ACTIVITIES.filter(a=>votesFor(k.id)[a.id]==="yes");
+    const maybe = ACTIVITIES.filter(a=>votesFor(k.id)[a.id]==="maybe").length;
+    const n = Object.keys(votesFor(k.id)).length;
+    return `<section style="margin-top:14px"><h3 style="font-size:19px">${esc(k.emoji)} ${esc(kidName(k))} <span class="sub" style="font-weight:700">· ${yes.length} yes · ${maybe} maybe · ${n} of ${ACTIVITIES.length} voted</span></h3>
+      ${yes.length?`<div class="grid">${yes.map(a=>tileHtml(a)).join("")}</div>`:`<div class="empty">Nothing yet.</div>`}</section>`;
+  }).join("");
+
+  // wish list
+  const wish = (plan && plan.wish) || [];
+  $("#wishList").innerHTML = wish.length ? wish.map(w => `<div class="item">
+      <button type="button" class="cb" role="checkbox" aria-checked="false" aria-label="Mark done" data-done="${w.id}"></button>
+      <div><div class="ti">${esc(w.title)}</div>${w.activityId&&byId[w.activityId]?`<div class="no"><a href="#" data-open="${w.activityId}">${esc(byId[w.activityId].name)}</a> · ${byId[w.activityId].drive} min</div>`:""}${w.note?`<div class="no">${esc(w.note)}</div>`:""}</div>
+      <button type="button" class="x" aria-label="Remove" data-remove="${w.id}">✕</button></div>`).join("")
+    : `<div class="empty">Your list is empty. Add your own below, or load the starter ideas.</div>`;
+  $("#seedBtn").hidden = wish.some(w=>w.seed);
+  const sel = $("#addPlace");
+  if (sel.options.length===1) ACTIVITIES.forEach(a => sel.insertAdjacentHTML("beforeend",`<option value="${a.id}">${esc(a.name)}</option>`));
+
+  const done = (plan && plan.done) || [];
+  $("#memories").innerHTML = done.length ? done.slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")).map(m => `<div class="memory"><div class="d">${esc(m.date||"")}</div><div class="ti" style="font-weight:800;font-family:var(--display);font-size:17px">${esc(m.title)}</div>${m.note?`<div class="no sub">${esc(m.note)}</div>`:""}</div>`).join("")
+    : `<div class="empty">Nothing checked off yet. The first one is the hardest.</div>`;
+
+  drawDadGrid();
+  renderKidSettings();
+}
+async function savePlan(p){ plan = p; renderDad(); try { await store.set("dad/plan", p); } catch(e){} }
+function addWish(title, activityId, note, seed){
+  const p = {wish:[...((plan&&plan.wish)||[])], done:[...((plan&&plan.done)||[])]};
+  p.wish.push({id:uid(), title, activityId: activityId||"", note: note||"", seed: !!seed, createdAt:new Date().toISOString()});
+  return savePlan(p);
+}
+$("#addForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const t = $("#addTitle").value.trim(); if (!t) return;
+  addWish(t, $("#addPlace").value, $("#addNote").value.trim());
+  $("#addTitle").value=""; $("#addNote").value=""; $("#addPlace").value="";
+  toast("Added");
+});
+$("#seedBtn").addEventListener("click", () => {
+  const p = {wish:[...((plan&&plan.wish)||[])], done:[...((plan&&plan.done)||[])]};
+  STARTER_WISH.forEach(s => p.wish.push({id:uid(), ...s, activityId:s.activityId||"", seed:true, createdAt:new Date().toISOString()}));
+  savePlan(p); toast("Starter ideas added");
+});
+$("#wishList").addEventListener("click", e => {
+  const d = e.target.closest("[data-done]"); const r = e.target.closest("[data-remove]");
+  if (!d && !r) return;
+  const id = (d||r).dataset.done || (d||r).dataset.remove;
+  const p = {wish:[...plan.wish], done:[...(plan.done||[])]};
+  const i = p.wish.findIndex(w=>w.id===id); if (i<0) return;
+  const [w] = p.wish.splice(i,1);
+  if (d) { p.done.push({id:w.id, title:w.title, activityId:w.activityId, note:w.note, date:new Date().toISOString().slice(0,10)}); toast("Memory made"); }
+  savePlan(p);
+});
+
+/* kid settings */
+function renderKidSettings(){
+  $("#kidSettings").innerHTML = kids.map((k,i) => `<div class="krow">
+    <select aria-label="Emoji" data-emoji="${k.id}">${EMOJI.map(e=>`<option ${e===k.emoji?"selected":""}>${e}</option>`).join("")}</select>
+    <input aria-label="Name" value="${esc(k.name)}" data-name="${k.id}" placeholder="Name">
+    <button type="button" class="x" aria-label="Remove kid" data-rmkid="${k.id}" ${kids.length<=1?"disabled":""}>✕</button></div>`).join("");
+}
+let kidSaveT;
+function saveKids(){ clearTimeout(kidSaveT); kidSaveT = setTimeout(async ()=>{ try{ await store.set("family/settings",{kids}); }catch(e){} }, 500); }
+$("#kidSettings").addEventListener("input", e => {
+  const n = e.target.closest("[data-name]"); const em = e.target.closest("[data-emoji]");
+  if (n) { const k = kids.find(x=>x.id===n.dataset.name); k.name = n.value; }
+  if (em) { const k = kids.find(x=>x.id===em.dataset.emoji); k.emoji = em.value; }
+  saveKids();
+});
+$("#kidSettings").addEventListener("click", e => {
+  const b = e.target.closest("[data-rmkid]"); if (!b || kids.length<=1) return;
+  kids = kids.filter(k=>k.id!==b.dataset.rmkid); if (currentKid===b.dataset.rmkid) currentKid=null;
+  saveKids(); renderDad();
+});
+$("#addKidBtn").addEventListener("click", () => {
+  const id = "k"+(kids.length+1)+uid().slice(0,3);
+  kids.push({id, name:"Kid "+(kids.length+1), emoji:EMOJI[kids.length%EMOJI.length]});
+  subscribePicks(id); saveKids(); renderDad();
+});
+
+/* ---------- boot ---------- */
+function subscribePicks(id){
+  if (pickSubs[id]) return;
+  pickSubs[id] = store.subscribe("picks/"+id, v => { picks[id] = v || {votes:{}}; if (!$("#view-kids").hidden) renderKids(); if (!$("#view-dad").hidden) renderDad(); });
+}
+async function start(){
+  try { currentKid = localStorage.getItem("daddays:kid"); } catch(e){}
+  showView((location.hash||"#kids").replace("#",""));
+  await store.init();
+  store.subscribe("family/settings", v => {
+    if (v && Array.isArray(v.kids) && v.kids.length) kids = v.kids.map(k=>({id:k.id,name:k.name||"",emoji:k.emoji||"⭐"}));
+    kids.forEach(k => subscribePicks(k.id));
+    if (currentKid && !kids.some(k=>k.id===currentKid)) currentKid = null;
+    if (!$("#view-kids").hidden) renderKids(); if (!$("#view-dad").hidden) renderDad();
+  });
+  store.subscribe("dad/plan", v => { plan = v; if (!$("#view-dad").hidden) renderDad(); });
+}
+start();
+</script>
