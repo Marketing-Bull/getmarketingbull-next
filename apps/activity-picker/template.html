@@ -104,7 +104,6 @@ section.block h2{font-size:24px;margin-bottom:4px}
 .item .no{color:var(--muted);font-size:14px;margin-top:2px}
 .item .x{background:transparent;color:var(--muted);padding:4px 8px;font-size:18px;line-height:1}
 .addform{display:grid;grid-template-columns:1fr;gap:8px;margin-top:12px;background:var(--surface2);padding:14px;border-radius:16px}
-@media (min-width:560px){.addform{grid-template-columns:1fr 1fr auto}.addform .full{grid-column:1/-1}}
 .memory{border-left:4px solid var(--accent);padding:10px 14px;background:var(--surface);border-radius:0 14px 14px 0;box-shadow:var(--shadow)}
 .memory .d{color:var(--muted);font-size:13px;font-weight:800;letter-spacing:.04em}
 .settings{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
@@ -131,6 +130,35 @@ section.block h2{font-size:24px;margin-bottom:4px}
 .vidframe{aspect-ratio:16/9;width:100%;max-width:100%;border:0;display:block;background:#000}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:800;z-index:30;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
+/* events list */
+.ev{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:var(--surface);border-radius:14px;padding:10px 14px;box-shadow:var(--shadow)}
+.ev .date{font-family:var(--display);font-weight:700;text-align:center;line-height:1;background:var(--sea);color:var(--sea-ink);border-radius:12px;padding:8px 10px;min-width:56px}
+.ev .date b{display:block;font-size:22px}.ev .date span{font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.ev .ti{font-weight:800;font-family:var(--display);font-size:17px;line-height:1.2}
+.ev .no{color:var(--muted);font-size:14px;margin-top:2px}
+.ev .src{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ev .x{background:transparent;color:var(--muted);padding:4px 8px;font-size:18px;line-height:1}
+
+/* iPad and wider: two columns in Kids and Dad, wider page, bigger targets */
+.kidlayout{display:grid;grid-template-columns:1fr;gap:16px;align-items:start}
+.dadcols{display:grid;grid-template-columns:1fr;gap:0 28px;align-items:start}
+@media (min-width:700px){
+  .wrap{max-width:1080px}
+  .logo{font-size:30px}
+  .tabs button{padding:10px 22px;font-size:17px}
+  .kidlayout{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:24px}
+  .kidlayout .primary{position:sticky;top:calc(env(safe-area-inset-top,0px) + 72px)}
+  .kidlayout .side .spin,.kidlayout .side section.block{margin-top:14px}
+  .kidlayout .side section.block:first-child,.kidlayout .side .spin:first-child{margin-top:0}
+  .cbody h2{font-size:30px}
+  .votes button{font-size:20px;padding:16px 6px}
+  .dadcols{grid-template-columns:1fr 1fr}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+  .addform{grid-template-columns:1fr 1fr auto}.addform .full{grid-column:1/-1}
+}
+@media (min-width:1000px){
+  .kidlayout{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+}
 @media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
 .confetti{font-size:40px;line-height:1;animation:pop .5s ease-out}
 @keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
@@ -163,7 +191,17 @@ section.block h2{font-size:24px;margin-bottom:4px}
 
     <section class="block">
       <h2>Coming up</h2>
-      <p class="sub" id="comingSub">Events and fairs in the next two months.</p>
+      <p class="sub" id="comingSub">Dated events in the next 60 days, then the seasonal regulars.</p>
+      <div id="eventList" class="list"></div>
+      <form class="addform" id="eventForm" style="margin-top:10px">
+        <input id="evTitle" placeholder="Event name" aria-label="Event name" required>
+        <input id="evDate" type="date" aria-label="Date" required>
+        <button class="btn sea" type="submit">Add event</button>
+        <input id="evPlace" placeholder="Where (optional)" aria-label="Where">
+        <input id="evUrl" type="url" placeholder="Link (optional)" aria-label="Link">
+      </form>
+      <p class="note">Add events yourself here, or let Claude fill this list from the town and county calendars on a schedule.</p>
+      <h3 style="font-size:19px;margin-top:18px">Seasonal regulars</h3>
       <div id="comingUp"></div>
     </section>
 
@@ -183,6 +221,7 @@ section.block h2{font-size:24px;margin-bottom:4px}
       <div id="perKid"></div>
     </section>
 
+    <div class="dadcols">
     <section class="block">
       <h2>My list</h2>
       <p class="sub">Things you want to do with them. Check one off and it becomes a memory.</p>
@@ -205,6 +244,7 @@ section.block h2{font-size:24px;margin-bottom:4px}
       <p class="sub">What you've already done together.</p>
       <div id="memories" class="list"></div>
     </section>
+    </div>
 
     <section class="block">
       <h2>Quick filters</h2>
@@ -337,6 +377,7 @@ let toastT; function toast(msg){ const t=$("#toast"); t.textContent=msg; t.class
 let kids = DEFAULT_KIDS.slice();
 let picks = {};           // kidId -> {votes:{activityId:'yes'|'maybe'|'no'}}
 let plan = null;          // {wish:[], done:[]}
+let events = null;        // {items:[{id,title,date,end,place,url,note,activityId,source}]}
 let currentKid = null;
 let kidIndex = {};        // kidId -> card index
 const pickSubs = {};
@@ -463,7 +504,7 @@ function renderKids(){
   const yes = ACTIVITIES.filter(a=>votes[a.id]==="yes");
   const maybe = ACTIVITIES.filter(a=>votes[a.id]==="maybe");
 
-  let html = "";
+  let html = "", side = "";
   if (remaining.length) {
     const a = remaining[kidIndex[k.id]];
     html += `<div class="card" id="kidCard">${heroHtml(a,true)}
@@ -484,11 +525,13 @@ function renderKids(){
       <div class="row" style="justify-content:center;margin-top:12px"><button type="button" class="btn ghost" data-reset>Start over</button></div></div></div>`;
   }
   if (yes.length) {
-    html += `<div class="spin"><p class="eyebrow">Spin for today</p><div class="pick" id="kidPick">Which one, ${esc(kidName(k))}?</div><button type="button" class="btn" data-spin>Spin!</button></div>`;
-    html += `<section class="block"><h2>${esc(k.emoji)} ${esc(kidName(k))}'s YES list</h2><div class="grid">${yes.map(a=>tileHtml(a,`<span class="pill yes">YES</span>`)).join("")}</div></section>`;
+    side += `<div class="spin"><p class="eyebrow">Spin for today</p><div class="pick" id="kidPick">Which one, ${esc(kidName(k))}?</div><button type="button" class="btn" data-spin>Spin!</button></div>`;
+    side += `<section class="block"><h2>${esc(k.emoji)} ${esc(kidName(k))}'s YES list</h2><div class="grid">${yes.map(a=>tileHtml(a,`<span class="pill yes">YES</span>`)).join("")}</div></section>`;
+  } else {
+    side += `<div class="empty">Your YES picks will show up here. Say YES to something!</div>`;
   }
-  if (maybe.length) html += `<section class="block"><h2>Maybe</h2><div class="grid">${maybe.map(a=>tileHtml(a,`<span class="pill maybe">maybe</span>`)).join("")}</div></section>`;
-  stage.innerHTML = html;
+  if (maybe.length) side += `<section class="block"><h2>Maybe</h2><div class="grid">${maybe.map(a=>tileHtml(a,`<span class="pill maybe">maybe</span>`)).join("")}</div></section>`;
+  stage.innerHTML = `<div class="kidlayout"><div class="primary">${html}</div><div class="side">${side}</div></div>`;
 
   stage.querySelectorAll("[data-vote]").forEach(b => b.addEventListener("click", async () => {
     const v = {...votesFor(k.id)}; v[b.dataset.id] = b.dataset.vote;
@@ -517,7 +560,32 @@ function spinPick(pool, el, btn){
 }
 
 /* ---------- DAD view ---------- */
+function fmtDate(d){ const x = new Date(d+"T12:00:00"); return {day:x.getDate(), mon:x.toLocaleString("en-US",{month:"short"}), wk:x.toLocaleString("en-US",{weekday:"short"})}; }
+function renderEvents(){
+  const today = new Date().toISOString().slice(0,10);
+  const horizon = new Date(Date.now()+60*864e5).toISOString().slice(0,10);
+  const items = ((events&&events.items)||[]).filter(e => e.date && (e.end||e.date) >= today && e.date <= horizon).sort((a,b)=>a.date.localeCompare(b.date));
+  $("#eventList").innerHTML = items.length ? items.map(e => { const f = fmtDate(e.date); const act = e.activityId && byId[e.activityId];
+    return `<div class="ev"><div class="date"><span>${esc(f.mon)}</span><b>${f.day}</b><span>${esc(f.wk)}</span></div>
+      <div><div class="ti">${esc(e.title)}</div><div class="no">${esc([e.place, e.end&&e.end!==e.date?("through "+fmtDate(e.end).mon+" "+fmtDate(e.end).day):""].filter(Boolean).join(" · "))}${e.note?" · "+esc(e.note):""}</div>
+      <div class="row" style="gap:10px;margin-top:4px">${act?`<a href="#" data-open="${act.id}">${esc(act.name)}</a>`:""}${e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener">Details ↗</a>`:""}${e.source?`<span class="src">${esc(e.source)}</span>`:""}</div></div>
+      <button type="button" class="x" aria-label="Remove event" data-rmev="${esc(e.id)}">✕</button></div>`; }).join("")
+    : `<div class="empty">No dated events yet. Add one below, or ask Claude to fill this from the local calendars.</div>`;
+}
+async function saveEvents(ev){ events = ev; renderEvents(); try { await store.set("events/upcoming", ev); } catch(e){} }
+$("#eventForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const t = $("#evTitle").value.trim(), d = $("#evDate").value; if (!t || !d) return;
+  const ev = {items:[...((events&&events.items)||[])], updatedAt:new Date().toISOString()};
+  ev.items.push({id:uid(), title:t, date:d, place:$("#evPlace").value.trim(), url:$("#evUrl").value.trim(), source:"Dad", createdAt:new Date().toISOString()});
+  saveEvents(ev); ["evTitle","evDate","evPlace","evUrl"].forEach(i=>$("#"+i).value=""); toast("Event added");
+});
+$("#eventList").addEventListener("click", e => {
+  const b = e.target.closest("[data-rmev]"); if (!b) return;
+  const ev = {items:(events.items||[]).filter(x=>x.id!==b.dataset.rmev), updatedAt:new Date().toISOString()}; saveEvents(ev);
+});
 function renderDad(){
+  renderEvents();
   const m = new Date().getMonth()+1, m2 = m===12?1:m+1;
   const coming = ACTIVITIES.filter(a => a.months && (a.months.includes(m)||a.months.includes(m2)) && a.months.length<12);
   $("#comingUp").innerHTML = coming.length ? `<div class="grid">${coming.map(a=>tileHtml(a,`<span class="pill">📅 ${esc(a.when)}</span>`)).join("")}</div>` : `<div class="empty">Nothing seasonal in the next two months. The GreenMarket and library programs run most of the year.</div>`;
@@ -629,6 +697,7 @@ async function start(){
     if (!$("#view-kids").hidden) renderKids(); if (!$("#view-dad").hidden) renderDad();
   });
   store.subscribe("dad/plan", v => { plan = v; if (!$("#view-dad").hidden) renderDad(); });
+  store.subscribe("events/upcoming", v => { events = v; if (!$("#view-dad").hidden) renderDad(); });
 }
 start();
 </script>
