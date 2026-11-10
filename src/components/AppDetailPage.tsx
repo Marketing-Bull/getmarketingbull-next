@@ -154,7 +154,7 @@ export default function AppDetailPage({ app }: { app: AppPageData }) {
                 </div>
                 <h3 className="mt-4 text-2xl font-black tracking-tight">{e.name}</h3>
                 <p className="mt-3 text-slate-300 leading-relaxed">{e.summary}</p>
-                <h4 className="mt-6 text-xs font-bold uppercase tracking-widest text-slate-500">You need</h4>
+                <h4 className="mt-6 text-xs font-bold uppercase tracking-widest text-slate-400">You need</h4>
                 <ul className="mt-3 space-y-2">
                   {e.requirements.map((r) => (
                     <li key={r} className="flex gap-3 text-sm text-slate-300 leading-relaxed">
@@ -163,7 +163,7 @@ export default function AppDetailPage({ app }: { app: AppPageData }) {
                     </li>
                   ))}
                 </ul>
-                <h4 className="mt-6 text-xs font-bold uppercase tracking-widest text-slate-500">Steps</h4>
+                <h4 className="mt-6 text-xs font-bold uppercase tracking-widest text-slate-400">Steps</h4>
                 <ol className="mt-3 space-y-2.5 list-decimal list-inside text-sm text-slate-300 leading-relaxed">
                   {e.steps.map((s) => <li key={s}>{s}</li>)}
                 </ol>

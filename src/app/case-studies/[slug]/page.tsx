@@ -76,6 +76,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                 width={1200}
                 height={750}
                 decoding="async"
+                fetchPriority="high"
                 className="w-full h-auto group-hover:scale-[1.01] transition-transform duration-500"
               />
             </a>

@@ -23,11 +23,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   });
 }
 
-const ACCENT: Record<string, { text: string; bg: string; border: string; soft: string }> = {
-  red: { text: 'text-red-600', bg: 'bg-red-600', border: 'border-red-200', soft: 'bg-red-50' },
-  blue: { text: 'text-blue-600', bg: 'bg-blue-600', border: 'border-blue-200', soft: 'bg-blue-50' },
-  emerald: { text: 'text-emerald-700', bg: 'bg-emerald-600', border: 'border-emerald-200', soft: 'bg-emerald-50' },
-  amber: { text: 'text-amber-700', bg: 'bg-amber-600', border: 'border-amber-200', soft: 'bg-amber-50' },
+const ACCENT: Record<string, { text: string; bg: string; border: string; soft: string; softText: string }> = {
+  red: { text: 'text-red-600', bg: 'bg-red-600', border: 'border-red-200', soft: 'bg-red-50', softText: 'text-red-700' },
+  blue: { text: 'text-blue-600', bg: 'bg-blue-600', border: 'border-blue-200', soft: 'bg-blue-50', softText: 'text-blue-700' },
+  emerald: { text: 'text-emerald-700', bg: 'bg-emerald-600', border: 'border-emerald-200', soft: 'bg-emerald-50', softText: 'text-emerald-700' },
+  amber: { text: 'text-amber-700', bg: 'bg-amber-600', border: 'border-amber-200', soft: 'bg-amber-50', softText: 'text-amber-700' },
 };
 
 /** Footnote markers matching the superscripts written into `offer.problem`. */
@@ -163,7 +163,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {offer.process.map((step, i) => (
               <li key={step.title} className={`rounded-2xl border ${a.border} ${a.soft} p-6`}>
-                <span className={`text-xs font-black ${a.text}`}>0{i + 1}</span>
+                <span className={`text-xs font-black ${a.softText}`}>0{i + 1}</span>
                 <h3 className="mt-2 font-bold text-slate-900">{step.title}</h3>
                 <p className="mt-2 text-sm text-slate-600 leading-relaxed">{step.desc}</p>
               </li>
