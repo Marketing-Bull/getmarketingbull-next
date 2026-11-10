@@ -83,6 +83,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 </dl>
                 <OfferCTA offer={offer} size="md" className="mt-6 w-full" />
                 <a href="#ask" className="mt-3 block text-center text-sm text-slate-400 hover:text-white">or ask a question first</a>
+                {offer.slug === 'website-in-14-days' && (
+                  <Link href="/ai-site-audit" className="mt-2 block text-center text-sm text-slate-400 hover:text-white">
+                    Built your site with AI? Get a free audit first →
+                  </Link>
+                )}
                 {offer.slug === 'intake-gap-audit' && (
                   <Link href="/pi-intake-scorecard" className="mt-2 block text-center text-sm text-slate-400 hover:text-white">
                     Not ready? Download the free PI Intake Scorecard →

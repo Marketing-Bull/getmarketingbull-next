@@ -176,6 +176,11 @@ export default function HomePage() {
                     <Link href={`/products/${offer.slug}`} className="mt-6 text-sm font-semibold text-white hover:text-red-400 transition">
                       {offer.name} →
                     </Link>
+                    {l.offer === 'website-in-14-days' && (
+                      <Link href="/ai-site-audit" className="mt-2 text-sm font-semibold text-slate-400 hover:text-red-400 transition">
+                        Built it with AI? Get a free audit →
+                      </Link>
+                    )}
                     {l.offer === 'intake-gap-audit' && (
                       <Link href="/pi-intake-scorecard" className="mt-2 text-sm font-semibold text-slate-400 hover:text-red-400 transition">
                         Or score your own intake first →
