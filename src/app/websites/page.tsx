@@ -70,14 +70,14 @@ export default function WebsitesPage() {
           <span className="shrink-0 text-xs font-semibold uppercase tracking-widest text-slate-500 mr-2">Jump to</span>
           {PORTFOLIO_CATEGORIES.map((c) => (
             <a key={c} href={`#${slugify(c)}`} className="shrink-0 text-sm font-semibold text-slate-700 hover:text-red-600 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 transition">
-              {c} <span className="text-slate-400 font-normal">({PORTFOLIO.filter((s) => s.category === c).length})</span>
+              {c} <span className="text-slate-500 font-normal">({PORTFOLIO.filter((s) => s.category === c).length})</span>
             </a>
           ))}
           <a href="#earlier-work" className="shrink-0 text-sm font-semibold text-slate-700 hover:text-red-600 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 transition">
-            Earlier work <span className="text-slate-400 font-normal">({ARCHIVE.length})</span>
+            Earlier work <span className="text-slate-500 font-normal">({ARCHIVE.length})</span>
           </a>
           <a href="#apps" className="shrink-0 text-sm font-semibold text-slate-700 hover:text-red-600 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 transition">
-            Apps <span className="text-slate-400 font-normal">({APPS.length})</span>
+            Apps <span className="text-slate-500 font-normal">({APPS.length})</span>
           </a>
         </div>
       </section>
