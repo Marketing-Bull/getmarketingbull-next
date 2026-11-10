@@ -89,7 +89,10 @@ export default function WebsitesPage() {
             <div className="container-md">
               <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-10">{category}</h2>
               <div className="space-y-8">
-                {sites.map((s) => (
+                {sites.map((s, i) => {
+                  // The first screenshot is the mobile LCP: load it eagerly and first.
+                  const lcp = category === PORTFOLIO_CATEGORIES[0] && i === 0;
+                  return (
                   <article key={s.slug} id={s.slug} className="grid grid-cols-1 lg:grid-cols-12 gap-8 rounded-3xl border border-slate-200 p-6 md:p-8 scroll-mt-32">
                     <div className="lg:col-span-5">
                       <a href={s.url} target="_blank" rel="noopener noreferrer" className="group block rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-sm">
@@ -98,7 +101,8 @@ export default function WebsitesPage() {
                           alt={`${s.name} homepage`}
                           width={1200}
                           height={750}
-                          loading="lazy"
+                          loading={lcp ? undefined : 'lazy'}
+                          fetchPriority={lcp ? 'high' : undefined}
                           decoding="async"
                           className="w-full h-auto group-hover:scale-[1.02] transition-transform duration-500"
                         />
@@ -125,7 +129,8 @@ export default function WebsitesPage() {
                       </ul>
                     </div>
                   </article>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </section>
@@ -240,7 +245,7 @@ export default function WebsitesPage() {
                     {a.repo && (
                       <a href={a.repo} target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-300 hover:text-red-400 transition">Source on GitHub ↗</a>
                     )}
-                    <span className="text-xs text-slate-500">{a.stack} · {a.launched}</span>
+                    <span className="text-xs text-slate-400">{a.stack} · {a.launched}</span>
                   </div>
                 </div>
               </article>
