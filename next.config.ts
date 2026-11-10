@@ -56,6 +56,14 @@ const GOOGLE_ANALYTICS = [
   'https://*.google.com',
 ];
 
+// With Google Signals on, GA4 sends a ga-audiences image beacon to the visitor's regional Google
+// domain (www.google.de, www.google.co.uk…), not google.com. CSP has no TLD wildcard, so the
+// common regional domains are listed; visitors elsewhere just lose that beacon, nothing breaks.
+const GOOGLE_REGIONAL = [
+  'ca', 'com.mx', 'com.br', 'com.ar', 'co.uk', 'ie', 'de', 'fr', 'es', 'it', 'nl', 'be', 'ch',
+  'at', 'se', 'no', 'dk', 'pl', 'pt', 'com.au', 'co.nz', 'co.in', 'co.jp', 'com.ph', 'co.za',
+].map((tld) => `https://*.google.${tld}`);
+
 // Ahrefs Web Analytics: the script and its /api/event and /api/error beacons share one origin.
 const AHREFS = 'https://analytics.ahrefs.com';
 
@@ -63,7 +71,7 @@ const CSP = [
   ["default-src", "'self'"],
   ['script-src', "'self'", "'unsafe-inline'", ...(isDev ? ["'unsafe-eval'"] : []), 'https://*.googletagmanager.com', 'https://challenges.cloudflare.com', 'https://va.vercel-scripts.com', AHREFS, ...toolbar()],
   ['style-src', "'self'", "'unsafe-inline'", ...toolbar()],
-  ['img-src', "'self'", 'data:', 'blob:', ...GOOGLE_ANALYTICS, ...toolbar('https://vercel.com')],
+  ['img-src', "'self'", 'data:', 'blob:', ...GOOGLE_ANALYTICS, ...GOOGLE_REGIONAL, ...toolbar('https://vercel.com')],
   ['font-src', "'self'", 'data:', ...toolbar('https://assets.vercel.com')],
   ['connect-src', "'self'", ...GOOGLE_ANALYTICS, 'https://challenges.cloudflare.com', 'https://va.vercel-scripts.com', AHREFS, ...toolbar('wss://ws-us3.pusher.com')],
   // Contact page map, Turnstile, and GTM's <noscript> iframe if a container is ever set.
