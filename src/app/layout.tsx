@@ -37,6 +37,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
   },
   robots: { index: true, follow: true },
+  // Search Console ownership (HTML-tag method). Unset: no tag is rendered.
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
+    : {}),
 };
 
 // GA4 loads directly: there is no confirmed GTM container for this site, and the
