@@ -4,6 +4,7 @@ import { breadcrumbSchema, personId } from '@/lib/schema';
 import { pageMeta } from '@/lib/metadata';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import AnswerBlock from '@/components/AnswerBlock';
 import CTASection from '@/components/CTASection';
 import { POSTS, CATEGORY_COLORS } from '@/lib/blog';
 
@@ -36,6 +37,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     '@type': 'Article',
     headline: post.title,
     description: post.excerpt,
+    ...(post.answer ? { abstract: post.answer.a } : {}),
     datePublished: post.dateISO,
     dateModified: post.updatedISO ?? post.dateISO,
     // Posts have no opengraph-image of their own, so they share the site's.
@@ -88,6 +90,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       {/* Content */}
       <section className="py-20 bg-white">
         <div className="container-md max-w-3xl">
+          {post.answer && <AnswerBlock question={post.answer.q} answer={post.answer.a} className="mb-12" />}
           <div className="prose-custom space-y-6">
             {post.content.map((section, i) => {
               if (section.type === 'h2') {

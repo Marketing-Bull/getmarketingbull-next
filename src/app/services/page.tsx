@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import AnswerBlock from '@/components/AnswerBlock';
 import Button from '@/components/Button';
+import FaqSection from '@/components/FaqSection';
 import OfferCard from '@/components/OfferCard';
 import CTASection from '@/components/CTASection';
 import { OFFERS, COMPANY, offerCountWord, offerNameList } from '@/lib/constants';
@@ -15,6 +17,16 @@ export const metadata: Metadata = pageMeta({
 const VERTICALS = [
   { title: 'Law firms', desc: 'Personal injury and plaintiff firms. Search, site, and the first phone call — inside Florida Bar advertising rules.', href: '/services/law-firms' },
   { title: 'Medical practices', desc: 'Chiropractic, imaging, hyperbaric, dental, orthopedic, wellness. Being found, being chosen, being booked — inside HIPAA boundaries.', href: '/services/medical' },
+];
+
+const SHORT_ANSWER = `Marketing Bull finds where a personal injury firm or medical practice is losing cases or patients, then builds the fix in one of ${offerCountWord()} fixed-scope engagements: ${offerNameList()}. Scope, fee and delivery date are agreed in writing before work starts.`;
+
+const FAQS = [
+  { q: 'What does Marketing Bull do?', a: SHORT_ANSWER },
+  { q: 'Who do you work with?', a: 'Personal injury and plaintiff law firms, and medical practices such as chiropractic, imaging, hyperbaric, dental, orthopedic and wellness clinics. Nothing outside law and medicine.' },
+  { q: 'How is pricing set?', a: 'Each engagement is scoped to your firm and quoted in writing before anything begins. Scope and fee are fixed once agreed, so neither moves mid-project.' },
+  { q: 'Do you require long-term contracts?', a: 'No. Builds are one-time, fixed-scope projects. Ongoing work, such as content or lead generation, runs monthly after a three-month minimum, then month to month with 30 days notice.' },
+  { q: 'Who owns what you build?', a: 'You do: the code, the domain, the accounts and the data. We build inside infrastructure you control.' },
 ];
 
 export default function ServicesPage() {
@@ -32,6 +44,12 @@ export default function ServicesPage() {
             <Button variant="primary" size="lg" href="/free-consultation">Start a conversation</Button>
             <Button variant="secondary" size="lg" href="/engagements">See the engagements</Button>
           </div>
+        </div>
+      </section>
+
+      <section className="pt-16 bg-slate-50">
+        <div className="container-md max-w-3xl">
+          <AnswerBlock question="What does Marketing Bull do?" answer={SHORT_ANSWER} className="bg-white" />
         </div>
       </section>
 
@@ -69,6 +87,8 @@ export default function ServicesPage() {
           </p>
         </div>
       </section>
+
+      <FaqSection faqs={FAQS} />
 
       <CTASection
         title="Start with a conversation."

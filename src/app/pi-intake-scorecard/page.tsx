@@ -1,18 +1,21 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import AnswerBlock from '@/components/AnswerBlock';
 import Button from '@/components/Button';
+import FaqSection from '@/components/FaqSection';
 import Reveal from '@/components/Reveal';
 import ScorecardForm from '@/components/ScorecardForm';
-import { COMPANY, TESTIMONIALS } from '@/lib/constants';
+import { COMPANY, TESTIMONIALS, getOffer } from '@/lib/constants';
 import { pageMeta } from '@/lib/metadata';
 
 // The root layout's title template appends " | Marketing Bull", so this renders as
-// "PI Intake Scorecard for Law Firm Owners | Marketing Bull".
+// "Free Law Firm Intake Audit Scorecard | Marketing Bull". This page is the site's
+// answer to "law firm intake audit"; keep that phrase in the title and the short answer.
 export const metadata: Metadata = pageMeta({
   path: '/pi-intake-scorecard',
-  title: 'PI Intake Scorecard for Law Firm Owners',
+  title: 'Free Law Firm Intake Audit Scorecard',
   description:
-    'A free 19-question scorecard for personal injury firms: after-hours coverage, speed to lead, follow-up, Spanish intake and lead-source tracking.',
+    'A free law firm intake audit you run yourself: 19 questions on after-hours coverage, speed to lead, follow-up, Spanish intake and lead tracking.',
 });
 
 const BENEFITS = [
@@ -42,11 +45,39 @@ const INSIDE = [
   'A 30-day plan, one section a week, and the benchmarks to hold',
 ];
 
+const SHORT_ANSWER =
+  'A law firm intake audit tests what happens between a prospect\'s first call or web form and a signed case: who answers, how fast, what gets captured, and how long follow-up continues. You can run a first pass yourself with this free 19-question scorecard. Our paid Intake Gap Audit adds two scored mystery-shop calls, a timed web-form test and a report that puts a dollar figure on the leaks.';
+
+const FAQS = [
+  { q: 'What is a law firm intake audit?', a: SHORT_ANSWER },
+  {
+    q: 'What does the free scorecard cover?',
+    a: '19 scored questions in five sections: coverage, speed to lead, qualification, follow-up, and attribution and oversight. It comes with a three-band scoring key, the red-flag questions to fix first, a self mystery-shop worksheet and a 30-day plan.',
+  },
+  {
+    q: 'How is the scorecard different from the Intake Gap Audit?',
+    a: 'The scorecard is what your firm believes about its intake, scored by you and your intake lead. The Intake Gap Audit is what actually happens when an outsider calls: two mystery-shop calls, one during business hours and one after, a web-form and chat response test, and an ROI report with a prioritized fix list, delivered in 7–10 business days.',
+  },
+  {
+    q: 'Do you record the mystery-shop calls?',
+    a: 'No. Florida is an all-party consent state, so our tester scores each call on a timestamped scorecard instead of recording it. The self-scored scorecard needs no software and no recordings at all.',
+  },
+  {
+    q: 'How fast should a personal injury firm respond to a new lead?',
+    a: 'Within five minutes. Hennessey Digital\'s 2025 study of 1,333 U.S. law firms found only about a quarter reply to a web lead within five minutes, and 26% never reply at all.',
+  },
+  {
+    q: 'Who is the scorecard for?',
+    a: 'Owners and intake leads at personal injury firms. It was written for South Florida firms, so it covers Spanish-language intake and weekend coverage, not just office-hours etiquette.',
+  },
+];
+
 // Testimonials are data in constants.ts. The strip quotes the last sentence of this one.
 const PROOF = TESTIMONIALS.find((t) => t.company === 'WeSueThem.com');
 const PROOF_QUOTE = PROOF ? PROOF.quote.slice(Math.max(0, PROOF.quote.indexOf("They don't"))) : '';
 
 export default function PiIntakeScorecardPage() {
+  const audit = getOffer('intake-gap-audit')!;
   return (
     <>
       {/* ── HERO + FORM ── */}
@@ -104,6 +135,34 @@ export default function PiIntakeScorecardPage() {
         </div>
       </section>
 
+      {/* ── WHAT AN INTAKE AUDIT IS ── */}
+      <section className="py-20 md:py-24 bg-white border-t border-slate-100">
+        <div className="container-md max-w-4xl">
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-6">What a law firm intake audit is</h2>
+          <AnswerBlock question="What is a law firm intake audit?" answer={SHORT_ANSWER} className="mb-10" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="rounded-2xl border border-slate-200 p-8">
+              <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Do it yourself · Free</p>
+              <h3 className="text-xl font-black tracking-tight text-slate-900 mb-4">This scorecard</h3>
+              <ul className="space-y-2 text-slate-600">
+                <li>Scored by you and your intake lead</li>
+                <li>19 questions across coverage, speed to lead, qualification, follow-up and attribution</li>
+                <li>Shows what the firm believes happens</li>
+                <li>No software, no call recordings</li>
+              </ul>
+            </div>
+            <div className="rounded-2xl border border-slate-900 p-8">
+              <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Done for you · {audit.timeline}</p>
+              <h3 className="text-xl font-black tracking-tight text-slate-900 mb-4">The {audit.name}</h3>
+              <ul className="space-y-2 text-slate-600">
+                {audit.includes.slice(0, 5).map((item) => <li key={item}>{item}</li>)}
+              </ul>
+              <Link href={`/products/${audit.slug}`} className="mt-5 inline-block text-sm font-semibold text-slate-900 hover:text-red-600 transition">Everything in the audit →</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── WHAT'S INSIDE ── */}
       <section className="py-20 md:py-24 bg-slate-50 border-y border-slate-100">
         <div className="container-md grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -127,6 +186,8 @@ export default function PiIntakeScorecardPage() {
           </div>
         </div>
       </section>
+
+      <FaqSection faqs={FAQS} title="Intake audit questions" />
 
       {/* ── PAGE FOOTER LINE ── */}
       <section className="py-8 bg-white">

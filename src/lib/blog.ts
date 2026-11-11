@@ -19,6 +19,12 @@ export interface BlogPost {
   /** Last substantive update (ISO), when later than dateISO. */
   updatedISO?: string;
   readTime: string;
+  /**
+   * The question the post answers and a 2–3 sentence answer, shown above the body and
+   * used as the Article abstract. Written to be quoted on its own by search snippets and
+   * AI answer engines, so every claim in it must be backed by the post's own content.
+   */
+  answer?: { q: string; a: string };
   content: Section[];
 }
 
@@ -40,6 +46,10 @@ export const POSTS: BlogPost[] = [
     date: 'October 2026',
     dateISO: '2026-10-31',
     readTime: '7 min read',
+    answer: {
+      q: "What do you need to do before launching an AI-built law firm website?",
+      a: "Publishing in Lovable, v0 or Bolt isn't launching: a firm site also needs its own domain, DNS, SSL and a host whose plan allows commercial use. Before you send traffic, sync the code to a GitHub account the firm owns, confirm the contact form reaches a person, copy your email DNS records before any change, and check every page against Florida Bar Rules 4-7.12 and 4-7.13.",
+    },
     content: [
       { type: 'p', text: "Here's what sits between \"it looks done\" and \"it's safe to run ads to.\"" },
       { type: 'h2', text: "Publish isn't launch" },
@@ -135,6 +145,10 @@ export const POSTS: BlogPost[] = [
     dateISO: '2026-04-10',
     updatedISO: '2026-10-17',
     readTime: '6 min read',
+    answer: {
+      q: "Why do personal injury clients hire the first firm that answers?",
+      a: "Injured prospects call several firms in quick succession and sign with the first one that meaningfully engages. FindLaw's 2016 survey found 72% contacted only one attorney, and a Legal Marketing Association\u2013cited figure puts the share who hire the first firm at 78%. Firms win those cases with fast answering, after-hours coverage, missed-call text-back within 60 seconds and multi-touch follow-up.",
+    },
     content: [
       { type: 'p', text: 'A personal injury prospect doesn\'t comparison-shop the way someone buying a car does. They\'re hurt, stressed, often scared — and they call multiple firms in rapid succession. Whoever answers first, speaks with authority, and captures their information wins the client. The data on this is unambiguous.' },
       { type: 'h2', text: 'The Research Is Clear' },
@@ -185,6 +199,10 @@ export const POSTS: BlogPost[] = [
     date: 'March 2026',
     dateISO: '2026-03-18',
     readTime: '8 min read',
+    answer: {
+      q: "Can an AI voice agent replace law firm intake staff?",
+      a: "For after-hours and overflow calls, largely yes: a GoHighLevel-connected voice agent answers in under two seconds, runs the intake questions, qualifies the case and books a consultation into the CRM, around the clock. High-emotion, complex calls should still route to a person, so it works best alongside your intake team rather than instead of it.",
+    },
     content: [
       { type: 'p', text: 'The math is straightforward. A full-time intake coordinator costs $45,000–$65,000 per year in salary alone — add benefits, payroll taxes, and management overhead and you\'re at $75,000–$90,000. That person works 40 hours a week, takes sick days, goes on vacation, and can\'t handle two calls at once. An AI voice agent costs a fraction of that, works 24/7, handles unlimited simultaneous calls, and never has a bad day.' },
       { type: 'p', text: 'This isn\'t a distant future. We\'ve been deploying GHL-connected voice agents at PI and immigration law firms since late 2024, and the results consistently outperform human-only intake for after-hours and overflow coverage.' },
@@ -241,6 +259,10 @@ export const POSTS: BlogPost[] = [
     date: 'March 2026',
     dateISO: '2026-03-05',
     readTime: '5 min read',
+    answer: {
+      q: "How do you reactivate lapsed dental patients?",
+      a: "With an automated recall sequence: five texts and emails over 30 days, triggered when a patient passes 18 months without a visit, each with a direct booking link and a low-pressure tone. For one South Florida practice it brought back 412 appointments from 2,400 lapsed patients with no ad spend.",
+    },
     content: [
       { type: 'p', text: 'Most medical and dental practices are sitting on a gold mine they\'ve never touched: their existing patient database. Patients who came in once or twice, had a good experience, and then simply… drifted. Life happened. They got busy. They forgot to book a follow-up. They\'re not unhappy with your practice — they just need a reason to come back.' },
       { type: 'p', text: 'A patient recall system gives them that reason. Done right, it\'s the highest-ROI marketing activity available to most practices — because you\'re marketing to people who already trust you.' },
@@ -286,6 +308,10 @@ export const POSTS: BlogPost[] = [
     date: 'February 2026',
     dateISO: '2026-02-08',
     readTime: '5 min read',
+    answer: {
+      q: "How fast should a law firm respond to a new lead?",
+      a: "Within five minutes, around the clock. A personal injury prospect who reaches voicemail moves on to the next firm, and the first firm to get them on the phone sets the frame. A dedicated intake line, instant alerts for web forms, after-hours answering and missed-call text-back within 60 seconds get a firm there.",
+    },
     content: [
       { type: 'p', text: 'There\'s a number every personal injury attorney should have memorized: 5 minutes. That\'s the response time threshold that separates firms that close cases from firms that generate expensive clicks for their competitors.' },
       { type: 'p', text: 'After working with intake systems across more than 30 PI firms, reviewing thousands of lead records, and testing response time interventions in controlled conditions, the pattern is consistent enough to call it a rule.' },
@@ -346,6 +372,10 @@ export const POSTS: BlogPost[] = [
     dateISO: '2024-04-10',
     updatedISO: '2026-10-17',
     readTime: '14 min read',
+    answer: {
+      q: "What makes personal injury intake work?",
+      a: "Answering every new-client call within three rings without putting the caller on hold, capturing contact details early, and calling back every web inquiry or missed call within five minutes. A phone system that reports missed and abandoned calls, a CRM that logs every lead, and regular mystery-shop calls to your own firm keep it that way.",
+    },
     content: [
       { type: 'h2', text: 'Why intake deserves more attention than your ad budget' },
       { type: 'p', text: 'A lot goes into running a successful personal injury practice. Many of the lawyers and firms we work with are not focused on — or even aware of — the new-client experience. A firm can be losing potential clients every week without anyone inside it noticing.' },
@@ -427,6 +457,10 @@ export const POSTS: BlogPost[] = [
     dateISO: '2024-01-31',
     updatedISO: '2026-10-17',
     readTime: '5 min read',
+    answer: {
+      q: "Does lead response time affect how many cases a law firm signs?",
+      a: "Yes, sharply. Research cited by Harvard Business Review and an MIT/InsideSales study found leads contacted within five minutes convert far better than those reached later, and roughly 72%\u201378% of legal clients hire the first firm they reach. Text alerts for every web form, a dedicated new-client line and call tracking fix most of it.",
+    },
     content: [
       { type: 'p', text: 'The speed at which a law firm responds to a lead has an outsized effect on whether that lead becomes a client. The research is consistent, and it is not close.' },
       { type: 'stat-row', stats: [
