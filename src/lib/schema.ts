@@ -20,7 +20,7 @@ export const organizationSchema = {
     addressCountry: 'US',
   },
   areaServed: ['Florida', 'United States'],
-  sameAs: Object.values(COMPANY.social),
+  sameAs: [...Object.values(COMPANY.social), COMPANY.googleProfile],
 };
 
 export function offerSchema(offer: Offer) {

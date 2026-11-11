@@ -51,6 +51,11 @@ export default function ContactPage() {
                 </div>
               </div>
 
+              <p className="text-sm text-slate-600">
+                Worked with us?{' '}
+                <a href={COMPANY.googleReview} target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-900 hover:text-red-600 transition">Leave a review on Google →</a>
+              </p>
+
               <div className="bg-slate-50 rounded-2xl border border-slate-200 p-8">
                 <h3 className="text-lg font-bold text-slate-900 mb-3">Prefer a conversation?</h3>
                 <p className="text-slate-600 text-sm leading-relaxed mb-4">Twenty minutes about your firm or practice. We'll tell you where we'd look first, and whether we're the right fit.</p>

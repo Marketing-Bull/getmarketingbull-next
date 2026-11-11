@@ -35,6 +35,10 @@ export const COMPANY = {
     facebook: 'https://www.facebook.com/getmarketingbull',
     twitter: 'https://x.com/getmarketingbull',
   },
+  /** Google Business Profile. `googleProfile` is the listing itself (organizationSchema sameAs);
+   *  `googleReview` opens the "write a review" dialog on it (footer, /contact-us). */
+  googleProfile: 'https://g.page/r/CSH-JcpAfv1QEBM',
+  googleReview: 'https://g.page/r/CSH-JcpAfv1QEBM/review',
   /** Not linked anywhere while the app is down; the footer button was removed in Oct 2026. */
   goleadsUrl: 'https://app.goleadsconnect.com',
   bookingUrl: '/free-consultation',
