@@ -390,18 +390,18 @@ export const POSTS: BlogPost[] = [
     content: [
       { type: 'h2', text: 'Why intake deserves more attention than your ad budget' },
       { type: 'p', text: 'A lot goes into running a successful personal injury practice. Many of the lawyers and firms we work with are not focused on — or even aware of — the new-client experience. A firm can be losing potential clients every week without anyone inside it noticing.' },
-      { type: 'p', text: 'FindLaw\'s U.S. Consumer Legal Needs Survey has found year after year that most people contact only one attorney before hiring (59% in 2024), so the first firm to engage usually gets the case. Meanwhile, the ABA\'s benchmark study on law firm intake found that 42% of the time, firms take three days or more to respond to a voicemail or web inquiry from a prospective client.' },
+      { type: 'p', text: 'FindLaw\'s U.S. Consumer Legal Needs Survey has found year after year that most people contact only one attorney before hiring (59% in 2024), so the first firm to engage usually gets the case. Meanwhile, a secret-shop benchmark by the ABA Law Practice Division found that 42% of the time, firms took three days or more to reply to a voicemail or web inquiry from a prospective client. It has not improved since: in Clio\'s 2024 secret shop of 500 firms, only 40% answered the phone and 33% replied to an email.' },
       { type: 'p', text: 'That combination is astounding. Firms spend 5% to 10% of annual revenue on marketing, and then, when the marketing works and potential clients start calling, nobody picks up the phone or answers the inquiry. Firms with sound intake practices end up with the lion\'s share of cases because they attract, respond, and retain better than the majority of their competitors.' },
       { type: 'stat-row', stats: [
         { value: '59%', label: 'of legal consumers contacted only one attorney before hiring (FindLaw, 2024)' },
-        { value: '42%', label: 'of the time, firms take 3+ days to respond to a voicemail or web inquiry' },
-        { value: '<10%', label: 'of prospective clients ever speak with a lawyer' },
-        { value: '80%', label: 'of clients expect a response to texts or emails within 1–2 hours' },
+        { value: '42%', label: 'of the time, firms took 3+ days to reply to a voicemail or web inquiry (ABA Law Practice Division, 2016)' },
+        { value: '<10%', label: 'of test callers reached a lawyer on the call (ABA Law Practice Division, 2016)' },
+        { value: '50%', label: 'of legal consumers expect a response the same day they reach out (FindLaw, 2023)' },
       ]},
       { type: 'ul', items: [
-        '3% of callers gave up before the phone was answered, and 11% of calls lasted less than 10 seconds',
-        '92% of small law firms cannot calculate return on ad spend',
-        '96% of small law firms do not know their cost to obtain a client',
+        'In the ABA Law Practice Division\'s secret shop, 3% of callers gave up before the phone was answered, 11% of calls lasted less than 10 seconds, and one in three callers never reached a human',
+        'In Clio\'s 2024 secret shop, only 40% of firms answered the phone, down from 56% in 2019, and 48% were unreachable by phone altogether',
+        'Nearly half of legal consumers who contacted more than one attorney did so because they couldn\'t reach one on the first try or didn\'t hear back quickly enough (FindLaw, 2023)',
       ]},
       { type: 'p', text: 'Audit your intake department quarterly, and any time you hire a new intake agent.' },
 
@@ -424,7 +424,7 @@ export const POSTS: BlogPost[] = [
       { type: 'h3', text: 'Phone system' },
       { type: 'p', text: 'A good phone system is imperative to excellent client service. At minimum it should log and report on every call — how many the firm received by hour, day, month, and year; how many were abandoned; how many were missed; how many were answered — and track the duration of each call. It should also transfer to mobile phones, so a work-from-home or mobile staff never causes a missed call.' },
       { type: 'p', text: 'As managing partner, assign someone to review call reports at least monthly. Set benchmarks — zero missed calls, no hold times over thirty seconds — so you can measure improvement and catch problems as they happen.' },
-      { type: 'p', text: 'The optional feature worth paying for: logging every call to a known lead or client record. Most modern phone systems can look up a record by caller ID and attach inbound and outbound calls. With that integration you can report on leads who called and were never called back within a reasonable time. Clients expect a response within two hours; no one should wait longer than two days.' },
+      { type: 'p', text: 'The optional feature worth paying for: logging every call to a known lead or client record. Most modern phone systems can look up a record by caller ID and attach inbound and outbound calls. With that integration you can report on leads who called and were never called back within a reasonable time. Half of legal consumers expect a response the same day they reach out (FindLaw, 2023), so aim for minutes, and never let anyone wait overnight.' },
       { type: 'h3', text: 'CRM or case management system' },
       { type: 'p', text: 'There is a debate among PI lawyers about whether to log non-retained leads. Every potential-client call should be logged somewhere, with the information stored in a database, so the firm can market to those callers in the future.' },
       { type: 'p', text: 'If you do not want to clutter your case management system with non-clients, a separate lead system is the answer. It does not have to be complicated or expensive. For twenty or fewer leads per month, a centralized spreadsheet works if staff enter every lead religiously. Above twenty leads a month, a free or low-cost CRM with custom fields — HubSpot and similar — is the better choice. For potential cases that are pending documents (medical records, for instance), a system is not optional; it is the only way to track follow-up.' },
@@ -444,7 +444,7 @@ export const POSTS: BlogPost[] = [
         'Website inquiries. Who is responsible for them, and how fast do they respond?',
         'Case management. Does intake log every call, or only retained clients? Are new-case reports reviewed regularly? How many clients could not be contacted and were never signed? How many found another firm before your callback? What happens to practice areas you do not handle — referrals can be 25%+ of revenue with no additional work. Do new clients no-show for appointments, and could you retain them remotely with e-signature instead?',
       ]},
-      { type: 'p', text: 'Clio\'s Legal Trends Report found that 79% of consumers view working remotely with their lawyer as an important factor when hiring, up from 23% in 2018 — and that 82% of consumers seek out positive reviews before hiring a lawyer.' },
+      { type: 'p', text: 'Clio\'s 2021 Legal Trends Report found that 79% of consumers saw the option to work remotely with a lawyer as an important factor when hiring (in 2018, only 23% were open to it), and that 82% seek out reviews before hiring a lawyer.' },
 
       { type: 'h2', text: 'Once intake is fixed, grow the lead volume' },
       { type: 'ol', items: [
@@ -456,6 +456,11 @@ export const POSTS: BlogPost[] = [
       { type: 'callout', text: 'Don\'t have time to mystery-shop your own firm? That is exactly what the Intake Gap Audit is: two scored mystery-shop calls, a full checklist audit, and an ROI report that puts a dollar figure on the leak — credited in full toward any engagement you start within 60 days.' },
       { type: 'sources', links: [
         { label: 'FindLaw, "The legal client profile from 2014 through 2024" (U.S. Consumer Legal Needs Survey)', url: 'https://www.findlaw.com/lawyer-marketing/blog/the-history-of-the-legal-consumer/' },
+        { label: 'FindLaw, Key takeaways from the 2023 U.S. Consumer Legal Needs Survey', url: 'https://www.findlaw.com/lawyer-marketing/blog/key-takeaways-from-the-2023-us-consumer-legal-needs-survey/' },
+        { label: 'ABA Journal, "How do you handle phone calls from potential clients?" (May 2016), on the ABA Law Practice Division intake benchmark', url: 'https://www.abajournal.com/news/article/how_do_you_handle_phone_calls_from_potential_clients' },
+        { label: 'Lawyers Mutual NC, "How your telephone is costing you clients" (2019), on the same benchmark', url: 'https://lawyersmutualnc.com/article/how-your-telephone-is-costing-you-clients/' },
+        { label: 'Clio, Highlights from the 2024 Legal Trends Report (secret shop of 500 firms)', url: 'https://www.clio.com/blog/highlights-from-2024-legal-trends-report/' },
+        { label: 'Clio, 2021 Legal Trends Report', url: 'https://www.clio.com/resources/legal-trends/2021-report/' },
       ]},
     ],
   },
