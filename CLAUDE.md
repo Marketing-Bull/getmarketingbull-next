@@ -29,8 +29,10 @@ src/
     free-consultation/   consult form; reads ?product= (dynamic)
     get-started/         same page, static: the A2P SMS opt-in URL registered with TCR (no redirect)
     api/lead/route.ts    lead endpoint: validate → webhook and/or Resend email
+    api/site-audit/      fetches a visitor's URL server-side (SSRF-guarded: public IPs only, redirects re-checked) for the AI Website Audit
     websites/            gallery of every site we have built, from PORTFOLIO in lib/portfolio.ts
     resources/           free downloads from RESOURCES in lib/resources.ts; files in public/resources/
+    ai-website-audit/    lead magnet: audits an AI-built site (SiteAuditTool → api/site-audit), gates the fix prompt behind /api/lead
     recoup/ keyvault/    pages for our open-source apps, from APP_PAGES in lib/appPages.ts via AppDetailPage
     services/ about-us/ case-studies/ blog/ careers/ contact-us/ legal pages
   components/            Header, Footer, Button, CTASection, ContactForm, ConsultationPage, Turnstile, OfferCard, AppDetailPage,
@@ -44,6 +46,7 @@ src/
     blog.ts              POSTS (hardcoded)
     portfolio.ts         PORTFOLIO: the client sites on /websites, facts read from each live site (no traffic or rankings)
     resources.ts         RESOURCES: /resources entries; skills are copied from the private claude-skills repo
+    siteAudit.ts         auditSite() checks + buildFixPrompt(): pure, shared by api/site-audit and SiteAuditTool
     appPages.ts          APP_PAGES: /recoup and /keyvault content, read from each app's README and source
 ```
 
@@ -73,7 +76,7 @@ GA4 loads from Google's canonical gtag snippet, server-rendered into `<head>` in
 - GA4's origins are in the CSP (`GOOGLE_ANALYTICS` in `next.config.ts`). Tags added through a GTM container (Google Ads, Meta…) need their origins added there too.
 - **Never run GA4 twice.** The snippet plus `<GoogleAnalytics>`, or the snippet plus a GA4 tag inside a GTM container, doubles every pageview and event. If a container is adopted, move GA4 into it; setting `NEXT_PUBLIC_GTM_ID` removes the snippet.
 - `track()` in `src/lib/analytics.ts` sends both a `dataLayer` push (for GTM) and a `gtag('event')` call (for GA4 direct). A bare `dataLayer` push is **not** a GA4 event — dropping the gtag call silently breaks conversion tracking.
-- Conversions: `lead_submit` on form success, `generate_lead` (`form_name: pi_intake_scorecard`) on scorecard form success, `phone_click` from the delegated listener in `CallTracking`. Each must also be marked as a key event in GA4 (Admin → Key events) or it never counts as a conversion; the property's older `phone_call` and `book_call` key events came from the WordPress site and no longer fire.
+- Conversions: `lead_submit` on form success, `generate_lead` (`form_name: pi_intake_scorecard`) on scorecard form success, `generate_lead` (`form_name: ai_website_audit`) when the AI Website Audit prompt is unlocked, `phone_click` from the delegated listener in `CallTracking`. Each must also be marked as a key event in GA4 (Admin → Key events) or it never counts as a conversion; the property's older `phone_call` and `book_call` key events came from the WordPress site and no longer fire.
 - Ad-platform conversions (Google Ads, Meta, LinkedIn) live in `src/lib/conversions.ts`, off until configured and guarded so they no-op when a tag isn't loaded. Don't enable one there AND as a GTM tag.
 - **Ahrefs Web Analytics** loads late on purpose: an inline loader in `layout.tsx` injects `analytics.js` after `load` and browser idle, using `AHREFS_ANALYTICS_KEY` in `constants.ts`. Don't move it to a plain `<script async>` in `<head>`; that puts it back in the critical path. Its origin is `AHREFS` in the CSP.
 

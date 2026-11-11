@@ -19,11 +19,12 @@ import { COMPANY, OFFERS, SMS_CONSENT_LABEL, SMS_OPT_IN_CONFIRMATION } from '@/l
  * the route returns 502 so the form shows the phone number instead of firing a false conversion.
  * With no channel configured, production returns 503; other environments log the lead and succeed.
  *
- * Lead-magnet sources (LEAD_MAGNET_SOURCES, e.g. the PI Intake Scorecard) differ in four ways:
- * phone is optional, firm name and attorney count are required, the source is added as a GHL
- * tag (for a follow-up workflow), and the site itself emails the asset to the visitor through
- * Resend (LEAD_MAGNET_ASSETS), so delivery never depends on GHL. A GHL workflow on that tag
- * should send the follow-ups only, not the asset again.
+ * Lead-magnet sources (LEAD_MAGNET_SOURCES: the PI Intake Scorecard, the AI Website Audit) differ:
+ * phone is optional, the source is added as a GHL tag (for a follow-up workflow), and where the
+ * source has an entry in LEAD_MAGNET_ASSETS the site itself emails the asset to the visitor through
+ * Resend, so delivery never depends on GHL. A GHL workflow on that tag should send the follow-ups
+ * only, not the asset again. Firm name and attorney count are required only for the
+ * FIRM_REQUIRED_SOURCES (the scorecard); the AI Website Audit shows its result on the page.
  *
  * The visitor's success depends on the lead reaching us, not on the asset email: the thanks page
  * links the download directly, so a failed asset email is reported in the alert, not to them.
@@ -53,7 +54,9 @@ const SOURCE_RE = /^[a-z0-9:-]{1,100}$/;
 const MAX_BODY_BYTES = 20_000;
 const LIMITS = { name: 100, email: 254, phone: 30, website: 300, message: 5000, firm: 150, attribution: 1000 } as const;
 /** Sources whose form collects firm + attorney count, makes phone optional, and tags the GHL contact. */
-const LEAD_MAGNET_SOURCES = new Set(['pi-intake-scorecard']);
+const LEAD_MAGNET_SOURCES = new Set(['pi-intake-scorecard', 'ai-website-audit']);
+/** Lead-magnet sources whose form requires firm name and attorney count. */
+const FIRM_REQUIRED_SOURCES = new Set(['pi-intake-scorecard']);
 
 /** What the site emails a visitor who asks for a lead magnet. The file lives under /public. */
 const LEAD_MAGNET_ASSETS: Record<string, { subject: string; title: string; url: string; intro: string }> = {
@@ -153,7 +156,7 @@ export async function POST(req: Request) {
   const firm = str(body.firm, LIMITS.firm).replace(/\s+/g, ' ');
   const attorneysRaw = str(body.attorneys, 20);
   const attorneys = ATTORNEY_OPTIONS.includes(attorneysRaw) ? attorneysRaw : '';
-  if (leadMagnet && (firm.length < 2 || !attorneys)) {
+  if (FIRM_REQUIRED_SOURCES.has(source) && (firm.length < 2 || !attorneys)) {
     return NextResponse.json({ ok: false, error: 'Please provide your firm name and the number of attorneys.' }, { status: 422 });
   }
   const attribution = str(body.attribution, LIMITS.attribution);

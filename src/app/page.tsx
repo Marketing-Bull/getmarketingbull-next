@@ -131,8 +131,9 @@ export default function HomePage() {
               <Button variant="primary" size="lg" href="/free-consultation">Start a conversation</Button>
               <Button variant="secondary" size="lg" href="/pi-intake-scorecard">Score your intake (free)</Button>
             </div>
-            <p className="mt-6 text-sm">
+            <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm">
               <a href="#approach" className="font-semibold text-slate-400 hover:text-white transition">How we work ↓</a>
+              <Link href="/ai-website-audit" className="font-semibold text-slate-400 hover:text-white transition">Built your site with AI? Audit it free →</Link>
             </p>
           </div>
         </div>
@@ -203,6 +204,11 @@ export default function HomePage() {
                     {l.offer === 'intake-gap-audit' && (
                       <Link href="/pi-intake-scorecard" className="mt-2 text-sm font-semibold text-slate-400 hover:text-red-400 transition">
                         Or score your own intake first →
+                      </Link>
+                    )}
+                    {l.offer === 'website-in-14-days' && (
+                      <Link href="/ai-website-audit" className="mt-2 text-sm font-semibold text-slate-400 hover:text-red-400 transition">
+                        Built your site with AI? Audit it free →
                       </Link>
                     )}
                   </div>
