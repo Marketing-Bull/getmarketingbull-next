@@ -41,7 +41,7 @@ export default function PiIntakeScorecardThanksPage() {
         <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
           <div className="h-full flex flex-col rounded-2xl border border-red-500/40 bg-slate-900/60 p-8">
             <p className="text-slate-300 leading-relaxed flex-1">
-              <span className="font-bold text-white">Rather have it measured from the outside?</span> The Intake Gap Audit: two scored mystery-shop calls (one during business hours, one after hours), a timed web-form and chat test, and an ROI report on the leak, delivered in 7 to 10 business days. The fee is quoted in writing and credited in full toward any engagement you start within 60 days.
+              <span className="font-bold text-white">Rather have it measured from the outside?</span> The Intake Gap Audit: two scored mystery-shop calls (one during business hours, one after hours), a timed web-form and chat test, and an ROI report on the leak, delivered in 5 business days. The fee is quoted in writing and credited in full toward any engagement you start within 60 days.
             </p>
             <div className="mt-8">
               <Button variant="primary" size="md" href="/free-consultation?product=intake-gap-audit">Book the Intake Gap Audit</Button>

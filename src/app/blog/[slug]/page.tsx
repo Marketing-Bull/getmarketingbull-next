@@ -138,6 +138,20 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   </div>
                 );
               }
+              if (section.type === 'sources') {
+                return (
+                  <div key={i} className="mt-12 pt-6 border-t border-slate-100">
+                    <h2 className="text-sm font-bold uppercase tracking-widest text-slate-500 mb-3">Sources</h2>
+                    <ul className="space-y-2 text-sm">
+                      {section.links?.map((l) => (
+                        <li key={l.url}>
+                          <a href={l.url} target="_blank" rel="noopener noreferrer" className="text-slate-600 underline decoration-slate-300 underline-offset-2 hover:text-red-600">{l.label}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              }
               if (section.type === 'callout') {
                 return (
                   <div key={i} className="my-10 p-6 bg-red-50 border border-red-100 rounded-2xl">

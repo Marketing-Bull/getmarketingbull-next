@@ -56,7 +56,7 @@ const FAQS = [
   },
   {
     q: 'How is the scorecard different from the Intake Gap Audit?',
-    a: 'The scorecard is what your firm believes about its intake, scored by you and your intake lead. The Intake Gap Audit is what actually happens when an outsider calls: two mystery-shop calls, one during business hours and one after, a web-form and chat response test, and an ROI report with a prioritized fix list, delivered in 7–10 business days.',
+    a: 'The scorecard is what your firm believes about its intake, scored by you and your intake lead. The Intake Gap Audit is what actually happens when an outsider calls: two mystery-shop calls, one during business hours and one after, a web-form and chat response test, and an ROI report with a prioritized fix list, delivered in 5 business days.',
   },
   {
     q: 'Do you record the mystery-shop calls?',

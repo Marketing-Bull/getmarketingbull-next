@@ -135,7 +135,7 @@ export const OFFERS: Offer[] = [
     short:
       'Two mystery-shop calls, a full audit against our PI & medical intake checklist, and an ROI report that puts a dollar figure on the leak.',
     terms: 'Paid upfront, and credited in full toward any engagement you start within 60 days.',
-    timeline: '7–10 business days',
+    timeline: '5 business days',
     bestFor: 'Firms spending on lead generation who suspect the problem isn\'t the leads.',
     problem:
       'Only a quarter of law firms reply to a web lead within five minutes, and 26% never reply at all.¹ And about 17.5% of calls to law firms come in outside weekday 9 to 5.² You\'re paying for leads and losing them at the front desk, and nobody inside the firm can see it happening.',
@@ -164,10 +164,10 @@ export const OFFERS: Offer[] = [
       'Ongoing monitoring',
     ],
     process: [
-      { title: 'Day 1 — Setup', desc: 'You tell us your lead sources and average case value. We schedule the mystery shops without telling your staff.' },
-      { title: 'Days 2–5 — Test', desc: 'We call, submit forms, and use your chat like a real prospect would. Every response is timestamped and scored.' },
-      { title: 'Days 6–8 — Score', desc: 'We score every touchpoint against the checklist and build your ROI model.' },
-      { title: 'Days 9–10 — Readout', desc: 'You get the report, the scorecards, and a call to walk through what to fix first.' },
+      { title: 'Day 1 — Setup', desc: 'You tell us your lead sources and average case value. We schedule the mystery shops without telling your staff, and the first one runs the same day.' },
+      { title: 'Days 1–3 — Test', desc: 'We call during business hours and after hours, submit forms, and use your chat like a real prospect would. Every response is timestamped and scored.' },
+      { title: 'Day 4 — Score', desc: 'We score every touchpoint against the checklist and build your ROI model.' },
+      { title: 'Day 5 — Readout', desc: 'You get the report, the scorecards, and a call to walk through what to fix first.' },
     ],
     faqs: [
       { q: 'Will my staff know they\'re being tested?', a: 'Not unless you tell them. Our tester calls exactly like a prospect would and scores the interaction on a timestamped scorecard. We don\'t record calls — Florida is an all-party consent state.' },
