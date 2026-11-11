@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import CTASection from '@/components/CTASection';
-import { CASE_STUDIES } from '@/lib/caseStudies';
+import { CASE_STUDIES, type CaseStudy } from '@/lib/caseStudies';
 import { COMPANY } from '@/lib/constants';
 import { pageMeta } from '@/lib/metadata';
 import { PORTFOLIO } from '@/lib/portfolio';
@@ -9,12 +9,19 @@ import { PORTFOLIO } from '@/lib/portfolio';
 export const metadata: Metadata = pageMeta({
   path: '/case-studies',
   title: 'Case Studies',
-  description: 'Selected engagements with law firms and medical practices, and every website we built in 2026: what the constraint was, what we built, and what happened.',
+  description: 'Selected engagements and website builds for law firms and medical practices: what the constraint was, what we built, and what happened.',
 });
+
+const IN_VERTICAL: CaseStudy['vertical'][] = ['Law', 'Medical', 'Wellness'];
 
 export default function CaseStudiesPage() {
   const engagements = CASE_STUDIES.filter((c) => c.kind === 'Engagement');
-  const builds = CASE_STUDIES.filter((c) => c.kind === 'Website build');
+  // Only builds inside the two verticals we sell to (wellness sits with medical) are
+  // featured here, so the page backs up "law firms and medical practices". Every other
+  // build keeps its write-up and is reached from /websites, which lists them all.
+  const allBuilds = CASE_STUDIES.filter((c) => c.kind === 'Website build');
+  const builds = allBuilds.filter((c) => IN_VERTICAL.includes(c.vertical));
+  const otherBuilds = allBuilds.length - builds.length;
 
   return (
     <>
@@ -27,7 +34,7 @@ export default function CaseStudiesPage() {
             The constraint, what we built, and what happened — with the numbers the client reported, and nothing we can&apos;t stand behind.
           </p>
           <p className="mt-6 text-sm text-slate-500">
-            {engagements.length} full engagements, then <a href="#website-builds" className="font-semibold text-slate-300 hover:text-white transition">{builds.length} websites built in 2026 ↓</a>
+            {engagements.length} full engagements, then <a href="#website-builds" className="font-semibold text-slate-300 hover:text-white transition">{builds.length} law and medical website builds ↓</a>
           </p>
         </div>
       </section>
@@ -55,10 +62,15 @@ export default function CaseStudiesPage() {
       <section id="website-builds" className="py-16 md:py-20 bg-slate-50 border-t border-slate-100 scroll-mt-24">
         <div className="container-md max-w-6xl">
           <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">Website builds</p>
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 max-w-3xl">Every site we built in 2026.</h2>
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 max-w-3xl">Sites built for firms and practices.</h2>
           <p className="mt-4 text-slate-600 max-w-2xl leading-relaxed">
             Each one is live. The write-up covers the job the site had to do, what we built, and what shipped. Traffic and rankings belong to each client and are not published here.
           </p>
+          {otherBuilds > 0 && (
+            <p className="mt-3 text-sm text-slate-500">
+              {otherBuilds} more builds outside law and medicine are on <Link href="/websites" className="font-semibold text-slate-700 hover:text-red-600 transition">every site we&apos;ve built →</Link>
+            </p>
+          )}
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
             {builds.map((c) => {
               const site = PORTFOLIO.find((p) => p.caseStudy === c.slug);
