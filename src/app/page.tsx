@@ -4,11 +4,35 @@ import Button from '@/components/Button';
 import Reveal from '@/components/Reveal';
 import TestimonialCarousel from '@/components/TestimonialCarousel';
 import CTASection from '@/components/CTASection';
+import FaqSection from '@/components/FaqSection';
 import { COMPANY, TESTIMONIALS, getOffer, type OfferSlug } from '@/lib/constants';
 import { pageMeta } from '@/lib/metadata';
 
 // Title and description come from the root layout's defaults.
 export const metadata: Metadata = pageMeta({ path: '/', ownOgImage: true });
+
+const HOME_FAQS = [
+  {
+    q: 'What does Marketing Bull do?',
+    a: 'Marketing Bull is a senior growth consultancy in West Palm Beach, Florida, for personal injury law firms and medical practices. We find where a firm is losing cases or patients, build the system that fixes it, and stay accountable for the number it was meant to move.',
+  },
+  {
+    q: 'Where do most firms lose cases?',
+    a: 'In one of four places: getting found in search, getting in front of people ready to hire through paid ads, getting named when someone asks Google or an AI who is good, and getting signed when they call. The fastest return is usually intake: speed to lead, after-hours coverage and follow-up.',
+  },
+  {
+    q: 'Do you work inside Florida Bar advertising rules and HIPAA?',
+    a: 'Yes. We have spent a decade in legal and medical marketing, and law firm work is built inside Florida Bar advertising rules and medical work inside HIPAA boundaries.',
+  },
+  {
+    q: 'How does an engagement start?',
+    a: 'With a twenty-minute conversation about where you are and what has been tried. Then a scored diagnosis of where cases or patients are being lost, then a fixed-scope build with a defined deliverable and date. The fee is agreed in writing before anything begins.',
+  },
+  {
+    q: 'Who owns the website and accounts you build?',
+    a: 'You do. Your code, your domain, your accounts and your data live in infrastructure you control, so the relationship continues because it is working, not because leaving would mean starting over.',
+  },
+];
 
 const CLIENTS = ['1-800-HURT-511', 'WeSueThem.com', 'Queens Hyperbaric', 'Metropolitan Orthopedics', 'Linder Diaz Law', '3D Dental', 'GreenBills'];
 
@@ -284,6 +308,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <FaqSection faqs={HOME_FAQS} />
 
       <CTASection
         title="Start with a conversation."

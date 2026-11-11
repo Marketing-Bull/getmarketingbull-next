@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import AnswerBlock from '@/components/AnswerBlock';
 import Button from '@/components/Button';
 import CTASection from '@/components/CTASection';
+import FaqSection from '@/components/FaqSection';
 import { getOffer } from '@/lib/constants';
 import { pageMeta } from '@/lib/metadata';
 
@@ -18,8 +20,18 @@ const FAILURES = [
   { title: 'Attribution', body: 'Firms know cost per click. Very few know cost per signed case. Without the second number, the marketing budget is a guess.' },
 ];
 
+const SHORT_ANSWER =
+  'Intake optimization fixes what happens after a prospect calls or fills in a form, so a firm signs more of the cases it already pays to generate. We measure first, with two scored mystery-shop calls, a timed web-form test and an ROI report, then build only what the numbers call for.';
+
 export default function IntakeOptimizationPage() {
   const audit = getOffer('intake-gap-audit')!;
+  const faqs = [
+    { q: 'What is law firm intake optimization?', a: SHORT_ANSWER },
+    { q: 'Why does the audit come before any fix?', a: 'Because the leak is different at every firm. Sometimes the fix is a phone-routing change and a script, sometimes after-hours coverage, sometimes a CRM the firm already pays for and does not use. Measuring first keeps a firm from paying for the wrong one.' },
+    { q: `How long does the ${audit.name} take?`, a: `${audit.timeline}. You get the scorecards, an ROI report that puts a dollar figure on the leak, a prioritized fix list and a readout call.` },
+    { q: 'What happens to the audit fee if we hire you to fix it?', a: audit.terms },
+    { q: 'Do you record the mystery-shop calls?', a: 'No. Florida is an all-party consent state, so each call is scored on a timestamped scorecard instead of recorded.' },
+  ];
   return (
     <>
       <section className="relative bg-slate-950 text-white overflow-hidden">
@@ -34,6 +46,12 @@ export default function IntakeOptimizationPage() {
             <Button variant="primary" size="lg" href={`/products/${audit.slug}`}>The Intake Gap Audit</Button>
             <Button variant="secondary" size="lg" href="/free-consultation">Start a conversation</Button>
           </div>
+        </div>
+      </section>
+
+      <section className="pt-16 bg-white">
+        <div className="container-md max-w-3xl">
+          <AnswerBlock question="What is law firm intake optimization?" answer={SHORT_ANSWER} />
         </div>
       </section>
 
@@ -78,6 +96,8 @@ export default function IntakeOptimizationPage() {
           </ul>
         </div>
       </section>
+
+      <FaqSection faqs={faqs} className="py-20 bg-slate-50 border-t border-slate-100" />
 
       <CTASection
         title="Find out what the leak is costing you."
