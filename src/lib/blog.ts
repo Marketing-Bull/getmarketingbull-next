@@ -29,9 +29,11 @@ export interface BlogPost {
 }
 
 interface Section {
-  type: 'p' | 'h2' | 'h3' | 'ul' | 'ol' | 'callout' | 'stat-row';
+  type: 'p' | 'h2' | 'h3' | 'ul' | 'ol' | 'callout' | 'stat-row' | 'sources';
   text?: string;
   items?: string[];
+  /** For 'sources': each cited study, linked. Every figure in a post should trace to one. */
+  links?: { label: string; url: string }[];
   stats?: { value: string; label: string }[];
 }
 
@@ -138,26 +140,26 @@ export const POSTS: BlogPost[] = [
   {
     slug: 'why-pi-clients-hire-the-first-firm-that-answers',
     category: 'Intake Optimization',
-    title: 'Why 72%–78% of PI Clients Hire the First Firm That Answers — And What To Do About It',
-    seoTitle: { absolute: 'Why 72%–78% of PI Clients Hire the First Firm That Answers' },
+    title: 'Why PI Clients Hire the First Firm That Answers — And What To Do About It',
+    seoTitle: { absolute: 'Why PI Clients Hire the First Firm That Answers' },
     excerpt: 'Speed-to-lead is the single most important factor in converting a PI prospect into a signed client. Here\'s the data, and here\'s how to fix your intake.',
-    date: 'Updated October 2026',
+    date: 'Updated November 2026',
     dateISO: '2026-04-10',
-    updatedISO: '2026-10-17',
+    updatedISO: '2026-11-11',
     readTime: '6 min read',
     answer: {
       q: "Why do personal injury clients hire the first firm that answers?",
-      a: "Injured prospects call several firms in quick succession and sign with the first one that meaningfully engages. FindLaw's 2016 survey found 72% contacted only one attorney, and a Legal Marketing Association\u2013cited figure puts the share who hire the first firm at 78%. Firms win those cases with fast answering, after-hours coverage, missed-call text-back within 60 seconds and multi-touch follow-up.",
+      a: "Injured prospects call several firms in quick succession and sign with the first one that meaningfully engages. FindLaw's consumer survey finds year after year that most people contact only one attorney before hiring (59% in 2024). The firms that win answer in seconds, cover nights and weekends, text back a missed call within 60 seconds and keep following up.",
     },
     content: [
       { type: 'p', text: 'A personal injury prospect doesn\'t comparison-shop the way someone buying a car does. They\'re hurt, stressed, often scared — and they call multiple firms in rapid succession. Whoever answers first, speaks with authority, and captures their information wins the client. The data on this is unambiguous.' },
       { type: 'h2', text: 'The Research Is Clear' },
-      { type: 'p', text: 'Two consumer studies point the same way: FindLaw\'s 2016 Consumer Legal Needs Survey found 72% of people contacted only one attorney before hiring, and a Legal Marketing Association–cited figure puts the share who hire the first attorney to meaningfully engage at 78%. Put together, roughly 72%–78% of clients go with the first firm they reach. "Meaningfully" is doing a lot of work there — a voicemail doesn\'t count. A hold queue that rings for 4 minutes doesn\'t count. A callback 3 hours later definitely doesn\'t count.' },
-      { type: 'p', text: 'The Harvard Business Review found that companies responding to web leads within 5 minutes are 21x more likely to qualify that lead than those that wait 30 minutes. For PI firms, the stakes are higher — your competitors are running the same ads, targeting the same keywords, and fighting for the same clients. The differentiator is almost never the ad itself. It\'s what happens after the click.' },
+      { type: 'p', text: 'FindLaw\'s U.S. Consumer Legal Needs Survey has found year after year that most people contact only one attorney before hiring; in 2024 it was 59%. For a PI firm, that one attorney is whoever engages first, and engages meaningfully. "Meaningfully" is doing a lot of work there — a voicemail doesn\'t count. A hold queue that rings for 4 minutes doesn\'t count. A callback 3 hours later definitely doesn\'t count.' },
+      { type: 'p', text: 'The MIT and InsideSales.com Lead Response Management Study found the odds of qualifying a lead are 21 times higher when you respond within 5 minutes than at 30. Most law firms are nowhere near that: in 2025 the median response to a web lead was 13 minutes, and only a quarter replied inside 5. For PI firms, the stakes are higher — your competitors are running the same ads, targeting the same keywords, and fighting for the same clients. The differentiator is almost never the ad itself. It\'s what happens after the click.' },
       { type: 'stat-row', stats: [
-        { value: '72%–78%', label: 'of clients go with the first firm they reach (FindLaw 2016: 72% contacted only one attorney; LMA-cited: 78%)' },
-        { value: '21x', label: 'more likely to qualify a lead when responding within 5 minutes' },
-        { value: '<5 min', label: 'target speed-to-lead for competitive PI markets' },
+        { value: '59%', label: 'of legal consumers contacted only one attorney before hiring (FindLaw, 2024)' },
+        { value: '21x', label: 'more likely to qualify a lead at 5 minutes than at 30 (MIT / InsideSales.com)' },
+        { value: '13 min', label: 'median law firm response to a web lead; the target is under 5 (Hennessey Digital, 2025)' },
       ]},
       { type: 'h2', text: 'Why Most Firms Fail at Speed-to-Lead' },
       { type: 'p', text: 'The honest answer: intake is treated as an afterthought. Firms spend $15,000–$30,000 per month on Google Ads and then route inbound calls to a paralegal who also handles case management, scheduling, and a dozen other things. When that paralegal is in court prep or on another call, the $200 click you just paid for hits voicemail.' },
@@ -188,6 +190,12 @@ export const POSTS: BlogPost[] = [
       ]},
       { type: 'callout', text: 'The Intake Gap Audit does this for you: two scored mystery-shop calls, a web-form response test, and an ROI report on where the system is leaking and what it costs.' },
       { type: 'p', text: 'The first firm to answer wins. Build the system that makes sure it\'s always you.' },
+      { type: 'sources', links: [
+        { label: 'FindLaw, "The legal client profile from 2014 through 2024" (U.S. Consumer Legal Needs Survey)', url: 'https://www.findlaw.com/lawyer-marketing/blog/the-history-of-the-legal-consumer/' },
+        { label: 'Oldroyd, MIT and InsideSales.com, Lead Response Management Study (2007)', url: 'https://content.marketingsherpa.com/heap/DG07SFSlides/LeadResponseManagementReport.pdf' },
+        { label: 'Hennessey Digital, 2025 Lead Form Response Time Study (1,333 U.S. law firms)', url: 'https://hennessey.com/2025-lead-form-response-time-study' },
+        { label: 'Market My Market, "What Does Your Firm Lose by Being 9 to 5?" (30,000 calls to law-firm clients)', url: 'https://www.marketmymarket.com/legal-marketing/what-does-your-firm-lose-by-being-9-to-5/' },
+      ]},
     ],
   },
   {
@@ -249,6 +257,9 @@ export const POSTS: BlogPost[] = [
       ]},
       { type: 'p', text: 'We won\'t publish specific pricing here because it varies by call volume and complexity of the intake script. But the ROI case is rarely close — it\'s usually obvious within the first 90 days.' },
       { type: 'callout', text: 'Curious how many after-hours leads your firm is missing today? The Intake Gap Audit measures it — including an after-hours mystery-shop call.' },
+      { type: 'sources', links: [
+        { label: 'Market My Market, "What Does Your Firm Lose by Being 9 to 5?" (30,000 calls to law-firm clients)', url: 'https://www.marketmymarket.com/legal-marketing/what-does-your-firm-lose-by-being-9-to-5/' },
+      ]},
     ],
   },
   {
@@ -322,7 +333,7 @@ export const POSTS: BlogPost[] = [
       { type: 'stat-row', stats: [
         { value: '~25%', label: 'of law firms reply to a web lead within 5 minutes (Hennessey Digital, 1,333 firms, 2025)' },
         { value: '26%', label: 'of law firms never reply to a web lead at all (same study)' },
-        { value: '21x', label: 'more likely to qualify a lead when responding within 5 minutes vs. 30 (Harvard Business Review)' },
+        { value: '21x', label: 'more likely to qualify a lead at 5 minutes than at 30 (MIT / InsideSales.com)' },
       ]},
       { type: 'p', text: 'The mechanism matters more than any one number. A PI prospect who submits a web form or calls and hits voicemail is not waiting for you. They\'re submitting to the next firm on their search results page. By the time you call back 45 minutes later, they\'ve already spoken with 2–3 competitors and may have a consultation booked.' },
       { type: 'h2', text: 'Why the First 5 Minutes Are Different' },
@@ -360,6 +371,10 @@ export const POSTS: BlogPost[] = [
         'Ask your intake coordinator: how many calls do they miss on a typical day? What happens to those leads?',
       ]},
       { type: 'callout', text: 'Want an outside measurement? The Intake Gap Audit calls your firm as a prospect, submits test leads, times every response and reports where leads are being lost, in 7–10 business days with nothing required from your team. To start on your own, the free PI intake scorecard covers the same five areas.' },
+      { type: 'sources', links: [
+        { label: 'Hennessey Digital, 2025 Lead Form Response Time Study (1,333 U.S. law firms)', url: 'https://hennessey.com/2025-lead-form-response-time-study' },
+        { label: 'Oldroyd, MIT and InsideSales.com, Lead Response Management Study (2007)', url: 'https://content.marketingsherpa.com/heap/DG07SFSlides/LeadResponseManagementReport.pdf' },
+      ]},
     ],
   },
   {
@@ -369,11 +384,11 @@ export const POSTS: BlogPost[] = [
     seoTitle: 'Ultimate Guide to Personal Injury Intake',
     excerpt: 'Why the first call decides the case, how top firms handle it, the technology that makes it repeatable, and a mystery-shop checklist you can run on your own firm this week.',
     metaDescription: 'Why the first call decides the case, how top firms handle it, the technology that makes it repeatable, and a mystery-shop checklist to run on your own firm.',
-    date: 'Updated October 2026',
+    date: 'Updated November 2026',
     // Originally published on the WordPress site 2024-04-10 (article:published_time,
     // Wayback snapshot 2024-05-20); migrated and updated here 2026-09-03.
     dateISO: '2024-04-10',
-    updatedISO: '2026-10-17',
+    updatedISO: '2026-11-11',
     readTime: '14 min read',
     answer: {
       q: "What makes personal injury intake work?",
@@ -382,10 +397,10 @@ export const POSTS: BlogPost[] = [
     content: [
       { type: 'h2', text: 'Why intake deserves more attention than your ad budget' },
       { type: 'p', text: 'A lot goes into running a successful personal injury practice. Many of the lawyers and firms we work with are not focused on — or even aware of — the new-client experience. A firm can be losing potential clients every week without anyone inside it noticing.' },
-      { type: 'p', text: 'FindLaw\'s 2016 Consumer Legal Needs Survey found that 72% of people contacted only one attorney before hiring, and a Legal Marketing Association–cited figure puts the share who hire the first attorney to meaningfully engage at 78%, so roughly 72%–78% of clients go with the first firm they reach. Meanwhile, the ABA\'s benchmark study on law firm intake found that 42% of the time, firms take three days or more to respond to a voicemail or web inquiry from a prospective client.' },
+      { type: 'p', text: 'FindLaw\'s U.S. Consumer Legal Needs Survey has found year after year that most people contact only one attorney before hiring (59% in 2024), so the first firm to engage usually gets the case. Meanwhile, the ABA\'s benchmark study on law firm intake found that 42% of the time, firms take three days or more to respond to a voicemail or web inquiry from a prospective client.' },
       { type: 'p', text: 'That combination is astounding. Firms spend 5% to 10% of annual revenue on marketing, and then, when the marketing works and potential clients start calling, nobody picks up the phone or answers the inquiry. Firms with sound intake practices end up with the lion\'s share of cases because they attract, respond, and retain better than the majority of their competitors.' },
       { type: 'stat-row', stats: [
-        { value: '72%–78%', label: 'of clients go with the first firm they reach (FindLaw 2016: 72% contacted only one attorney; LMA-cited: 78%)' },
+        { value: '59%', label: 'of legal consumers contacted only one attorney before hiring (FindLaw, 2024)' },
         { value: '42%', label: 'of the time, firms take 3+ days to respond to a voicemail or web inquiry' },
         { value: '<10%', label: 'of prospective clients ever speak with a lawyer' },
         { value: '80%', label: 'of clients expect a response to texts or emails within 1–2 hours' },
@@ -446,6 +461,9 @@ export const POSTS: BlogPost[] = [
         'Social media.',
       ]},
       { type: 'callout', text: 'Don\'t have time to mystery-shop your own firm? That is exactly what the Intake Gap Audit is: two scored mystery-shop calls, a full checklist audit, and an ROI report that puts a dollar figure on the leak — credited in full toward any engagement you start within 60 days.' },
+      { type: 'sources', links: [
+        { label: 'FindLaw, "The legal client profile from 2014 through 2024" (U.S. Consumer Legal Needs Survey)', url: 'https://www.findlaw.com/lawyer-marketing/blog/the-history-of-the-legal-consumer/' },
+      ]},
     ],
   },
   {
@@ -454,30 +472,30 @@ export const POSTS: BlogPost[] = [
     title: 'Speed Is the Whole Game: Lead Response Time and Case Acquisition',
     seoTitle: 'Speed Is the Whole Game: Lead Response Time',
     excerpt: 'Response within five minutes changes conversion by an order of magnitude. The research, and the three operational fixes that get a firm there.',
-    date: 'Updated October 2026',
+    date: 'Updated November 2026',
     // Originally published on the WordPress site 2024-01-31 (article:published_time,
     // Wayback snapshot 2024-02-21); migrated and updated here 2026-09-03.
     dateISO: '2024-01-31',
-    updatedISO: '2026-10-17',
+    updatedISO: '2026-11-11',
     readTime: '5 min read',
     answer: {
       q: "Does lead response time affect how many cases a law firm signs?",
-      a: "Yes, sharply. Research cited by Harvard Business Review and an MIT/InsideSales study found leads contacted within five minutes convert far better than those reached later, and roughly 72%\u201378% of legal clients hire the first firm they reach. Text alerts for every web form, a dedicated new-client line and call tracking fix most of it.",
+      a: "Yes, sharply. The MIT/InsideSales.com study found a lead is 21 times more likely to qualify when contacted within five minutes than at 30, yet the median law firm took 13 minutes to answer a web lead in 2025. Text alerts for every web form, a dedicated new-client line and call tracking close most of that gap within a week.",
     },
     content: [
       { type: 'p', text: 'The speed at which a law firm responds to a lead has an outsized effect on whether that lead becomes a client. The research is consistent, and it is not close.' },
       { type: 'stat-row', stats: [
-        { value: '22x', label: 'higher conversion when leads are contacted within five minutes (MIT / InsideSales study)' },
-        { value: '7x', label: 'more likely to qualify a lead when responding within an hour (Harvard Business Review)' },
-        { value: '27%', label: 'of leads ever receive a response at all (HBR)' },
-        { value: '72%–78%', label: 'of clients go with the first firm they reach (FindLaw 2016: 72% contacted only one attorney; LMA-cited: 78%)' },
+        { value: '21x', label: 'more likely to qualify a lead at 5 minutes than at 30 (MIT / InsideSales.com)' },
+        { value: '7x', label: 'more likely to qualify a lead within an hour than an hour later (Harvard Business Review)' },
+        { value: '13 min', label: 'median law firm response to a web lead in 2025 (Hennessey Digital)' },
+        { value: '26%', label: 'of law firms never replied to a web lead at all (Hennessey Digital)' },
       ]},
       { type: 'h2', text: 'What the research says' },
       { type: 'ul', items: [
-        'Contacting a lead within the first five minutes of an inquiry produces roughly 22 times the conversion rate of waiting longer.',
-        'Firms that respond within an hour are seven times more likely to have a meaningful conversation with the decision-maker than those that wait even an hour more — and 21 times more likely than those that wait 24 hours.',
-        'Cutting lead response time from six days to one day has been shown to move close rates from 3.2% to 7.5%.',
-        'Only 27% of leads are ever contacted. The rest are simply lost.',
+        'A lead contacted within five minutes is 21 times more likely to qualify than one contacted at 30 minutes (MIT / InsideSales.com).',
+        'Companies that tried to reach a web lead within an hour were nearly seven times as likely to qualify it as those that waited even an hour longer, and more than 60 times as likely as those that waited a day or more (Harvard Business Review).',
+        'In 2025, only 25% of U.S. law firms replied to a web lead within five minutes, the median reply took 13 minutes, and 26% never replied at all (Hennessey Digital, 1,333 firms).',
+        'FindLaw\'s consumer survey finds most people contact only one attorney before hiring: 59% in 2024.',
       ]},
       { type: 'h2', text: 'Why it matters more in personal injury' },
       { type: 'p', text: 'A PI prospect is hurt, stressed, and calling several firms in a row. The first firm that answers with competence and empathy usually signs the case. That is not a marketing problem; it is an operations problem, and it is fixable in a week.' },
@@ -488,6 +506,12 @@ export const POSTS: BlogPost[] = [
         'Track every call. Call-tracking software shows you what is being missed, when, and by whom — and you cannot fix what you cannot see.',
       ]},
       { type: 'callout', text: 'Not sure how fast your firm actually responds? The Intake Gap Audit measures it — two scored mystery-shop calls, a web-form response test, and an ROI report on what the delay is costing you.' },
+      { type: 'sources', links: [
+        { label: 'Oldroyd, MIT and InsideSales.com, Lead Response Management Study (2007)', url: 'https://content.marketingsherpa.com/heap/DG07SFSlides/LeadResponseManagementReport.pdf' },
+        { label: 'Oldroyd, McElheran and Elkington, "The Short Life of Online Sales Leads," Harvard Business Review (March 2011)', url: 'https://hbr.org/2011/03/the-short-life-of-online-sales-leads' },
+        { label: 'Hennessey Digital, 2025 Lead Form Response Time Study (1,333 U.S. law firms)', url: 'https://hennessey.com/2025-lead-form-response-time-study' },
+        { label: 'FindLaw, "The legal client profile from 2014 through 2024" (U.S. Consumer Legal Needs Survey)', url: 'https://www.findlaw.com/lawyer-marketing/blog/the-history-of-the-legal-consumer/' },
+      ]},
     ],
   },
 ];
