@@ -65,6 +65,7 @@ export default function Footer() {
               <li><a href={`tel:${COMPANY.phoneE164}`} className="text-blue-400 hover:text-blue-300">{COMPANY.phone}</a></li>
               <li><a href={`mailto:${COMPANY.email}`} className="text-blue-400 hover:text-blue-300">{COMPANY.email}</a></li>
               <li>{COMPANY.street}<br />{COMPANY.city}, {COMPANY.state} {COMPANY.zip}</li>
+              <li><a href={COMPANY.googleReview} target="_blank" rel="noopener noreferrer" className="hover:text-white transition">Review us on Google →</a></li>
             </ul>
           </div>
         </div>
