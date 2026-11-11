@@ -205,6 +205,11 @@ export default function HomePage() {
                         Or score your own intake first →
                       </Link>
                     )}
+                    {l.offer === 'website-in-14-days' && (
+                      <Link href="/ai-website-audit" className="mt-2 text-sm font-semibold text-slate-400 hover:text-red-400 transition">
+                        Built your site with AI? Audit it free →
+                      </Link>
+                    )}
                   </div>
                 </Reveal>
               );
