@@ -28,6 +28,30 @@ export interface Resource {
 
 export const RESOURCES: Resource[] = [
   {
+    slug: 'ai-website-audit',
+    name: 'AI Website Audit',
+    kind: 'Free tool',
+    summary:
+      'Checks a website built with an AI builder (Lovable, Bolt, v0, Base44, ChatGPT) for what those tools leave behind, scores it, and writes a prompt you paste back into the builder to fix every problem.',
+    audience: 'Law firms and medical practices that built or refreshed their site with an AI tool.',
+    coversLabel: 'What it checks',
+    covers: [
+      'Whether search engines and AI assistants receive your content, or a blank JavaScript shell',
+      'noindex tags, robots.txt blocks and canonicals pointing at the builder\'s preview domain',
+      'Placeholder titles, descriptions, text, badges, favicons and share images',
+      'Tap-to-call, mobile viewport, headings and image alt text',
+      'Business structured data, XML sitemap, llms.txt and analytics',
+    ],
+    output: 'A 0–100 score with every problem ranked by severity, and a copy-paste fix prompt for your AI builder.',
+    howTo: [
+      'Enter your website address and run the audit.',
+      'Unlock the fix prompt with your name and email.',
+      'Paste it into the tool that built your site, answer its questions with your real details, then run the audit again.',
+    ],
+    links: [{ label: 'Run the audit', href: '/ai-website-audit', note: 'Free, takes about 20 seconds' }],
+    updated: '2026-11-11',
+  },
+  {
     slug: 'fl-bar-ad-audit',
     name: 'Florida Bar Ad Audit',
     kind: 'Claude skill',
