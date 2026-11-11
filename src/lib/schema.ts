@@ -13,7 +13,7 @@ export const organizationSchema = {
   description: COMPANY.tagline,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: '319 Clematis Street, Suite 300',
+    streetAddress: COMPANY.street,
     addressLocality: COMPANY.city,
     addressRegion: COMPANY.state,
     postalCode: COMPANY.zip,
