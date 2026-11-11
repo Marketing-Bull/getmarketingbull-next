@@ -111,17 +111,20 @@ function meta(html: string, key: string): string | null {
 }
 
 function innerTexts(html: string, tag: string): string[] {
-  return [...html.matchAll(new RegExp(`<${tag}\\b[^>]*>([\\s\\S]*?)</${tag}>`, 'gi'))].map((m) => decode(m[1].replace(/<[^>]+>/g, ' ')));
+  return [...html.matchAll(new RegExp(`<${tag}\\b[^>]*>([\\s\\S]*?)</${tag}\\s*>`, 'gi'))].map((m) => decode(m[1].replace(/<[^>]*>/g, ' ').replace(/[<>]/g, ' ')));
 }
 
 /** The text a visitor (or crawler without JavaScript) can read in the body. */
 function bodyText(html: string): string {
   const body = html.match(/<body\b[^>]*>([\s\S]*)<\/body>/i)?.[1] ?? html;
+  // Only used to count and search words, never rendered as HTML. Stray < and > left by
+  // malformed markup are removed too, so nothing tag-like survives.
   return decode(
     body
-      .replace(/<(script|style|noscript|svg|template|iframe)\b[\s\S]*?<\/\1>/gi, ' ')
-      .replace(/<!--[\s\S]*?-->/g, ' ')
-      .replace(/<[^>]+>/g, ' '),
+      .replace(/<(script|style|noscript|svg|template|iframe)\b[\s\S]*?<\/\1\b[^>]*>/gi, ' ')
+      .replace(/<!--[\s\S]*?--!?>/g, ' ')
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/[<>]/g, ' '),
   );
 }
 
