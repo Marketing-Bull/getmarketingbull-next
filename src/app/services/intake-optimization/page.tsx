@@ -101,7 +101,7 @@ export default function IntakeOptimizationPage() {
 
       <CTASection
         title="Find out what the leak is costing you."
-        description="Two mystery-shop calls, a full audit, and an ROI report in 7–10 business days."
+        description={`Two mystery-shop calls, a full audit, and an ROI report in ${audit.timeline}.`}
         primaryCTA={{ text: 'Book the audit', href: `/products/${audit.slug}` }}
         secondaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
       />
