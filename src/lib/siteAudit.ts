@@ -79,14 +79,12 @@ const PLATFORMS: [string, RegExp][] = [
 
 // ── tiny HTML helpers ────────────────────────────────────────────────────────
 
+const ENTITIES: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", '#39': "'", '#039': "'", nbsp: ' ' };
+
+/** Decodes the common entities in one pass, so "&amp;lt;" stays "&lt;" (no double unescaping). */
 function decode(s: string): string {
   return s
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#0?39;|&apos;/g, "'")
-    .replace(/&nbsp;/g, ' ')
+    .replace(/&(amp|lt|gt|quot|apos|#0?39|nbsp);/g, (_, e: string) => ENTITIES[e])
     .replace(/\s+/g, ' ')
     .trim();
 }
