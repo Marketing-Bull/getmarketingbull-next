@@ -34,7 +34,7 @@ export default function VerticalPage(p: VerticalPageProps) {
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">{p.title}</h1>
           <p className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl mb-10">{p.subtitle}</p>
           <div className="flex flex-row flex-wrap gap-3">
-            <Button variant="primary" size="lg" href="/free-consultation">Start a conversation</Button>
+            <Button variant="primary" size="lg" href="/free-consultation">Book a 20-minute call</Button>
             <Button variant="secondary" size="lg" href="/engagements">See the engagements</Button>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function VerticalPage(p: VerticalPageProps) {
 
       <CTASection
         title="Start with a conversation."
-        description="Twenty minutes about your firm or practice. We'll tell you where we'd look first — and whether we're the right people to look."
+        description="Twenty minutes about your firm or practice. We'll tell you where we'd look first, and whether we're the right people to look."
         primaryCTA={{ text: 'Book a conversation', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />

@@ -31,7 +31,7 @@ export default function CaseStudiesPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-6">Case studies</p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight mb-6 leading-[1.05]">Selected engagements.</h1>
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl leading-relaxed">
-            The constraint, what we built, and what happened — with the numbers the client reported, and nothing we can&apos;t stand behind.
+            The constraint, what we built, and what happened, with the numbers the client reported, and nothing we can&apos;t stand behind.
           </p>
           <p className="mt-6 text-sm text-slate-500">
             {engagements.length} full engagements, then <a href="#website-builds" className="font-semibold text-slate-300 hover:text-white transition">{builds.length} law and medical website builds ↓</a>
@@ -110,7 +110,7 @@ export default function CaseStudiesPage() {
 
       <CTASection
         title="Start with a conversation."
-        description="Twenty minutes about your firm or practice. We'll tell you where we'd look first — and whether we're the right people to look."
+        description="Twenty minutes about your firm or practice. We'll tell you where we'd look first, and whether we're the right people to look."
         primaryCTA={{ text: 'Book a conversation', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />

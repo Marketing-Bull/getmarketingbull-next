@@ -208,7 +208,7 @@ export default function RingDashPage() {
       <CTASection
         title="Want every call accounted for?"
         description="Twenty minutes is enough to see whether RingDash fits how your firm handles intake."
-        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
+        primaryCTA={{ text: 'Book a 20-minute call', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>

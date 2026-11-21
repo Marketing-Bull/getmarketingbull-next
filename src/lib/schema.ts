@@ -84,7 +84,7 @@ export function caseStudySchema(cs: {
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: `${cs.client} — Case Study`,
+    headline: `${cs.client} case study`,
     description: cs.summary,
     url,
     datePublished: cs.published,
@@ -95,7 +95,7 @@ export function caseStudySchema(cs: {
     about: {
       '@type': 'Organization',
       name: cs.client,
-      description: `${cs.industry} — ${cs.location}`,
+      description: `${cs.industry}, ${cs.location}`,
     },
   };
 }

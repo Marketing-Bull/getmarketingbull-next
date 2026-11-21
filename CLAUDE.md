@@ -64,6 +64,7 @@ src/
 - **SMS opt-in wording is registered with the carriers (A2P 10DLC / TCR).** `SMS_CONSENT_LABEL` (checkbox label) and `SMS_OPT_IN_CONFIRMATION` (text sent after an opted-in submit) in `constants.ts` must stay word for word; the checkbox stays optional and unchecked by default, with Privacy Policy and Terms links beside the form. `/get-started` is the registered opt-in URL and must answer 200, not redirect. The SMS sections of the privacy policy and terms are part of the same review.
 - **A Content-Security-Policy is enforced (`next.config.ts`).** Any new third-party script, iframe, image host or API the browser calls (an ad tag, a chat widget, an embed, a tag added inside a future GTM container) must have its origins added to `CSP` in the same change, or it is silently blocked in production. `script-src` keeps `'unsafe-inline'` on purpose: nonces would force every page to render dynamically.
 - Mystery-shop language in the Intake Gap Audit must not promise recordings (Florida all-party consent). Keep "scored", not "recorded".
+- **Before writing or editing any prose** (page copy, blog posts, docs, PR descriptions, UI text), load the `anti-slop-web` skill in `.claude/skills/` and run its Step 5 audit on what you changed.
 - `.context/` is gitignored reference material. `.claude/settings.local.json` is personal.
 
 ## Analytics

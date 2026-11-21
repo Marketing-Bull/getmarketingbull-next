@@ -25,7 +25,7 @@ export default function BlogPage() {
           </p>
           <h1 className="text-5xl font-black tracking-tight mb-6">Insights &amp; Playbooks</h1>
           <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-            Practical guides on intake optimization, AI automation, and performance marketing — written by practitioners, not content mills.
+            Practical guides on intake optimization, AI automation, and performance marketing, written by people who run these systems for clients.
           </p>
         </div>
       </section>
@@ -59,7 +59,7 @@ export default function BlogPage() {
       <CTASection
         title="Ready to Put These Ideas to Work?"
         description="Twenty minutes about your firm or practice. We'll tell you where we'd look first."
-        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
+        primaryCTA={{ text: 'Book a 20-minute call', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>

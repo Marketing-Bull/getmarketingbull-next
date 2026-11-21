@@ -45,7 +45,7 @@ export const RESOURCES: Resource[] = [
     output: 'A 0–100 score with every problem ranked by severity, and a copy-paste fix prompt for your AI builder.',
     howTo: [
       'Enter your website address and run the audit.',
-      'Unlock the fix prompt with your name and email.',
+      'Get the fix prompt by entering your name and email.',
       'Paste it into the tool that built your site, answer its questions with your real details, then run the audit again.',
     ],
     links: [{ label: 'Run the audit', href: '/ai-website-audit', note: 'Free, takes about 20 seconds' }],

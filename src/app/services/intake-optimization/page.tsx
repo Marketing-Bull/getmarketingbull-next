@@ -16,7 +16,7 @@ export const metadata: Metadata = pageMeta({
 const FAILURES = [
   { title: 'Speed to lead', body: 'The lead-to-case window closes in minutes. A prospect who submits a form at 2 pm has called three firms by 2:10. Most firms call back at end of day.' },
   { title: 'After-hours coverage', body: 'Accidents happen at night and on weekends. The firm that answers at 8 pm signs the case the other firm\'s ad generated.' },
-  { title: 'Qualification and follow-up', body: 'One call, one voicemail, and the lead is abandoned — after the firm already paid for it. Persistence is a process, not a personality trait.' },
+  { title: 'Qualification and follow-up', body: 'One call, one voicemail, and the lead is abandoned, after the firm already paid for it. Follow-up works when it\'s a written process that every intake person runs the same way.' },
   { title: 'Attribution', body: 'Firms know cost per click. Very few know cost per signed case. Without the second number, the marketing budget is a guess.' },
 ];
 
@@ -44,7 +44,7 @@ export default function IntakeOptimizationPage() {
           </p>
           <div className="flex flex-row flex-wrap gap-3">
             <Button variant="primary" size="lg" href={`/products/${audit.slug}`}>The Intake Gap Audit</Button>
-            <Button variant="secondary" size="lg" href="/free-consultation">Start a conversation</Button>
+            <Button variant="secondary" size="lg" href="/free-consultation">Book a 20-minute call</Button>
           </div>
         </div>
       </section>
@@ -78,7 +78,7 @@ export default function IntakeOptimizationPage() {
             <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900">We don&apos;t prescribe until we&apos;ve measured.</h2>
           </div>
           <div className="lg:col-span-8 space-y-5 text-lg text-slate-700 leading-relaxed">
-            <p>Every intake engagement starts with the same thing: we call your firm as a prospect would — once during business hours, once after — and score what happens on a timestamped scorecard. We submit a web form and time the response. We review the CRM if you give us read-only access.</p>
+            <p>Every intake engagement starts with the same thing: we call your firm as a prospect would, once during business hours and once after, and score what happens on a timestamped scorecard. We submit a web form and time the response. We review the CRM if you give us read-only access.</p>
             <p>The output is a report that says, in dollars, what the leak is costing you, and a prioritized fix list. Sometimes the fix is a phone-routing change and a script. Sometimes it is after-hours coverage. Sometimes it is a CRM the firm already pays for and does not use. We build what the numbers call for, and the audit fee is credited toward it.</p>
             <p>
               <Link href={`/products/${audit.slug}`} className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-red-600">Everything in the Intake Gap Audit →</Link>
@@ -103,7 +103,7 @@ export default function IntakeOptimizationPage() {
         title="Find out what the leak is costing you."
         description={`Two mystery-shop calls, a full audit, and an ROI report in ${audit.timeline}.`}
         primaryCTA={{ text: 'Book the audit', href: `/products/${audit.slug}` }}
-        secondaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
+        secondaryCTA={{ text: 'Book a 20-minute call', href: '/free-consultation' }}
       />
     </>
   );

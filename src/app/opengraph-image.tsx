@@ -7,7 +7,7 @@ export const contentType = 'image/png';
 
 export default function Image() {
   return renderOg({
-    title: "Growth, engineered for the firms that can't afford to guess.",
+    title: 'Your next client is calling three firms. We make sure yours answers.',
     subtitle: 'We find where a firm is losing cases or patients, build the system that fixes it, and stay accountable for the number.',
   });
 }

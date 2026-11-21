@@ -21,7 +21,7 @@ import Turnstile, { TURNSTILE_SITE_KEY } from './Turnstile';
 const SOURCE = 'pi-intake-scorecard';
 const FORM_NAME = 'pi_intake_scorecard';
 const THANKS_PATH = '/pi-intake-scorecard/thanks';
-const FALLBACK_ERROR = `Sorry — that didn't go through. Please call ${COMPANY.phone} (${COMPANY.phoneFormatted}) or email ${COMPANY.email}.`;
+const FALLBACK_ERROR = `Sorry, that didn't go through. Please call ${COMPANY.phone} (${COMPANY.phoneFormatted}) or email ${COMPANY.email}.`;
 
 /** Must match ATTORNEY_OPTIONS in /api/lead. */
 const ATTORNEY_OPTIONS = ['1', '2 to 5', '6 to 15', '16+'];

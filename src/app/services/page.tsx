@@ -15,8 +15,8 @@ export const metadata: Metadata = pageMeta({
 });
 
 const VERTICALS = [
-  { title: 'Law firms', desc: 'Personal injury and plaintiff firms. Search, site, and the first phone call — inside Florida Bar advertising rules.', href: '/services/law-firms' },
-  { title: 'Medical practices', desc: 'Chiropractic, imaging, hyperbaric, dental, orthopedic, wellness. Being found, being chosen, being booked — inside HIPAA boundaries.', href: '/services/medical' },
+  { title: 'Law firms', desc: 'Personal injury and plaintiff firms. Search, site, and the first phone call, all inside Florida Bar advertising rules.', href: '/services/law-firms' },
+  { title: 'Medical practices', desc: 'Chiropractic, imaging, hyperbaric, dental, orthopedic, wellness. Being found, being chosen, and being booked, all inside HIPAA boundaries.', href: '/services/medical' },
 ];
 
 const SHORT_ANSWER = `Marketing Bull finds where a personal injury firm or medical practice is losing cases or patients, then builds the fix in one of ${offerCountWord()} fixed-scope engagements: ${offerNameList()}. Scope, fee and delivery date are agreed in writing before work starts.`;
@@ -38,10 +38,10 @@ export default function ServicesPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-6">How we help</p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">Diagnose first. Then build one thing, well.</h1>
           <p className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl mb-10">
-            Every engagement starts with the same question — where, specifically, is this firm losing cases or patients? — and ends in one of four fixed-scope builds. No long-term contracts.
+            Every engagement starts with one question: where, specifically, is this firm losing cases or patients? It ends in one of four fixed-scope builds. No long-term contracts.
           </p>
           <div className="flex flex-row flex-wrap gap-3">
-            <Button variant="primary" size="lg" href="/free-consultation">Start a conversation</Button>
+            <Button variant="primary" size="lg" href="/free-consultation">Book a 20-minute call</Button>
             <Button variant="secondary" size="lg" href="/engagements">See the engagements</Button>
           </div>
         </div>
@@ -92,7 +92,7 @@ export default function ServicesPage() {
 
       <CTASection
         title="Start with a conversation."
-        description="Twenty minutes about your firm or practice. We'll tell you where we'd look first — and whether we're the right people to look."
+        description="Twenty minutes about your firm or practice. We'll tell you where we'd look first, and whether we're the right people to look."
         primaryCTA={{ text: 'Book a conversation', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />

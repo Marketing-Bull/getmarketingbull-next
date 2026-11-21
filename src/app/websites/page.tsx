@@ -290,7 +290,7 @@ export default function WebsitesPage() {
       <CTASection
         title="Want a site like these?"
         description="Fixed scope, fixed price, live in 14 days."
-        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
+        primaryCTA={{ text: 'Book a 20-minute call', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>

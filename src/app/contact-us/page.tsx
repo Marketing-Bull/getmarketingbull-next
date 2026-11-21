@@ -18,7 +18,7 @@ export default function ContactPage() {
           <p className="text-blue-300 font-semibold text-sm uppercase tracking-widest mb-4">Get in Touch</p>
           <h1 className="text-5xl font-bold mb-6">Let&apos;s Talk</h1>
           <p className="text-xl text-slate-300 leading-relaxed">
-            Whether you&apos;re ready to start or just exploring — we respond within one business day.
+            Ready to start or still deciding, you&apos;ll hear back within one business day.
           </p>
         </div>
       </section>
@@ -60,7 +60,7 @@ export default function ContactPage() {
                 <h3 className="text-lg font-bold text-slate-900 mb-3">Prefer a conversation?</h3>
                 <p className="text-slate-600 text-sm leading-relaxed mb-4">Twenty minutes about your firm or practice. We'll tell you where we'd look first, and whether we're the right fit.</p>
                 <Link href="/free-consultation" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-6 py-3 rounded-full font-semibold text-sm transition hover:-translate-y-0.5">
-                  Start a conversation →
+                  Book a 20-minute call →
                 </Link>
               </div>
             </div>

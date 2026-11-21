@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!cs) return {};
   return pageMeta({
     path: `/case-studies/${cs.slug}`,
-    title: `${cs.client} — Case Study`,
+    title: `${cs.client} case study`,
     description: cs.summary,
     article: { publishedTime: cs.published },
     ownOgImage: true,

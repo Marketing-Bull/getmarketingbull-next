@@ -179,7 +179,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               href="/free-consultation"
               className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5 whitespace-nowrap"
             >
-              Start a conversation →
+              Book a 20-minute call →
             </Link>
           </div>
         </div>
@@ -210,7 +210,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <CTASection
         title="Ready to Put These Ideas to Work?"
         description="Twenty minutes about your firm or practice. We'll tell you where we'd look first."
-        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
+        primaryCTA={{ text: 'Book a 20-minute call', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>

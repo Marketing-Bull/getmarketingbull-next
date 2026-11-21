@@ -11,7 +11,7 @@ export const SITE_OG_IMAGE = {
   width: 1200,
   height: 630,
   type: 'image/png',
-  alt: 'Marketing Bull — growth consultancy for law firms and medical practices',
+  alt: 'Marketing Bull, growth consultancy for law firms and medical practices',
 };
 
 /** Sitewide Open Graph fields. The root layout and every page share this object. */

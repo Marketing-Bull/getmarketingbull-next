@@ -5,7 +5,7 @@ import { pageMeta } from '@/lib/metadata';
 export const metadata: Metadata = pageMeta({
   path: '/privacy-policy',
   title: 'Privacy Policy',
-  description: 'Marketing Bull privacy policy — how we collect, use, and protect your information.',
+  description: 'Marketing Bull privacy policy: how we collect, use, and protect your information.',
 });
 
 const SECTIONS = [

@@ -40,7 +40,7 @@ const PRINCIPLES = [
   {
     n: '01',
     title: 'Diagnose before prescribing',
-    body: 'Most firms don\'t have a marketing problem. They have a specific leak — in search, on the site, or at the phone — and the wrong fix is expensive. We find the leak first, with data, and tell you plainly if it isn\'t something we should be hired to fix.',
+    body: 'Most firms don\'t have a marketing problem. They have one specific leak, in search, on the site, or at the phone. The wrong fix is expensive. We find the leak first, with data, and tell you plainly if it isn\'t something we should be hired to fix.',
   },
   {
     n: '02',
@@ -50,21 +50,21 @@ const PRINCIPLES = [
   {
     n: '03',
     title: 'You own everything',
-    body: 'Your code, your domain, your accounts, your data. We build inside infrastructure you control, so the relationship continues because it\'s working — never because leaving would mean starting over.',
+    body: 'Your code, your domain, your accounts, your data. We build inside infrastructure you control, so you stay because it\'s working, not because leaving would mean starting over.',
   },
 ];
 
 const LENSES: { label: string; question: string; body: string; offer: OfferSlug }[] = [
   {
     label: 'Found',
-    question: 'When someone searches, are you there — and credible?',
+    question: 'When someone searches, are you there, and do you look credible?',
     body: 'Site speed, structure, and first impression decide whether a prospect calls you or the next result. We engineer the site as the front door it is.',
     offer: 'website-in-14-days',
   },
   {
     label: 'In front',
     question: 'When someone is ready to hire today, who is paying to be in front of them?',
-    body: 'Organic compounds, but slowly. Paid search and social buy placement in front of people already looking — and most firms run them blind, because the reporting stops at the click and the calls go uncounted. We run the campaigns, the pages behind them, and the tracking that ties a signed case back to the ad.',
+    body: 'Organic compounds, but slowly. Paid search and social put you in front of people already looking. Most firms run them blind, because the reporting stops at the click and nobody counts the calls. We run the campaigns, the pages behind them, and the tracking that ties a signed case back to the ad.',
     offer: 'lead-generation',
   },
   {
@@ -76,7 +76,7 @@ const LENSES: { label: string; question: string; body: string; offer: OfferSlug 
   {
     label: 'Signed',
     question: 'When they call, what actually happens?',
-    body: 'Speed-to-lead, after-hours coverage, qualification, follow-up. This is where most firms lose the cases they already paid to generate — and where the fix has the fastest return.',
+    body: 'Speed-to-lead, after-hours coverage, qualification, follow-up. This is where most firms lose the cases they already paid to generate. It\'s also where a fix pays back fastest.',
     offer: 'intake-gap-audit',
   },
 ];
@@ -84,7 +84,7 @@ const LENSES: { label: string; question: string; body: string; offer: OfferSlug 
 const WHO = [
   {
     title: 'Personal injury & plaintiff firms',
-    desc: 'A prospect calls three firms in ten minutes and signs with the one that answers. We build for that reality — fast sites, visible authority, and intake that responds — inside Florida Bar advertising rules.',
+    desc: 'A prospect calls three firms in ten minutes and signs with the one that answers. We build for that: fast sites, visible authority, and intake that answers, all inside Florida Bar advertising rules.',
     href: '/services/law-firms',
     cta: 'Law firms',
   },
@@ -106,7 +106,7 @@ const ENGAGEMENT = [
   { step: 'Conversation', desc: 'Twenty minutes. Where you are, what\'s been tried, what a good year looks like. We\'ll say whether we\'re the right fit.' },
   { step: 'Diagnosis', desc: 'A scored audit of where cases or patients are being lost, with a dollar figure on it. You get the findings whether or not you continue.' },
   { step: 'Build', desc: 'A fixed-scope engagement with a defined deliverable and delivery date. No long-term contracts, no scope drift.' },
-  { step: 'Compound', desc: 'Ongoing work — content, visibility, optimization — reported monthly against the numbers that matter: calls, consults, signed cases, booked patients.' },
+  { step: 'Compound', desc: 'Ongoing content, visibility, and optimization work, reported monthly against calls, consults, signed cases, and booked patients.' },
 ];
 
 export default function HomePage() {
@@ -122,13 +122,13 @@ export default function HomePage() {
               Growth consultancy · Law firms &amp; medical practices
             </p>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-black tracking-tight leading-[1.02] mb-8">
-              Growth, engineered for the firms that can&apos;t afford to guess.
+              Your next client is calling three firms. We make sure yours answers.
             </h1>
             <p className="text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed mb-10">
               Marketing Bull is a senior consultancy in West Palm Beach. We find where a firm is losing cases or patients, build the system that fixes it, and stay accountable for the number it was meant to move.
             </p>
             <div className="flex flex-row flex-wrap gap-3">
-              <Button variant="primary" size="lg" href="/free-consultation">Start a conversation</Button>
+              <Button variant="primary" size="lg" href="/free-consultation">Book a 20-minute call</Button>
               <Button variant="secondary" size="lg" href="/pi-intake-scorecard">Score your intake (free)</Button>
             </div>
             <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm">
@@ -160,7 +160,7 @@ export default function HomePage() {
               </div>
               <div className="lg:col-span-6 lg:col-start-7 flex items-end">
                 <p className="text-lg text-slate-600 leading-relaxed">
-                  We&apos;ve spent a decade inside legal and medical marketing — the bar rules, the HIPAA lines, what a slip-and-fall prospect does at nine on a Saturday night. Three principles govern every engagement.
+                  We&apos;ve spent a decade inside legal and medical marketing. We know the bar rules, the HIPAA lines, and what a slip-and-fall prospect does at nine on a Saturday night. Three principles govern every engagement.
                 </p>
               </div>
             </div>
@@ -186,7 +186,7 @@ export default function HomePage() {
             <div className="max-w-2xl mb-14">
               <p className="text-xs font-bold uppercase tracking-widest text-red-400 mb-3">Where we look</p>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">A case is lost in one of four places.</h2>
-              <p className="text-lg text-slate-400 leading-relaxed">Every diagnosis starts with the same four questions. The answers tell us what to build — and, just as often, what not to.</p>
+              <p className="text-lg text-slate-400 leading-relaxed">Every diagnosis starts with the same four questions. The answers tell us what to build, and just as often what not to.</p>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
@@ -280,7 +280,7 @@ export default function HomePage() {
               </div>
               <div className="lg:col-span-6 lg:col-start-7 flex items-end">
                 <p className="text-lg text-slate-600 leading-relaxed">
-                  Every engagement is fixed in scope, with a defined deliverable and date. We scope it to your firm and put the fee in writing before anything begins — <Link href="/engagements" className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-red-600">here is how each one works</Link> — so nothing moves once we start.
+                  Every engagement is fixed in scope, with a defined deliverable and date. We scope it to your firm and put the fee in writing before anything begins, so nothing moves once we start. <Link href="/engagements" className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-red-600">Here&apos;s how each one works</Link>.
                 </p>
               </div>
             </div>
@@ -319,7 +319,7 @@ export default function HomePage() {
 
       <CTASection
         title="Start with a conversation."
-        description="Twenty minutes about your firm. We'll tell you where we'd look first — and whether we're the right people to look."
+        description="Twenty minutes about your firm. We'll tell you where we'd look first, and whether we're the right people to look."
         primaryCTA={{ text: 'Book a conversation', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
