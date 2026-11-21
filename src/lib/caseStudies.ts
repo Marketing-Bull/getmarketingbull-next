@@ -41,7 +41,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     location: 'New York City',
     summary: 'A brand-new personal injury referral brand built from the ground up: brand, multilingual website, media buying, CRM and an intake call center, run as one program.',
     constraint:
-      'A brand-new personal injury referral brand launching into the most competitive PI market in the country. No inbound calls, no intake infrastructure, no CRM, no call-center process, and a multilingual audience — English, Spanish, Russian, and Uzbek — to reach with expensive offline media.',
+      'A brand-new personal injury referral brand launching into the most competitive PI market in the country. No inbound calls, no intake infrastructure, no CRM, no call-center process, and a multilingual audience speaking English, Spanish, Russian, and Uzbek to reach with expensive offline media.',
     action:
       'We built the business from the ground up across brand, marketing, and operations. Brand identity and a multilingual, SEO-built website launched alongside a coordinated media program: twenty billboard placements across New York City for a year, six months of Hispanic radio with a commissioned jingle, negotiated television placements, and paid digital across Google, Meta, Snapchat, TikTok, and display. On the operations side, we implemented a custom Zoho CRM and deployed a full intake call center so every lead was captured and routed.',
     result:
@@ -67,9 +67,9 @@ export const CASE_STUDIES: CaseStudy[] = [
     location: 'Queens, New York',
     summary: 'A specialty clinic with strong clinical outcomes and no marketing engine got a full patient-acquisition system: brand, website, local search, ads and reviews.',
     constraint:
-      'Hyperbaric oxygen therapy is a specialty most patients have never searched for. The clinic had clinical results worth talking about and no way to be found — no brand system, no search presence, and no consistent way to turn a curious call into a booked evaluation.',
+      'Hyperbaric oxygen therapy is a specialty most patients have never searched for. The clinic had clinical results worth talking about and no way to be found: no brand system, no search presence, and no consistent way to turn a curious call into a booked evaluation.',
     action:
-      'We built the full patient-acquisition stack in sequence: a brand style guide and website first, then local search — Google Business Profile optimization and Maps presence — followed by Google Ads, a dedicated landing page, review generation, social content and advertising, and a video commercial. The system was designed to make an unfamiliar treatment feel credible and easy to ask about.',
+      'We built the full patient-acquisition stack in sequence: a brand style guide and website first, then local search through Google Business Profile optimization and Maps presence, followed by Google Ads, a dedicated landing page, review generation, social content and advertising, and a video commercial. The system was designed to make an unfamiliar treatment feel credible and easy to ask about.',
     result:
       'The clinic now has one system for being found, being trusted and being booked, and Marketing Bull continues to work with the practice on patient acquisition.',
     proof: [
@@ -88,13 +88,13 @@ export const CASE_STUDIES: CaseStudy[] = [
     vertical: 'Medical',
     industry: 'Spine and orthopedic surgical center',
     location: 'Queens, New York',
-    summary: 'A newly opened surgical center launched with a brand, a website that books consultations, and a local presence — before the first patient walked in.',
+    summary: 'A newly opened surgical center launched with a brand, a website that books consultations, and a local presence before the first patient walked in.',
     constraint:
       'A new spine-orthopedic surgical center opening in Queens with no brand identity, no web presence, and no local listings. Surgeons were ready; the front door didn\'t exist yet.',
     action:
       'We planned the launch as one program: brand identity and style guidelines, a full-service website with patient consultation scheduling built in, Google Business Profile and local listings, and social channels on Facebook and Instagram seeded with branded content and Reels so the practice looked established on day one.',
     result:
-      'The center opened with a complete, consistent presence — brand guide, booking-enabled website, local listings, and active social channels — and a foundation the practice could grow patient volume on.',
+      'The center opened with a complete, consistent presence, with a brand guide, a booking-enabled website, local listings, and active social channels. It also had a foundation the practice could grow patient volume on.',
     proof: [
       'Brand guide, website, listings, and social live for opening day',
       'Consultation scheduling built into the site',
