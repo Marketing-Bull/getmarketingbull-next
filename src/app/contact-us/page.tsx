@@ -60,7 +60,7 @@ export default function ContactPage() {
                 <h3 className="text-lg font-bold text-slate-900 mb-3">Prefer a conversation?</h3>
                 <p className="text-slate-600 text-sm leading-relaxed mb-4">Twenty minutes about your firm or practice. We'll tell you where we'd look first, and whether we're the right fit.</p>
                 <Link href="/free-consultation" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-6 py-3 rounded-full font-semibold text-sm transition hover:-translate-y-0.5">
-                  Start a conversation →
+                  Book a 20-minute call →
                 </Link>
               </div>
             </div>

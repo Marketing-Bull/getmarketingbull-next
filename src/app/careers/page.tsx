@@ -33,7 +33,7 @@ export default function CareersPage() {
             Send a short note to <a href={`mailto:${COMPANY.email}`} className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-red-600">{COMPANY.email}</a> with what you&apos;ve built and a link to it. We read all of them and reply to the ones that fit.
           </p>
           <p className="text-sm text-slate-500">
-            Looking to hire us instead? <Link href="/free-consultation" className="font-semibold text-slate-900 hover:text-red-600">Start a conversation →</Link>
+            Looking to hire us instead? <Link href="/free-consultation" className="font-semibold text-slate-900 hover:text-red-600">Book a 20-minute call →</Link>
           </p>
         </div>
       </section>

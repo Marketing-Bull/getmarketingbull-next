@@ -44,7 +44,7 @@ export default function IntakeOptimizationPage() {
           </p>
           <div className="flex flex-row flex-wrap gap-3">
             <Button variant="primary" size="lg" href={`/products/${audit.slug}`}>The Intake Gap Audit</Button>
-            <Button variant="secondary" size="lg" href="/free-consultation">Start a conversation</Button>
+            <Button variant="secondary" size="lg" href="/free-consultation">Book a 20-minute call</Button>
           </div>
         </div>
       </section>
@@ -103,7 +103,7 @@ export default function IntakeOptimizationPage() {
         title="Find out what the leak is costing you."
         description={`Two mystery-shop calls, a full audit, and an ROI report in ${audit.timeline}.`}
         primaryCTA={{ text: 'Book the audit', href: `/products/${audit.slug}` }}
-        secondaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
+        secondaryCTA={{ text: 'Book a 20-minute call', href: '/free-consultation' }}
       />
     </>
   );

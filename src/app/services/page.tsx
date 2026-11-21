@@ -41,7 +41,7 @@ export default function ServicesPage() {
             Every engagement starts with the same question — where, specifically, is this firm losing cases or patients? — and ends in one of four fixed-scope builds. No long-term contracts.
           </p>
           <div className="flex flex-row flex-wrap gap-3">
-            <Button variant="primary" size="lg" href="/free-consultation">Start a conversation</Button>
+            <Button variant="primary" size="lg" href="/free-consultation">Book a 20-minute call</Button>
             <Button variant="secondary" size="lg" href="/engagements">See the engagements</Button>
           </div>
         </div>

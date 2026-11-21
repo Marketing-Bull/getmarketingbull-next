@@ -20,7 +20,7 @@ export default function NotFound() {
           The link may be old, or the page may have moved when the site was rebuilt. Here is where most people are headed.
         </p>
         <div className="flex flex-row flex-wrap gap-3 justify-center">
-          <Button variant="primary" size="md" href="/free-consultation">Start a conversation</Button>
+          <Button variant="primary" size="md" href="/free-consultation">Book a 20-minute call</Button>
           <Button variant="secondary" size="md" href="/engagements">See the engagements</Button>
         </div>
         <p className="mt-10 text-sm text-slate-500">

@@ -234,7 +234,7 @@ export default function AppDetailPage({ app }: { app: AppPageData }) {
       <CTASection
         title="Want software like this for your firm?"
         description={`We built ${app.name} for our own work. If your firm or practice needs a tool like it, twenty minutes is enough to see whether we can help.`}
-        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
+        primaryCTA={{ text: 'Book a 20-minute call', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>

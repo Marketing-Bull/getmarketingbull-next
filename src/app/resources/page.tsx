@@ -119,7 +119,7 @@ export default function ResourcesPage() {
       <CTASection
         title="Want us to run it for you?"
         description="This is the checklist we run on our own law firm clients’ sites and ads. Twenty minutes is enough to see where yours stands."
-        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
+        primaryCTA={{ text: 'Book a 20-minute call', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>

@@ -75,7 +75,7 @@ export default function EngagementsPage() {
       <CTASection
         title="Want the number for your firm?"
         description="Call 1-833-GET-BULL or book twenty minutes. We'll scope it on the call and tell you which engagement fits — or that none of them do."
-        primaryCTA={{ text: 'Start a conversation', href: '/free-consultation' }}
+        primaryCTA={{ text: 'Book a 20-minute call', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />
     </>
