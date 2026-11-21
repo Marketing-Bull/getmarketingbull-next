@@ -27,7 +27,7 @@ const CHECKS = [
 const STEPS = [
   { title: 'Enter your URL', body: 'We load your live homepage the way a crawler does, with no JavaScript, plus robots.txt, sitemap and llms.txt.' },
   { title: 'See your score', body: 'Every problem, ranked critical to low, with what we found and why it costs you clients. Free, no email needed.' },
-  { title: 'Paste the fix prompt', body: 'Unlock one prompt with every fix in order, written for your builder, with guardrails so it asks you for real details instead of inventing them.' },
+  { title: 'Paste the fix prompt', body: 'Get one prompt with every fix in order, written for your builder, with guardrails so it asks you for real details instead of inventing them.' },
 ];
 
 const SHORT_ANSWER =
@@ -53,7 +53,7 @@ const FAQS = [
   },
   {
     q: 'Do you store my website?',
-    a: 'No. The page is fetched, checked and discarded. If you unlock the prompt, we keep your name, email, website address and a summary of the results so we can follow up.',
+    a: 'No. The page is fetched, checked and discarded. If you ask for the prompt, we keep your name, email, website address and a summary of the results so we can follow up.',
   },
 ];
 

@@ -29,7 +29,7 @@ const BENEFITS = [
   },
   {
     title: 'Written for South Florida PI firms.',
-    body: 'It covers Spanish-language intake and weekend coverage, not just office-hours etiquette.',
+    body: 'It covers Spanish-language intake and weekend coverage as well as office-hours etiquette.',
   },
   {
     title: 'Know what to fix first.',
@@ -68,7 +68,7 @@ const FAQS = [
   },
   {
     q: 'Who is the scorecard for?',
-    a: 'Owners and intake leads at personal injury firms. It was written for South Florida firms, so it covers Spanish-language intake and weekend coverage, not just office-hours etiquette.',
+    a: 'Owners and intake leads at personal injury firms. It was written for South Florida firms, so it covers Spanish-language intake and weekend coverage as well as office-hours etiquette.',
   },
 ];
 

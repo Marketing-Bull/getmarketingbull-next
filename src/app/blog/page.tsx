@@ -25,7 +25,7 @@ export default function BlogPage() {
           </p>
           <h1 className="text-5xl font-black tracking-tight mb-6">Insights &amp; Playbooks</h1>
           <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-            Practical guides on intake optimization, AI automation, and performance marketing — written by practitioners, not content mills.
+            Practical guides on intake optimization, AI automation, and performance marketing, written by people who run these systems for clients.
           </p>
         </div>
       </section>

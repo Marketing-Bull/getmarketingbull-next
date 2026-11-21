@@ -17,7 +17,7 @@ const TEAM = [
     name: 'Alexander M. Babenchuk',
     role: 'Founder · Strategy, client relationships, copy',
     photo: '/alex.webp',
-    bio: 'Alex has spent more than a decade building growth systems for personal injury firms and medical practices — from a referral brand launched into the New York market with billboards, radio, and a call center, to single-location clinics that needed a front door. He runs every engagement personally.',
+    bio: 'Alex has spent more than a decade building growth systems for personal injury firms and medical practices, from a referral brand launched into the New York market with billboards, radio, and a call center, to single-location clinics that needed a front door. He runs every engagement personally.',
   },
   {
     name: 'Oleg M. Babenchuk',
@@ -62,9 +62,9 @@ export default function AboutPage() {
             <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900">We kept asking what happened after the click.</h2>
           </div>
           <div className="lg:col-span-8 space-y-5 text-lg text-slate-700 leading-relaxed">
-            <p>Marketing Bull started as a conventional agency — websites, search, paid media — for whoever asked. The clients who got the best results had two things in common: they were law firms or medical practices, and the work that moved their numbers was rarely the ad. It was the site that finally loaded, the phone that finally got answered, the content that finally showed up when a prospect searched.</p>
+            <p>Marketing Bull started as a conventional agency, selling websites, search, and paid media to whoever asked. The clients who got the best results had two things in common: they were law firms or medical practices, and the work that moved their numbers was rarely the ad. It was the site that finally loaded, the phone that finally got answered, the content that finally showed up when a prospect searched.</p>
             <p>So we narrowed. Two verticals, where we know the regulations and the patient or client behavior cold. {offerCountWord(true)} fixed-scope engagements, each built around one of the places a case or patient is won or lost. And a consulting posture: diagnose first, build what the diagnosis calls for, and stay accountable for the outcome.</p>
-            <p>The work we are proudest of is in the <Link href="/case-studies" className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-red-600">case studies</Link> — with only the numbers the client reported.</p>
+            <p>The work we are proudest of is in the <Link href="/case-studies" className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-red-600">case studies</Link>, with only the numbers the client reported.</p>
           </div>
         </div>
       </section>
@@ -112,7 +112,7 @@ export default function AboutPage() {
 
       <CTASection
         title="Start with a conversation."
-        description="Twenty minutes about your firm or practice. We'll tell you where we'd look first — and whether we're the right people to look."
+        description="Twenty minutes about your firm or practice. We'll tell you where we'd look first, and whether we're the right people to look."
         primaryCTA={{ text: 'Book a conversation', href: '/free-consultation' }}
         secondaryCTA={{ text: 'See the engagements', href: '/engagements' }}
       />

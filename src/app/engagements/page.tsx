@@ -14,8 +14,8 @@ export const metadata: Metadata = pageMeta({
 });
 
 const FAQS = [
-  { q: 'What does an engagement cost?', a: 'It depends on the size of the firm and the shape of the work, so we quote it rather than publish a list. You get the scope and the fee in writing within a business day of the first call — no three-session discovery process before anyone names a figure — and neither moves once we start.' },
-  { q: 'Can I buy more than one?', a: 'Yes, and they\'re built to stack: the website gets you found, ads and content get you called, the audit makes sure those calls get signed. Start with the audit if you\'re not sure where the leak is — it\'s credited toward anything else within 60 days.' },
+  { q: 'What does an engagement cost?', a: 'It depends on the size of the firm and the shape of the work, so we quote it rather than publish a list. You get the scope and the fee in writing within a business day of the first call, with no three-session discovery process before anyone names a figure. Neither moves once we start.' },
+  { q: 'Can I buy more than one?', a: 'Yes, and they\'re built to stack: the website gets you found, ads and content get you called, the audit makes sure those calls get signed. Start with the audit if you\'re not sure where the leak is. It\'s credited toward anything else within 60 days.' },
   { q: 'Do you require a long contract?', a: 'The website and audit are one-time engagements. Lead generation and the content engine each have a 3-month minimum because anything shorter can\'t show you a real trend, then they\'re month-to-month with 30 days notice.' },
   { q: 'What if I\'m outside Florida?', a: 'Everything is delivered remotely and we work with firms nationwide. Florida firms get the benefit of our Florida Bar advertising-rule familiarity; elsewhere, you\'ll want your own compliance review on marketing copy.' },
   { q: 'Who actually does the work?', a: 'A small senior team. There is no account-manager layer; the people you meet on the first call are the people who build your engagement, and you will know their names on day one.' },
@@ -36,7 +36,7 @@ export default function EngagementsPage() {
             Fixed scope. Fixed date. No long-term contracts.
           </h1>
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            Four ways we work, each with a defined deliverable and a delivery date. The fee is scoped to your firm and agreed in writing before anything begins — and it does not move once it has.
+            Four ways we work, each with a defined deliverable and a delivery date. The fee is scoped to your firm and agreed in writing before anything begins, and it does not move once it has.
           </p>
         </div>
       </section>
@@ -50,7 +50,7 @@ export default function EngagementsPage() {
             ))}
           </div>
           <p className="mt-8 text-center text-sm text-slate-500">
-            Not sure where to start? <Link href="/free-consultation" className="font-semibold text-red-600 hover:underline">Start with a conversation</Link> — we&apos;ll tell you which engagement fits, what it costs, and which you don&apos;t need.
+            Not sure where to start? <Link href="/free-consultation" className="font-semibold text-red-600 hover:underline">Book a 20-minute call</Link> and we&apos;ll tell you which engagement fits, what it costs, and which you don&apos;t need.
           </p>
         </div>
       </section>
@@ -74,7 +74,7 @@ export default function EngagementsPage() {
 
       <CTASection
         title="Want the number for your firm?"
-        description="Call 1-833-GET-BULL or book twenty minutes. We'll scope it on the call and tell you which engagement fits — or that none of them do."
+        description="Call 1-833-GET-BULL or book twenty minutes. We'll scope it on the call and tell you which engagement fits, or that none of them do."
         primaryCTA={{ text: 'Book a 20-minute call', href: '/free-consultation' }}
         secondaryCTA={{ text: 'Call 1-833-GET-BULL', href: `tel:${COMPANY.phoneE164}` }}
       />

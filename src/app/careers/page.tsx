@@ -18,7 +18,7 @@ export default function CareersPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-6">Careers</p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight mb-6 leading-[1.05]">A small team, by design.</h1>
           <p className="text-lg md:text-xl text-slate-400 leading-relaxed">
-            There are no open roles at the moment. When we grow, it&apos;s deliberately — one person who is unusually good at one thing we need.
+            There are no open roles at the moment. When we grow, we hire one person at a time who is unusually good at one thing we need.
           </p>
         </div>
       </section>
@@ -27,7 +27,7 @@ export default function CareersPage() {
         <div className="container-md max-w-3xl">
           <h2 className="text-2xl font-black tracking-tight text-slate-900 mb-4">If that might be you</h2>
           <p className="text-slate-700 leading-relaxed mb-4">
-            We work only with law firms and medical practices, so the people we hire tend to have already done something notable in one of those worlds — intake operations, legal or healthcare content, paid search for regulated verticals, or engineering on modern web stacks.
+            We work only with law firms and medical practices, so the people we hire tend to have already done something notable in one of those areas: intake operations, legal or healthcare content, paid search for regulated verticals, or engineering on modern web stacks.
           </p>
           <p className="text-slate-700 leading-relaxed mb-8">
             Send a short note to <a href={`mailto:${COMPANY.email}`} className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-red-600">{COMPANY.email}</a> with what you&apos;ve built and a link to it. We read all of them and reply to the ones that fit.

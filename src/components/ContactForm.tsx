@@ -7,7 +7,7 @@ import { COMPANY, SMS_CONSENT_LABEL } from '@/lib/constants';
 import Button from './Button';
 import Turnstile, { TURNSTILE_SITE_KEY } from './Turnstile';
 
-const FALLBACK_ERROR = `Sorry — that didn't go through. Please call ${COMPANY.phone} (${COMPANY.phoneFormatted}) or email ${COMPANY.email}.`;
+const FALLBACK_ERROR = `Sorry, that didn't go through. Please call ${COMPANY.phone} (${COMPANY.phoneFormatted}) or email ${COMPANY.email}.`;
 
 interface ContactFormProps {
   /** Optional product name, pre-filled and sent with the lead. */

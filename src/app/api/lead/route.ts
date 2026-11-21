@@ -77,7 +77,7 @@ const RATE_WINDOW_MS = 10 * 60_000;
 const RATE_MAX = 5;
 const hits = new Map<string, number[]>();
 
-const FAIL_MESSAGE = `Sorry — that didn't go through. Please call ${COMPANY.phone} (${COMPANY.phoneFormatted}) or email ${COMPANY.email}.`;
+const FAIL_MESSAGE = `Sorry, that didn't go through. Please call ${COMPANY.phone} (${COMPANY.phoneFormatted}) or email ${COMPANY.email}.`;
 
 function rateLimited(ip: string): boolean {
   const now = Date.now();

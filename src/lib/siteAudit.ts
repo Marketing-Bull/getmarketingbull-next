@@ -247,7 +247,7 @@ export function auditSite(input: AuditInput): AuditResult {
         title: 'AI assistants are blocked from reading the site',
         evidence: `robots.txt disallows ${blocked.join(', ')}.`,
         why: 'When someone asks ChatGPT, Claude or Perplexity for a lawyer or doctor nearby, these crawlers decide which sites they can cite.',
-        fix: `In /robots.txt, allow ${blocked.join(', ')} to crawl the public pages (remove their "Disallow: /" rules), unless the owner has decided to opt out of AI search on purpose — ask before changing it.`,
+        fix: `In /robots.txt, allow ${blocked.join(', ')} to crawl the public pages (remove their "Disallow: /" rules), unless the owner has decided to opt out of AI search on purpose. Ask before changing it.`,
       });
     } else passed.push('Search engines and AI crawlers may crawl the site');
   }
@@ -461,7 +461,7 @@ export function auditSite(input: AuditInput): AuditResult {
         title: 'Placeholder text is live on the site',
         evidence: `Found ${placeholders.join(', ')}.`,
         why: 'Nothing loses a prospective client\'s trust faster than template filler on a law firm or medical site.',
-        fix: `Find and replace every placeholder (${placeholders.join(', ')}) with the real business details. Ask me for anything you don't know — never make up names, addresses, phone numbers, reviews or results.`,
+        fix: `Find and replace every placeholder (${placeholders.join(', ')}) with the real business details. Ask me for anything you don't know. Never make up names, addresses, phone numbers, reviews or results.`,
       });
     } else passed.push('No placeholder text');
 
@@ -486,7 +486,7 @@ export function auditSite(input: AuditInput): AuditResult {
       severity: 'medium',
       title: 'No structured data for search engines',
       evidence: 'No JSON-LD (schema.org) markup was found.',
-      why: 'Structured data tells Google and AI assistants your business type, address, phone, hours and service area — the facts they quote back to searchers.',
+      why: 'Structured data tells Google and AI assistants your business type, address, phone, hours and service area, the facts they quote back to searchers.',
       fix: 'Add JSON-LD to the homepage for the business: type LegalService (law firm) or MedicalClinic/Physician/Dentist (medical), with name, url, logo, telephone, address, geo, openingHoursSpecification, areaServed and sameAs (Google Business Profile, social profiles). Ask me for any details you don\'t have. Only mark up what is visible on the page.',
     });
   } else if (!businessType) {

@@ -23,7 +23,7 @@ import Turnstile, { TURNSTILE_SITE_KEY } from './Turnstile';
 const SOURCE = 'ai-website-audit';
 const FORM_NAME = 'ai_website_audit';
 const UNLOCK_KEY = 'mb-ai-audit-unlocked';
-const FALLBACK_ERROR = `Sorry — that didn't go through. Please call ${COMPANY.phone} (${COMPANY.phoneFormatted}) or email ${COMPANY.email}.`;
+const FALLBACK_ERROR = `Sorry, that didn't go through. Please call ${COMPANY.phone} (${COMPANY.phoneFormatted}) or email ${COMPANY.email}.`;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ATTRIBUTION_PARAMS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid', 'li_fat_id'];
 

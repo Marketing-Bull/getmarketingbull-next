@@ -18,7 +18,7 @@ export default function ContactPage() {
           <p className="text-blue-300 font-semibold text-sm uppercase tracking-widest mb-4">Get in Touch</p>
           <h1 className="text-5xl font-bold mb-6">Let&apos;s Talk</h1>
           <p className="text-xl text-slate-300 leading-relaxed">
-            Whether you&apos;re ready to start or just exploring — we respond within one business day.
+            Ready to start or still deciding, you&apos;ll hear back within one business day.
           </p>
         </div>
       </section>

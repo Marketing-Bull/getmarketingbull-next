@@ -5,7 +5,7 @@ import { pageMeta } from '@/lib/metadata';
 export const metadata: Metadata = pageMeta({
   path: '/terms-of-service',
   title: 'Terms of Service',
-  description: 'Marketing Bull terms of service — the terms governing use of our website and services.',
+  description: 'Marketing Bull terms of service: the terms governing use of our website and services.',
 });
 
 const SECTIONS = [

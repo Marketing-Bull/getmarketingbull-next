@@ -19,7 +19,7 @@ export const consultationMetadata: Metadata = pageMeta({
 const WHAT_TO_EXPECT = [
   { step: '01', title: 'Where the leak is', desc: 'Five minutes on where you\'re losing cases or patients today: search, the site, or the phone.' },
   { step: '02', title: 'Which engagement, if any', desc: 'We match it to one of four fixed-scope engagements. If none fits, we say so and point you somewhere useful.' },
-  { step: '03', title: 'No surprises afterward', desc: 'You leave the call with the scope, the deliverable, and the fee — in writing, before anything begins. Nothing moves after that.' },
+  { step: '03', title: 'No surprises afterward', desc: 'You leave the call with the scope, the deliverable, and the fee in writing before anything begins. Nothing moves after that.' },
 ];
 
 export default function ConsultationPage({ offer, source }: { offer?: Offer; source: string }) {
@@ -37,7 +37,7 @@ export default function ConsultationPage({ offer, source }: { offer?: Offer; sou
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
             {offer
               ? `${offer.timeline}. Tell us about your firm and we'll scope it, price it, and confirm it's the right fit before anything begins.`
-              : 'Where you are, what has been tried, and where we would look first. We will say plainly whether we are the right fit — and if not, where to go instead.'}
+              : 'Where you are, what has been tried, and where we would look first. We will say plainly whether we are the right fit, and if not, where to go instead.'}
           </p>
         </div>
       </section>

@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!offer) return {};
   return pageMeta({
     path: `/products/${offer.slug}`,
-    title: `${offer.name} — ${offer.step}`,
+    title: `${offer.name}: ${offer.step}`,
     description: offer.metaDescription ?? offer.short,
     ownOgImage: true,
   });
@@ -196,7 +196,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <div>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">Ready?</h2>
             <p className="text-lg text-slate-400 leading-relaxed mb-8">
-              {offer.timeline}. Fixed scope, fixed deliverable, and a fee agreed in writing before day one — so you know exactly what you get.
+              {offer.timeline}. Fixed scope, fixed deliverable, and a fee agreed in writing before day one, so you know exactly what you get.
             </p>
             <OfferCTA offer={offer} size="lg" />
             <div className="mt-12 border-t border-slate-800 pt-8">
