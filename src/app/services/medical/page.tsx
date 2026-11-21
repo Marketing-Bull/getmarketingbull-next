@@ -19,17 +19,17 @@ export default function MedicalPage() {
       problem={[
         'Most practices we meet have strong clinical outcomes and a marketing engine that does not reflect it. The website is dated or slow, there is no online booking, the Google Business Profile has a handful of old reviews, and nobody is writing the content that would make an unfamiliar treatment feel credible to someone searching at 10 pm.',
         'Meanwhile the patient is comparing you to whoever appeared first in Maps, whoever ChatGPT named, and whoever let them book without calling. Clinical quality never enters the decision if the front door is closed.',
-        'We find which of the four is costing you patients, build the fix inside infrastructure the practice owns, and stay accountable for the schedule — not the impressions. Everything we build respects HIPAA boundaries; we never touch PHI, and we say so in writing.',
+        'We find which of the four is costing you patients, build the fix inside infrastructure the practice owns, and stay accountable for the schedule, not the impressions. Everything we build respects HIPAA boundaries; we never touch PHI, and we say so in writing.',
       ]}
       lenses={[
-        { label: 'Found', question: 'When someone searches your specialty near them, does your site earn the booking?', body: 'A conversion-built site with online scheduling, service pages, reviews surfaced, and local schema — live in fourteen days, owned by the practice.', offer: 'website-in-14-days' },
+        { label: 'Found', question: 'When someone searches your specialty near them, does your site earn the booking?', body: 'A conversion-built site with online scheduling, service pages, reviews surfaced, and local schema, live in fourteen days and owned by the practice.', offer: 'website-in-14-days' },
         { label: 'In front', question: 'When someone searches your specialty today, whose ad do they see first?', body: 'Paid search puts you in front of people already looking, and paid social reaches the ones who would never think to search for the procedure. Campaigns land on pages built to book rather than a homepage, and no tracking pixel goes anywhere behind a patient login.', offer: 'lead-generation' },
         { label: 'Called', question: 'When they ask Google or an AI who is good, is your practice in the answer?', body: 'Weekly, physician-reviewed content built to rank in search and be cited by AI engines, plus Google Business Profile posts, with monthly reporting.', offer: 'ai-content-engine' },
         { label: 'Booked', question: 'When they call, does the front desk convert?', body: 'Two scored mystery-shop calls, a full front-desk and booking audit, and an ROI report on the patients lost between the call and the calendar.', offer: 'intake-gap-audit' },
       ]}
       weKnow={[
         'HIPAA boundaries in marketing: what a website, a review request, or a recall message may and may not contain.',
-        'Specialty acquisition where the patient has never heard of the treatment — hyperbaric, regenerative, functional — and credibility has to be built before the call.',
+        'Specialty acquisition where the patient has never heard of the treatment, such as hyperbaric, regenerative, or functional medicine, and credibility has to be built before the call.',
         'Google Business Profile and Maps as the primary front door for local medical search.',
         'Online scheduling and EHR-adjacent booking integrations, without touching PHI.',
         'Review generation that stays inside platform rules and patient-consent norms.',

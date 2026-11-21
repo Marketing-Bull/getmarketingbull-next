@@ -17,29 +17,29 @@ export default function LawFirmsPage() {
       subtitle="We work with personal injury and plaintiff firms on the four places a case is won or lost before an attorney ever sees it: search, paid placement, the website, and the first phone call."
       problemTitle="The case is decided before the consult."
       problem={[
-        'A personal injury prospect does not comparison-shop the way someone buying a car does. They are hurt, stressed, and often frightened, and they call several firms in quick succession. The firm that answers first, sounds competent, and captures their information usually signs the case. Reputation matters — but only among the firms that picked up.',
+        'A personal injury prospect does not comparison-shop the way someone buying a car does. They are hurt, stressed, and often frightened, and they call several firms in quick succession. The firm that answers first, sounds competent, and captures their information usually signs the case. Reputation matters, but only among the firms that picked up.',
         'That means most firms are not losing on legal quality. They are losing on a slow website, a Google or AI answer that names someone else, or a front desk that sends a new lead to voicemail at 5:01 pm. Those are operational problems, and they are fixable in weeks, not years.',
-        'Our job is to find which of the four is costing you cases, put a dollar figure on it, and build the fix — inside Florida Bar advertising rules and inside infrastructure your firm owns.',
+        'Our job is to find which of the four is costing you cases, put a dollar figure on it, and build the fix inside Florida Bar advertising rules and inside infrastructure your firm owns.',
       ]}
       lenses={[
-        { label: 'Found', question: 'When someone searches, does your site earn the call?', body: 'A conversion-built site on a modern stack, with practice-area pages, click-to-call, and local schema — live in fourteen days, owned by the firm.', offer: 'website-in-14-days' },
-        { label: 'In front', question: 'When someone searches for a lawyer today, who is paying to sit above you?', body: 'Personal injury keywords are among the most expensive in advertising, so the win is not outspending the firm with the largest budget — it is not wasting. Campaigns, landing pages and call tracking run as one system, with ad copy reviewed against Florida Bar advertising rules, so you can see which keyword produced a signed case.', offer: 'lead-generation' },
+        { label: 'Found', question: 'When someone searches, does your site earn the call?', body: 'A conversion-built site on a modern stack, with practice-area pages, click-to-call, and local schema, live in fourteen days and owned by the firm.', offer: 'website-in-14-days' },
+        { label: 'In front', question: 'When someone searches for a lawyer today, who is paying to sit above you?', body: 'Personal injury keywords are among the most expensive in advertising, so you win by wasting less, because outspending the firm with the largest budget is rarely possible. Campaigns, landing pages and call tracking run as one system, with ad copy reviewed against Florida Bar advertising rules, so you can see which keyword produced a signed case.', offer: 'lead-generation' },
         { label: 'Called', question: 'When they ask Google or ChatGPT "best PI lawyer near me," is your firm in the answer?', body: 'Weekly, attorney-reviewed content built to rank in search and be cited by AI engines, with monthly reporting on both.', offer: 'ai-content-engine' },
         { label: 'Signed', question: 'When they call, what actually happens?', body: 'Two scored mystery-shop calls, a full intake audit, and an ROI report on the cases slipping through the front desk.', offer: 'intake-gap-audit' },
       ]}
       weKnow={[
-        'Florida Bar Rule 4-7 advertising requirements — what can be claimed, what needs a disclaimer, and what gets a letter.',
+        'Florida Bar Rule 4-7 advertising requirements: what can be claimed, what needs a disclaimer, and what gets a letter.',
         'How PI intake actually works: speed-to-lead, after-hours coverage, qualification, and follow-up cadence.',
-        'Case management and CRM platforms firms run on — Litify, Clio, Filevine, Lawmatics, and the phone systems that feed them.',
+        'The case management and CRM platforms firms run on, including Litify, Clio, Filevine, Lawmatics, and the phone systems that feed them.',
         'Spanish-language and multilingual acquisition in South Florida and New York markets.',
-        'Cost per signed case, not cost per click — the attribution that makes a marketing budget defensible to a partner.',
+        'Cost per signed case instead of cost per click, the attribution that makes a marketing budget defensible to a partner.',
         'What a slip-and-fall prospect does at nine on a Saturday night, and who they call next when nobody answers.',
       ]}
       faqs={[
-        { q: 'We already have a marketing agency. Why would we need this?', a: 'Most agencies are paid to generate leads, not to sign them. If your leads are arriving and your signed-case count is not moving, the leak is downstream of the agency — usually intake — and the audit will show you exactly where. We are happy to work alongside an existing agency.' },
+        { q: 'We already have a marketing agency. Why would we need this?', a: 'Most agencies are paid to generate leads, not to sign them. If your leads are arriving and your signed-case count is not moving, the leak is downstream of the agency, usually at intake, and the audit will show you exactly where. We are happy to work alongside an existing agency.' },
         { q: 'Do you work with firms outside Florida?', a: 'Yes. Everything is delivered remotely and we have worked with firms in New York and elsewhere. Florida firms get the benefit of our familiarity with Florida Bar rules; outside Florida, you will want your own compliance review on marketing copy.' },
-        { q: 'What size firm is this for?', a: 'Firms already spending on lead generation who suspect they are not converting it — typically two to fifteen attorneys. Solo practitioners get the most out of the website and the audit; larger firms tend to start with the content engine.' },
-        { q: 'Will you run our Google Ads?', a: 'Yes — that is our Lead Generation engagement. We build and manage your Google Ads (and Meta, where your market responds to it) end to end, along with the landing pages the ads send people to and call tracking that ties each phone lead to the campaign and keyword behind it. Ad copy is reviewed against Florida Bar advertising rules. It runs monthly with a 3-month minimum, and your ad spend is paid directly to Google and Meta, never through us, in accounts that stay in your name. The full scope is on the Lead Generation page.' },
+        { q: 'What size firm is this for?', a: 'Firms already spending on lead generation who suspect they are not converting it, typically with two to fifteen attorneys. Solo practitioners get the most out of the website and the audit; larger firms tend to start with the content engine.' },
+        { q: 'Will you run our Google Ads?', a: 'Yes. That is our Lead Generation engagement. We build and manage your Google Ads (and Meta, where your market responds to it) end to end, along with the landing pages the ads send people to and call tracking that ties each phone lead to the campaign and keyword behind it. Ad copy is reviewed against Florida Bar advertising rules. It runs monthly with a 3-month minimum, and your ad spend is paid directly to Google and Meta, never through us, in accounts that stay in your name. The full scope is on the Lead Generation page.' },
       ]}
       caseStudySlugs={['1-800-hurt-511']}
       testimonialNames={['Todd D. Muhlstock, Esq.', 'Isak Yuhan', 'Laura Cole, Esq.']}
