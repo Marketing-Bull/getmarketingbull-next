@@ -122,13 +122,13 @@ export default function HomePage() {
               Growth consultancy · Law firms &amp; medical practices
             </p>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-black tracking-tight leading-[1.02] mb-8">
-              Growth, engineered for the firms that can&apos;t afford to guess.
+              Your next client is calling three firms. We make sure yours answers.
             </h1>
             <p className="text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed mb-10">
               Marketing Bull is a senior consultancy in West Palm Beach. We find where a firm is losing cases or patients, build the system that fixes it, and stay accountable for the number it was meant to move.
             </p>
             <div className="flex flex-row flex-wrap gap-3">
-              <Button variant="primary" size="lg" href="/free-consultation">Start a conversation</Button>
+              <Button variant="primary" size="lg" href="/free-consultation">Book a 20-minute call</Button>
               <Button variant="secondary" size="lg" href="/pi-intake-scorecard">Score your intake (free)</Button>
             </div>
             <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm">
