@@ -729,6 +729,9 @@ export function auditSite(input: AuditInput): AuditResult {
     const mine = findings.filter((f) => (FINDING_CATEGORIES[f.id] ?? []).includes(name));
     // Speed is Google's own number when we have it, and unknown when PageSpeed did not answer.
     if (name === 'Speed') return { name, score: input.speed ? input.speed.score : null, issues: mine.length };
+    // On a client-rendered page the phone link, placeholder and image checks are skipped (the content
+    // is not in the HTML), so this category has nothing to stand on. Unknown, never a passing score.
+    if (name === 'Turns visitors into calls' && clientRendered) return { name, score: null, issues: mine.length };
     // Fewer checks feed a category than the whole score, so each counts double. A critical finding
     // (no readable text, a leaked key, no HTTPS) means the job is not being done: cap it at 20.
     const raw = Math.max(0, 100 - mine.reduce((s, f) => s + PENALTY[f.severity] * 2, 0));
