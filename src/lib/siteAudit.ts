@@ -100,6 +100,8 @@ export interface AuditResult {
   skipped: string[];
   categories: CategoryScore[];
   preview: Preview;
+  /** Guessed from the address, title, description and page text. Picks the rules in the fix prompt. */
+  industry: Industry;
 }
 
 /** Which categories each finding counts against. A page crawlers can't read hurts on Google and in AI answers alike. */
@@ -207,12 +209,12 @@ const PLATFORMS: [string, RegExp][] = [
 
 // ── tiny HTML helpers ────────────────────────────────────────────────────────
 
-const ENTITIES: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", '#39': "'", '#039': "'", nbsp: ' ' };
+const ENTITIES: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", '#39': "'", '#039': "'", '#x27': "'", nbsp: ' ' };
 
 /** Decodes the common entities in one pass, so "&amp;lt;" stays "&lt;" (no double unescaping). */
 function decode(s: string): string {
   return s
-    .replace(/&(amp|lt|gt|quot|apos|#0?39|nbsp);/g, (_, e: string) => ENTITIES[e])
+    .replace(/&(amp|lt|gt|quot|apos|#0?39|#x27|nbsp);/g, (_, e: string) => ENTITIES[e])
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -756,6 +758,7 @@ export function auditSite(input: AuditInput): AuditResult {
     score,
     grade,
     clientRendered,
+    industry: detectIndustry(`${host(finalUrl)} ${title} ${description ?? ''} ${text.slice(0, 4000)}`),
     findings,
     passed,
     skipped,
@@ -768,6 +771,22 @@ export function auditSite(input: AuditInput): AuditResult {
 
 export const INDUSTRIES = ['Law firm', 'Medical practice', 'Other'] as const;
 export type Industry = (typeof INDUSTRIES)[number];
+
+const LAW_WORDS = /\b(law|lawyers?|attorneys?|legal|esq|abogad[oa]s?|injury|litigation|paralegal|counsel)\b|law(firm|yers?|group|office)|legal/gi;
+const MEDICAL_WORDS = /\b(medical|clinic|doctors?|dr|dental|dentists?|physicians?|patients?|chiropract\w*|surgery|surgeons?|orthop\w*|dermatolog\w*|pediatric\w*|med ?spa|therapy|health ?care|md|dds|dmd)\b|dental|clinic|medical|ortho|derm/gi;
+
+/**
+ * Law firm, medical practice or neither, from the words on the page and in the address. The
+ * visitor is not asked; they can change it above the prompt if the guess is wrong.
+ */
+export function detectIndustry(text: string): Industry {
+  const law = (text.match(LAW_WORDS) ?? []).length;
+  const medical = (text.match(MEDICAL_WORDS) ?? []).length;
+  // A page that talks about both about equally (an agency, a directory) gets no industry rules.
+  if (law > medical * 1.5) return 'Law firm';
+  if (medical > law * 1.5) return 'Medical practice';
+  return 'Other';
+}
 
 const INDUSTRY_RULES: Record<Industry, string[]> = {
   'Law firm': [
@@ -820,4 +839,45 @@ export function auditSummary(result: AuditResult): string {
     counts ? `Issues: ${counts}.` : 'No issues found.',
     ...result.findings.map((f) => `- [${f.severity}] ${f.title}`),
   ].join('\n');
+}
+
+/**
+ * The finished audit as one Markdown document: scores, what a crawler received, the Google
+ * listing, every finding with its fix, and what passed. The visitor can download it, and it is
+ * saved on the GHL contact when they unlock the prompt or ask us to finish the site.
+ */
+export function buildAuditReport(result: AuditResult): string {
+  const p = result.preview;
+  const lines: string[] = [
+    `# AI Website Audit: ${p.host}`,
+    '',
+    `Audited ${result.auditedAt.slice(0, 10)} by Marketing Bull. Page checked: ${result.finalUrl}`,
+    '',
+    `Score: ${result.score}/100 (grade ${result.grade})`,
+    `Type of business: ${result.industry}`,
+    ...(result.platform ? [`Built with: ${result.platform}`] : []),
+    '',
+    '## Score by job',
+    ...result.categories.map((c) => `- ${c.name}: ${c.score === null ? 'not checked' : `${c.score}/100`}${c.issues ? ` (${c.issues} issue${c.issues === 1 ? '' : 's'})` : ''}`),
+    '',
+    '## What a crawler received',
+    `${p.crawlerWords} word${p.crawlerWords === 1 ? '' : 's'} before any JavaScript runs.${result.clientRendered ? ' The page is drawn in the browser, so a crawler that does not run JavaScript gets only this.' : ''}`,
+    '',
+    p.crawlerText ? `> ${p.crawlerText}` : '> (no text)',
+    '',
+    '## Google listing',
+    `- Title: ${p.title || '(none)'}`,
+    `- Description: ${p.description || '(none)'}`,
+    '',
+    `## ${result.findings.length} thing${result.findings.length === 1 ? '' : 's'} to fix`,
+    '',
+  ];
+  result.findings.forEach((f, i) => {
+    lines.push(`### ${i + 1}. [${f.severity.toUpperCase()}] ${f.title}`, `Found: ${f.evidence}`, `Why it matters: ${f.why}`, `Fix: ${f.fix}`, '');
+  });
+  if (result.findings.length === 0) lines.push('No problems found.', '');
+  if (result.skipped.length) lines.push('## Not checked', ...result.skipped.map((x) => `- ${x}`), '');
+  if (result.passed.length) lines.push(`## ${result.passed.length} checks passed`, ...result.passed.map((x) => `- ${x}`), '');
+  lines.push('Run it again after your fixes: https://getmarketingbull.com/ai-website-audit');
+  return lines.join('\n');
 }
