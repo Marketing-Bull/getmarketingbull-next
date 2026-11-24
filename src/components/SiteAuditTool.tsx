@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { track } from '@/lib/analytics';
 import { reportLeadConversion } from '@/lib/conversions';
-import { COMPANY } from '@/lib/constants';
+import { AUDIT_FINISH_PRODUCT, COMPANY } from '@/lib/constants';
 import { INDUSTRIES, SEVERITY_ORDER, auditSummary, buildFixPrompt, type AuditResult, type Industry, type Severity } from '@/lib/siteAudit';
 import Button from './Button';
 import Turnstile, { TURNSTILE_SITE_KEY } from './Turnstile';
@@ -502,7 +502,7 @@ function UnlockForm({ result, industry, onIndustry, onUnlocked }: { result: Audi
   );
 }
 
-const FINISH_PRODUCT = 'Finish my AI-built site';
+const FINISH_PRODUCT = AUDIT_FINISH_PRODUCT;
 const FINISH_STEPS = [
   { title: 'Finish', body: 'We fix everything in this report in your builder or your code, and replace the placeholder text with your real details.' },
   { title: 'Secure', body: 'We remove exposed keys and tell you which ones to rotate, lock down open data and forms, and add the security headers.' },
