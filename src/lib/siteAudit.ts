@@ -35,6 +35,29 @@ export interface AuditInput {
   /** /sitemap.xml (or the Sitemap: in robots.txt) returned real XML. */
   sitemapFound: boolean;
   llmsTxtFound: boolean;
+  /** Secret keys found in the page and its same-origin scripts (previews only, never full values). */
+  secrets?: SecretHit[];
+  /** How many of the page's own scripts were scanned for keys. */
+  scriptsScanned?: number;
+  /** How many of them could not be loaded, so were not checked. */
+  scriptsFailed?: number;
+  /** Mobile PageSpeed result; null when PageSpeed was asked and did not answer in time. */
+  speed?: Speed | null;
+}
+
+export interface SecretHit {
+  label: string;
+  /** Where it was found: "the page HTML" or a script path. */
+  where: string;
+  /** The first 7 characters and an ellipsis. Never the full key. */
+  preview: string;
+}
+
+export interface Speed {
+  score: number;
+  lcp: string;
+  tbt: string;
+  cls: string;
 }
 
 export interface AuditResult {
@@ -58,6 +81,50 @@ const PENALTY: Record<Severity, number> = { critical: 25, high: 10, medium: 5, l
 
 /** Builders whose output is a Vite + React single-page app unless the owner changed it. */
 const VITE_SPA_BUILDERS = new Set(['Lovable', 'Bolt', 'Base44', 'Replit', 'Vite + React']);
+
+// ── secret keys ──────────────────────────────────────────────────────────────
+
+/**
+ * Server-side keys that must never reach a browser. Publishable keys (Stripe pk_, Supabase anon) are
+ * left alone, and so are Google AIza… keys: Gemini, Firebase and Maps keys share that format and the
+ * last two belong in the browser, so a match proves nothing.
+ */
+const SECRET_PATTERNS: { label: string; re: RegExp }[] = [
+  { label: 'Anthropic API key', re: /sk-ant-[A-Za-z0-9_-]{20,}/g },
+  { label: 'OpenAI API key', re: /sk-(?:proj-)?[A-Za-z0-9_-]{32,}/g },
+  { label: 'Stripe secret key', re: /(?:sk|rk)_live_[A-Za-z0-9]{20,}/g },
+  { label: 'AWS access key', re: /AKIA[0-9A-Z]{16}/g },
+  { label: 'GitHub token', re: /gh[pousr]_[A-Za-z0-9]{36,}/g },
+  { label: 'Resend API key', re: /re_[A-Za-z0-9]{8}_[A-Za-z0-9]{20,}/g },
+];
+const JWT = /eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}/g;
+
+function isServiceRole(jwt: string): boolean {
+  try {
+    const part = jwt.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    return (JSON.parse(atob(part.padEnd(Math.ceil(part.length / 4) * 4, '='))) as { role?: string }).role === 'service_role';
+  } catch {
+    return false;
+  }
+}
+
+const preview = (key: string) => `${key.slice(0, 7)}…`;
+
+/** Finds server-side keys in `text`. Returns previews only. */
+export function scanSecrets(text: string, where: string): SecretHit[] {
+  const hits: SecretHit[] = [];
+  for (const { label, re } of SECRET_PATTERNS) for (const m of text.match(re) ?? []) hits.push({ label, where, preview: preview(m) });
+  for (const m of text.match(JWT) ?? []) if (isServiceRole(m)) hits.push({ label: 'Supabase service_role key', where, preview: preview(m) });
+  const seen = new Set<string>();
+  return hits.filter((h) => (seen.has(h.label + h.preview) ? false : (seen.add(h.label + h.preview), true)));
+}
+
+/** Replaces any secret-shaped value with its preview, so no finding or prompt can carry a full key. */
+export function redactSecrets(text: string): string {
+  let out = text;
+  for (const { re } of SECRET_PATTERNS) out = out.replace(re, (m) => `${preview(m)}[redacted]`);
+  return out.replace(JWT, (m) => (isServiceRole(m) ? `${preview(m)}[redacted]` : m));
+}
 
 const PLATFORMS: [string, RegExp][] = [
   ['Lovable', /lovable|gptengineer|gpteng\.co/i],
@@ -545,6 +612,52 @@ export function auditSite(input: AuditInput): AuditResult {
       why: 'Browsers block or warn about insecure files on a secure page, which can break images and forms.',
       fix: 'Change every http:// asset URL (images, scripts, stylesheets, iframes) to https:// or a relative path.',
     });
+  }
+
+  // 15. Secret keys anyone can read in the page or its scripts
+  if (input.secrets?.length) {
+    const list = input.secrets.map((h) => `${h.label} (${h.preview}) in ${h.where}`).join('; ');
+    add({
+      id: 'exposed-keys',
+      severity: 'critical',
+      title: 'Secret API keys are visible to anyone',
+      evidence: `Found in the site's public code: ${list}.`,
+      why: 'Anyone can copy these keys from the browser and run up charges, read your data or send email as you. Bots scan new sites for them within hours.',
+      fix: 'Do this first. Revoke and reissue every key listed above in that provider\'s dashboard; the old ones are compromised. Then move every call that uses a secret key into a server-side function (an API route, edge function or Supabase Edge Function) that reads the key from a server environment variable. The browser may only hold publishable keys (Stripe pk_, the Supabase anon key). Check: search the built JavaScript for the key prefixes and find nothing.',
+    });
+  } else if (input.secrets) {
+    const n = input.scriptsScanned ?? 0;
+    passed.push(n ? `No secret keys in the page or ${n} of its scripts` : 'No secret keys in the page');
+  }
+  if (input.scriptsFailed) {
+    const n = input.scriptsFailed;
+    skipped.push(`${n} of the site's scripts did not load, so ${n === 1 ? 'it was' : 'they were'} not checked for secret keys.`);
+  }
+
+  // 16. Mobile speed (Google PageSpeed Insights)
+  if (input.speed) {
+    const { score: ps, lcp, tbt, cls } = input.speed;
+    if (ps < 70) {
+      add({
+        id: 'mobile-speed',
+        severity: ps < 50 ? 'high' : 'medium',
+        title: `Slow on phones: PageSpeed ${ps}/100`,
+        evidence: `Google PageSpeed (mobile) scores the page ${ps}/100. Largest Contentful Paint ${lcp}, Total Blocking Time ${tbt}, Cumulative Layout Shift ${cls}.`,
+        why: 'Most people looking for a lawyer or a doctor search on a phone. A slow page loses them before it loads, and Google ranks it lower.',
+        fix: 'Raise the mobile PageSpeed score above 70: serve hero and photo images as WebP or AVIF at the size they display, with width and height set; lazy-load images below the fold; remove unused JavaScript and third-party scripts; preload or self-host the fonts. Re-test at https://pagespeed.web.dev.',
+      });
+    } else passed.push(`Mobile speed: PageSpeed ${ps}/100`);
+  } else if (input.speed === null) {
+    skipped.push('Mobile speed was not checked: Google PageSpeed did not answer in time.');
+  }
+
+  // Page text (title, headings, placeholders) can itself contain a key and is quoted in evidence and
+  // fix text alike; no field of any finding leaves here carrying a full one.
+  for (const f of findings) {
+    f.title = redactSecrets(f.title);
+    f.evidence = redactSecrets(f.evidence);
+    f.why = redactSecrets(f.why);
+    f.fix = redactSecrets(f.fix);
   }
 
   findings.sort((a, b) => SEVERITY_ORDER.indexOf(a.severity) - SEVERITY_ORDER.indexOf(b.severity));
