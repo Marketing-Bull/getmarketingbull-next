@@ -47,7 +47,7 @@ src/
     blog.ts              POSTS (hardcoded)
     portfolio.ts         PORTFOLIO: the client sites on /websites, facts read from each live site (no traffic or rankings)
     resources.ts         RESOURCES: /resources entries; skills are copied from the private claude-skills repo
-    siteAudit.ts         auditSite() checks + buildFixPrompt(): pure, shared by api/site-audit and SiteAuditTool; also returns the five category scores and the preview (crawler text, Google listing, PageSpeed phone screenshot) the report shows
+    siteAudit.ts         auditSite() checks + buildFixPrompt(): pure, shared by api/site-audit and SiteAuditTool; also returns the five category scores and the preview (crawler text, Google listing, PageSpeed phone screenshot) the report shows; detectIndustry() guesses law firm or medical practice from the page (the form does not ask), and buildAuditReport() is the finished audit as Markdown, downloadable and sent to /api/lead as `report`, which saves it as a note on the GHL contact
     appPages.ts          APP_PAGES: /recoup and /keyvault content, read from each app's README and source
 ```
 

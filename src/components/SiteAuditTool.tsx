@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { track } from '@/lib/analytics';
 import { reportLeadConversion } from '@/lib/conversions';
 import { AUDIT_FINISH_PRODUCT, COMPANY } from '@/lib/constants';
-import { INDUSTRIES, SEVERITY_ORDER, auditSummary, buildFixPrompt, type AuditResult, type Industry, type Severity } from '@/lib/siteAudit';
+import { INDUSTRIES, SEVERITY_ORDER, auditSummary, buildAuditReport, buildFixPrompt, type AuditResult, type Industry, type Severity } from '@/lib/siteAudit';
 import Button from './Button';
 import Turnstile, { TURNSTILE_SITE_KEY } from './Turnstile';
 
@@ -18,6 +18,8 @@ import Turnstile, { TURNSTILE_SITE_KEY } from './Turnstile';
  *    sales sees what the visitor saw. On success: GA4 `generate_lead` (form_name ai_website_audit).
  * The gate is a UI gate: the findings are already in the browser. That is fine for a lead magnet.
  * Unlocking is remembered per browser, so a re-audit after fixes isn't gated again.
+ * The form asks for name, email and mobile phone. The type of business is detected by the audit
+ * (result.industry), and the finished report (buildAuditReport) goes with the lead to be saved in GHL.
  */
 
 const SOURCE = 'ai-website-audit';
@@ -52,8 +54,6 @@ export default function SiteAuditTool() {
   useEffect(() => {
     try {
       if (localStorage.getItem(UNLOCK_KEY) === '1') setUnlocked(true);
-      const saved = localStorage.getItem(`${UNLOCK_KEY}:industry`);
-      if (saved && (INDUSTRIES as readonly string[]).includes(saved)) setIndustry(saved as Industry);
     } catch {}
     const preset = new URLSearchParams(window.location.search).get('url');
     if (preset) setUrl(preset.slice(0, 300));
@@ -77,6 +77,7 @@ export default function SiteAuditTool() {
       const data = (await r.json().catch(() => ({ ok: false }))) as { ok: boolean; result?: AuditResult; error?: string };
       if (!r.ok || !data.ok || !data.result) throw new Error(data.error || 'The audit could not run. Please try again.');
       setResult(data.result);
+      if (data.result.industry) setIndustry(data.result.industry);
       track('site_audit_run', { score: data.result.score, platform: data.result.platform ?? 'unknown' });
       requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     } catch (err) {
@@ -120,7 +121,6 @@ export default function SiteAuditTool() {
               <UnlockForm
                 result={result}
                 industry={industry}
-                onIndustry={setIndustry}
                 onUnlocked={() => {
                   setUnlocked(true);
                   try {
@@ -375,11 +375,7 @@ function IndustrySelect({ id, value, onChange }: { id: string; value: Industry; 
       id={id}
       value={value}
       onChange={(e) => {
-        const v = e.target.value as Industry;
-        onChange(v);
-        try {
-          localStorage.setItem(`${UNLOCK_KEY}:industry`, v);
-        } catch {}
+        onChange(e.target.value as Industry);
       }}
       className="w-full px-4 py-3 border border-slate-400 rounded-xl text-sm text-slate-900 bg-white focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2"
     >
@@ -388,9 +384,9 @@ function IndustrySelect({ id, value, onChange }: { id: string; value: Industry; 
   );
 }
 
-function UnlockForm({ result, industry, onIndustry, onUnlocked }: { result: AuditResult; industry: Industry; onIndustry: (v: Industry) => void; onUnlocked: () => void }) {
-  const [form, setForm] = useState({ name: '', email: '', firm: '', hp: '' });
-  const [errors, setErrors] = useState<{ name?: string; email?: string }>({});
+function UnlockForm({ result, industry, onUnlocked }: { result: AuditResult; industry: Industry; onUnlocked: () => void }) {
+  const [form, setForm] = useState({ name: '', email: '', phone: '', hp: '' });
+  const [errors, setErrors] = useState<{ name?: string; email?: string; phone?: string }>({});
   const [status, setStatus] = useState<'idle' | 'sending' | 'error'>('idle');
   const [error, setError] = useState('');
   const [turnstileToken, setTurnstileToken] = useState('');
@@ -404,9 +400,11 @@ function UnlockForm({ result, industry, onIndustry, onUnlocked }: { result: Audi
     const errs: typeof errors = {};
     if (form.name.trim().length < 2) errs.name = 'Enter your full name.';
     if (!EMAIL_RE.test(form.email.trim())) errs.email = 'Enter a valid email address.';
+    if (form.phone.replace(/\D/g, '').length < 10) errs.phone = 'Enter your mobile number with area code.';
     setErrors(errs);
-    if (errs.name || errs.email) {
-      formRef.current?.querySelector<HTMLElement>(`[name="${errs.name ? 'name' : 'email'}"]`)?.focus();
+    const first = errs.name ? 'name' : errs.email ? 'email' : errs.phone ? 'phone' : '';
+    if (first) {
+      formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
       return;
     }
     if (TURNSTILE_SITE_KEY && !turnstileToken) {
@@ -429,9 +427,10 @@ function UnlockForm({ result, industry, onIndustry, onUnlocked }: { result: Audi
         body: JSON.stringify({
           name: form.name,
           email: form.email,
-          firm: form.firm,
+          phone: form.phone,
           website: result.finalUrl,
-          message: `Industry: ${industry}\n\n${auditSummary(result)}`,
+          message: `Industry (detected): ${industry}\n\n${auditSummary(result)}`,
+          report: buildAuditReport(result),
           source: SOURCE,
           attribution: attribution.toString(),
           hp: form.hp,
@@ -472,13 +471,10 @@ function UnlockForm({ result, industry, onIndustry, onUnlocked }: { result: Audi
           <input id="aa-email" name="email" type="email" autoComplete="email" value={form.email} onChange={set} className={input} placeholder="you@yourfirm.com" aria-invalid={errors.email ? true : undefined} aria-describedby={errors.email ? 'aa-email-error' : undefined} />
           {errors.email && <p id="aa-email-error" className="mt-1.5 text-sm font-medium text-red-700">{errors.email}</p>}
         </div>
-        <div>
-          <label htmlFor="aa-firm" className={label}>Firm or practice <span className="font-normal text-slate-500">(optional)</span></label>
-          <input id="aa-firm" name="firm" autoComplete="organization" value={form.firm} onChange={set} className={input} />
-        </div>
-        <div>
-          <label htmlFor="aa-industry" className={label}>Type of business</label>
-          <IndustrySelect id="aa-industry" value={industry} onChange={onIndustry} />
+        <div className="sm:col-span-2 sm:max-w-[calc(50%-0.5rem)]">
+          <label htmlFor="aa-phone" className={label}>Mobile phone *</label>
+          <input id="aa-phone" name="phone" type="tel" inputMode="tel" autoComplete="tel" value={form.phone} onChange={set} className={input} placeholder="(561) 555-0142" aria-invalid={errors.phone ? true : undefined} aria-describedby={errors.phone ? 'aa-phone-error' : undefined} />
+          {errors.phone && <p id="aa-phone-error" className="mt-1.5 text-sm font-medium text-red-700">{errors.phone}</p>}
         </div>
         {/* Honeypot — hidden from humans, filled by bots */}
         <div className="absolute -left-[9999px]" aria-hidden="true">
@@ -492,7 +488,7 @@ function UnlockForm({ result, industry, onIndustry, onUnlocked }: { result: Audi
             {status === 'sending' ? 'Unlocking…' : 'Show me the fix prompt'}
           </Button>
           <p className="text-xs text-slate-500 leading-relaxed">
-            The prompt appears right here. We may follow up by email about your results; unsubscribe anytime.{' '}
+            The prompt appears right here. We may call or email you about your results.{' '}
             <Link href="/privacy-policy" className="underline hover:text-slate-900">Privacy Policy</Link> ·{' '}
             <Link href="/terms-of-service" className="underline hover:text-slate-900">Terms of Service</Link>
           </p>
@@ -554,6 +550,7 @@ function FinishForMe({ result }: { result: AuditResult }) {
           website: result.finalUrl,
           product: FINISH_PRODUCT,
           message: `Asked us to finish, secure and publish this site.\n\n${auditSummary(result)}`,
+          report: buildAuditReport(result),
           source: SOURCE,
           hp: form.hp,
           turnstileToken,
@@ -664,15 +661,15 @@ function PromptPanel({ result, industry, onIndustry }: { result: AuditResult; in
     }
   };
 
-  const download = () => {
-    const blob = new Blob([prompt], { type: 'text/markdown' });
+  const download = (text = prompt, suffix = 'fix-prompt') => {
+    const blob = new Blob([text], { type: 'text/markdown' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     let name = 'site';
     try {
       name = new URL(result.finalUrl).hostname.replace(/^www\./, '');
     } catch {}
-    a.download = `${name}-fix-prompt.md`;
+    a.download = `${name}-${suffix}.md`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
@@ -689,15 +686,25 @@ function PromptPanel({ result, industry, onIndustry }: { result: AuditResult; in
           <p className="mt-1 text-slate-600">Paste it into the chat of the tool that built your site. Answer its questions with your real details.</p>
         </div>
         <div className="sm:w-56">
-          <label htmlFor="aa-industry-2" className="block text-xs font-semibold text-slate-500 mb-1">Type of business</label>
+          <label htmlFor="aa-industry-2" className="block text-xs font-semibold text-slate-500 mb-1">Rules applied (detected from your site)</label>
           <IndustrySelect id="aa-industry-2" value={industry} onChange={onIndustry} />
         </div>
       </div>
       <pre className="mt-4 max-h-[28rem] overflow-auto whitespace-pre-wrap break-words rounded-2xl bg-slate-950 text-slate-100 text-[13px] leading-relaxed p-5">{prompt}</pre>
       <div className="mt-4 flex flex-wrap gap-3">
         <Button variant="primary" size="md" onClick={copy}>{copied ? 'Copied ✓' : 'Copy prompt'}</Button>
-        <button type="button" onClick={download} className="rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-800 hover:border-slate-900 transition">
-          Download .md
+        <button type="button" onClick={() => download()} className="rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-800 hover:border-slate-900 transition">
+          Download prompt
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            download(buildAuditReport(result), 'website-audit');
+            track('site_audit_report_download', { score: result.score });
+          }}
+          className="rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-800 hover:border-slate-900 transition"
+        >
+          Download full audit
         </button>
       </div>
     </div>

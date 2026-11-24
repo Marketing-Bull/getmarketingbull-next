@@ -44,6 +44,7 @@ interface LeadPayload {
   source?: unknown;
   firm?: unknown;
   attorneys?: unknown;
+  report?: unknown; // the finished AI Website Audit, saved as a note on the GHL contact
   attribution?: unknown; // utm_* / click ids from the landing URL, as a query string
   hp?: unknown; // honeypot
   turnstileToken?: unknown;
@@ -51,8 +52,9 @@ interface LeadPayload {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const SOURCE_RE = /^[a-z0-9:-]{1,100}$/;
-const MAX_BODY_BYTES = 20_000;
-const LIMITS = { name: 100, email: 254, phone: 30, website: 300, message: 5000, firm: 150, attribution: 1000 } as const;
+const MAX_BODY_BYTES = 40_000;
+const REPORT_NOTE_CHARS = 4500;
+const LIMITS = { name: 100, email: 254, phone: 30, website: 300, message: 5000, firm: 150, attribution: 1000, report: 12000 } as const;
 /** Sources whose form collects firm + attorney count, makes phone optional, and tags the GHL contact. */
 const LEAD_MAGNET_SOURCES = new Set(['pi-intake-scorecard', 'ai-website-audit']);
 /** Lead-magnet sources whose form requires firm name and attorney count. */
@@ -187,6 +189,8 @@ export async function POST(req: Request) {
     attorneys,
     attribution,
     smsConsent: body.smsConsent === true && phone !== '',
+    // Only the AI Website Audit sends one. Kept out of `message` so it isn't cut at 5,000 characters.
+    report: source === 'ai-website-audit' ? str(body.report, LIMITS.report) : '',
     product: product === AUDIT_FINISH_PRODUCT || OFFERS.some((o) => o.name === product) ? product : '',
     source: SOURCE_RE.test(source) ? source : 'website',
     submittedAt: new Date().toISOString(),
@@ -284,6 +288,13 @@ export async function POST(req: Request) {
 
       const tasks: [string, Promise<Response>][] = [];
       if (note.length) tasks.push(['note', ghl(`/contacts/${id}/notes`, { body: note.join('\n\n---\n\n') })]);
+      // The finished audit, so it is on the contact when sales opens it. Split into parts in
+      // case a long report is over what one note holds.
+      for (let i = 0, part = 1; i < lead.report.length; i += REPORT_NOTE_CHARS, part++) {
+        const of = Math.ceil(lead.report.length / REPORT_NOTE_CHARS);
+        const header = `AI Website Audit report (${lead.submittedAt})${of > 1 ? `, part ${part} of ${of}` : ''}`;
+        tasks.push(['audit report note', ghl(`/contacts/${id}/notes`, { body: `${header}\n\n${lead.report.slice(i, i + REPORT_NOTE_CHARS)}` })]);
+      }
       // New contacts got their tags on create; a repeat contact needs them added.
       if (repeat) tasks.push(['tag', ghl(`/contacts/${id}/tags`, { tags })]);
       if (lead.smsConsent) {

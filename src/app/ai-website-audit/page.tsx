@@ -5,6 +5,8 @@ import FaqSection from '@/components/FaqSection';
 import Reveal from '@/components/Reveal';
 import SiteAuditTool from '@/components/SiteAuditTool';
 import { SampleReport, StepArt, VisitorVsCrawler } from '@/components/AuditIllustrations';
+import Link from 'next/link';
+import { getCaseStudy } from '@/lib/caseStudies';
 import { COMPANY } from '@/lib/constants';
 import { pageMeta } from '@/lib/metadata';
 
@@ -31,6 +33,20 @@ const STEPS = [
   { title: 'See your score', body: 'Every problem, ranked critical to low, with what we found and why it costs you clients. Free, no email needed.' },
   { title: 'Paste the fix prompt', body: 'Get one prompt with every fix in order, written for your builder, with guardrails so it asks you for real details instead of inventing them.' },
 ];
+
+/**
+ * What an AI builder leaves out, each beside a site we built that has it. `gap` is our framing;
+ * the facts under it are the case study's own `proof` lines, so they stay in step with the data.
+ */
+const BUILT_BY_PEOPLE = [
+  { slug: 'linder-diaz-law', gap: 'A builder gives you one language. In this firm\'s city, many injured people search in Spanish.', proof: [0, 1] },
+  { slug: 'i-95-accidents', gap: 'A builder makes the pages you describe. This site makes its own, from live data.', proof: [0, 1] },
+  { slug: '1-800-hurt-511', gap: 'A builder stops at the form. This one is wired to a CRM and an intake call center.', proof: [1, 3] },
+  { slug: 'metropolitan-orthopedics', gap: 'A builder adds a contact page. This one books the consultation.', proof: [1, 0] },
+].flatMap((b) => {
+  const c = getCaseStudy(b.slug);
+  return c ? [{ ...b, client: c.client, industry: c.industry, location: c.location, facts: b.proof.map((i) => c.proof[i]).filter(Boolean) }] : [];
+});
 
 const FINISH = [
   { title: 'Finish', body: 'Every fix in your report, made in your builder or your code. Placeholder text, default titles and fake phone numbers replaced with your real details.' },
@@ -65,7 +81,7 @@ const FAQS = [
   },
   {
     q: 'Do you store my website?',
-    a: 'No. The page is fetched, checked and discarded. If you ask for the prompt, we keep your name, email, website address and a summary of the results so we can follow up.',
+    a: 'No. The page is fetched, checked and discarded. If you ask for the prompt, we keep your name, email, mobile number, website address and the audit report so we can follow up.',
   },
 ];
 
@@ -130,6 +146,32 @@ export default function AiWebsiteAuditPage() {
           <div className="mt-10">
             <Button variant="primary" size="lg" href="#audit-url">Audit my site</Button>
           </div>
+        </div>
+      </section>
+
+      {/* ── WHY A BUILT SITE IS DIFFERENT ── */}
+      <section className="py-20 md:py-24 bg-white">
+        <div className="container-md">
+          <div className="max-w-3xl">
+            <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900">An AI builder builds what you ask for. Most of what brings in clients is what nobody asks for.</h2>
+            <p className="mt-5 text-lg text-slate-600 leading-relaxed">
+              We use AI to build sites too. The difference is knowing what to tell it: which searches a firm can win in its city, what the bar or a medical board lets you say, and where a visitor gives up before calling. Four sites we built, and what a prompt would have missed.
+            </p>
+          </div>
+          <ul className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+            {BUILT_BY_PEOPLE.map((b, i) => (
+              <Reveal as="li" key={b.slug} delay={i * 80} className="h-full">
+                <Link href={`/case-studies/${b.slug}`} className="group flex h-full flex-col rounded-2xl border border-slate-200 p-7 transition hover:border-slate-900">
+                  <p className="text-xs font-bold uppercase tracking-widest text-red-600">{b.client} · {b.industry}, {b.location}</p>
+                  <p className="mt-3 text-xl font-black tracking-tight text-slate-900">{b.gap}</p>
+                  <ul className="mt-4 space-y-1.5 text-slate-600">
+                    {b.facts.map((f) => <li key={f} className="flex gap-2"><span className="text-emerald-600" aria-hidden="true">✓</span>{f}</li>)}
+                  </ul>
+                  <span className="mt-auto pt-5 text-sm font-semibold text-slate-900 group-hover:text-red-600">Read how we built it</span>
+                </Link>
+              </Reveal>
+            ))}
+          </ul>
         </div>
       </section>
 
