@@ -326,6 +326,12 @@ export const TESTIMONIALS = [
   { name: 'Vinay Gaonkar', company: 'GreenBills', quote: 'Excellent results on leads and client conversions.', rating: 5 },
 ];
 
+/**
+ * Product name sent by the done-for-you form under the AI Website Audit report. It is not an
+ * entry in OFFERS (no product page), so /api/lead allows it by name.
+ */
+export const AUDIT_FINISH_PRODUCT = 'Finish my AI-built site';
+
 export function getOffer(slug: string): Offer | undefined {
   return OFFERS.find((o) => o.slug === slug);
 }

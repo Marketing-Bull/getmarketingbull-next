@@ -32,7 +32,7 @@ src/
     api/site-audit/      fetches a visitor's URL server-side (SSRF-guarded: public IPs only, redirects re-checked) for the AI Website Audit; scans its own scripts for secret keys (previews only) and asks PageSpeed for the mobile score
     websites/            gallery of every site we have built, from PORTFOLIO in lib/portfolio.ts
     resources/           free downloads from RESOURCES in lib/resources.ts; files in public/resources/
-    ai-website-audit/    lead magnet: audits an AI-built site (SiteAuditTool → api/site-audit), gates the fix prompt behind /api/lead
+    ai-website-audit/    lead magnet: audits an AI-built site (SiteAuditTool → api/site-audit), gates the fix prompt behind /api/lead; shows staged progress while it runs, offers to finish, secure and publish the site for the visitor (FinishForMe, a second /api/lead post with product "Finish my AI-built site"), and has its own share card (opengraph-image.tsx)
     recoup/ keyvault/    pages for our open-source apps, from APP_PAGES in lib/appPages.ts via AppDetailPage
     services/ about-us/ case-studies/ blog/ careers/ contact-us/ legal pages
   components/            Header, Footer, Button, CTASection, ContactForm, ConsultationPage, Turnstile, OfferCard, AppDetailPage,

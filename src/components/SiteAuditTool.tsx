@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { track } from '@/lib/analytics';
 import { reportLeadConversion } from '@/lib/conversions';
-import { COMPANY } from '@/lib/constants';
+import { AUDIT_FINISH_PRODUCT, COMPANY } from '@/lib/constants';
 import { INDUSTRIES, SEVERITY_ORDER, auditSummary, buildFixPrompt, type AuditResult, type Industry, type Severity } from '@/lib/siteAudit';
 import Button from './Button';
 import Turnstile, { TURNSTILE_SITE_KEY } from './Turnstile';
@@ -107,7 +107,7 @@ export default function SiteAuditTool() {
           {running ? 'Auditing…' : 'Audit my site'}
         </Button>
       </form>
-      {running && <p className="mt-3 text-sm text-slate-400" role="status">Loading your site the way Google and AI crawlers see it. This can take up to 40 seconds.</p>}
+      {running && <AuditProgress host={url} />}
       {auditError && <p id="audit-url-error" className="mt-3 text-sm font-medium text-red-400" role="alert">{auditError}</p>}
 
       {result && (
@@ -130,8 +130,88 @@ export default function SiteAuditTool() {
               />
             )}
           </div>
+          {result.findings.length > 0 && <FinishForMe result={result} />}
         </div>
       )}
+    </div>
+  );
+}
+
+const STAGES = [
+  { at: 0, label: 'Loading your homepage with JavaScript off' },
+  { at: 3, label: 'Reading robots.txt, the sitemap and llms.txt' },
+  { at: 6, label: 'Scanning your scripts for exposed secret keys' },
+  { at: 10, label: 'Running Google\'s mobile speed test' },
+  { at: 30, label: 'Scoring the five jobs your site has to do' },
+];
+
+/**
+ * Progress while /api/site-audit runs. The audit is one request, so the stages follow the
+ * order the server works in and are timed from typical runs; the bar eases toward 95% and
+ * the report replaces it when the response lands. Each stage can be opened to see what it checks.
+ */
+function AuditProgress({ host }: { host: string }) {
+  const [elapsed, setElapsed] = useState(0);
+  const [open, setOpen] = useState<number | null>(null);
+  useEffect(() => {
+    const started = Date.now();
+    const t = setInterval(() => setElapsed((Date.now() - started) / 1000), 250);
+    return () => clearInterval(t);
+  }, []);
+  const pct = Math.min(95, Math.round(95 * (1 - Math.exp(-elapsed / 13))));
+  const current = STAGES.reduce((acc, s, i) => (elapsed >= s.at ? i : acc), 0);
+  const DETAIL = [
+    'Google can run JavaScript, later. Most AI assistants do not. This is the page they get.',
+    'These files tell search engines and AI assistants what they may read and where your pages are.',
+    'AI builders sometimes ship private API keys inside the public code. We look for them and show only a short preview.',
+    'Google loads your page on a simulated phone. This is the slowest step.',
+    'Found on Google, found by AI, speed, security, and turning visitors into calls.',
+  ];
+  const name = host.trim().replace(/^https?:\/\//i, '').replace(/\/.*$/, '') || 'your site';
+  return (
+    <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-5" role="status" aria-live="polite">
+      <div className="flex items-baseline justify-between gap-4">
+        <p className="min-w-0 truncate font-semibold text-white">Auditing {name}</p>
+        <p className="shrink-0 text-sm tabular-nums text-slate-400">{pct}% · {Math.floor(elapsed)}s</p>
+      </div>
+      <div
+        className="mt-3 h-2.5 overflow-hidden rounded-full bg-white/10"
+        role="progressbar"
+        aria-label="Audit progress"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={pct}
+        aria-valuetext={STAGES[current].label}
+      >
+        <div className="h-full rounded-full bg-red-600 transition-[width] duration-300 ease-out motion-reduce:transition-none" style={{ width: `${pct}%` }} />
+      </div>
+      <ol className="mt-4 space-y-1">
+        {STAGES.map((s, i) => {
+          const state = i < current ? 'done' : i === current ? 'now' : 'next';
+          return (
+            <li key={s.label}>
+              <button
+                type="button"
+                onClick={() => setOpen(open === i ? null : i)}
+                aria-expanded={open === i}
+                className="flex w-full items-center gap-3 rounded-lg px-1 py-1 text-left text-sm hover:bg-white/5 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-red-500"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`grid h-5 w-5 shrink-0 place-items-center rounded-full text-[11px] font-bold ${
+                    state === 'done' ? 'bg-emerald-500 text-white' : state === 'now' ? 'bg-red-600 text-white motion-safe:animate-pulse' : 'border border-white/20 text-slate-500'
+                  }`}
+                >
+                  {state === 'done' ? '✓' : i + 1}
+                </span>
+                <span className={state === 'next' ? 'text-slate-500' : state === 'now' ? 'font-semibold text-white' : 'text-slate-300'}>{s.label}</span>
+              </button>
+              {open === i && <p className="ml-9 mt-1 pb-1 text-sm text-slate-400">{DETAIL[i]}</p>}
+            </li>
+          );
+        })}
+      </ol>
+      <p className="mt-3 text-xs text-slate-500">Up to 40 seconds. Tap a step to see what it checks.</p>
     </div>
   );
 }
@@ -422,6 +502,153 @@ function UnlockForm({ result, industry, onIndustry, onUnlocked }: { result: Audi
   );
 }
 
+const FINISH_PRODUCT = AUDIT_FINISH_PRODUCT;
+const FINISH_STEPS = [
+  { title: 'Finish', body: 'We fix everything in this report in your builder or your code, and replace the placeholder text with your real details.' },
+  { title: 'Secure', body: 'We remove exposed keys and tell you which ones to rotate, lock down open data and forms, and add the security headers.' },
+  { title: 'Publish', body: 'We put it live on your domain with SSL, redirects, a sitemap, Search Console and analytics. You own the code and the accounts.' },
+];
+
+/**
+ * The done-for-you offer under the report: we finish, secure and publish the site the visitor's
+ * AI started. Posts to /api/lead with the audit summary, so the request arrives with the findings.
+ * No fee is shown (pricing is quoted per firm).
+ */
+function FinishForMe({ result }: { result: AuditResult }) {
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({ name: '', email: '', phone: '', hp: '' });
+  const [errors, setErrors] = useState<{ name?: string; email?: string }>({});
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [error, setError] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileReset, setTurnstileReset] = useState(0);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const set = (e: React.ChangeEvent<HTMLInputElement>) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const errs: typeof errors = {};
+    if (form.name.trim().length < 2) errs.name = 'Enter your full name.';
+    if (!EMAIL_RE.test(form.email.trim())) errs.email = 'Enter a valid email address.';
+    setErrors(errs);
+    if (errs.name || errs.email) {
+      formRef.current?.querySelector<HTMLElement>(`[name="${errs.name ? 'name' : 'email'}"]`)?.focus();
+      return;
+    }
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      setStatus('error');
+      setError(`Please complete the verification check above the button. If it doesn't appear, call ${COMPANY.phone}.`);
+      return;
+    }
+    setStatus('sending');
+    setError('');
+    try {
+      const r = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          website: result.finalUrl,
+          product: FINISH_PRODUCT,
+          message: `Asked us to finish, secure and publish this site.\n\n${auditSummary(result)}`,
+          source: SOURCE,
+          hp: form.hp,
+          turnstileToken,
+        }),
+      });
+      const data = (await r.json().catch(() => ({ ok: false }))) as { ok: boolean; dropped?: boolean; error?: string };
+      if (!r.ok || !data.ok) throw new Error(data.error || FALLBACK_ERROR);
+      if (!data.dropped) {
+        track('lead_submit', { product: FINISH_PRODUCT, source: SOURCE });
+        reportLeadConversion({ formName: 'ai_website_audit_finish' });
+      }
+      setStatus('sent');
+    } catch (err) {
+      setTurnstileReset((n) => n + 1);
+      setStatus('error');
+      setError(err instanceof Error && !(err instanceof TypeError) ? err.message : FALLBACK_ERROR);
+    }
+  };
+
+  const input = 'w-full px-4 py-3 border border-slate-600 rounded-xl text-sm text-white bg-slate-900 placeholder:text-slate-500 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-red-500 aria-[invalid=true]:border-red-500';
+  const label = 'block text-sm font-semibold text-slate-200 mb-1.5';
+
+  return (
+    <section id="finish-it" className="scroll-mt-24 mt-10 rounded-2xl bg-slate-950 text-white p-6 sm:p-8" aria-labelledby="audit-finish">
+      <p className="text-xs font-bold uppercase tracking-widest text-red-400">Done for you</p>
+      <h3 id="audit-finish" className="mt-2 text-2xl font-black tracking-tight">We can make {result.findings.length === 1 ? 'this fix' : `these ${result.findings.length} fixes`} for you.</h3>
+      <p className="mt-2 text-slate-300 max-w-2xl">
+        Send us the site your AI started. We finish it, secure it and publish it on your domain. The scope and the fee are agreed in writing before we start.
+      </p>
+      <ol className="mt-6 grid gap-4 sm:grid-cols-3">
+        {FINISH_STEPS.map((s, i) => (
+          <li key={s.title} className="rounded-xl border border-white/10 p-4">
+            <p className="text-xs font-black text-red-400" aria-hidden="true">0{i + 1}</p>
+            <p className="mt-1 font-bold">{s.title}</p>
+            <p className="mt-1 text-sm text-slate-400 leading-relaxed">{s.body}</p>
+          </li>
+        ))}
+      </ol>
+
+      {status === 'sent' ? (
+        <p className="mt-6 rounded-xl border border-emerald-500/40 bg-emerald-500/10 p-4 font-semibold text-emerald-200" role="status">
+          Got it. We have your report and will reply by email with a scope for {result.finalUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}.
+        </p>
+      ) : !open ? (
+        <div className="mt-6 flex flex-wrap items-center gap-4">
+          <Button
+            variant="primary"
+            size="md"
+            onClick={() => {
+              setOpen(true);
+              track('site_audit_finish_open', { score: result.score });
+            }}
+          >
+            Have us finish my site
+          </Button>
+          <a href={`tel:${COMPANY.phoneE164}`} className="text-sm font-semibold text-slate-300 hover:text-white">or call {COMPANY.phone}</a>
+        </div>
+      ) : (
+        <form ref={formRef} onSubmit={submit} className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4" noValidate>
+          <div>
+            <label htmlFor="af-name" className={label}>Full name *</label>
+            <input id="af-name" name="name" autoComplete="name" value={form.name} onChange={set} className={input} aria-invalid={errors.name ? true : undefined} aria-describedby={errors.name ? 'af-name-error' : undefined} />
+            {errors.name && <p id="af-name-error" className="mt-1.5 text-sm font-medium text-red-400">{errors.name}</p>}
+          </div>
+          <div>
+            <label htmlFor="af-email" className={label}>Work email *</label>
+            <input id="af-email" name="email" type="email" autoComplete="email" value={form.email} onChange={set} className={input} aria-invalid={errors.email ? true : undefined} aria-describedby={errors.email ? 'af-email-error' : undefined} />
+            {errors.email && <p id="af-email-error" className="mt-1.5 text-sm font-medium text-red-400">{errors.email}</p>}
+          </div>
+          <div>
+            <label htmlFor="af-phone" className={label}>Phone <span className="font-normal text-slate-400">(optional)</span></label>
+            <input id="af-phone" name="phone" type="tel" autoComplete="tel" value={form.phone} onChange={set} className={input} />
+          </div>
+          <div className="absolute -left-[9999px]" aria-hidden="true">
+            <label htmlFor="af-hp">Leave blank</label>
+            <input id="af-hp" type="text" name="hp" tabIndex={-1} autoComplete="off" value={form.hp} onChange={set} />
+          </div>
+          <div className="sm:col-span-3 space-y-4">
+            <Turnstile onToken={setTurnstileToken} resetKey={turnstileReset} />
+            {status === 'error' && <p className="text-sm text-red-400 font-medium" role="alert">{error}</p>}
+            <Button type="submit" variant="primary" size="md" className="w-full sm:w-auto" disabled={status === 'sending'}>
+              {status === 'sending' ? 'Sending…' : 'Send my site and this report'}
+            </Button>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              We send your report with the request and reply by email.{' '}
+              <Link href="/privacy-policy" className="underline hover:text-white">Privacy Policy</Link> ·{' '}
+              <Link href="/terms-of-service" className="underline hover:text-white">Terms of Service</Link>
+            </p>
+          </div>
+        </form>
+      )}
+    </section>
+  );
+}
+
 function PromptPanel({ result, industry, onIndustry }: { result: AuditResult; industry: Industry; onIndustry: (v: Industry) => void }) {
   const [copied, setCopied] = useState(false);
   const prompt = buildFixPrompt(result, industry);
@@ -473,11 +700,6 @@ function PromptPanel({ result, industry, onIndustry }: { result: AuditResult; in
           Download .md
         </button>
       </div>
-      <p className="mt-6 text-sm text-slate-600">
-        Rather have it done for you?{' '}
-        <Link href="/products/website-in-14-days" className="font-semibold text-red-600 hover:underline">We build law firm and medical sites in 14 days</Link>, or{' '}
-        <Link href="/free-consultation" className="font-semibold text-red-600 hover:underline">book a free consultation</Link>.
-      </p>
     </div>
   );
 }

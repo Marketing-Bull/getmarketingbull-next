@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sendAlert } from '@/lib/alert';
-import { COMPANY, OFFERS, SMS_CONSENT_LABEL, SMS_OPT_IN_CONFIRMATION } from '@/lib/constants';
+import { AUDIT_FINISH_PRODUCT, COMPANY, OFFERS, SMS_CONSENT_LABEL, SMS_OPT_IN_CONFIRMATION } from '@/lib/constants';
 
 /**
  * Lead intake endpoint.
@@ -187,7 +187,7 @@ export async function POST(req: Request) {
     attorneys,
     attribution,
     smsConsent: body.smsConsent === true && phone !== '',
-    product: OFFERS.some((o) => o.name === product) ? product : '',
+    product: product === AUDIT_FINISH_PRODUCT || OFFERS.some((o) => o.name === product) ? product : '',
     source: SOURCE_RE.test(source) ? source : 'website',
     submittedAt: new Date().toISOString(),
     page: (req.headers.get('referer') ?? '').slice(0, 500),
