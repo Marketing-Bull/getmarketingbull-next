@@ -237,11 +237,18 @@ async function pageSpeed(url: string, timeoutMs: number): Promise<Speed | null> 
       console.warn('[site-audit] pagespeed', r.status);
       return null;
     }
-    const lh = ((await r.json()) as { lighthouseResult?: { categories?: { performance?: { score?: number } }; audits?: Record<string, { displayValue?: string }> } }).lighthouseResult;
+    const lh = ((await r.json()) as { lighthouseResult?: { categories?: { performance?: { score?: number } }; audits?: Record<string, { displayValue?: string; details?: { data?: unknown } }> } }).lighthouseResult;
     const score = lh?.categories?.performance?.score;
     if (typeof score !== 'number') return null;
     const v = (id: string) => lh?.audits?.[id]?.displayValue ?? 'n/a';
-    return { score: Math.round(score * 100), lcp: v('largest-contentful-paint'), tbt: v('total-blocking-time'), cls: v('cumulative-layout-shift') };
+    const shot = lh?.audits?.['final-screenshot']?.details?.data;
+    return {
+      score: Math.round(score * 100),
+      lcp: v('largest-contentful-paint'),
+      tbt: v('total-blocking-time'),
+      cls: v('cumulative-layout-shift'),
+      screenshot: typeof shot === 'string' ? shot : undefined,
+    };
   } catch (e) {
     console.warn('[site-audit] pagespeed failed', e instanceof Error ? e.name : 'error');
     return null;

@@ -58,6 +58,30 @@ export interface Speed {
   lcp: string;
   tbt: string;
   cls: string;
+  /** PageSpeed's screenshot of the loaded page on a phone, as a data: URI. */
+  screenshot?: string;
+}
+
+/** The five things a firm's site has to do, each scored on its own. */
+export const CATEGORIES = ['Found on Google', 'Found by AI', 'Speed', 'Security', 'Turns visitors into calls'] as const;
+export type Category = (typeof CATEGORIES)[number];
+
+export interface CategoryScore {
+  name: Category;
+  /** 0 to 100; null when the checks behind it could not run. */
+  score: number | null;
+  issues: number;
+}
+
+/** What the audit shows beside the findings: the page as a crawler receives it, and as Google lists it. */
+export interface Preview {
+  host: string;
+  title: string;
+  description: string;
+  /** The first visible text in the served HTML, before any JavaScript runs. */
+  crawlerText: string;
+  crawlerWords: number;
+  screenshot: string | null;
 }
 
 export interface AuditResult {
@@ -74,7 +98,44 @@ export interface AuditResult {
   passed: string[];
   /** Checks we could not run, and why. */
   skipped: string[];
+  categories: CategoryScore[];
+  preview: Preview;
 }
+
+/** Which categories each finding counts against. A page crawlers can't read hurts on Google and in AI answers alike. */
+const FINDING_CATEGORIES: Record<string, Category[]> = {
+  'client-rendered': ['Found on Google', 'Found by AI'],
+  noindex: ['Found on Google', 'Found by AI'],
+  'robots-block': ['Found on Google', 'Found by AI'],
+  'ai-crawlers-blocked': ['Found by AI'],
+  title: ['Found on Google'],
+  'title-length': ['Found on Google'],
+  description: ['Found on Google'],
+  'description-length': ['Found on Google'],
+  canonical: ['Found on Google'],
+  'canonical-host': ['Found on Google'],
+  h1: ['Found on Google'],
+  'h1-multiple': ['Found on Google'],
+  'hash-routing': ['Found on Google', 'Found by AI'],
+  sitemap: ['Found on Google'],
+  viewport: ['Found on Google'],
+  lang: ['Found on Google'],
+  schema: ['Found on Google', 'Found by AI'],
+  'schema-type': ['Found by AI'],
+  'llms-txt': ['Found by AI'],
+  'mobile-speed': ['Speed'],
+  'builder-leftovers': ['Speed'],
+  https: ['Security'],
+  'exposed-keys': ['Security'],
+  'mixed-content': ['Security'],
+  'click-to-call': ['Turns visitors into calls'],
+  placeholders: ['Turns visitors into calls'],
+  analytics: ['Turns visitors into calls'],
+  'open-graph': ['Turns visitors into calls'],
+  'og-image-default': ['Turns visitors into calls'],
+  favicon: ['Turns visitors into calls'],
+  'img-alt': ['Turns visitors into calls'],
+};
 
 export const SEVERITY_ORDER: Severity[] = ['critical', 'high', 'medium', 'low'];
 const PENALTY: Record<Severity, number> = { critical: 25, high: 10, medium: 5, low: 2 };
@@ -664,6 +725,29 @@ export function auditSite(input: AuditInput): AuditResult {
   const score = Math.max(0, 100 - findings.reduce((s, f) => s + PENALTY[f.severity], 0));
   const grade = score >= 90 ? 'A' : score >= 75 ? 'B' : score >= 60 ? 'C' : score >= 40 ? 'D' : 'F';
 
+  const categories: CategoryScore[] = CATEGORIES.map((name) => {
+    const mine = findings.filter((f) => (FINDING_CATEGORIES[f.id] ?? []).includes(name));
+    // Speed is Google's own number when we have it, and unknown when PageSpeed did not answer.
+    if (name === 'Speed') return { name, score: input.speed ? input.speed.score : null, issues: mine.length };
+    // On a client-rendered page the phone link, placeholder and image checks are skipped (the content
+    // is not in the HTML), so this category has nothing to stand on. Unknown, never a passing score.
+    if (name === 'Turns visitors into calls' && clientRendered) return { name, score: null, issues: mine.length };
+    // Fewer checks feed a category than the whole score, so each counts double. A critical finding
+    // (no readable text, a leaked key, no HTTPS) means the job is not being done: cap it at 20.
+    const raw = Math.max(0, 100 - mine.reduce((s, f) => s + PENALTY[f.severity] * 2, 0));
+    return { name, score: mine.some((f) => f.severity === 'critical') ? Math.min(raw, 20) : raw, issues: mine.length };
+  });
+
+  const shot = input.speed?.screenshot;
+  const preview: Preview = {
+    host: host(finalUrl),
+    title: redactSecrets(clip(title, 120)),
+    description: redactSecrets(clip(description ?? '', 240)),
+    crawlerText: redactSecrets(clip(text, 600)),
+    crawlerWords: words,
+    screenshot: shot && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(shot) && shot.length < 600_000 ? shot : null,
+  };
+
   return {
     url: input.requestedUrl,
     finalUrl,
@@ -675,6 +759,8 @@ export function auditSite(input: AuditInput): AuditResult {
     findings,
     passed,
     skipped,
+    categories,
+    preview,
   };
 }
 
