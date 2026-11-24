@@ -39,6 +39,8 @@ export interface AuditInput {
   secrets?: SecretHit[];
   /** How many of the page's own scripts were scanned for keys. */
   scriptsScanned?: number;
+  /** How many of them could not be loaded, so were not checked. */
+  scriptsFailed?: number;
   /** Mobile PageSpeed result; null when PageSpeed was asked and did not answer in time. */
   speed?: Speed | null;
 }
@@ -82,7 +84,11 @@ const VITE_SPA_BUILDERS = new Set(['Lovable', 'Bolt', 'Base44', 'Replit', 'Vite 
 
 // ── secret keys ──────────────────────────────────────────────────────────────
 
-/** Server-side keys that must never reach a browser. Publishable keys (Stripe pk_, Supabase anon) are left alone. */
+/**
+ * Server-side keys that must never reach a browser. Publishable keys (Stripe pk_, Supabase anon) are
+ * left alone, and so are Google AIza… keys: Gemini, Firebase and Maps keys share that format and the
+ * last two belong in the browser, so a match proves nothing.
+ */
 const SECRET_PATTERNS: { label: string; re: RegExp }[] = [
   { label: 'Anthropic API key', re: /sk-ant-[A-Za-z0-9_-]{20,}/g },
   { label: 'OpenAI API key', re: /sk-(?:proj-)?[A-Za-z0-9_-]{32,}/g },
@@ -90,7 +96,6 @@ const SECRET_PATTERNS: { label: string; re: RegExp }[] = [
   { label: 'AWS access key', re: /AKIA[0-9A-Z]{16}/g },
   { label: 'GitHub token', re: /gh[pousr]_[A-Za-z0-9]{36,}/g },
   { label: 'Resend API key', re: /re_[A-Za-z0-9]{8}_[A-Za-z0-9]{20,}/g },
-  { label: 'Google AI (Gemini) key', re: /AIza[0-9A-Za-z_-]{35}(?=[\s"'`,;)}\]]|$)/g },
 ];
 const JWT = /eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}/g;
 
@@ -621,7 +626,12 @@ export function auditSite(input: AuditInput): AuditResult {
       fix: 'Do this first. Revoke and reissue every key listed above in that provider\'s dashboard; the old ones are compromised. Then move every call that uses a secret key into a server-side function (an API route, edge function or Supabase Edge Function) that reads the key from a server environment variable. The browser may only hold publishable keys (Stripe pk_, the Supabase anon key). Check: search the built JavaScript for the key prefixes and find nothing.',
     });
   } else if (input.secrets) {
-    passed.push(input.scriptsScanned ? `No secret keys in the page or its ${input.scriptsScanned} script${input.scriptsScanned === 1 ? '' : 's'}` : 'No secret keys in the page');
+    const n = input.scriptsScanned ?? 0;
+    passed.push(n ? `No secret keys in the page or ${n} of its scripts` : 'No secret keys in the page');
+  }
+  if (input.scriptsFailed) {
+    const n = input.scriptsFailed;
+    skipped.push(`${n} of the site's scripts did not load, so ${n === 1 ? 'it was' : 'they were'} not checked for secret keys.`);
   }
 
   // 16. Mobile speed (Google PageSpeed Insights)

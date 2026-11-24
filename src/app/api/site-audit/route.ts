@@ -35,6 +35,8 @@ const MAX_REDIRECTS = 5;
 const MAX_SCRIPTS = 5;
 const MAX_SCRIPT_BYTES = 1_500_000;
 const PAGESPEED_TIMEOUT_MS = 40_000;
+/** The whole request must answer inside maxDuration (60 s); PageSpeed gets what is left of this. */
+const REQUEST_BUDGET_MS = 54_000;
 
 // Best-effort per-instance rate limit, as in /api/lead.
 const RATE_WINDOW_MS = 10 * 60_000;
@@ -208,26 +210,29 @@ function ownScripts(html: string, page: URL): URL[] {
   return out;
 }
 
-async function scanScripts(scripts: URL[]): Promise<SecretHit[]> {
+/** Scans each script; a script that fails to load is counted as failed, never as clean. */
+async function scanScripts(scripts: URL[]): Promise<{ hits: SecretHit[]; scanned: number; failed: number }> {
   const found = await Promise.all(
     scripts.map(async (u) => {
       try {
         const r = await safeGet(u, SIDE_TIMEOUT_MS, MAX_SCRIPT_BYTES);
-        return r.status >= 200 && r.status < 300 ? scanSecrets(r.body, u.pathname) : [];
+        return r.status >= 200 && r.status < 300 ? scanSecrets(r.body, u.pathname) : null;
       } catch {
-        return [];
+        return null;
       }
     }),
   );
-  return found.flat();
+  const ok = found.filter((f): f is SecretHit[] => f !== null);
+  return { hits: ok.flat(), scanned: ok.length, failed: found.length - ok.length };
 }
 
-/** Mobile performance from Google PageSpeed Insights. Null when it errors or is slower than PAGESPEED_TIMEOUT_MS. */
-async function pageSpeed(url: string): Promise<Speed | null> {
+/** Mobile performance from Google PageSpeed Insights. Null when it errors or runs out of `timeoutMs`. */
+async function pageSpeed(url: string, timeoutMs: number): Promise<Speed | null> {
+  if (timeoutMs < 5_000) return null;
   try {
     const q = new URLSearchParams({ url, strategy: 'mobile', category: 'performance' });
     if (process.env.PAGESPEED_API_KEY) q.set('key', process.env.PAGESPEED_API_KEY);
-    const r = await fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${q}`, { signal: AbortSignal.timeout(PAGESPEED_TIMEOUT_MS) });
+    const r = await fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${q}`, { signal: AbortSignal.timeout(timeoutMs) });
     if (!r.ok) {
       console.warn('[site-audit] pagespeed', r.status);
       return null;
@@ -278,6 +283,7 @@ export async function POST(req: Request) {
     const body = (await req.json()) as { url?: unknown };
     raw = typeof body?.url === 'string' ? body.url : '';
   } catch {}
+  const started = Date.now();
   const start = normalize(raw);
   if (!start) return NextResponse.json({ ok: false, error: 'Enter your website address, like yourfirm.com.' }, { status: 422 });
 
@@ -300,12 +306,13 @@ export async function POST(req: Request) {
 
     const root = new URL('/', url);
     const scripts = ownScripts(html, url);
-    const [robotsTxt, sitemap, llms, scriptHits, speed] = await Promise.all([
+    const speedBudget = Math.min(PAGESPEED_TIMEOUT_MS, REQUEST_BUDGET_MS - (Date.now() - started));
+    const [robotsTxt, sitemap, llms, scriptScan, speed] = await Promise.all([
       sideFile(new URL('/robots.txt', root)),
       sideFile(new URL('/sitemap.xml', root)),
       sideFile(new URL('/llms.txt', root)),
       scanScripts(scripts),
-      pageSpeed(url.href),
+      pageSpeed(url.href, speedBudget),
     ]);
     const sitemapFound =
       (sitemap !== null && /<(urlset|sitemapindex)\b/i.test(sitemap)) || (robotsTxt !== null && /^\s*sitemap\s*:\s*https?:\/\//im.test(robotsTxt));
@@ -318,8 +325,9 @@ export async function POST(req: Request) {
       robotsTxt,
       sitemapFound,
       llmsTxtFound: llms !== null && llms.trim().length > 20,
-      secrets: [...scanSecrets(html, 'the page HTML'), ...scriptHits],
-      scriptsScanned: scripts.length,
+      secrets: [...scanSecrets(html, 'the page HTML'), ...scriptScan.hits],
+      scriptsScanned: scriptScan.scanned,
+      scriptsFailed: scriptScan.failed,
       speed,
     });
     console.log('[site-audit]', url.host, result.score, result.platform ?? '-', result.findings.map((f) => f.id).join(','));
