@@ -107,7 +107,7 @@ export default function SiteAuditTool() {
           {running ? 'Auditing…' : 'Audit my site'}
         </Button>
       </form>
-      {running && <p className="mt-3 text-sm text-slate-400" role="status">Loading your site the way Google and AI crawlers see it. This takes up to 20 seconds.</p>}
+      {running && <p className="mt-3 text-sm text-slate-400" role="status">Loading your site the way Google and AI crawlers see it. This can take up to 40 seconds.</p>}
       {auditError && <p id="audit-url-error" className="mt-3 text-sm font-medium text-red-400" role="alert">{auditError}</p>}
 
       {result && (
@@ -159,6 +159,10 @@ function Report({ result }: { result: AuditResult }) {
         </div>
       </div>
 
+      <Scorecard categories={result.categories} />
+      <CrawlerView result={result} />
+      <SearchListing result={result} />
+
       {result.findings.length > 0 && (
         <ol className="mt-8 space-y-3">
           {result.findings.map((f) => (
@@ -187,6 +191,101 @@ function Report({ result }: { result: AuditResult }) {
         </details>
       )}
     </div>
+  );
+}
+
+function barColor(score: number) {
+  if (score >= 75) return 'bg-emerald-500';
+  if (score >= 50) return 'bg-amber-500';
+  return 'bg-red-600';
+}
+
+/** One bar per job the site has to do, so the owner sees where it fails before reading the list. */
+function Scorecard({ categories }: { categories: AuditResult['categories'] }) {
+  return (
+    <section className="mt-8" aria-labelledby="audit-scorecard">
+      <h3 id="audit-scorecard" className="text-sm font-bold uppercase tracking-widest text-slate-500">Score by job</h3>
+      <ul className="mt-3 space-y-3">
+        {categories.map((c) => (
+          <li key={c.name} className="grid grid-cols-[1fr_auto] sm:grid-cols-[11rem_1fr_6rem] items-center gap-x-3 gap-y-1.5 text-sm">
+            <span className="font-semibold text-slate-800">{c.name}</span>
+            <span className="order-last col-span-2 sm:order-none sm:col-span-1 h-2.5 rounded-full bg-slate-100 overflow-hidden" aria-hidden="true">
+              {c.score !== null && <span className={`block h-full rounded-full ${barColor(c.score)}`} style={{ width: `${Math.max(c.score, 3)}%` }} />}
+            </span>
+            <span className={`text-right font-bold tabular-nums ${c.score === null ? 'text-slate-400' : gradeColor(c.score)}`}>
+              {c.score === null ? 'Not checked' : `${c.score}/100`}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+/** The page as a phone shows it beside the text a crawler receives before any JavaScript runs. */
+function CrawlerView({ result }: { result: AuditResult }) {
+  const { preview, clientRendered } = result;
+  const empty = preview.crawlerWords < 120;
+  return (
+    <section className="mt-10" aria-labelledby="audit-crawler-view">
+      <h3 id="audit-crawler-view" className="text-xl font-black tracking-tight">What you see, and what Google sees</h3>
+      <div className={`mt-4 grid gap-4 ${preview.screenshot ? 'sm:grid-cols-[minmax(0,14rem)_1fr]' : ''}`}>
+        {preview.screenshot && (
+          <figure>
+            <figcaption className="text-xs font-bold uppercase tracking-widest text-slate-500">A visitor on a phone</figcaption>
+            {/* A data: URI from PageSpeed; next/image adds nothing for it. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={preview.screenshot} alt={`Screenshot of ${preview.host} on a phone`} className="mt-2 w-full max-w-56 rounded-2xl border border-slate-200 shadow-sm" />
+          </figure>
+        )}
+        <figure className="min-w-0">
+          <figcaption className="text-xs font-bold uppercase tracking-widest text-slate-500">
+            Google, ChatGPT and other crawlers. {preview.crawlerWords} word{preview.crawlerWords === 1 ? '' : 's'}.
+          </figcaption>
+          <div className={`mt-2 rounded-2xl border p-4 font-mono text-xs leading-relaxed break-words ${empty ? 'border-red-300 bg-red-50 text-red-900' : 'border-slate-200 bg-slate-50 text-slate-700'}`}>
+            {preview.crawlerText || <span className="italic">Nothing. The page they receive has no text.</span>}
+          </div>
+          <p className="mt-2 text-sm text-slate-600">
+            {empty && clientRendered
+              ? 'Your page is assembled in the browser by JavaScript. A crawler that does not run it receives only the text in the red box.'
+              : empty
+                ? 'This is all the text on the page. Google has little to rank and an AI assistant has little to quote.'
+                : 'Crawlers receive your text without running JavaScript. This is the start of it.'}
+          </p>
+        </figure>
+      </div>
+    </section>
+  );
+}
+
+/** The listing as Google would build it from the page's own title and description tags. */
+function SearchListing({ result }: { result: AuditResult }) {
+  const { preview, findings } = result;
+  const has = (id: string) => findings.some((f) => f.id === id);
+  const notes = [
+    has('title') && (preview.title ? 'The title is the builder\'s default, so the listing says nothing about your firm.' : 'The page has no title, so Google writes one for you.'),
+    has('title-length') && 'The title is too short or too long to say what you do and where.',
+    has('description') && 'There is no description, so Google fills this space with text it picks from the page.',
+    has('description-length') && 'The description is too short or too long, so Google may replace it.',
+  ].filter(Boolean) as string[];
+  const cut = (t: string, n: number) => (t.length > n ? `${t.slice(0, n - 1).trimEnd()}…` : t);
+  return (
+    <section className="mt-10" aria-labelledby="audit-listing">
+      <h3 id="audit-listing" className="text-xl font-black tracking-tight">Your Google listing</h3>
+      <div className="mt-4 max-w-xl rounded-2xl border border-slate-200 p-5">
+        <p className="text-sm text-slate-700">{preview.host}</p>
+        <p className="mt-1 text-xl leading-snug text-[#1a0dab] break-words">{preview.title ? cut(preview.title, 60) : preview.host}</p>
+        <p className={`mt-1 text-sm leading-relaxed break-words ${preview.description ? 'text-slate-600' : 'italic text-slate-400'}`}>
+          {preview.description ? cut(preview.description, 158) : 'No description set.'}
+        </p>
+      </div>
+      {notes.length > 0 && (
+        <ul className="mt-3 space-y-1 text-sm text-slate-600">
+          {notes.map((n) => <li key={n}>{n}</li>)}
+        </ul>
+      )}
+      <p className="mt-2 text-xs text-slate-500">Built from your title and description tags. Google sometimes rewrites them.</p>
+    </section>
   );
 }
 

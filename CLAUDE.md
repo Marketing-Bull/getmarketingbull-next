@@ -46,7 +46,7 @@ src/
     blog.ts              POSTS (hardcoded)
     portfolio.ts         PORTFOLIO: the client sites on /websites, facts read from each live site (no traffic or rankings)
     resources.ts         RESOURCES: /resources entries; skills are copied from the private claude-skills repo
-    siteAudit.ts         auditSite() checks + buildFixPrompt(): pure, shared by api/site-audit and SiteAuditTool
+    siteAudit.ts         auditSite() checks + buildFixPrompt(): pure, shared by api/site-audit and SiteAuditTool; also returns the five category scores and the preview (crawler text, Google listing, PageSpeed phone screenshot) the report shows
     appPages.ts          APP_PAGES: /recoup and /keyvault content, read from each app's README and source
 ```
 
