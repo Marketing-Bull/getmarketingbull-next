@@ -4,7 +4,7 @@ import { join } from 'node:path';
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
-async function loadLogo(): Promise<string | null> {
+export async function loadLogo(): Promise<string | null> {
   try {
     const buf = await readFile(join(process.cwd(), 'public', 'logo.png'));
     return `data:image/png;base64,${buf.toString('base64')}`;
@@ -15,7 +15,7 @@ async function loadLogo(): Promise<string | null> {
 
 type OgFont = { name: string; data: ArrayBuffer; weight: 500 | 800; style: 'normal' };
 
-async function loadInter(): Promise<OgFont[]> {
+export async function loadInter(): Promise<OgFont[]> {
   try {
     // No browser User-Agent → Google Fonts serves TrueType, which Satori requires (no woff2).
     const css = await fetch('https://fonts.googleapis.com/css2?family=Inter:wght@500;800&display=swap').then((r) => r.text());

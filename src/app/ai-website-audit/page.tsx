@@ -13,6 +13,7 @@ export const metadata: Metadata = pageMeta({
   title: 'Free AI Website Audit for Lovable, Bolt & v0 Sites',
   description:
     'Built your firm or practice website with an AI builder? See what Google and ChatGPT actually see, and get a copy-paste prompt that tells your AI exactly what to fix.',
+  ownOgImage: true,
 });
 
 const CHECKS = [
@@ -28,6 +29,12 @@ const STEPS = [
   { title: 'Enter your URL', body: 'We load your live homepage the way a crawler does, with no JavaScript, plus robots.txt, sitemap and llms.txt.' },
   { title: 'See your score', body: 'Every problem, ranked critical to low, with what we found and why it costs you clients. Free, no email needed.' },
   { title: 'Paste the fix prompt', body: 'Get one prompt with every fix in order, written for your builder, with guardrails so it asks you for real details instead of inventing them.' },
+];
+
+const FINISH = [
+  { title: 'Finish', body: 'Every fix in your report, made in your builder or your code. Placeholder text, default titles and fake phone numbers replaced with your real details.' },
+  { title: 'Secure', body: 'Exposed API keys removed and a list of the ones to rotate. Open databases and forms locked down. Security headers added.' },
+  { title: 'Publish', body: 'Live on your domain with SSL, redirects from old URLs, a sitemap, Search Console and analytics. You own the code and the accounts.' },
 ];
 
 const SHORT_ANSWER =
@@ -46,6 +53,10 @@ const FAQS = [
   {
     q: 'Which builders does it work with?',
     a: 'The prompt works in any AI coding tool that can edit your site: Lovable, Bolt, v0, Base44, Replit, Cursor, Claude Code or ChatGPT. The audit itself works on any public website, including WordPress, Wix and Squarespace, though those are fixed in their own editors.',
+  },
+  {
+    q: 'Can you fix my AI-built site for me?',
+    a: 'Yes. Run the audit and choose "Have us finish my site" under your report. We fix what the report found, check the site for exposed keys and open data, and publish it on your domain. The scope and the fee are agreed in writing before we start, and you own the code and the accounts.',
   },
   {
     q: 'Does the audit check every page?',
@@ -113,6 +124,31 @@ export default function AiWebsiteAuditPage() {
           <div className="mt-10">
             <Button variant="primary" size="lg" href="#audit-url">Audit my site</Button>
           </div>
+        </div>
+      </section>
+
+      {/* ── DONE FOR YOU ── */}
+      <section className="py-20 md:py-24 bg-slate-950 text-white">
+        <div className="container-md grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+          <div>
+            <p className="text-red-400 font-semibold text-xs uppercase tracking-[0.2em] mb-4">Done for you</p>
+            <h2 className="text-3xl md:text-4xl font-black tracking-tight">Your AI got the site most of the way. We finish it, secure it and publish it.</h2>
+            <p className="mt-5 text-lg text-slate-300 leading-relaxed">
+              Run the audit, then send us the report. We fix what it found, check the site for exposed keys and open data, and put it live on your domain. The scope and the fee are agreed in writing before we start.
+            </p>
+            <div className="mt-8">
+              <Button variant="primary" size="lg" href="#audit-url">Audit my site first</Button>
+            </div>
+          </div>
+          <ol className="space-y-4">
+            {FINISH.map((s, i) => (
+              <Reveal as="li" key={s.title} delay={i * 100} className="rounded-2xl border border-white/10 p-6">
+                <span className="text-xs font-black text-red-400" aria-hidden="true">0{i + 1}</span>
+                <p className="mt-1 text-xl font-black tracking-tight">{s.title}</p>
+                <p className="mt-2 text-slate-400 leading-relaxed">{s.body}</p>
+              </Reveal>
+            ))}
+          </ol>
         </div>
       </section>
 
