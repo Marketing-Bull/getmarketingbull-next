@@ -4,6 +4,7 @@ import Button from '@/components/Button';
 import FaqSection from '@/components/FaqSection';
 import Reveal from '@/components/Reveal';
 import SiteAuditTool from '@/components/SiteAuditTool';
+import { SampleReport, StepArt, VisitorVsCrawler } from '@/components/AuditIllustrations';
 import { COMPANY } from '@/lib/constants';
 import { pageMeta } from '@/lib/metadata';
 
@@ -76,16 +77,19 @@ export default function AiWebsiteAuditPage() {
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
         <div className="absolute -top-40 -right-40 h-[520px] w-[520px] rounded-full bg-red-600/10 blur-3xl pointer-events-none" />
         <div className="container-md relative py-20 md:py-28">
-          <div className="max-w-3xl">
-            <p className="inline-flex items-center gap-2 text-red-400 font-semibold text-xs uppercase tracking-[0.2em] mb-6 border border-red-500/20 bg-red-500/5 px-4 py-1.5 rounded-full">
-              Free tool · Lovable, Bolt, v0, ChatGPT
-            </p>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">
-              Your AI-built website looks great. Can Google see it?
-            </h1>
-            <p className="text-lg md:text-xl text-slate-300 leading-relaxed mb-10">
-              Enter your firm&apos;s or practice&apos;s website. We check what search engines and AI assistants actually receive, score it, and write the prompt that tells your AI builder exactly what to fix.
-            </p>
+          <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_19rem] xl:grid-cols-[minmax(0,1fr)_21rem]">
+            <div className="max-w-3xl">
+              <p className="inline-flex items-center gap-2 text-red-400 font-semibold text-xs uppercase tracking-[0.2em] mb-6 border border-red-500/20 bg-red-500/5 px-4 py-1.5 rounded-full">
+                Free tool · Lovable, Bolt, v0, ChatGPT
+              </p>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">
+                Your AI-built website looks great. Can Google see it?
+              </h1>
+              <p className="text-lg md:text-xl text-slate-300 leading-relaxed mb-10">
+                Enter your firm&apos;s or practice&apos;s website. We check what search engines and AI assistants actually receive, score it, and write the prompt that tells your AI builder exactly what to fix.
+              </p>
+            </div>
+            <SampleReport className="hidden lg:block mb-10" />
           </div>
           <div className="max-w-4xl">
             <SiteAuditTool />
@@ -99,6 +103,7 @@ export default function AiWebsiteAuditPage() {
           <ol className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {STEPS.map((s, i) => (
               <Reveal as="li" key={s.title} delay={i * 100} className="h-full rounded-2xl border border-slate-200 p-8">
+                <StepArt step={i as 0 | 1 | 2} />
                 <span className="text-xs font-black text-red-600" aria-hidden="true">0{i + 1}</span>
                 <p className="mt-2 text-xl font-black tracking-tight text-slate-900">{s.title}</p>
                 <p className="mt-3 text-slate-600 leading-relaxed">{s.body}</p>
@@ -113,6 +118,7 @@ export default function AiWebsiteAuditPage() {
         <div className="container-md">
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-6">What the audit checks</h2>
           <AnswerBlock question="What is an AI website audit?" answer={SHORT_ANSWER} className="mb-10 bg-white" />
+          <VisitorVsCrawler />
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {CHECKS.map((c, i) => (
               <Reveal as="li" key={c.title} delay={i * 80} className="h-full rounded-2xl bg-white border border-slate-200 p-7">

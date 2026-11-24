@@ -36,7 +36,8 @@ src/
     recoup/ keyvault/    pages for our open-source apps, from APP_PAGES in lib/appPages.ts via AppDetailPage
     services/ about-us/ case-studies/ blog/ careers/ contact-us/ legal pages
   components/            Header, Footer, Button, CTASection, ContactForm, ConsultationPage, Turnstile, OfferCard, AppDetailPage,
-                         OfferCTA, Reveal, TestimonialCarousel, VerticalPage, CallTracking, DeferredAnalytics
+                         OfferCTA, Reveal, TestimonialCarousel, VerticalPage, CallTracking, DeferredAnalytics,
+                         AuditIllustrations (markup-drawn pictures for /ai-website-audit; sample data, aria-hidden)
   lib/
     constants.ts         COMPANY, OFFERS, NAV_LINKS, TESTIMONIALS — single source of truth
     schema.ts            organizationSchema, offerSchema(), faqSchema(),
