@@ -651,8 +651,14 @@ export function auditSite(input: AuditInput): AuditResult {
     skipped.push('Mobile speed was not checked: Google PageSpeed did not answer in time.');
   }
 
-  // Page text can itself contain a key; no finding leaves here carrying a full one.
-  for (const f of findings) f.evidence = redactSecrets(f.evidence);
+  // Page text (title, headings, placeholders) can itself contain a key and is quoted in evidence and
+  // fix text alike; no field of any finding leaves here carrying a full one.
+  for (const f of findings) {
+    f.title = redactSecrets(f.title);
+    f.evidence = redactSecrets(f.evidence);
+    f.why = redactSecrets(f.why);
+    f.fix = redactSecrets(f.fix);
+  }
 
   findings.sort((a, b) => SEVERITY_ORDER.indexOf(a.severity) - SEVERITY_ORDER.indexOf(b.severity));
   const score = Math.max(0, 100 - findings.reduce((s, f) => s + PENALTY[f.severity], 0));
