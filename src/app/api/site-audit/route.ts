@@ -3,7 +3,7 @@ import http from 'node:http';
 import https from 'node:https';
 import { isIP, type LookupFunction } from 'node:net';
 import { NextResponse } from 'next/server';
-import { auditSite } from '@/lib/siteAudit';
+import { auditSite, scanSecrets, type SecretHit, type Speed } from '@/lib/siteAudit';
 
 /**
  * AI Website Audit endpoint (/ai-website-audit). Fetches a visitor-supplied URL server-side,
@@ -16,10 +16,15 @@ import { auditSite } from '@/lib/siteAudit';
  * connection's own DNS lookup, so there is no window for DNS rebinding between check and connect.
  * Responses are reduced to findings, never echoed back raw.
  *
+ * It also scans the page and up to MAX_SCRIPTS of its own JavaScript files for secret API keys
+ * (only 7-character previews leave this route), and asks Google PageSpeed Insights for the mobile
+ * score in parallel. PageSpeed is optional: PAGESPEED_API_KEY raises its quota, and a slow answer
+ * is reported as a skipped check rather than holding up the audit.
+ *
  * The browser only talks to this site, so no CSP change is needed.
  */
 
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 const UA = 'Mozilla/5.0 (compatible; MarketingBullAudit/1.0; +https://getmarketingbull.com/ai-website-audit)';
 const PAGE_TIMEOUT_MS = 12_000;
@@ -27,6 +32,9 @@ const SIDE_TIMEOUT_MS = 5_000;
 const MAX_PAGE_BYTES = 3_000_000;
 const MAX_SIDE_BYTES = 300_000;
 const MAX_REDIRECTS = 5;
+const MAX_SCRIPTS = 5;
+const MAX_SCRIPT_BYTES = 1_500_000;
+const PAGESPEED_TIMEOUT_MS = 40_000;
 
 // Best-effort per-instance rate limit, as in /api/lead.
 const RATE_WINDOW_MS = 10 * 60_000;
@@ -58,10 +66,20 @@ function privateV4(ip: string): boolean {
 
 function privateIp(ip: string): boolean {
   if (isIP(ip) === 4) return privateV4(ip);
-  const v6 = ip.toLowerCase();
-  const mapped = v6.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/);
-  if (mapped) return privateV4(mapped[1]);
-  return v6 === '::' || v6 === '::1' || /^f[cd]/.test(v6) || /^fe[89ab]/.test(v6) || v6.startsWith('64:ff9b') || v6.startsWith('2001:db8');
+  // IPv6 forms that embed or alias an IPv4 address are refused outright rather than decoded: the URL
+  // parser rewrites [::ffff:127.0.0.1] as [::ffff:7f00:1], which a dotted-quad match never sees.
+  const v6 = ip.toLowerCase().replace(/^\[|\]$/g, '');
+  return (
+    v6.startsWith('::') || // ::, ::1, ::ffff:… (IPv4-mapped), ::a.b.c.d (IPv4-compatible)
+    /^0{1,4}:/.test(v6) || // the same, spelled with a leading zero group
+    v6.startsWith('64:ff9b:') || // NAT64
+    v6.startsWith('2002:') || // 6to4
+    /^2001:0{0,3}:/.test(v6) || // Teredo
+    /^2001:0?db8:/.test(v6) || // documentation
+    /^f[cd]/.test(v6) || // unique local
+    /^fe[89ab]/.test(v6) || // link-local
+    v6.startsWith('ff') // multicast
+  );
 }
 
 /** Rejects addresses we can tell are not public before any DNS lookup or connection. */
@@ -175,6 +193,56 @@ async function sideFile(url: URL): Promise<string | null> {
   }
 }
 
+/** The page's own JavaScript files (same origin), where client-side apps ship their environment variables. */
+function ownScripts(html: string, page: URL): URL[] {
+  const out: URL[] = [];
+  for (const tag of html.match(/<script\b[^>]*\ssrc\s*=\s*["']?[^"'\s>]+/gi) ?? []) {
+    const src = tag.match(/\ssrc\s*=\s*["']?([^"'\s>]+)/i)?.[1];
+    if (!src) continue;
+    try {
+      const u = new URL(src, page);
+      if (u.origin === page.origin && !out.some((o) => o.href === u.href)) out.push(u);
+    } catch {}
+    if (out.length >= MAX_SCRIPTS) break;
+  }
+  return out;
+}
+
+async function scanScripts(scripts: URL[]): Promise<SecretHit[]> {
+  const found = await Promise.all(
+    scripts.map(async (u) => {
+      try {
+        const r = await safeGet(u, SIDE_TIMEOUT_MS, MAX_SCRIPT_BYTES);
+        return r.status >= 200 && r.status < 300 ? scanSecrets(r.body, u.pathname) : [];
+      } catch {
+        return [];
+      }
+    }),
+  );
+  return found.flat();
+}
+
+/** Mobile performance from Google PageSpeed Insights. Null when it errors or is slower than PAGESPEED_TIMEOUT_MS. */
+async function pageSpeed(url: string): Promise<Speed | null> {
+  try {
+    const q = new URLSearchParams({ url, strategy: 'mobile', category: 'performance' });
+    if (process.env.PAGESPEED_API_KEY) q.set('key', process.env.PAGESPEED_API_KEY);
+    const r = await fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${q}`, { signal: AbortSignal.timeout(PAGESPEED_TIMEOUT_MS) });
+    if (!r.ok) {
+      console.warn('[site-audit] pagespeed', r.status);
+      return null;
+    }
+    const lh = ((await r.json()) as { lighthouseResult?: { categories?: { performance?: { score?: number } }; audits?: Record<string, { displayValue?: string }> } }).lighthouseResult;
+    const score = lh?.categories?.performance?.score;
+    if (typeof score !== 'number') return null;
+    const v = (id: string) => lh?.audits?.[id]?.displayValue ?? 'n/a';
+    return { score: Math.round(score * 100), lcp: v('largest-contentful-paint'), tbt: v('total-blocking-time'), cls: v('cumulative-layout-shift') };
+  } catch (e) {
+    console.warn('[site-audit] pagespeed failed', e instanceof Error ? e.name : 'error');
+    return null;
+  }
+}
+
 function normalize(raw: string): URL | null {
   const s = raw.trim();
   if (!s || s.length > 500) return null;
@@ -231,10 +299,13 @@ export async function POST(req: Request) {
     const html = page.body;
 
     const root = new URL('/', url);
-    const [robotsTxt, sitemap, llms] = await Promise.all([
+    const scripts = ownScripts(html, url);
+    const [robotsTxt, sitemap, llms, scriptHits, speed] = await Promise.all([
       sideFile(new URL('/robots.txt', root)),
       sideFile(new URL('/sitemap.xml', root)),
       sideFile(new URL('/llms.txt', root)),
+      scanScripts(scripts),
+      pageSpeed(url.href),
     ]);
     const sitemapFound =
       (sitemap !== null && /<(urlset|sitemapindex)\b/i.test(sitemap)) || (robotsTxt !== null && /^\s*sitemap\s*:\s*https?:\/\//im.test(robotsTxt));
@@ -247,6 +318,9 @@ export async function POST(req: Request) {
       robotsTxt,
       sitemapFound,
       llmsTxtFound: llms !== null && llms.trim().length > 20,
+      secrets: [...scanSecrets(html, 'the page HTML'), ...scriptHits],
+      scriptsScanned: scripts.length,
+      speed,
     });
     console.log('[site-audit]', url.host, result.score, result.platform ?? '-', result.findings.map((f) => f.id).join(','));
     return NextResponse.json({ ok: true, result });

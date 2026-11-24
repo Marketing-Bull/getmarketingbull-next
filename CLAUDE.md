@@ -29,7 +29,7 @@ src/
     free-consultation/   consult form; reads ?product= (dynamic)
     get-started/         same page, static: the A2P SMS opt-in URL registered with TCR (no redirect)
     api/lead/route.ts    lead endpoint: validate → webhook and/or Resend email
-    api/site-audit/      fetches a visitor's URL server-side (SSRF-guarded: public IPs only, redirects re-checked) for the AI Website Audit
+    api/site-audit/      fetches a visitor's URL server-side (SSRF-guarded: public IPs only, redirects re-checked) for the AI Website Audit; scans its own scripts for secret keys (previews only) and asks PageSpeed for the mobile score
     websites/            gallery of every site we have built, from PORTFOLIO in lib/portfolio.ts
     resources/           free downloads from RESOURCES in lib/resources.ts; files in public/resources/
     ai-website-audit/    lead magnet: audits an AI-built site (SiteAuditTool → api/site-audit), gates the fix prompt behind /api/lead
@@ -83,4 +83,4 @@ GA4 loads from Google's canonical gtag snippet, server-rendered into `<head>` in
 
 ## Env
 
-See `.env.example`. `LEAD_GHL_API_KEY`, `LEAD_GHL_LOCATION_ID`, `LEAD_WEBHOOK_URL`, `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`, `LEAD_FROM_EMAIL`, `LEAD_ALERT_EMAIL`, `LEAD_ALERT_WEBHOOK_URL`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_GTM_ID`, `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`.
+See `.env.example`. `LEAD_GHL_API_KEY`, `LEAD_GHL_LOCATION_ID`, `LEAD_WEBHOOK_URL`, `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`, `LEAD_FROM_EMAIL`, `LEAD_ALERT_EMAIL`, `LEAD_ALERT_WEBHOOK_URL`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_GTM_ID`, `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`, `PAGESPEED_API_KEY`.
