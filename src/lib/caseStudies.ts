@@ -106,30 +106,6 @@ export const CASE_STUDIES: CaseStudy[] = [
 
   // Website builds, 2026. Facts from the live-site audit in src/lib/portfolio.ts.
   {
-    slug: 'linder-diaz-law',
-    client: 'Linder Diaz Law',
-    kind: 'Website build',
-    vertical: 'Law',
-    industry: 'Personal injury law firm',
-    location: 'Hollywood, Florida',
-    summary: 'A bilingual personal injury site for a downtown Hollywood firm: 52 pages, every one in English and Spanish, built to turn a car-accident search into a free consultation.',
-    constraint:
-      'A boutique firm competing for Hollywood car-accident searches, in a city where many injured people search in Spanish. A translated page behind a language toggle does not rank for a Spanish search, and someone hurt in a crash will not wait on a slow page before calling.',
-    action:
-      'We built a static site served from Cloudflare\'s edge with every page in English and Spanish, linked by hreflang tags so Google shows each audience its own language. Ten practice-area pages (car, rear-end, hit-and-run, Uber/Lyft, bike, slip-and-fall, workers\' compensation, denied claims) and an office page are each targeted to Hollywood. LegalService, FAQ and breadcrumb markup sit on the pages that matter, a blog answers the questions injured people type (the PIP 14-day rule, uninsured-motorist coverage, what to tell the insurer), and five tap-to-call points and a short intake form report into Google Tag Manager.',
-    result:
-      'linderdiazlaw.com is live with 52 pages in two languages, structured data on its key pages, and call and form tracking in place from launch.',
-    proof: [
-      '52 pages, every one in English and Spanish',
-      '10 practice-area pages targeted to Hollywood',
-      'LegalService, FAQ and breadcrumb markup',
-      '5 tap-to-call points and an intake form, tracked',
-    ],
-    services: ['Website design and build', 'Bilingual pages (EN / ES) with hreflang', 'Practice-area pages', 'Structured data', 'Blog', 'Google Tag Manager setup'],
-    source: WEBSITE_SOURCE,
-    published: '2026-10-24',
-  },
-  {
     slug: 'i-95-accidents',
     client: 'I-95 Accidents',
     kind: 'Website build',

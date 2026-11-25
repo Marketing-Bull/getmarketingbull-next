@@ -126,11 +126,6 @@ export default function PiIntakeScorecardPage() {
                 <figcaption className="mt-1 text-sm text-slate-500">{PROOF.name}, {PROOF.company}</figcaption>
               </figure>
             )}
-            {/* A real Florida PI client, stated as built. No outcome numbers were published, so none are claimed. */}
-            <Link href="/case-studies/linder-diaz-law" className="group md:max-w-xs rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 hover:border-red-300 transition">
-              <span className="block font-semibold text-slate-900">Linder Diaz Law, Hollywood, FL</span>
-              A bilingual PI site with tracked calls and intake forms from launch. <span className="font-semibold text-red-600 group-hover:underline">Case study →</span>
-            </Link>
           </div>
         </div>
       </section>
