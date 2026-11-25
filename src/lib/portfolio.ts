@@ -104,7 +104,6 @@ export const PORTFOLIO: PortfolioSite[] = [
     ],
     stack: 'Static site on Cloudflare · 52 pages (EN/ES)',
     image: '/work/linderdiazlaw.webp',
-    caseStudy: 'linder-diaz-law',
     featured: true,
   },
   {

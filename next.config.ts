@@ -31,6 +31,9 @@ const LEGACY_REDIRECTS: { source: string; destination: string }[] = [
   { source: '/case_studies/queens-hyperbaric', destination: '/case-studies/queens-hyperbaric' },
   { source: '/case_studies/metropolitan-orthopedics', destination: '/case-studies/metropolitan-orthopedics' },
   { source: '/case_studies/:slug', destination: '/case-studies' },
+
+  // Case study pages we removed
+  { source: '/case-studies/linder-diaz-law', destination: '/case-studies' },
 ];
 
 /**

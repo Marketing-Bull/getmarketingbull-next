@@ -39,7 +39,6 @@ const STEPS = [
  * the facts under it are the case study's own `proof` lines, so they stay in step with the data.
  */
 const BUILT_BY_PEOPLE = [
-  { slug: 'linder-diaz-law', gap: 'A builder gives you one language. In this firm\'s city, many injured people search in Spanish.', proof: [0, 1] },
   { slug: 'i-95-accidents', gap: 'A builder makes the pages you describe. This site makes its own, from live data.', proof: [0, 1] },
   { slug: '1-800-hurt-511', gap: 'A builder stops at the form. This one is wired to a CRM and an intake call center.', proof: [1, 3] },
   { slug: 'metropolitan-orthopedics', gap: 'A builder adds a contact page. This one books the consultation.', proof: [1, 0] },
@@ -155,7 +154,7 @@ export default function AiWebsiteAuditPage() {
           <div className="max-w-3xl">
             <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900">An AI builder builds what you ask for. Most of what brings in clients is what nobody asks for.</h2>
             <p className="mt-5 text-lg text-slate-600 leading-relaxed">
-              We use AI to build sites too. The difference is knowing what to tell it: which searches a firm can win in its city, what the bar or a medical board lets you say, and where a visitor gives up before calling. Four sites we built, and what a prompt would have missed.
+              We use AI to build sites too. The difference is knowing what to tell it: which searches a firm can win in its city, what the bar or a medical board lets you say, and where a visitor gives up before calling. Three sites we built, and what a prompt would have missed.
             </p>
           </div>
           <ul className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
