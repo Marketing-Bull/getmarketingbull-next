@@ -39,7 +39,7 @@ src/
                          OfferCTA, Reveal, TestimonialCarousel, VerticalPage, CallTracking, DeferredAnalytics,
                          AuditIllustrations (markup-drawn pictures for /ai-website-audit; sample data, aria-hidden)
   lib/
-    constants.ts         COMPANY, OFFERS, NAV_LINKS, TESTIMONIALS — single source of truth
+    constants.ts         COMPANY, OFFERS, NAV_LINKS, FOOTER_NAV, FOOTER_APPS, TESTIMONIALS — single source of truth
     schema.ts            organizationSchema, offerSchema(), faqSchema(),
                          breadcrumbSchema(), caseStudySchema(), personSchema(), portfolioSchema()
     metadata.ts          pageMeta(): canonical + og:url (+ og:type article) per page

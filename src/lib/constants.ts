@@ -318,6 +318,67 @@ export const NAV_LINKS = [
   { label: 'Start a Conversation', href: '/free-consultation', cta: true },
 ];
 
+/**
+ * Footer link columns, grouped by what a visitor came to do: find their industry, pick a
+ * service, try a free tool, read a guide, or check who we are. Link text names the topic of the
+ * page it points to ("Law firm marketing", not "For Law Firms") because footer anchors are a
+ * sitewide internal-link signal. Guides are blog slugs; the footer drops any slug not in POSTS.
+ */
+export const FOOTER_NAV: { title: string; links: { label: string; href: string }[] }[] = [
+  {
+    title: 'Who we serve',
+    links: [
+      { label: 'Law firm marketing', href: '/services/law-firms' },
+      { label: 'Medical practice marketing', href: '/services/medical' },
+      { label: 'Intake optimization', href: '/services/intake-optimization' },
+    ],
+  },
+  {
+    title: 'How we help',
+    links: [
+      ...OFFERS.map((o) => ({ label: o.name, href: `/products/${o.slug}` })),
+      { label: 'All engagements', href: '/engagements' },
+    ],
+  },
+  {
+    title: 'Free tools',
+    links: [
+      { label: 'AI website audit', href: '/ai-website-audit' },
+      { label: 'PI intake scorecard', href: '/pi-intake-scorecard' },
+      { label: 'Florida Bar ad audit', href: '/resources#fl-bar-ad-audit' },
+      { label: 'RingDash call tracking', href: '/ringdash' },
+      { label: 'All free resources', href: '/resources' },
+    ],
+  },
+  {
+    title: 'Guides',
+    links: [
+      { label: 'Personal injury intake guide', href: '/blog/ultimate-guide-to-personal-injury-intake' },
+      { label: 'Speed to lead for law firms', href: '/blog/speed-is-key-when-converting-legal-leads-to-clients' },
+      { label: 'Launching an AI-built law firm site', href: '/blog/launching-an-ai-built-law-firm-website' },
+      { label: 'Patient recall systems', href: '/blog/patient-recall-system-reactivated-lapsed-patients' },
+      { label: 'All articles', href: '/blog' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'About and team', href: '/about-us' },
+      { label: 'Case studies', href: '/case-studies' },
+      { label: "Websites we've built", href: '/websites' },
+      { label: 'Careers', href: '/careers' },
+      { label: 'Contact', href: '/contact-us' },
+    ],
+  },
+];
+
+/** Our open-source apps. Off-topic for law and medical search, so they sit in the footer's bottom row. */
+export const FOOTER_APPS = [
+  { label: 'Recoup', href: '/recoup' },
+  { label: 'KeyVault', href: '/keyvault' },
+  { label: 'Markdown Editor', href: 'https://md.getmarketingbull.com' },
+];
+
 export const TESTIMONIALS = [
   { name: 'Todd D. Muhlstock, Esq.', company: 'WeSueThem.com', quote: "I have personally referred this team to colleagues and clients because I knew I could trust the results. They don't just generate leads — they make sure you close them.", rating: 5 },
   { name: 'Angela McMullin', company: '3D Dental', quote: 'Alexander is the best! He goes above and beyond to make sure his clients are happy and getting results.', rating: 5 },
