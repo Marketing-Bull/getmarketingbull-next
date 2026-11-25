@@ -34,7 +34,7 @@ const HOME_FAQS = [
   },
 ];
 
-const CLIENTS = ['1-800-HURT-511', 'WeSueThem.com', 'Queens Hyperbaric', 'Metropolitan Orthopedics', 'Linder Diaz Law', '3D Dental', 'GreenBills'];
+const CLIENTS = ['1-800-HURT-511', 'WeSueThem.com', 'Queens Hyperbaric', 'Metropolitan Orthopedics', '3D Dental', 'GreenBills'];
 
 const PRINCIPLES = [
   {
@@ -99,7 +99,6 @@ const WHO = [
 const OUTCOMES = [
   { n: 'From zero', l: 'Brand, multilingual site, media buying, CRM and an intake call center for a new personal injury brand', src: '1-800-HURT-511' },
   { n: 'Full stack', l: 'Brand, website, local search, Google Ads and reviews for a specialty clinic patients had never searched for', src: 'Queens Hyperbaric' },
-  { n: '2 languages', l: 'A 52-page personal injury site with every page in English and Spanish, call and form tracking from launch', src: 'Linder Diaz Law' },
 ];
 
 const ENGAGEMENT = [
@@ -250,7 +249,7 @@ export default function HomePage() {
             <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-3">Selected work</p>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-12">Systems built end to end, not campaigns rented.</h2>
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {OUTCOMES.map((o, i) => (
               <Reveal key={o.l} delay={i * 100}>
                 <div className="h-full rounded-2xl bg-white border border-slate-200 p-8">
